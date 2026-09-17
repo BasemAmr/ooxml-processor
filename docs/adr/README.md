@@ -14,3 +14,4 @@ Decisions made autonomously (while the project owner was away) are marked
 | [0006](0006-xml-parsing-strategy.md)          | `saxes` streaming parser, one reader for both runtimes  | Accepted ⚠ NEEDS REVIEW   |
 | [0007](0007-verification-constraints.md)      | No Word or LibreOffice available; what that invalidates | Accepted ⚠ NEEDS REVIEW   |
 | [0008](0008-dialect-handling.md)              | Transitional primary, Strict read + preserved           | Accepted ⚠ NEEDS REVIEW   |
+| [0009](0009-unknown-content-preservation.md)  | Position-faithful capture of unrecognized content       | Accepted ⚠ NEEDS REVIEW   |

@@ -895,8 +895,10 @@ const UNIT_BRANDS: Readonly<Record<string, string>> = {
   ST_PositiveFixedPercentage: 'Pct1000',
   ST_TablePercent: 'Pct50',
   ST_TablePercentMeasure: 'Pct50',
-  ST_DecimalNumber: 'Int32',
-  ST_UnsignedDecimalNumber: 'UInt32',
+  // `ST_DecimalNumber` and `ST_UnsignedDecimalNumber` are deliberately absent.
+  // They are plain `xsd:int`/`xsd:unsignedInt` with no unit attached, so a brand
+  // would buy no safety — nothing can be confused with them — while forcing a
+  // cast at every arithmetic use. Brands are for units, not for widths.
 };
 
 /** Entry point. */
