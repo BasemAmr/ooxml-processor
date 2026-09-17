@@ -23,10 +23,12 @@ the npm cache. A stale, unused `D:\.pnpm-store` existed from some earlier setup.
 
 - Repository lives at `D:\workspace\ooxml-editor`.
 - `pnpm-workspace.yaml` pins `storeDir: D:/.pnpm-store`.
-- `.npmrc` sets `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`, so no transitive postinstall pulls
-  ~1 GB of browsers before Phase 11 needs them.
 - `onlyBuiltDependencies` is an explicit allowlist (currently just `esbuild`), so no
-  dependency can run an arbitrary postinstall that fills the disk.
+  dependency can run an arbitrary postinstall — which is both the security posture and
+  the disk guard. Playwright downloads its ~1 GB of browsers from a postinstall script,
+  so the allowlist already prevents that; Phase 11 will invoke `playwright install`
+  deliberately. There is **no `.npmrc`**: a `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD` entry there
+  was redundant with the allowlist and made npm warn on every `npx` invocation.
 - Art-border PNGs (~30 MB) are not vendored until Phase 10. See `assets/schema/PROVENANCE.md`.
 
 ### A trap worth recording
@@ -55,5 +57,6 @@ survivable. Pinning the store to `D:` is both a correctness and a space decision
 - Dependency additions must stay deliberate. Prefer small, focused libraries; justify
   anything that pulls a large transitive tree.
 - CI (when it exists) will not share this layout and must set its own store path.
-- If the owner later frees space on `C:` or prefers a different location, only `.npmrc`
-  and the clone path change — nothing in the source tree encodes the drive letter.
+- If the owner later frees space on `C:` or prefers a different location, only
+  `pnpm-workspace.yaml` and the clone path change — nothing in the source tree encodes
+  the drive letter.
