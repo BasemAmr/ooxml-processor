@@ -1,0 +1,29 @@
+{
+  "name": "ooxml-editor",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Spec-conformant ECMA-376 WordprocessingML editor with Canvas 2D layout and painting",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@11.22.0",
+  "scripts": {
+    "gen": "pnpm --filter @ooxml/codegen run gen",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "typecheck": "tsc --build --force",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "pnpm format:check && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

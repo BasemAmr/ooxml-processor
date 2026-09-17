@@ -1,0 +1,32 @@
+packages:
+  - 'packages/*'
+  - 'apps/*'
+
+# --- Settings ---
+# pnpm 10+ reads its own settings from THIS file, not from .npmrc. Anything
+# pnpm-specific put in .npmrc is silently ignored, which is how the store
+# location below was originally misconfigured without any error surfacing.
+
+# Keep the content-addressable store on D:, alongside the repo.
+#
+# This is a disk-space requirement, not a preference. pnpm populates
+# node_modules by hardlinking from the store, and hardlinks cannot cross
+# volumes. Store on C: with this repo on D: silently degrades to copying every
+# file of every dependency. Both drives are ~96% full, so that is not
+# survivable. See docs/adr/0001-repo-location-and-disk-budget.md.
+#
+# pnpm would pick this location by default (it puts the store on the install
+# drive when that differs from the home drive), but the default is implicit and
+# the failure mode is silent, so it is pinned.
+storeDir: 'D:/.pnpm-store'
+
+# Fail loudly on peer mismatches rather than resolving them silently. A codegen
+# pipeline with checked-in output cannot tolerate a nondeterministic dep tree.
+strictPeerDependencies: true
+autoInstallPeers: false
+
+# Postinstall scripts are blocked by default in pnpm 10+. Only esbuild needs
+# one (it links the platform binary for vitest/vite). Everything else stays
+# blocked; in particular nothing is permitted to download browser binaries.
+onlyBuiltDependencies:
+  - esbuild

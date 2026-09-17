@@ -1,0 +1,23 @@
+# Normalize line endings in the repo to LF.
+#
+# This is not cosmetic. The vendored XSDs arrived with CRLF, and codegen output
+# determinism is a CI gate (`git diff --exit-code` after `pnpm gen`). Mixed
+# endings between a Windows dev machine and a Linux runner would fail that gate
+# for reasons unrelated to the generator.
+*               text=auto eol=lf
+
+# Vendored normative assets: never touched, never converted. Treating them as
+# binary guarantees byte-identity with the ECMA distribution, which is what
+# PROVENANCE.md claims.
+assets/schema/** -text -diff
+
+# Test corpus documents are ZIP archives.
+*.docx          binary
+*.png           binary
+*.ttf           binary
+*.otf           binary
+*.wasm          binary
+
+# Generated code is reviewable but noisy in diffs; collapse it by default.
+packages/schema/src/generated/** linguist-generated=true
+pnpm-lock.yaml  -diff

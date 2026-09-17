@@ -1,0 +1,22 @@
+# Build output
+dist/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# Test / tooling output
+coverage/
+.vitest/
+*.log
+
+# Conformance artifacts. Rendered PNGs and diff images are large and
+# reproducible; only the serialized goldens under conformance/goldens/ are
+# checked in. Both drives on this machine are ~96% full — keep it that way.
+packages/conformance/output/
+packages/conformance/corpus/**/*.docx
+!packages/conformance/corpus/**/*.license.json
+
+# OS
+Thumbs.db
+.DS_Store

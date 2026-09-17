@@ -1,0 +1,28 @@
+{
+  "name": "@ooxml/editor",
+  "version": "0.0.0",
+  "description": "Caret, selection, input proxy, IME, clipboard, undo, accessibility mirror.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "dependencies": {
+    "@ooxml/paint": "workspace:*",
+    "@ooxml/layout": "workspace:*",
+    "@ooxml/wml": "workspace:*",
+    "@ooxml/text": "workspace:*"
+  }
+}

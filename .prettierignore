@@ -1,0 +1,7 @@
+dist/
+node_modules/
+assets/schema/
+pnpm-lock.yaml
+packages/schema/src/generated/
+packages/conformance/output/
+*.tsbuildinfo

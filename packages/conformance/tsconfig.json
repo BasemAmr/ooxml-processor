@@ -1,0 +1,36 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "references": [
+    {
+      "path": "../../packages/schema"
+    },
+    {
+      "path": "../../packages/opc"
+    },
+    {
+      "path": "../../packages/wml"
+    },
+    {
+      "path": "../../packages/text"
+    },
+    {
+      "path": "../../packages/layout"
+    },
+    {
+      "path": "../../packages/dml"
+    },
+    {
+      "path": "../../packages/paint"
+    },
+    {
+      "path": "../../packages/editor"
+    }
+  ]
+}

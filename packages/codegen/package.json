@@ -1,0 +1,27 @@
+{
+  "name": "@ooxml/codegen",
+  "version": "0.0.0",
+  "description": "Build-time XSD to TypeScript generator. Never shipped to the browser.",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "gen": "tsc --build && node ./dist/cli.js"
+  },
+  "dependencies": {
+    "saxes": "^6.0.0"
+  }
+}

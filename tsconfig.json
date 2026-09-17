@@ -1,0 +1,38 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/codegen"
+    },
+    {
+      "path": "./packages/schema"
+    },
+    {
+      "path": "./packages/opc"
+    },
+    {
+      "path": "./packages/wml"
+    },
+    {
+      "path": "./packages/text"
+    },
+    {
+      "path": "./packages/layout"
+    },
+    {
+      "path": "./packages/dml"
+    },
+    {
+      "path": "./packages/paint"
+    },
+    {
+      "path": "./packages/editor"
+    },
+    {
+      "path": "./packages/conformance"
+    },
+    {
+      "path": "./apps/demo"
+    }
+  ]
+}

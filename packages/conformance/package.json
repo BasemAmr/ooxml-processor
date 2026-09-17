@@ -1,0 +1,33 @@
+{
+  "name": "@ooxml/conformance",
+  "version": "0.0.0",
+  "description": "Coverage manifest tooling, corpus runner, visual diff, fuzz harness.",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "dependencies": {
+    "@ooxml/schema": "workspace:*",
+    "@ooxml/opc": "workspace:*",
+    "@ooxml/wml": "workspace:*",
+    "@ooxml/text": "workspace:*",
+    "@ooxml/layout": "workspace:*",
+    "@ooxml/dml": "workspace:*",
+    "@ooxml/paint": "workspace:*",
+    "@ooxml/editor": "workspace:*"
+  }
+}

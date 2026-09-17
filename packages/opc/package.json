@@ -1,0 +1,26 @@
+{
+  "name": "@ooxml/opc",
+  "version": "0.0.0",
+  "description": "Open Packaging Conventions: ZIP container, content types, relationship graph.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2",
+    "@ooxml/schema": "workspace:*"
+  }
+}

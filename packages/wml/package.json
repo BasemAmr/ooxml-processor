@@ -1,0 +1,26 @@
+{
+  "name": "@ooxml/wml",
+  "version": "0.0.0",
+  "description": "WordprocessingML document model, style cascade, numbering, range annotations.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "dependencies": {
+    "@ooxml/schema": "workspace:*",
+    "@ooxml/opc": "workspace:*"
+  }
+}
