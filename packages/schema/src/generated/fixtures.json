@@ -24,8 +24,8 @@
     "bibliography#CT_NameType": {
       "namespace": "bibliography",
       "type": "CT_NameType",
-      "minimal": "<CT_NameType/>",
-      "invalid": "<CT_NameType><unexpected/></CT_NameType>"
+      "minimal": "<CT_NameType><NameList/></CT_NameType>",
+      "invalid": "<CT_NameType><NameList/><unexpected/></CT_NameType>"
     },
     "bibliography#CT_PersonType": {
       "namespace": "bibliography",
@@ -90,14 +90,14 @@
     "dml-chart#CT_AreaSer": {
       "namespace": "dml-chart",
       "type": "CT_AreaSer",
-      "minimal": "<CT_AreaSer/>",
-      "invalid": "<CT_AreaSer><unexpected/></CT_AreaSer>"
+      "minimal": "<CT_AreaSer><idx/><order/></CT_AreaSer>",
+      "invalid": "<CT_AreaSer><idx/><order/><unexpected/></CT_AreaSer>"
     },
     "dml-chart#CT_AxDataSource": {
       "namespace": "dml-chart",
       "type": "CT_AxDataSource",
       "minimal": "<CT_AxDataSource><multiLvlStrRef/></CT_AxDataSource>",
-      "invalid": "<CT_AxDataSource><multiLvlStrRef/></CT_AxDataSource>"
+      "invalid": "<CT_AxDataSource><multiLvlStrRef/><unexpected/></CT_AxDataSource>"
     },
     "dml-chart#CT_AxisUnit": {
       "namespace": "dml-chart",
@@ -114,8 +114,8 @@
     "dml-chart#CT_BandFmt": {
       "namespace": "dml-chart",
       "type": "CT_BandFmt",
-      "minimal": "<CT_BandFmt/>",
-      "invalid": "<CT_BandFmt><unexpected/></CT_BandFmt>"
+      "minimal": "<CT_BandFmt><idx/></CT_BandFmt>",
+      "invalid": "<CT_BandFmt><idx/><unexpected/></CT_BandFmt>"
     },
     "dml-chart#CT_BandFmts": {
       "namespace": "dml-chart",
@@ -126,14 +126,14 @@
     "dml-chart#CT_Bar3DChart": {
       "namespace": "dml-chart",
       "type": "CT_Bar3DChart",
-      "minimal": "<CT_Bar3DChart/>",
-      "invalid": "<CT_Bar3DChart><unexpected/></CT_Bar3DChart>"
+      "minimal": "<CT_Bar3DChart><barDir/></CT_Bar3DChart>",
+      "invalid": "<CT_Bar3DChart><barDir/><unexpected/></CT_Bar3DChart>"
     },
     "dml-chart#CT_BarChart": {
       "namespace": "dml-chart",
       "type": "CT_BarChart",
-      "minimal": "<CT_BarChart/>",
-      "invalid": "<CT_BarChart><unexpected/></CT_BarChart>"
+      "minimal": "<CT_BarChart><barDir/></CT_BarChart>",
+      "invalid": "<CT_BarChart><barDir/><unexpected/></CT_BarChart>"
     },
     "dml-chart#CT_BarDir": {
       "namespace": "dml-chart",
@@ -150,8 +150,8 @@
     "dml-chart#CT_BarSer": {
       "namespace": "dml-chart",
       "type": "CT_BarSer",
-      "minimal": "<CT_BarSer/>",
-      "invalid": "<CT_BarSer><unexpected/></CT_BarSer>"
+      "minimal": "<CT_BarSer><idx/><order/></CT_BarSer>",
+      "invalid": "<CT_BarSer><idx/><order/><unexpected/></CT_BarSer>"
     },
     "dml-chart#CT_Boolean": {
       "namespace": "dml-chart",
@@ -174,8 +174,8 @@
     "dml-chart#CT_BubbleSer": {
       "namespace": "dml-chart",
       "type": "CT_BubbleSer",
-      "minimal": "<CT_BubbleSer/>",
-      "invalid": "<CT_BubbleSer><unexpected/></CT_BubbleSer>"
+      "minimal": "<CT_BubbleSer><idx/><order/></CT_BubbleSer>",
+      "invalid": "<CT_BubbleSer><idx/><order/><unexpected/></CT_BubbleSer>"
     },
     "dml-chart#CT_BuiltInUnit": {
       "namespace": "dml-chart",
@@ -186,14 +186,14 @@
     "dml-chart#CT_CatAx": {
       "namespace": "dml-chart",
       "type": "CT_CatAx",
-      "minimal": "<CT_CatAx/>",
-      "invalid": "<CT_CatAx><unexpected/></CT_CatAx>"
+      "minimal": "<CT_CatAx><axId/><scaling/><axPos/><crossAx/></CT_CatAx>",
+      "invalid": "<CT_CatAx><axId/><scaling/><axPos/><crossAx/><unexpected/></CT_CatAx>"
     },
     "dml-chart#CT_Chart": {
       "namespace": "dml-chart",
       "type": "CT_Chart",
-      "minimal": "<CT_Chart/>",
-      "invalid": "<CT_Chart><unexpected/></CT_Chart>"
+      "minimal": "<CT_Chart><plotArea/></CT_Chart>",
+      "invalid": "<CT_Chart><plotArea/><unexpected/></CT_Chart>"
     },
     "dml-chart#CT_ChartLines": {
       "namespace": "dml-chart",
@@ -204,8 +204,8 @@
     "dml-chart#CT_ChartSpace": {
       "namespace": "dml-chart",
       "type": "CT_ChartSpace",
-      "minimal": "<CT_ChartSpace/>",
-      "invalid": "<CT_ChartSpace><unexpected/></CT_ChartSpace>"
+      "minimal": "<CT_ChartSpace><chart><plotArea/></chart></CT_ChartSpace>",
+      "invalid": "<CT_ChartSpace><chart><plotArea/></chart><unexpected/></CT_ChartSpace>"
     },
     "dml-chart#CT_CrossBetween": {
       "namespace": "dml-chart",
@@ -228,8 +228,8 @@
     "dml-chart#CT_DateAx": {
       "namespace": "dml-chart",
       "type": "CT_DateAx",
-      "minimal": "<CT_DateAx/>",
-      "invalid": "<CT_DateAx><unexpected/></CT_DateAx>"
+      "minimal": "<CT_DateAx><axId/><scaling/><axPos/><crossAx/></CT_DateAx>",
+      "invalid": "<CT_DateAx><axId/><scaling/><axPos/><crossAx/><unexpected/></CT_DateAx>"
     },
     "dml-chart#CT_DepthPercent": {
       "namespace": "dml-chart",
@@ -247,7 +247,7 @@
       "namespace": "dml-chart",
       "type": "CT_DispUnits",
       "minimal": "<CT_DispUnits><custUnit/></CT_DispUnits>",
-      "invalid": "<CT_DispUnits><custUnit/></CT_DispUnits>"
+      "invalid": "<CT_DispUnits><custUnit/><unexpected/></CT_DispUnits>"
     },
     "dml-chart#CT_DispUnitsLbl": {
       "namespace": "dml-chart",
@@ -258,8 +258,8 @@
     "dml-chart#CT_DLbl": {
       "namespace": "dml-chart",
       "type": "CT_DLbl",
-      "minimal": "<CT_DLbl><delete/></CT_DLbl>",
-      "invalid": "<CT_DLbl><delete/></CT_DLbl>"
+      "minimal": "<CT_DLbl><idx/><delete/></CT_DLbl>",
+      "invalid": "<CT_DLbl><idx/><delete/><unexpected/></CT_DLbl>"
     },
     "dml-chart#CT_DLblPos": {
       "namespace": "dml-chart",
@@ -271,7 +271,7 @@
       "namespace": "dml-chart",
       "type": "CT_DLbls",
       "minimal": "<CT_DLbls><delete/></CT_DLbls>",
-      "invalid": "<CT_DLbls><delete/></CT_DLbls>"
+      "invalid": "<CT_DLbls><delete/><unexpected/></CT_DLbls>"
     },
     "dml-chart#CT_Double": {
       "namespace": "dml-chart",
@@ -288,8 +288,8 @@
     "dml-chart#CT_DPt": {
       "namespace": "dml-chart",
       "type": "CT_DPt",
-      "minimal": "<CT_DPt/>",
-      "invalid": "<CT_DPt><unexpected/></CT_DPt>"
+      "minimal": "<CT_DPt><idx/></CT_DPt>",
+      "invalid": "<CT_DPt><idx/><unexpected/></CT_DPt>"
     },
     "dml-chart#CT_DTable": {
       "namespace": "dml-chart",
@@ -300,8 +300,8 @@
     "dml-chart#CT_ErrBars": {
       "namespace": "dml-chart",
       "type": "CT_ErrBars",
-      "minimal": "<CT_ErrBars/>",
-      "invalid": "<CT_ErrBars><unexpected/></CT_ErrBars>"
+      "minimal": "<CT_ErrBars><errBarType/><errValType/></CT_ErrBars>",
+      "invalid": "<CT_ErrBars><errBarType/><errValType/><unexpected/></CT_ErrBars>"
     },
     "dml-chart#CT_ErrBarType": {
       "namespace": "dml-chart",
@@ -414,8 +414,8 @@
     "dml-chart#CT_LegendEntry": {
       "namespace": "dml-chart",
       "type": "CT_LegendEntry",
-      "minimal": "<CT_LegendEntry><delete/></CT_LegendEntry>",
-      "invalid": "<CT_LegendEntry><delete/></CT_LegendEntry>"
+      "minimal": "<CT_LegendEntry><idx/><delete/></CT_LegendEntry>",
+      "invalid": "<CT_LegendEntry><idx/><delete/><unexpected/></CT_LegendEntry>"
     },
     "dml-chart#CT_LegendPos": {
       "namespace": "dml-chart",
@@ -426,20 +426,20 @@
     "dml-chart#CT_Line3DChart": {
       "namespace": "dml-chart",
       "type": "CT_Line3DChart",
-      "minimal": "<CT_Line3DChart/>",
-      "invalid": "<CT_Line3DChart><unexpected/></CT_Line3DChart>"
+      "minimal": "<CT_Line3DChart><grouping/></CT_Line3DChart>",
+      "invalid": "<CT_Line3DChart><grouping/><unexpected/></CT_Line3DChart>"
     },
     "dml-chart#CT_LineChart": {
       "namespace": "dml-chart",
       "type": "CT_LineChart",
-      "minimal": "<CT_LineChart/>",
-      "invalid": "<CT_LineChart><unexpected/></CT_LineChart>"
+      "minimal": "<CT_LineChart><grouping/></CT_LineChart>",
+      "invalid": "<CT_LineChart><grouping/><unexpected/></CT_LineChart>"
     },
     "dml-chart#CT_LineSer": {
       "namespace": "dml-chart",
       "type": "CT_LineSer",
-      "minimal": "<CT_LineSer/>",
-      "invalid": "<CT_LineSer><unexpected/></CT_LineSer>"
+      "minimal": "<CT_LineSer><idx/><order/></CT_LineSer>",
+      "invalid": "<CT_LineSer><idx/><order/><unexpected/></CT_LineSer>"
     },
     "dml-chart#CT_LogBase": {
       "namespace": "dml-chart",
@@ -487,7 +487,7 @@
       "namespace": "dml-chart",
       "type": "CT_MultiLvlStrRef",
       "minimal": "<CT_MultiLvlStrRef><f/></CT_MultiLvlStrRef>",
-      "invalid": "<CT_MultiLvlStrRef><f/></CT_MultiLvlStrRef>"
+      "invalid": "<CT_MultiLvlStrRef><f/><unexpected/></CT_MultiLvlStrRef>"
     },
     "dml-chart#CT_NumData": {
       "namespace": "dml-chart",
@@ -499,7 +499,7 @@
       "namespace": "dml-chart",
       "type": "CT_NumDataSource",
       "minimal": "<CT_NumDataSource><numRef/></CT_NumDataSource>",
-      "invalid": "<CT_NumDataSource><numRef/></CT_NumDataSource>"
+      "invalid": "<CT_NumDataSource><numRef/><unexpected/></CT_NumDataSource>"
     },
     "dml-chart#CT_NumFmt": {
       "namespace": "dml-chart",
@@ -511,19 +511,19 @@
       "namespace": "dml-chart",
       "type": "CT_NumRef",
       "minimal": "<CT_NumRef><f/></CT_NumRef>",
-      "invalid": "<CT_NumRef><f/></CT_NumRef>"
+      "invalid": "<CT_NumRef><f/><unexpected/></CT_NumRef>"
     },
     "dml-chart#CT_NumVal": {
       "namespace": "dml-chart",
       "type": "CT_NumVal",
       "minimal": "<CT_NumVal idx=\"0\"><v/></CT_NumVal>",
-      "invalid": "<CT_NumVal idx=\"0\"><v/></CT_NumVal>"
+      "invalid": "<CT_NumVal idx=\"0\"><v/><unexpected/></CT_NumVal>"
     },
     "dml-chart#CT_OfPieChart": {
       "namespace": "dml-chart",
       "type": "CT_OfPieChart",
-      "minimal": "<CT_OfPieChart/>",
-      "invalid": "<CT_OfPieChart><unexpected/></CT_OfPieChart>"
+      "minimal": "<CT_OfPieChart><ofPieType/></CT_OfPieChart>",
+      "invalid": "<CT_OfPieChart><ofPieType/><unexpected/></CT_OfPieChart>"
     },
     "dml-chart#CT_OfPieType": {
       "namespace": "dml-chart",
@@ -606,14 +606,14 @@
     "dml-chart#CT_PieSer": {
       "namespace": "dml-chart",
       "type": "CT_PieSer",
-      "minimal": "<CT_PieSer/>",
-      "invalid": "<CT_PieSer><unexpected/></CT_PieSer>"
+      "minimal": "<CT_PieSer><idx/><order/></CT_PieSer>",
+      "invalid": "<CT_PieSer><idx/><order/><unexpected/></CT_PieSer>"
     },
     "dml-chart#CT_PivotFmt": {
       "namespace": "dml-chart",
       "type": "CT_PivotFmt",
-      "minimal": "<CT_PivotFmt/>",
-      "invalid": "<CT_PivotFmt><unexpected/></CT_PivotFmt>"
+      "minimal": "<CT_PivotFmt><idx/></CT_PivotFmt>",
+      "invalid": "<CT_PivotFmt><idx/><unexpected/></CT_PivotFmt>"
     },
     "dml-chart#CT_PivotFmts": {
       "namespace": "dml-chart",
@@ -624,8 +624,8 @@
     "dml-chart#CT_PivotSource": {
       "namespace": "dml-chart",
       "type": "CT_PivotSource",
-      "minimal": "<CT_PivotSource><name/></CT_PivotSource>",
-      "invalid": "<CT_PivotSource><name/></CT_PivotSource>"
+      "minimal": "<CT_PivotSource><name/><fmtId/></CT_PivotSource>",
+      "invalid": "<CT_PivotSource><name/><fmtId/><unexpected/></CT_PivotSource>"
     },
     "dml-chart#CT_PlotArea": {
       "namespace": "dml-chart",
@@ -648,14 +648,14 @@
     "dml-chart#CT_RadarChart": {
       "namespace": "dml-chart",
       "type": "CT_RadarChart",
-      "minimal": "<CT_RadarChart/>",
-      "invalid": "<CT_RadarChart><unexpected/></CT_RadarChart>"
+      "minimal": "<CT_RadarChart><radarStyle/></CT_RadarChart>",
+      "invalid": "<CT_RadarChart><radarStyle/><unexpected/></CT_RadarChart>"
     },
     "dml-chart#CT_RadarSer": {
       "namespace": "dml-chart",
       "type": "CT_RadarSer",
-      "minimal": "<CT_RadarSer/>",
-      "invalid": "<CT_RadarSer><unexpected/></CT_RadarSer>"
+      "minimal": "<CT_RadarSer><idx/><order/></CT_RadarSer>",
+      "invalid": "<CT_RadarSer><idx/><order/><unexpected/></CT_RadarSer>"
     },
     "dml-chart#CT_RadarStyle": {
       "namespace": "dml-chart",
@@ -690,14 +690,14 @@
     "dml-chart#CT_ScatterChart": {
       "namespace": "dml-chart",
       "type": "CT_ScatterChart",
-      "minimal": "<CT_ScatterChart/>",
-      "invalid": "<CT_ScatterChart><unexpected/></CT_ScatterChart>"
+      "minimal": "<CT_ScatterChart><scatterStyle/></CT_ScatterChart>",
+      "invalid": "<CT_ScatterChart><scatterStyle/><unexpected/></CT_ScatterChart>"
     },
     "dml-chart#CT_ScatterSer": {
       "namespace": "dml-chart",
       "type": "CT_ScatterSer",
-      "minimal": "<CT_ScatterSer/>",
-      "invalid": "<CT_ScatterSer><unexpected/></CT_ScatterSer>"
+      "minimal": "<CT_ScatterSer><idx/><order/></CT_ScatterSer>",
+      "invalid": "<CT_ScatterSer><idx/><order/><unexpected/></CT_ScatterSer>"
     },
     "dml-chart#CT_ScatterStyle": {
       "namespace": "dml-chart",
@@ -714,14 +714,14 @@
     "dml-chart#CT_SerAx": {
       "namespace": "dml-chart",
       "type": "CT_SerAx",
-      "minimal": "<CT_SerAx/>",
-      "invalid": "<CT_SerAx><unexpected/></CT_SerAx>"
+      "minimal": "<CT_SerAx><axId/><scaling/><axPos/><crossAx/></CT_SerAx>",
+      "invalid": "<CT_SerAx><axId/><scaling/><axPos/><crossAx/><unexpected/></CT_SerAx>"
     },
     "dml-chart#CT_SerTx": {
       "namespace": "dml-chart",
       "type": "CT_SerTx",
       "minimal": "<CT_SerTx><strRef/></CT_SerTx>",
-      "invalid": "<CT_SerTx><strRef/></CT_SerTx>"
+      "invalid": "<CT_SerTx><strRef/><unexpected/></CT_SerTx>"
     },
     "dml-chart#CT_Shape": {
       "namespace": "dml-chart",
@@ -763,13 +763,13 @@
       "namespace": "dml-chart",
       "type": "CT_StrRef",
       "minimal": "<CT_StrRef><f/></CT_StrRef>",
-      "invalid": "<CT_StrRef><f/></CT_StrRef>"
+      "invalid": "<CT_StrRef><f/><unexpected/></CT_StrRef>"
     },
     "dml-chart#CT_StrVal": {
       "namespace": "dml-chart",
       "type": "CT_StrVal",
       "minimal": "<CT_StrVal idx=\"0\"><v/></CT_StrVal>",
-      "invalid": "<CT_StrVal idx=\"0\"><v/></CT_StrVal>"
+      "invalid": "<CT_StrVal idx=\"0\"><v/><unexpected/></CT_StrVal>"
     },
     "dml-chart#CT_Style": {
       "namespace": "dml-chart",
@@ -798,8 +798,8 @@
     "dml-chart#CT_SurfaceSer": {
       "namespace": "dml-chart",
       "type": "CT_SurfaceSer",
-      "minimal": "<CT_SurfaceSer/>",
-      "invalid": "<CT_SurfaceSer><unexpected/></CT_SurfaceSer>"
+      "minimal": "<CT_SurfaceSer><idx/><order/></CT_SurfaceSer>",
+      "invalid": "<CT_SurfaceSer><idx/><order/><unexpected/></CT_SurfaceSer>"
     },
     "dml-chart#CT_TextLanguageID": {
       "namespace": "dml-chart",
@@ -840,8 +840,8 @@
     "dml-chart#CT_Trendline": {
       "namespace": "dml-chart",
       "type": "CT_Trendline",
-      "minimal": "<CT_Trendline/>",
-      "invalid": "<CT_Trendline><unexpected/></CT_Trendline>"
+      "minimal": "<CT_Trendline><trendlineType/></CT_Trendline>",
+      "invalid": "<CT_Trendline><trendlineType/><unexpected/></CT_Trendline>"
     },
     "dml-chart#CT_TrendlineLbl": {
       "namespace": "dml-chart",
@@ -859,7 +859,7 @@
       "namespace": "dml-chart",
       "type": "CT_Tx",
       "minimal": "<CT_Tx><strRef/></CT_Tx>",
-      "invalid": "<CT_Tx><strRef/></CT_Tx>"
+      "invalid": "<CT_Tx><strRef/><unexpected/></CT_Tx>"
     },
     "dml-chart#CT_UnsignedInt": {
       "namespace": "dml-chart",
@@ -882,8 +882,8 @@
     "dml-chart#CT_ValAx": {
       "namespace": "dml-chart",
       "type": "CT_ValAx",
-      "minimal": "<CT_ValAx/>",
-      "invalid": "<CT_ValAx><unexpected/></CT_ValAx>"
+      "minimal": "<CT_ValAx><axId/><scaling/><axPos/><crossAx/></CT_ValAx>",
+      "invalid": "<CT_ValAx><axId/><scaling/><axPos/><crossAx/><unexpected/></CT_ValAx>"
     },
     "dml-chart#CT_View3D": {
       "namespace": "dml-chart",
@@ -894,20 +894,20 @@
     "dml-chartDrawing#CT_AbsSizeAnchor": {
       "namespace": "dml-chartDrawing",
       "type": "CT_AbsSizeAnchor",
-      "minimal": "<CT_AbsSizeAnchor><from><x/><y/></from><sp/></CT_AbsSizeAnchor>",
-      "invalid": "<CT_AbsSizeAnchor><from><x/><y/></from><sp/></CT_AbsSizeAnchor>"
+      "minimal": "<CT_AbsSizeAnchor><from><x/><y/></from><ext/><sp/></CT_AbsSizeAnchor>",
+      "invalid": "<CT_AbsSizeAnchor><from><x/><y/></from><ext/><sp/><unexpected/></CT_AbsSizeAnchor>"
     },
     "dml-chartDrawing#CT_Connector": {
       "namespace": "dml-chartDrawing",
       "type": "CT_Connector",
-      "minimal": "<CT_Connector/>",
-      "invalid": "<CT_Connector><unexpected/></CT_Connector>"
+      "minimal": "<CT_Connector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/></nvCxnSpPr><spPr/></CT_Connector>",
+      "invalid": "<CT_Connector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/></nvCxnSpPr><spPr/><unexpected/></CT_Connector>"
     },
     "dml-chartDrawing#CT_ConnectorNonVisual": {
       "namespace": "dml-chartDrawing",
       "type": "CT_ConnectorNonVisual",
-      "minimal": "<CT_ConnectorNonVisual/>",
-      "invalid": "<CT_ConnectorNonVisual><unexpected/></CT_ConnectorNonVisual>"
+      "minimal": "<CT_ConnectorNonVisual><cNvPr/><cNvCxnSpPr/></CT_ConnectorNonVisual>",
+      "invalid": "<CT_ConnectorNonVisual><cNvPr/><cNvCxnSpPr/><unexpected/></CT_ConnectorNonVisual>"
     },
     "dml-chartDrawing#CT_Drawing": {
       "namespace": "dml-chartDrawing",
@@ -918,62 +918,62 @@
     "dml-chartDrawing#CT_GraphicFrame": {
       "namespace": "dml-chartDrawing",
       "type": "CT_GraphicFrame",
-      "minimal": "<CT_GraphicFrame/>",
-      "invalid": "<CT_GraphicFrame><unexpected/></CT_GraphicFrame>"
+      "minimal": "<CT_GraphicFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/></nvGraphicFramePr><xfrm/><graphic><graphicData/></graphic></CT_GraphicFrame>",
+      "invalid": "<CT_GraphicFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/></nvGraphicFramePr><xfrm/><graphic><graphicData/></graphic><unexpected/></CT_GraphicFrame>"
     },
     "dml-chartDrawing#CT_GraphicFrameNonVisual": {
       "namespace": "dml-chartDrawing",
       "type": "CT_GraphicFrameNonVisual",
-      "minimal": "<CT_GraphicFrameNonVisual/>",
-      "invalid": "<CT_GraphicFrameNonVisual><unexpected/></CT_GraphicFrameNonVisual>"
+      "minimal": "<CT_GraphicFrameNonVisual><cNvPr/><cNvGraphicFramePr/></CT_GraphicFrameNonVisual>",
+      "invalid": "<CT_GraphicFrameNonVisual><cNvPr/><cNvGraphicFramePr/><unexpected/></CT_GraphicFrameNonVisual>"
     },
     "dml-chartDrawing#CT_GroupShape": {
       "namespace": "dml-chartDrawing",
       "type": "CT_GroupShape",
-      "minimal": "<CT_GroupShape/>",
-      "invalid": "<CT_GroupShape><unexpected/></CT_GroupShape>"
+      "minimal": "<CT_GroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/></nvGrpSpPr><grpSpPr/></CT_GroupShape>",
+      "invalid": "<CT_GroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/></nvGrpSpPr><grpSpPr/><unexpected/></CT_GroupShape>"
     },
     "dml-chartDrawing#CT_GroupShapeNonVisual": {
       "namespace": "dml-chartDrawing",
       "type": "CT_GroupShapeNonVisual",
-      "minimal": "<CT_GroupShapeNonVisual/>",
-      "invalid": "<CT_GroupShapeNonVisual><unexpected/></CT_GroupShapeNonVisual>"
+      "minimal": "<CT_GroupShapeNonVisual><cNvPr/><cNvGrpSpPr/></CT_GroupShapeNonVisual>",
+      "invalid": "<CT_GroupShapeNonVisual><cNvPr/><cNvGrpSpPr/><unexpected/></CT_GroupShapeNonVisual>"
     },
     "dml-chartDrawing#CT_Marker": {
       "namespace": "dml-chartDrawing",
       "type": "CT_Marker",
       "minimal": "<CT_Marker><x/><y/></CT_Marker>",
-      "invalid": "<CT_Marker><x/><y/></CT_Marker>"
+      "invalid": "<CT_Marker><x/><y/><unexpected/></CT_Marker>"
     },
     "dml-chartDrawing#CT_Picture": {
       "namespace": "dml-chartDrawing",
       "type": "CT_Picture",
-      "minimal": "<CT_Picture/>",
-      "invalid": "<CT_Picture><unexpected/></CT_Picture>"
+      "minimal": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/></CT_Picture>",
+      "invalid": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/><unexpected/></CT_Picture>"
     },
     "dml-chartDrawing#CT_PictureNonVisual": {
       "namespace": "dml-chartDrawing",
       "type": "CT_PictureNonVisual",
-      "minimal": "<CT_PictureNonVisual/>",
-      "invalid": "<CT_PictureNonVisual><unexpected/></CT_PictureNonVisual>"
+      "minimal": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/></CT_PictureNonVisual>",
+      "invalid": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/><unexpected/></CT_PictureNonVisual>"
     },
     "dml-chartDrawing#CT_RelSizeAnchor": {
       "namespace": "dml-chartDrawing",
       "type": "CT_RelSizeAnchor",
       "minimal": "<CT_RelSizeAnchor><from><x/><y/></from><to><x/><y/></to><sp/></CT_RelSizeAnchor>",
-      "invalid": "<CT_RelSizeAnchor><from><x/><y/></from><to><x/><y/></to><sp/></CT_RelSizeAnchor>"
+      "invalid": "<CT_RelSizeAnchor><from><x/><y/></from><to><x/><y/></to><sp/><unexpected/></CT_RelSizeAnchor>"
     },
     "dml-chartDrawing#CT_Shape": {
       "namespace": "dml-chartDrawing",
       "type": "CT_Shape",
-      "minimal": "<CT_Shape/>",
-      "invalid": "<CT_Shape><unexpected/></CT_Shape>"
+      "minimal": "<CT_Shape><nvSpPr><cNvPr/><cNvSpPr/></nvSpPr><spPr/></CT_Shape>",
+      "invalid": "<CT_Shape><nvSpPr><cNvPr/><cNvSpPr/></nvSpPr><spPr/><unexpected/></CT_Shape>"
     },
     "dml-chartDrawing#CT_ShapeNonVisual": {
       "namespace": "dml-chartDrawing",
       "type": "CT_ShapeNonVisual",
-      "minimal": "<CT_ShapeNonVisual/>",
-      "invalid": "<CT_ShapeNonVisual><unexpected/></CT_ShapeNonVisual>"
+      "minimal": "<CT_ShapeNonVisual><cNvPr/><cNvSpPr/></CT_ShapeNonVisual>",
+      "invalid": "<CT_ShapeNonVisual><cNvPr/><cNvSpPr/><unexpected/></CT_ShapeNonVisual>"
     },
     "dml-diagram#CT_Adj": {
       "namespace": "dml-diagram",
@@ -1122,8 +1122,8 @@
     "dml-diagram#CT_DataModel": {
       "namespace": "dml-diagram",
       "type": "CT_DataModel",
-      "minimal": "<CT_DataModel/>",
-      "invalid": "<CT_DataModel><unexpected/></CT_DataModel>"
+      "minimal": "<CT_DataModel><ptLst/></CT_DataModel>",
+      "invalid": "<CT_DataModel><ptLst/><unexpected/></CT_DataModel>"
     },
     "dml-diagram#CT_Description": {
       "namespace": "dml-diagram",
@@ -1134,8 +1134,8 @@
     "dml-diagram#CT_DiagramDefinition": {
       "namespace": "dml-diagram",
       "type": "CT_DiagramDefinition",
-      "minimal": "<CT_DiagramDefinition/>",
-      "invalid": "<CT_DiagramDefinition><unexpected/></CT_DiagramDefinition>"
+      "minimal": "<CT_DiagramDefinition><layoutNode/></CT_DiagramDefinition>",
+      "invalid": "<CT_DiagramDefinition><layoutNode/><unexpected/></CT_DiagramDefinition>"
     },
     "dml-diagram#CT_DiagramDefinitionHeader": {
       "namespace": "dml-diagram",
@@ -1362,8 +1362,8 @@
     "dml-main#CT_AlphaModulateEffect": {
       "namespace": "dml-main",
       "type": "CT_AlphaModulateEffect",
-      "minimal": "<CT_AlphaModulateEffect/>",
-      "invalid": "<CT_AlphaModulateEffect><unexpected/></CT_AlphaModulateEffect>"
+      "minimal": "<CT_AlphaModulateEffect><cont/></CT_AlphaModulateEffect>",
+      "invalid": "<CT_AlphaModulateEffect><cont/><unexpected/></CT_AlphaModulateEffect>"
     },
     "dml-main#CT_AlphaModulateFixedEffect": {
       "namespace": "dml-main",
@@ -1417,19 +1417,19 @@
       "namespace": "dml-main",
       "type": "CT_AnimationElementChoice",
       "minimal": "<CT_AnimationElementChoice><dgm/></CT_AnimationElementChoice>",
-      "invalid": "<CT_AnimationElementChoice><dgm/></CT_AnimationElementChoice>"
+      "invalid": "<CT_AnimationElementChoice><dgm/><unexpected/></CT_AnimationElementChoice>"
     },
     "dml-main#CT_AnimationGraphicalObjectBuildProperties": {
       "namespace": "dml-main",
       "type": "CT_AnimationGraphicalObjectBuildProperties",
       "minimal": "<CT_AnimationGraphicalObjectBuildProperties><bldDgm/></CT_AnimationGraphicalObjectBuildProperties>",
-      "invalid": "<CT_AnimationGraphicalObjectBuildProperties><bldDgm/></CT_AnimationGraphicalObjectBuildProperties>"
+      "invalid": "<CT_AnimationGraphicalObjectBuildProperties><bldDgm/><unexpected/></CT_AnimationGraphicalObjectBuildProperties>"
     },
     "dml-main#CT_AudioCD": {
       "namespace": "dml-main",
       "type": "CT_AudioCD",
-      "minimal": "<CT_AudioCD/>",
-      "invalid": "<CT_AudioCD><unexpected/></CT_AudioCD>"
+      "minimal": "<CT_AudioCD><st/><end/></CT_AudioCD>",
+      "invalid": "<CT_AudioCD><st/><end/><unexpected/></CT_AudioCD>"
     },
     "dml-main#CT_AudioCDTime": {
       "namespace": "dml-main",
@@ -1446,8 +1446,8 @@
     "dml-main#CT_Backdrop": {
       "namespace": "dml-main",
       "type": "CT_Backdrop",
-      "minimal": "<CT_Backdrop/>",
-      "invalid": "<CT_Backdrop><unexpected/></CT_Backdrop>"
+      "minimal": "<CT_Backdrop><anchor/><norm/><up/></CT_Backdrop>",
+      "invalid": "<CT_Backdrop><anchor/><norm/><up/><unexpected/></CT_Backdrop>"
     },
     "dml-main#CT_BackgroundFillStyleList": {
       "namespace": "dml-main",
@@ -1464,8 +1464,8 @@
     "dml-main#CT_BaseStyles": {
       "namespace": "dml-main",
       "type": "CT_BaseStyles",
-      "minimal": "<CT_BaseStyles><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></CT_BaseStyles>",
-      "invalid": "<CT_BaseStyles><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></CT_BaseStyles>"
+      "minimal": "<CT_BaseStyles><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme><fontScheme><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont></fontScheme><fmtScheme><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/></fmtScheme></CT_BaseStyles>",
+      "invalid": "<CT_BaseStyles><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme><fontScheme><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont></fontScheme><fmtScheme><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/></fmtScheme><unexpected/></CT_BaseStyles>"
     },
     "dml-main#CT_BaseStylesOverride": {
       "namespace": "dml-main",
@@ -1488,8 +1488,8 @@
     "dml-main#CT_BlendEffect": {
       "namespace": "dml-main",
       "type": "CT_BlendEffect",
-      "minimal": "<CT_BlendEffect blend=\"fixture\"/>",
-      "invalid": "<CT_BlendEffect blend=\"fixture\"><unexpected/></CT_BlendEffect>"
+      "minimal": "<CT_BlendEffect blend=\"fixture\"><cont/></CT_BlendEffect>",
+      "invalid": "<CT_BlendEffect blend=\"fixture\"><cont/><unexpected/></CT_BlendEffect>"
     },
     "dml-main#CT_Blip": {
       "namespace": "dml-main",
@@ -1524,26 +1524,26 @@
     "dml-main#CT_Cell3D": {
       "namespace": "dml-main",
       "type": "CT_Cell3D",
-      "minimal": "<CT_Cell3D/>",
-      "invalid": "<CT_Cell3D><unexpected/></CT_Cell3D>"
+      "minimal": "<CT_Cell3D><bevel/></CT_Cell3D>",
+      "invalid": "<CT_Cell3D><bevel/><unexpected/></CT_Cell3D>"
     },
     "dml-main#CT_ClipboardStyleSheet": {
       "namespace": "dml-main",
       "type": "CT_ClipboardStyleSheet",
-      "minimal": "<CT_ClipboardStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></themeElements></CT_ClipboardStyleSheet>",
-      "invalid": "<CT_ClipboardStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></themeElements></CT_ClipboardStyleSheet>"
+      "minimal": "<CT_ClipboardStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme><fontScheme><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont></fontScheme><fmtScheme><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/></fmtScheme></themeElements><clrMap/></CT_ClipboardStyleSheet>",
+      "invalid": "<CT_ClipboardStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme><fontScheme><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont></fontScheme><fmtScheme><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/></fmtScheme></themeElements><clrMap/><unexpected/></CT_ClipboardStyleSheet>"
     },
     "dml-main#CT_Color": {
       "namespace": "dml-main",
       "type": "CT_Color",
       "minimal": "<CT_Color><scrgbClr/></CT_Color>",
-      "invalid": "<CT_Color><scrgbClr/></CT_Color>"
+      "invalid": "<CT_Color><scrgbClr/><unexpected/></CT_Color>"
     },
     "dml-main#CT_ColorChangeEffect": {
       "namespace": "dml-main",
       "type": "CT_ColorChangeEffect",
       "minimal": "<CT_ColorChangeEffect><clrFrom><scrgbClr/></clrFrom><clrTo><scrgbClr/></clrTo></CT_ColorChangeEffect>",
-      "invalid": "<CT_ColorChangeEffect><clrFrom><scrgbClr/></clrFrom><clrTo><scrgbClr/></clrTo></CT_ColorChangeEffect>"
+      "invalid": "<CT_ColorChangeEffect><clrFrom><scrgbClr/></clrFrom><clrTo><scrgbClr/></clrTo><unexpected/></CT_ColorChangeEffect>"
     },
     "dml-main#CT_ColorMapping": {
       "namespace": "dml-main",
@@ -1555,7 +1555,7 @@
       "namespace": "dml-main",
       "type": "CT_ColorMappingOverride",
       "minimal": "<CT_ColorMappingOverride><masterClrMapping/></CT_ColorMappingOverride>",
-      "invalid": "<CT_ColorMappingOverride><masterClrMapping/></CT_ColorMappingOverride>"
+      "invalid": "<CT_ColorMappingOverride><masterClrMapping/><unexpected/></CT_ColorMappingOverride>"
     },
     "dml-main#CT_ColorMRU": {
       "namespace": "dml-main",
@@ -1567,19 +1567,19 @@
       "namespace": "dml-main",
       "type": "CT_ColorReplaceEffect",
       "minimal": "<CT_ColorReplaceEffect><scrgbClr/></CT_ColorReplaceEffect>",
-      "invalid": "<CT_ColorReplaceEffect><scrgbClr/></CT_ColorReplaceEffect>"
+      "invalid": "<CT_ColorReplaceEffect><scrgbClr/><unexpected/></CT_ColorReplaceEffect>"
     },
     "dml-main#CT_ColorScheme": {
       "namespace": "dml-main",
       "type": "CT_ColorScheme",
       "minimal": "<CT_ColorScheme name=\"fixture\"><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></CT_ColorScheme>",
-      "invalid": "<CT_ColorScheme name=\"fixture\"><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></CT_ColorScheme>"
+      "invalid": "<CT_ColorScheme name=\"fixture\"><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink><unexpected/></CT_ColorScheme>"
     },
     "dml-main#CT_ColorSchemeAndMapping": {
       "namespace": "dml-main",
       "type": "CT_ColorSchemeAndMapping",
       "minimal": "<CT_ColorSchemeAndMapping><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></CT_ColorSchemeAndMapping>",
-      "invalid": "<CT_ColorSchemeAndMapping><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></CT_ColorSchemeAndMapping>"
+      "invalid": "<CT_ColorSchemeAndMapping><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme><unexpected/></CT_ColorSchemeAndMapping>"
     },
     "dml-main#CT_ColorSchemeList": {
       "namespace": "dml-main",
@@ -1602,8 +1602,8 @@
     "dml-main#CT_ConnectionSite": {
       "namespace": "dml-main",
       "type": "CT_ConnectionSite",
-      "minimal": "<CT_ConnectionSite ang=\"fixture\"/>",
-      "invalid": "<CT_ConnectionSite ang=\"fixture\"><unexpected/></CT_ConnectionSite>"
+      "minimal": "<CT_ConnectionSite ang=\"fixture\"><pos/></CT_ConnectionSite>",
+      "invalid": "<CT_ConnectionSite ang=\"fixture\"><pos/><unexpected/></CT_ConnectionSite>"
     },
     "dml-main#CT_ConnectionSiteList": {
       "namespace": "dml-main",
@@ -1627,7 +1627,7 @@
       "namespace": "dml-main",
       "type": "CT_CustomColor",
       "minimal": "<CT_CustomColor><scrgbClr/></CT_CustomColor>",
-      "invalid": "<CT_CustomColor><scrgbClr/></CT_CustomColor>"
+      "invalid": "<CT_CustomColor><scrgbClr/><unexpected/></CT_CustomColor>"
     },
     "dml-main#CT_CustomColorList": {
       "namespace": "dml-main",
@@ -1638,8 +1638,8 @@
     "dml-main#CT_CustomGeometry2D": {
       "namespace": "dml-main",
       "type": "CT_CustomGeometry2D",
-      "minimal": "<CT_CustomGeometry2D/>",
-      "invalid": "<CT_CustomGeometry2D><unexpected/></CT_CustomGeometry2D>"
+      "minimal": "<CT_CustomGeometry2D><pathLst/></CT_CustomGeometry2D>",
+      "invalid": "<CT_CustomGeometry2D><pathLst/><unexpected/></CT_CustomGeometry2D>"
     },
     "dml-main#CT_DashStop": {
       "namespace": "dml-main",
@@ -1656,8 +1656,8 @@
     "dml-main#CT_DefaultShapeDefinition": {
       "namespace": "dml-main",
       "type": "CT_DefaultShapeDefinition",
-      "minimal": "<CT_DefaultShapeDefinition/>",
-      "invalid": "<CT_DefaultShapeDefinition><unexpected/></CT_DefaultShapeDefinition>"
+      "minimal": "<CT_DefaultShapeDefinition><spPr/><bodyPr/><lstStyle/></CT_DefaultShapeDefinition>",
+      "invalid": "<CT_DefaultShapeDefinition><spPr/><bodyPr/><lstStyle/><unexpected/></CT_DefaultShapeDefinition>"
     },
     "dml-main#CT_DuotoneEffect": {
       "namespace": "dml-main",
@@ -1681,7 +1681,7 @@
       "namespace": "dml-main",
       "type": "CT_EffectProperties",
       "minimal": "<CT_EffectProperties><effectLst/></CT_EffectProperties>",
-      "invalid": "<CT_EffectProperties><effectLst/></CT_EffectProperties>"
+      "invalid": "<CT_EffectProperties><effectLst/><unexpected/></CT_EffectProperties>"
     },
     "dml-main#CT_EffectReference": {
       "namespace": "dml-main",
@@ -1693,7 +1693,7 @@
       "namespace": "dml-main",
       "type": "CT_EffectStyleItem",
       "minimal": "<CT_EffectStyleItem><effectLst/></CT_EffectStyleItem>",
-      "invalid": "<CT_EffectStyleItem><effectLst/></CT_EffectStyleItem>"
+      "invalid": "<CT_EffectStyleItem><effectLst/><unexpected/></CT_EffectStyleItem>"
     },
     "dml-main#CT_EffectStyleList": {
       "namespace": "dml-main",
@@ -1717,19 +1717,19 @@
       "namespace": "dml-main",
       "type": "CT_FillEffect",
       "minimal": "<CT_FillEffect><noFill/></CT_FillEffect>",
-      "invalid": "<CT_FillEffect><noFill/></CT_FillEffect>"
+      "invalid": "<CT_FillEffect><noFill/><unexpected/></CT_FillEffect>"
     },
     "dml-main#CT_FillOverlayEffect": {
       "namespace": "dml-main",
       "type": "CT_FillOverlayEffect",
       "minimal": "<CT_FillOverlayEffect blend=\"fixture\"><noFill/></CT_FillOverlayEffect>",
-      "invalid": "<CT_FillOverlayEffect blend=\"fixture\"><noFill/></CT_FillOverlayEffect>"
+      "invalid": "<CT_FillOverlayEffect blend=\"fixture\"><noFill/><unexpected/></CT_FillOverlayEffect>"
     },
     "dml-main#CT_FillProperties": {
       "namespace": "dml-main",
       "type": "CT_FillProperties",
       "minimal": "<CT_FillProperties><noFill/></CT_FillProperties>",
-      "invalid": "<CT_FillProperties><noFill/></CT_FillProperties>"
+      "invalid": "<CT_FillProperties><noFill/><unexpected/></CT_FillProperties>"
     },
     "dml-main#CT_FillStyleList": {
       "namespace": "dml-main",
@@ -1752,8 +1752,8 @@
     "dml-main#CT_FontCollection": {
       "namespace": "dml-main",
       "type": "CT_FontCollection",
-      "minimal": "<CT_FontCollection/>",
-      "invalid": "<CT_FontCollection><unexpected/></CT_FontCollection>"
+      "minimal": "<CT_FontCollection><latin/><ea/><cs/></CT_FontCollection>",
+      "invalid": "<CT_FontCollection><latin/><ea/><cs/><unexpected/></CT_FontCollection>"
     },
     "dml-main#CT_FontReference": {
       "namespace": "dml-main",
@@ -1764,8 +1764,8 @@
     "dml-main#CT_FontScheme": {
       "namespace": "dml-main",
       "type": "CT_FontScheme",
-      "minimal": "<CT_FontScheme name=\"fixture\"/>",
-      "invalid": "<CT_FontScheme name=\"fixture\"><unexpected/></CT_FontScheme>"
+      "minimal": "<CT_FontScheme name=\"fixture\"><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont></CT_FontScheme>",
+      "invalid": "<CT_FontScheme name=\"fixture\"><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont><unexpected/></CT_FontScheme>"
     },
     "dml-main#CT_GammaTransform": {
       "namespace": "dml-main",
@@ -1795,7 +1795,7 @@
       "namespace": "dml-main",
       "type": "CT_GlowEffect",
       "minimal": "<CT_GlowEffect><scrgbClr/></CT_GlowEffect>",
-      "invalid": "<CT_GlowEffect><scrgbClr/></CT_GlowEffect>"
+      "invalid": "<CT_GlowEffect><scrgbClr/><unexpected/></CT_GlowEffect>"
     },
     "dml-main#CT_GradientFillProperties": {
       "namespace": "dml-main",
@@ -1807,7 +1807,7 @@
       "namespace": "dml-main",
       "type": "CT_GradientStop",
       "minimal": "<CT_GradientStop pos=\"fixture\"><scrgbClr/></CT_GradientStop>",
-      "invalid": "<CT_GradientStop pos=\"fixture\"><scrgbClr/></CT_GradientStop>"
+      "invalid": "<CT_GradientStop pos=\"fixture\"><scrgbClr/><unexpected/></CT_GradientStop>"
     },
     "dml-main#CT_GradientStopList": {
       "namespace": "dml-main",
@@ -1818,8 +1818,8 @@
     "dml-main#CT_GraphicalObject": {
       "namespace": "dml-main",
       "type": "CT_GraphicalObject",
-      "minimal": "<CT_GraphicalObject/>",
-      "invalid": "<CT_GraphicalObject><unexpected/></CT_GraphicalObject>"
+      "minimal": "<CT_GraphicalObject><graphicData/></CT_GraphicalObject>",
+      "invalid": "<CT_GraphicalObject><graphicData/><unexpected/></CT_GraphicalObject>"
     },
     "dml-main#CT_GraphicalObjectData": {
       "namespace": "dml-main",
@@ -1872,68 +1872,68 @@
     "dml-main#CT_GvmlConnector": {
       "namespace": "dml-main",
       "type": "CT_GvmlConnector",
-      "minimal": "<CT_GvmlConnector/>",
-      "invalid": "<CT_GvmlConnector><unexpected/></CT_GvmlConnector>"
+      "minimal": "<CT_GvmlConnector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/></nvCxnSpPr><spPr/></CT_GvmlConnector>",
+      "invalid": "<CT_GvmlConnector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/></nvCxnSpPr><spPr/><unexpected/></CT_GvmlConnector>"
     },
     "dml-main#CT_GvmlConnectorNonVisual": {
       "namespace": "dml-main",
       "type": "CT_GvmlConnectorNonVisual",
-      "minimal": "<CT_GvmlConnectorNonVisual/>",
-      "invalid": "<CT_GvmlConnectorNonVisual><unexpected/></CT_GvmlConnectorNonVisual>"
+      "minimal": "<CT_GvmlConnectorNonVisual><cNvPr/><cNvCxnSpPr/></CT_GvmlConnectorNonVisual>",
+      "invalid": "<CT_GvmlConnectorNonVisual><cNvPr/><cNvCxnSpPr/><unexpected/></CT_GvmlConnectorNonVisual>"
     },
     "dml-main#CT_GvmlGraphicalObjectFrame": {
       "namespace": "dml-main",
       "type": "CT_GvmlGraphicalObjectFrame",
-      "minimal": "<CT_GvmlGraphicalObjectFrame/>",
-      "invalid": "<CT_GvmlGraphicalObjectFrame><unexpected/></CT_GvmlGraphicalObjectFrame>"
+      "minimal": "<CT_GvmlGraphicalObjectFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/></nvGraphicFramePr><graphic><graphicData/></graphic><xfrm/></CT_GvmlGraphicalObjectFrame>",
+      "invalid": "<CT_GvmlGraphicalObjectFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/></nvGraphicFramePr><graphic><graphicData/></graphic><xfrm/><unexpected/></CT_GvmlGraphicalObjectFrame>"
     },
     "dml-main#CT_GvmlGraphicFrameNonVisual": {
       "namespace": "dml-main",
       "type": "CT_GvmlGraphicFrameNonVisual",
-      "minimal": "<CT_GvmlGraphicFrameNonVisual/>",
-      "invalid": "<CT_GvmlGraphicFrameNonVisual><unexpected/></CT_GvmlGraphicFrameNonVisual>"
+      "minimal": "<CT_GvmlGraphicFrameNonVisual><cNvPr/><cNvGraphicFramePr/></CT_GvmlGraphicFrameNonVisual>",
+      "invalid": "<CT_GvmlGraphicFrameNonVisual><cNvPr/><cNvGraphicFramePr/><unexpected/></CT_GvmlGraphicFrameNonVisual>"
     },
     "dml-main#CT_GvmlGroupShape": {
       "namespace": "dml-main",
       "type": "CT_GvmlGroupShape",
-      "minimal": "<CT_GvmlGroupShape/>",
-      "invalid": "<CT_GvmlGroupShape><unexpected/></CT_GvmlGroupShape>"
+      "minimal": "<CT_GvmlGroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/></nvGrpSpPr><grpSpPr/></CT_GvmlGroupShape>",
+      "invalid": "<CT_GvmlGroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/></nvGrpSpPr><grpSpPr/><unexpected/></CT_GvmlGroupShape>"
     },
     "dml-main#CT_GvmlGroupShapeNonVisual": {
       "namespace": "dml-main",
       "type": "CT_GvmlGroupShapeNonVisual",
-      "minimal": "<CT_GvmlGroupShapeNonVisual/>",
-      "invalid": "<CT_GvmlGroupShapeNonVisual><unexpected/></CT_GvmlGroupShapeNonVisual>"
+      "minimal": "<CT_GvmlGroupShapeNonVisual><cNvPr/><cNvGrpSpPr/></CT_GvmlGroupShapeNonVisual>",
+      "invalid": "<CT_GvmlGroupShapeNonVisual><cNvPr/><cNvGrpSpPr/><unexpected/></CT_GvmlGroupShapeNonVisual>"
     },
     "dml-main#CT_GvmlPicture": {
       "namespace": "dml-main",
       "type": "CT_GvmlPicture",
-      "minimal": "<CT_GvmlPicture/>",
-      "invalid": "<CT_GvmlPicture><unexpected/></CT_GvmlPicture>"
+      "minimal": "<CT_GvmlPicture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/></CT_GvmlPicture>",
+      "invalid": "<CT_GvmlPicture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/><unexpected/></CT_GvmlPicture>"
     },
     "dml-main#CT_GvmlPictureNonVisual": {
       "namespace": "dml-main",
       "type": "CT_GvmlPictureNonVisual",
-      "minimal": "<CT_GvmlPictureNonVisual/>",
-      "invalid": "<CT_GvmlPictureNonVisual><unexpected/></CT_GvmlPictureNonVisual>"
+      "minimal": "<CT_GvmlPictureNonVisual><cNvPr/><cNvPicPr/></CT_GvmlPictureNonVisual>",
+      "invalid": "<CT_GvmlPictureNonVisual><cNvPr/><cNvPicPr/><unexpected/></CT_GvmlPictureNonVisual>"
     },
     "dml-main#CT_GvmlShape": {
       "namespace": "dml-main",
       "type": "CT_GvmlShape",
-      "minimal": "<CT_GvmlShape/>",
-      "invalid": "<CT_GvmlShape><unexpected/></CT_GvmlShape>"
+      "minimal": "<CT_GvmlShape><nvSpPr><cNvPr/><cNvSpPr/></nvSpPr><spPr/></CT_GvmlShape>",
+      "invalid": "<CT_GvmlShape><nvSpPr><cNvPr/><cNvSpPr/></nvSpPr><spPr/><unexpected/></CT_GvmlShape>"
     },
     "dml-main#CT_GvmlShapeNonVisual": {
       "namespace": "dml-main",
       "type": "CT_GvmlShapeNonVisual",
-      "minimal": "<CT_GvmlShapeNonVisual/>",
-      "invalid": "<CT_GvmlShapeNonVisual><unexpected/></CT_GvmlShapeNonVisual>"
+      "minimal": "<CT_GvmlShapeNonVisual><cNvPr/><cNvSpPr/></CT_GvmlShapeNonVisual>",
+      "invalid": "<CT_GvmlShapeNonVisual><cNvPr/><cNvSpPr/><unexpected/></CT_GvmlShapeNonVisual>"
     },
     "dml-main#CT_GvmlTextShape": {
       "namespace": "dml-main",
       "type": "CT_GvmlTextShape",
-      "minimal": "<CT_GvmlTextShape><useSpRect/></CT_GvmlTextShape>",
-      "invalid": "<CT_GvmlTextShape><useSpRect/></CT_GvmlTextShape>"
+      "minimal": "<CT_GvmlTextShape><txBody><bodyPr/></txBody><useSpRect/></CT_GvmlTextShape>",
+      "invalid": "<CT_GvmlTextShape><txBody><bodyPr/></txBody><useSpRect/><unexpected/></CT_GvmlTextShape>"
     },
     "dml-main#CT_GvmlUseShapeRectangle": {
       "namespace": "dml-main",
@@ -1969,7 +1969,7 @@
       "namespace": "dml-main",
       "type": "CT_InnerShadowEffect",
       "minimal": "<CT_InnerShadowEffect><scrgbClr/></CT_InnerShadowEffect>",
-      "invalid": "<CT_InnerShadowEffect><scrgbClr/></CT_InnerShadowEffect>"
+      "invalid": "<CT_InnerShadowEffect><scrgbClr/><unexpected/></CT_InnerShadowEffect>"
     },
     "dml-main#CT_InverseGammaTransform": {
       "namespace": "dml-main",
@@ -2106,14 +2106,14 @@
     "dml-main#CT_OfficeStyleSheet": {
       "namespace": "dml-main",
       "type": "CT_OfficeStyleSheet",
-      "minimal": "<CT_OfficeStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></themeElements></CT_OfficeStyleSheet>",
-      "invalid": "<CT_OfficeStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme></themeElements></CT_OfficeStyleSheet>"
+      "minimal": "<CT_OfficeStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme><fontScheme><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont></fontScheme><fmtScheme><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/></fmtScheme></themeElements></CT_OfficeStyleSheet>",
+      "invalid": "<CT_OfficeStyleSheet><themeElements><clrScheme><dk1><scrgbClr/></dk1><lt1><scrgbClr/></lt1><dk2><scrgbClr/></dk2><lt2><scrgbClr/></lt2><accent1><scrgbClr/></accent1><accent2><scrgbClr/></accent2><accent3><scrgbClr/></accent3><accent4><scrgbClr/></accent4><accent5><scrgbClr/></accent5><accent6><scrgbClr/></accent6><hlink><scrgbClr/></hlink><folHlink><scrgbClr/></folHlink></clrScheme><fontScheme><majorFont><latin/><ea/><cs/></majorFont><minorFont><latin/><ea/><cs/></minorFont></fontScheme><fmtScheme><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/></fmtScheme></themeElements><unexpected/></CT_OfficeStyleSheet>"
     },
     "dml-main#CT_OuterShadowEffect": {
       "namespace": "dml-main",
       "type": "CT_OuterShadowEffect",
       "minimal": "<CT_OuterShadowEffect><scrgbClr/></CT_OuterShadowEffect>",
-      "invalid": "<CT_OuterShadowEffect><scrgbClr/></CT_OuterShadowEffect>"
+      "invalid": "<CT_OuterShadowEffect><scrgbClr/><unexpected/></CT_OuterShadowEffect>"
     },
     "dml-main#CT_Path2D": {
       "namespace": "dml-main",
@@ -2142,8 +2142,8 @@
     "dml-main#CT_Path2DLineTo": {
       "namespace": "dml-main",
       "type": "CT_Path2DLineTo",
-      "minimal": "<CT_Path2DLineTo/>",
-      "invalid": "<CT_Path2DLineTo><unexpected/></CT_Path2DLineTo>"
+      "minimal": "<CT_Path2DLineTo><pt/></CT_Path2DLineTo>",
+      "invalid": "<CT_Path2DLineTo><pt/><unexpected/></CT_Path2DLineTo>"
     },
     "dml-main#CT_Path2DList": {
       "namespace": "dml-main",
@@ -2154,8 +2154,8 @@
     "dml-main#CT_Path2DMoveTo": {
       "namespace": "dml-main",
       "type": "CT_Path2DMoveTo",
-      "minimal": "<CT_Path2DMoveTo/>",
-      "invalid": "<CT_Path2DMoveTo><unexpected/></CT_Path2DMoveTo>"
+      "minimal": "<CT_Path2DMoveTo><pt/></CT_Path2DMoveTo>",
+      "invalid": "<CT_Path2DMoveTo><pt/><unexpected/></CT_Path2DMoveTo>"
     },
     "dml-main#CT_Path2DQuadBezierTo": {
       "namespace": "dml-main",
@@ -2202,8 +2202,8 @@
     "dml-main#CT_PolarAdjustHandle": {
       "namespace": "dml-main",
       "type": "CT_PolarAdjustHandle",
-      "minimal": "<CT_PolarAdjustHandle/>",
-      "invalid": "<CT_PolarAdjustHandle><unexpected/></CT_PolarAdjustHandle>"
+      "minimal": "<CT_PolarAdjustHandle><pos/></CT_PolarAdjustHandle>",
+      "invalid": "<CT_PolarAdjustHandle><pos/><unexpected/></CT_PolarAdjustHandle>"
     },
     "dml-main#CT_PositiveFixedAngle": {
       "namespace": "dml-main",
@@ -2251,7 +2251,7 @@
       "namespace": "dml-main",
       "type": "CT_PresetShadowEffect",
       "minimal": "<CT_PresetShadowEffect prst=\"fixture\"><scrgbClr/></CT_PresetShadowEffect>",
-      "invalid": "<CT_PresetShadowEffect prst=\"fixture\"><scrgbClr/></CT_PresetShadowEffect>"
+      "invalid": "<CT_PresetShadowEffect prst=\"fixture\"><scrgbClr/><unexpected/></CT_PresetShadowEffect>"
     },
     "dml-main#CT_PresetTextShape": {
       "namespace": "dml-main",
@@ -2281,7 +2281,7 @@
       "namespace": "dml-main",
       "type": "CT_RegularTextRun",
       "minimal": "<CT_RegularTextRun><t/></CT_RegularTextRun>",
-      "invalid": "<CT_RegularTextRun><t/></CT_RegularTextRun>"
+      "invalid": "<CT_RegularTextRun><t/><unexpected/></CT_RegularTextRun>"
     },
     "dml-main#CT_RelativeOffsetEffect": {
       "namespace": "dml-main",
@@ -2298,14 +2298,14 @@
     "dml-main#CT_Scale2D": {
       "namespace": "dml-main",
       "type": "CT_Scale2D",
-      "minimal": "<CT_Scale2D/>",
-      "invalid": "<CT_Scale2D><unexpected/></CT_Scale2D>"
+      "minimal": "<CT_Scale2D><sx/><sy/></CT_Scale2D>",
+      "invalid": "<CT_Scale2D><sx/><sy/><unexpected/></CT_Scale2D>"
     },
     "dml-main#CT_Scene3D": {
       "namespace": "dml-main",
       "type": "CT_Scene3D",
-      "minimal": "<CT_Scene3D/>",
-      "invalid": "<CT_Scene3D><unexpected/></CT_Scene3D>"
+      "minimal": "<CT_Scene3D><camera/><lightRig/></CT_Scene3D>",
+      "invalid": "<CT_Scene3D><camera/><lightRig/><unexpected/></CT_Scene3D>"
     },
     "dml-main#CT_SchemeColor": {
       "namespace": "dml-main",
@@ -2340,8 +2340,8 @@
     "dml-main#CT_ShapeStyle": {
       "namespace": "dml-main",
       "type": "CT_ShapeStyle",
-      "minimal": "<CT_ShapeStyle/>",
-      "invalid": "<CT_ShapeStyle><unexpected/></CT_ShapeStyle>"
+      "minimal": "<CT_ShapeStyle><lnRef/><fillRef/><effectRef/><fontRef/></CT_ShapeStyle>",
+      "invalid": "<CT_ShapeStyle><lnRef/><fillRef/><effectRef/><fontRef/><unexpected/></CT_ShapeStyle>"
     },
     "dml-main#CT_SoftEdgesEffect": {
       "namespace": "dml-main",
@@ -2376,8 +2376,8 @@
     "dml-main#CT_StyleMatrix": {
       "namespace": "dml-main",
       "type": "CT_StyleMatrix",
-      "minimal": "<CT_StyleMatrix/>",
-      "invalid": "<CT_StyleMatrix><unexpected/></CT_StyleMatrix>"
+      "minimal": "<CT_StyleMatrix><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/></CT_StyleMatrix>",
+      "invalid": "<CT_StyleMatrix><fillStyleLst/><lnStyleLst/><effectStyleLst/><bgFillStyleLst/><unexpected/></CT_StyleMatrix>"
     },
     "dml-main#CT_StyleMatrixReference": {
       "namespace": "dml-main",
@@ -2400,8 +2400,8 @@
     "dml-main#CT_Table": {
       "namespace": "dml-main",
       "type": "CT_Table",
-      "minimal": "<CT_Table/>",
-      "invalid": "<CT_Table><unexpected/></CT_Table>"
+      "minimal": "<CT_Table><tblGrid/></CT_Table>",
+      "invalid": "<CT_Table><tblGrid/><unexpected/></CT_Table>"
     },
     "dml-main#CT_TableBackgroundStyle": {
       "namespace": "dml-main",
@@ -2490,14 +2490,14 @@
     "dml-main#CT_TextBlipBullet": {
       "namespace": "dml-main",
       "type": "CT_TextBlipBullet",
-      "minimal": "<CT_TextBlipBullet/>",
-      "invalid": "<CT_TextBlipBullet><unexpected/></CT_TextBlipBullet>"
+      "minimal": "<CT_TextBlipBullet><blip/></CT_TextBlipBullet>",
+      "invalid": "<CT_TextBlipBullet><blip/><unexpected/></CT_TextBlipBullet>"
     },
     "dml-main#CT_TextBody": {
       "namespace": "dml-main",
       "type": "CT_TextBody",
-      "minimal": "<CT_TextBody/>",
-      "invalid": "<CT_TextBody><unexpected/></CT_TextBody>"
+      "minimal": "<CT_TextBody><bodyPr/></CT_TextBody>",
+      "invalid": "<CT_TextBody><bodyPr/><unexpected/></CT_TextBody>"
     },
     "dml-main#CT_TextBodyProperties": {
       "namespace": "dml-main",
@@ -2611,7 +2611,7 @@
       "namespace": "dml-main",
       "type": "CT_TextSpacing",
       "minimal": "<CT_TextSpacing><spcPct/></CT_TextSpacing>",
-      "invalid": "<CT_TextSpacing><spcPct/></CT_TextSpacing>"
+      "invalid": "<CT_TextSpacing><spcPct/><unexpected/></CT_TextSpacing>"
     },
     "dml-main#CT_TextSpacingPercent": {
       "namespace": "dml-main",
@@ -2647,7 +2647,7 @@
       "namespace": "dml-main",
       "type": "CT_TextUnderlineFillGroupWrapper",
       "minimal": "<CT_TextUnderlineFillGroupWrapper><noFill/></CT_TextUnderlineFillGroupWrapper>",
-      "invalid": "<CT_TextUnderlineFillGroupWrapper><noFill/></CT_TextUnderlineFillGroupWrapper>"
+      "invalid": "<CT_TextUnderlineFillGroupWrapper><noFill/><unexpected/></CT_TextUnderlineFillGroupWrapper>"
     },
     "dml-main#CT_TextUnderlineLineFollowText": {
       "namespace": "dml-main",
@@ -2659,7 +2659,7 @@
       "namespace": "dml-main",
       "type": "CT_ThemeableLineStyle",
       "minimal": "<CT_ThemeableLineStyle><ln/></CT_ThemeableLineStyle>",
-      "invalid": "<CT_ThemeableLineStyle><ln/></CT_ThemeableLineStyle>"
+      "invalid": "<CT_ThemeableLineStyle><ln/><unexpected/></CT_ThemeableLineStyle>"
     },
     "dml-main#CT_TileInfoProperties": {
       "namespace": "dml-main",
@@ -2706,26 +2706,26 @@
     "dml-main#CT_XYAdjustHandle": {
       "namespace": "dml-main",
       "type": "CT_XYAdjustHandle",
-      "minimal": "<CT_XYAdjustHandle/>",
-      "invalid": "<CT_XYAdjustHandle><unexpected/></CT_XYAdjustHandle>"
+      "minimal": "<CT_XYAdjustHandle><pos/></CT_XYAdjustHandle>",
+      "invalid": "<CT_XYAdjustHandle><pos/><unexpected/></CT_XYAdjustHandle>"
     },
     "dml-picture#CT_Picture": {
       "namespace": "dml-picture",
       "type": "CT_Picture",
-      "minimal": "<CT_Picture/>",
-      "invalid": "<CT_Picture><unexpected/></CT_Picture>"
+      "minimal": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/></CT_Picture>",
+      "invalid": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/><unexpected/></CT_Picture>"
     },
     "dml-picture#CT_PictureNonVisual": {
       "namespace": "dml-picture",
       "type": "CT_PictureNonVisual",
-      "minimal": "<CT_PictureNonVisual/>",
-      "invalid": "<CT_PictureNonVisual><unexpected/></CT_PictureNonVisual>"
+      "minimal": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/></CT_PictureNonVisual>",
+      "invalid": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/><unexpected/></CT_PictureNonVisual>"
     },
     "dml-spreadsheetDrawing#CT_AbsoluteAnchor": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_AbsoluteAnchor",
-      "minimal": "<CT_AbsoluteAnchor><sp/></CT_AbsoluteAnchor>",
-      "invalid": "<CT_AbsoluteAnchor><sp/></CT_AbsoluteAnchor>"
+      "minimal": "<CT_AbsoluteAnchor><pos/><ext/><sp/><clientData/></CT_AbsoluteAnchor>",
+      "invalid": "<CT_AbsoluteAnchor><pos/><ext/><sp/><clientData/><unexpected/></CT_AbsoluteAnchor>"
     },
     "dml-spreadsheetDrawing#CT_AnchorClientData": {
       "namespace": "dml-spreadsheetDrawing",
@@ -2736,14 +2736,14 @@
     "dml-spreadsheetDrawing#CT_Connector": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_Connector",
-      "minimal": "<CT_Connector/>",
-      "invalid": "<CT_Connector><unexpected/></CT_Connector>"
+      "minimal": "<CT_Connector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/></nvCxnSpPr><spPr/></CT_Connector>",
+      "invalid": "<CT_Connector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/></nvCxnSpPr><spPr/><unexpected/></CT_Connector>"
     },
     "dml-spreadsheetDrawing#CT_ConnectorNonVisual": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_ConnectorNonVisual",
-      "minimal": "<CT_ConnectorNonVisual/>",
-      "invalid": "<CT_ConnectorNonVisual><unexpected/></CT_ConnectorNonVisual>"
+      "minimal": "<CT_ConnectorNonVisual><cNvPr/><cNvCxnSpPr/></CT_ConnectorNonVisual>",
+      "invalid": "<CT_ConnectorNonVisual><cNvPr/><cNvCxnSpPr/><unexpected/></CT_ConnectorNonVisual>"
     },
     "dml-spreadsheetDrawing#CT_Drawing": {
       "namespace": "dml-spreadsheetDrawing",
@@ -2754,50 +2754,50 @@
     "dml-spreadsheetDrawing#CT_GraphicalObjectFrame": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_GraphicalObjectFrame",
-      "minimal": "<CT_GraphicalObjectFrame/>",
-      "invalid": "<CT_GraphicalObjectFrame><unexpected/></CT_GraphicalObjectFrame>"
+      "minimal": "<CT_GraphicalObjectFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/></nvGraphicFramePr><xfrm/><graphic><graphicData/></graphic></CT_GraphicalObjectFrame>",
+      "invalid": "<CT_GraphicalObjectFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/></nvGraphicFramePr><xfrm/><graphic><graphicData/></graphic><unexpected/></CT_GraphicalObjectFrame>"
     },
     "dml-spreadsheetDrawing#CT_GraphicalObjectFrameNonVisual": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_GraphicalObjectFrameNonVisual",
-      "minimal": "<CT_GraphicalObjectFrameNonVisual/>",
-      "invalid": "<CT_GraphicalObjectFrameNonVisual><unexpected/></CT_GraphicalObjectFrameNonVisual>"
+      "minimal": "<CT_GraphicalObjectFrameNonVisual><cNvPr/><cNvGraphicFramePr/></CT_GraphicalObjectFrameNonVisual>",
+      "invalid": "<CT_GraphicalObjectFrameNonVisual><cNvPr/><cNvGraphicFramePr/><unexpected/></CT_GraphicalObjectFrameNonVisual>"
     },
     "dml-spreadsheetDrawing#CT_GroupShape": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_GroupShape",
-      "minimal": "<CT_GroupShape/>",
-      "invalid": "<CT_GroupShape><unexpected/></CT_GroupShape>"
+      "minimal": "<CT_GroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/></nvGrpSpPr><grpSpPr/></CT_GroupShape>",
+      "invalid": "<CT_GroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/></nvGrpSpPr><grpSpPr/><unexpected/></CT_GroupShape>"
     },
     "dml-spreadsheetDrawing#CT_GroupShapeNonVisual": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_GroupShapeNonVisual",
-      "minimal": "<CT_GroupShapeNonVisual/>",
-      "invalid": "<CT_GroupShapeNonVisual><unexpected/></CT_GroupShapeNonVisual>"
+      "minimal": "<CT_GroupShapeNonVisual><cNvPr/><cNvGrpSpPr/></CT_GroupShapeNonVisual>",
+      "invalid": "<CT_GroupShapeNonVisual><cNvPr/><cNvGrpSpPr/><unexpected/></CT_GroupShapeNonVisual>"
     },
     "dml-spreadsheetDrawing#CT_Marker": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_Marker",
       "minimal": "<CT_Marker><col/><colOff/><row/><rowOff/></CT_Marker>",
-      "invalid": "<CT_Marker><col/><colOff/><row/><rowOff/></CT_Marker>"
+      "invalid": "<CT_Marker><col/><colOff/><row/><rowOff/><unexpected/></CT_Marker>"
     },
     "dml-spreadsheetDrawing#CT_OneCellAnchor": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_OneCellAnchor",
-      "minimal": "<CT_OneCellAnchor><from><col/><colOff/><row/><rowOff/></from><sp/></CT_OneCellAnchor>",
-      "invalid": "<CT_OneCellAnchor><from><col/><colOff/><row/><rowOff/></from><sp/></CT_OneCellAnchor>"
+      "minimal": "<CT_OneCellAnchor><from><col/><colOff/><row/><rowOff/></from><ext/><sp/><clientData/></CT_OneCellAnchor>",
+      "invalid": "<CT_OneCellAnchor><from><col/><colOff/><row/><rowOff/></from><ext/><sp/><clientData/><unexpected/></CT_OneCellAnchor>"
     },
     "dml-spreadsheetDrawing#CT_Picture": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_Picture",
-      "minimal": "<CT_Picture/>",
-      "invalid": "<CT_Picture><unexpected/></CT_Picture>"
+      "minimal": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/></CT_Picture>",
+      "invalid": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/></nvPicPr><blipFill/><spPr/><unexpected/></CT_Picture>"
     },
     "dml-spreadsheetDrawing#CT_PictureNonVisual": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_PictureNonVisual",
-      "minimal": "<CT_PictureNonVisual/>",
-      "invalid": "<CT_PictureNonVisual><unexpected/></CT_PictureNonVisual>"
+      "minimal": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/></CT_PictureNonVisual>",
+      "invalid": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/><unexpected/></CT_PictureNonVisual>"
     },
     "dml-spreadsheetDrawing#CT_Rel": {
       "namespace": "dml-spreadsheetDrawing",
@@ -2808,26 +2808,26 @@
     "dml-spreadsheetDrawing#CT_Shape": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_Shape",
-      "minimal": "<CT_Shape/>",
-      "invalid": "<CT_Shape><unexpected/></CT_Shape>"
+      "minimal": "<CT_Shape><nvSpPr><cNvPr/><cNvSpPr/></nvSpPr><spPr/></CT_Shape>",
+      "invalid": "<CT_Shape><nvSpPr><cNvPr/><cNvSpPr/></nvSpPr><spPr/><unexpected/></CT_Shape>"
     },
     "dml-spreadsheetDrawing#CT_ShapeNonVisual": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_ShapeNonVisual",
-      "minimal": "<CT_ShapeNonVisual/>",
-      "invalid": "<CT_ShapeNonVisual><unexpected/></CT_ShapeNonVisual>"
+      "minimal": "<CT_ShapeNonVisual><cNvPr/><cNvSpPr/></CT_ShapeNonVisual>",
+      "invalid": "<CT_ShapeNonVisual><cNvPr/><cNvSpPr/><unexpected/></CT_ShapeNonVisual>"
     },
     "dml-spreadsheetDrawing#CT_TwoCellAnchor": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_TwoCellAnchor",
-      "minimal": "<CT_TwoCellAnchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to><sp/></CT_TwoCellAnchor>",
-      "invalid": "<CT_TwoCellAnchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to><sp/></CT_TwoCellAnchor>"
+      "minimal": "<CT_TwoCellAnchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to><sp/><clientData/></CT_TwoCellAnchor>",
+      "invalid": "<CT_TwoCellAnchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to><sp/><clientData/><unexpected/></CT_TwoCellAnchor>"
     },
     "dml-wordprocessingDrawing#CT_Anchor": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_Anchor",
-      "minimal": "<CT_Anchor relativeHeight=\"0\" behindDoc=\"true\" locked=\"true\" layoutInCell=\"true\" allowOverlap=\"true\"><positionH><align/></positionH><positionV><align/></positionV><wrapNone/></CT_Anchor>",
-      "invalid": "<CT_Anchor relativeHeight=\"0\" behindDoc=\"true\" locked=\"true\" layoutInCell=\"true\" allowOverlap=\"true\"><positionH><align/></positionH><positionV><align/></positionV><wrapNone/></CT_Anchor>"
+      "minimal": "<CT_Anchor relativeHeight=\"0\" behindDoc=\"true\" locked=\"true\" layoutInCell=\"true\" allowOverlap=\"true\"><simplePos/><positionH><align/></positionH><positionV><align/></positionV><extent/><wrapNone/><docPr/><graphic><graphicData/></graphic></CT_Anchor>",
+      "invalid": "<CT_Anchor relativeHeight=\"0\" behindDoc=\"true\" locked=\"true\" layoutInCell=\"true\" allowOverlap=\"true\"><simplePos/><positionH><align/></positionH><positionV><align/></positionV><extent/><wrapNone/><docPr/><graphic><graphicData/></graphic><unexpected/></CT_Anchor>"
     },
     "dml-wordprocessingDrawing#CT_EffectExtent": {
       "namespace": "dml-wordprocessingDrawing",
@@ -2838,14 +2838,14 @@
     "dml-wordprocessingDrawing#CT_GraphicFrame": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_GraphicFrame",
-      "minimal": "<CT_GraphicFrame/>",
-      "invalid": "<CT_GraphicFrame><unexpected/></CT_GraphicFrame>"
+      "minimal": "<CT_GraphicFrame><cNvPr/><cNvFrPr/><xfrm/><graphic><graphicData/></graphic></CT_GraphicFrame>",
+      "invalid": "<CT_GraphicFrame><cNvPr/><cNvFrPr/><xfrm/><graphic><graphicData/></graphic><unexpected/></CT_GraphicFrame>"
     },
     "dml-wordprocessingDrawing#CT_Inline": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_Inline",
-      "minimal": "<CT_Inline/>",
-      "invalid": "<CT_Inline><unexpected/></CT_Inline>"
+      "minimal": "<CT_Inline><extent/><docPr/><graphic><graphicData/></graphic></CT_Inline>",
+      "invalid": "<CT_Inline><extent/><docPr/><graphic><graphicData/></graphic><unexpected/></CT_Inline>"
     },
     "dml-wordprocessingDrawing#CT_LinkedTextboxInformation": {
       "namespace": "dml-wordprocessingDrawing",
@@ -2857,19 +2857,19 @@
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_PosH",
       "minimal": "<CT_PosH relativeFrom=\"fixture\"><align/></CT_PosH>",
-      "invalid": "<CT_PosH relativeFrom=\"fixture\"><align/></CT_PosH>"
+      "invalid": "<CT_PosH relativeFrom=\"fixture\"><align/><unexpected/></CT_PosH>"
     },
     "dml-wordprocessingDrawing#CT_PosV": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_PosV",
       "minimal": "<CT_PosV relativeFrom=\"fixture\"><align/></CT_PosV>",
-      "invalid": "<CT_PosV relativeFrom=\"fixture\"><align/></CT_PosV>"
+      "invalid": "<CT_PosV relativeFrom=\"fixture\"><align/><unexpected/></CT_PosV>"
     },
     "dml-wordprocessingDrawing#CT_TextboxInfo": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_TextboxInfo",
-      "minimal": "<CT_TextboxInfo/>",
-      "invalid": "<CT_TextboxInfo><unexpected/></CT_TextboxInfo>"
+      "minimal": "<CT_TextboxInfo><txbxContent/></CT_TextboxInfo>",
+      "invalid": "<CT_TextboxInfo><txbxContent/><unexpected/></CT_TextboxInfo>"
     },
     "dml-wordprocessingDrawing#CT_TxbxContent": {
       "namespace": "dml-wordprocessingDrawing",
@@ -2898,14 +2898,14 @@
     "dml-wordprocessingDrawing#CT_WordprocessingGroup": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_WordprocessingGroup",
-      "minimal": "<CT_WordprocessingGroup/>",
-      "invalid": "<CT_WordprocessingGroup><unexpected/></CT_WordprocessingGroup>"
+      "minimal": "<CT_WordprocessingGroup><cNvGrpSpPr/><grpSpPr/></CT_WordprocessingGroup>",
+      "invalid": "<CT_WordprocessingGroup><cNvGrpSpPr/><grpSpPr/><unexpected/></CT_WordprocessingGroup>"
     },
     "dml-wordprocessingDrawing#CT_WordprocessingShape": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_WordprocessingShape",
-      "minimal": "<CT_WordprocessingShape><cNvSpPr/></CT_WordprocessingShape>",
-      "invalid": "<CT_WordprocessingShape><cNvSpPr/></CT_WordprocessingShape>"
+      "minimal": "<CT_WordprocessingShape><cNvSpPr/><spPr/><bodyPr/></CT_WordprocessingShape>",
+      "invalid": "<CT_WordprocessingShape><cNvSpPr/><spPr/><bodyPr/><unexpected/></CT_WordprocessingShape>"
     },
     "dml-wordprocessingDrawing#CT_WrapNone": {
       "namespace": "dml-wordprocessingDrawing",
@@ -2916,8 +2916,8 @@
     "dml-wordprocessingDrawing#CT_WrapPath": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_WrapPath",
-      "minimal": "<CT_WrapPath/>",
-      "invalid": "<CT_WrapPath><unexpected/></CT_WrapPath>"
+      "minimal": "<CT_WrapPath><start/></CT_WrapPath>",
+      "invalid": "<CT_WrapPath><start/><unexpected/></CT_WrapPath>"
     },
     "dml-wordprocessingDrawing#CT_WrapSquare": {
       "namespace": "dml-wordprocessingDrawing",
@@ -2928,14 +2928,14 @@
     "dml-wordprocessingDrawing#CT_WrapThrough": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_WrapThrough",
-      "minimal": "<CT_WrapThrough wrapText=\"fixture\"/>",
-      "invalid": "<CT_WrapThrough wrapText=\"fixture\"><unexpected/></CT_WrapThrough>"
+      "minimal": "<CT_WrapThrough wrapText=\"fixture\"><wrapPolygon><start/></wrapPolygon></CT_WrapThrough>",
+      "invalid": "<CT_WrapThrough wrapText=\"fixture\"><wrapPolygon><start/></wrapPolygon><unexpected/></CT_WrapThrough>"
     },
     "dml-wordprocessingDrawing#CT_WrapTight": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_WrapTight",
-      "minimal": "<CT_WrapTight wrapText=\"fixture\"/>",
-      "invalid": "<CT_WrapTight wrapText=\"fixture\"><unexpected/></CT_WrapTight>"
+      "minimal": "<CT_WrapTight wrapText=\"fixture\"><wrapPolygon><start/></wrapPolygon></CT_WrapTight>",
+      "invalid": "<CT_WrapTight wrapText=\"fixture\"><wrapPolygon><start/></wrapPolygon><unexpected/></CT_WrapTight>"
     },
     "dml-wordprocessingDrawing#CT_WrapTopBottom": {
       "namespace": "dml-wordprocessingDrawing",
@@ -2953,13 +2953,13 @@
       "namespace": "doc-props-custom",
       "type": "CT_Property",
       "minimal": "<CT_Property fmtid=\"fixture\" pid=\"0\"><vector/></CT_Property>",
-      "invalid": "<CT_Property fmtid=\"fixture\" pid=\"0\"><vector/></CT_Property>"
+      "invalid": "<CT_Property fmtid=\"fixture\" pid=\"0\"><vector/><unexpected/></CT_Property>"
     },
     "doc-props-extended#CT_DigSigBlob": {
       "namespace": "doc-props-extended",
       "type": "CT_DigSigBlob",
       "minimal": "<CT_DigSigBlob><blob/></CT_DigSigBlob>",
-      "invalid": "<CT_DigSigBlob><blob/></CT_DigSigBlob>"
+      "invalid": "<CT_DigSigBlob><blob/><unexpected/></CT_DigSigBlob>"
     },
     "doc-props-extended#CT_Properties": {
       "namespace": "doc-props-extended",
@@ -2970,14 +2970,14 @@
     "doc-props-extended#CT_VectorLpstr": {
       "namespace": "doc-props-extended",
       "type": "CT_VectorLpstr",
-      "minimal": "<CT_VectorLpstr/>",
-      "invalid": "<CT_VectorLpstr><unexpected/></CT_VectorLpstr>"
+      "minimal": "<CT_VectorLpstr><vector/></CT_VectorLpstr>",
+      "invalid": "<CT_VectorLpstr><vector/><unexpected/></CT_VectorLpstr>"
     },
     "doc-props-extended#CT_VectorVariant": {
       "namespace": "doc-props-extended",
       "type": "CT_VectorVariant",
-      "minimal": "<CT_VectorVariant/>",
-      "invalid": "<CT_VectorVariant><unexpected/></CT_VectorVariant>"
+      "minimal": "<CT_VectorVariant><vector/></CT_VectorVariant>",
+      "invalid": "<CT_VectorVariant><vector/><unexpected/></CT_VectorVariant>"
     },
     "doc-props-vt#CT_Array": {
       "namespace": "doc-props-vt",
@@ -3001,7 +3001,7 @@
       "namespace": "doc-props-vt",
       "type": "CT_Variant",
       "minimal": "<CT_Variant><variant/></CT_Variant>",
-      "invalid": "<CT_Variant><variant/></CT_Variant>"
+      "invalid": "<CT_Variant><variant/><unexpected/></CT_Variant>"
     },
     "doc-props-vt#CT_Vector": {
       "namespace": "doc-props-vt",
@@ -3018,8 +3018,8 @@
     "math#CT_Acc": {
       "namespace": "math",
       "type": "CT_Acc",
-      "minimal": "<CT_Acc/>",
-      "invalid": "<CT_Acc><unexpected/></CT_Acc>"
+      "minimal": "<CT_Acc><e/></CT_Acc>",
+      "invalid": "<CT_Acc><e/><unexpected/></CT_Acc>"
     },
     "math#CT_AccPr": {
       "namespace": "math",
@@ -3030,8 +3030,8 @@
     "math#CT_Bar": {
       "namespace": "math",
       "type": "CT_Bar",
-      "minimal": "<CT_Bar/>",
-      "invalid": "<CT_Bar><unexpected/></CT_Bar>"
+      "minimal": "<CT_Bar><e/></CT_Bar>",
+      "invalid": "<CT_Bar><e/><unexpected/></CT_Bar>"
     },
     "math#CT_BarPr": {
       "namespace": "math",
@@ -3042,8 +3042,8 @@
     "math#CT_BorderBox": {
       "namespace": "math",
       "type": "CT_BorderBox",
-      "minimal": "<CT_BorderBox/>",
-      "invalid": "<CT_BorderBox><unexpected/></CT_BorderBox>"
+      "minimal": "<CT_BorderBox><e/></CT_BorderBox>",
+      "invalid": "<CT_BorderBox><e/><unexpected/></CT_BorderBox>"
     },
     "math#CT_BorderBoxPr": {
       "namespace": "math",
@@ -3054,8 +3054,8 @@
     "math#CT_Box": {
       "namespace": "math",
       "type": "CT_Box",
-      "minimal": "<CT_Box/>",
-      "invalid": "<CT_Box><unexpected/></CT_Box>"
+      "minimal": "<CT_Box><e/></CT_Box>",
+      "invalid": "<CT_Box><e/><unexpected/></CT_Box>"
     },
     "math#CT_BoxPr": {
       "namespace": "math",
@@ -3114,8 +3114,8 @@
     "math#CT_F": {
       "namespace": "math",
       "type": "CT_F",
-      "minimal": "<CT_F/>",
-      "invalid": "<CT_F><unexpected/></CT_F>"
+      "minimal": "<CT_F><num/><den/></CT_F>",
+      "invalid": "<CT_F><num/><den/><unexpected/></CT_F>"
     },
     "math#CT_FPr": {
       "namespace": "math",
@@ -3132,8 +3132,8 @@
     "math#CT_Func": {
       "namespace": "math",
       "type": "CT_Func",
-      "minimal": "<CT_Func/>",
-      "invalid": "<CT_Func><unexpected/></CT_Func>"
+      "minimal": "<CT_Func><fName/><e/></CT_Func>",
+      "invalid": "<CT_Func><fName/><e/><unexpected/></CT_Func>"
     },
     "math#CT_FuncPr": {
       "namespace": "math",
@@ -3144,8 +3144,8 @@
     "math#CT_GroupChr": {
       "namespace": "math",
       "type": "CT_GroupChr",
-      "minimal": "<CT_GroupChr/>",
-      "invalid": "<CT_GroupChr><unexpected/></CT_GroupChr>"
+      "minimal": "<CT_GroupChr><e/></CT_GroupChr>",
+      "invalid": "<CT_GroupChr><e/><unexpected/></CT_GroupChr>"
     },
     "math#CT_GroupChrPr": {
       "namespace": "math",
@@ -3174,8 +3174,8 @@
     "math#CT_LimLow": {
       "namespace": "math",
       "type": "CT_LimLow",
-      "minimal": "<CT_LimLow/>",
-      "invalid": "<CT_LimLow><unexpected/></CT_LimLow>"
+      "minimal": "<CT_LimLow><e/><lim/></CT_LimLow>",
+      "invalid": "<CT_LimLow><e/><lim/><unexpected/></CT_LimLow>"
     },
     "math#CT_LimLowPr": {
       "namespace": "math",
@@ -3186,8 +3186,8 @@
     "math#CT_LimUpp": {
       "namespace": "math",
       "type": "CT_LimUpp",
-      "minimal": "<CT_LimUpp/>",
-      "invalid": "<CT_LimUpp><unexpected/></CT_LimUpp>"
+      "minimal": "<CT_LimUpp><e/><lim/></CT_LimUpp>",
+      "invalid": "<CT_LimUpp><e/><lim/><unexpected/></CT_LimUpp>"
     },
     "math#CT_LimUppPr": {
       "namespace": "math",
@@ -3246,8 +3246,8 @@
     "math#CT_Nary": {
       "namespace": "math",
       "type": "CT_Nary",
-      "minimal": "<CT_Nary/>",
-      "invalid": "<CT_Nary><unexpected/></CT_Nary>"
+      "minimal": "<CT_Nary><sub/><sup/><e/></CT_Nary>",
+      "invalid": "<CT_Nary><sub/><sup/><e/><unexpected/></CT_Nary>"
     },
     "math#CT_NaryPr": {
       "namespace": "math",
@@ -3300,8 +3300,8 @@
     "math#CT_Phant": {
       "namespace": "math",
       "type": "CT_Phant",
-      "minimal": "<CT_Phant/>",
-      "invalid": "<CT_Phant><unexpected/></CT_Phant>"
+      "minimal": "<CT_Phant><e/></CT_Phant>",
+      "invalid": "<CT_Phant><e/><unexpected/></CT_Phant>"
     },
     "math#CT_PhantPr": {
       "namespace": "math",
@@ -3318,8 +3318,8 @@
     "math#CT_Rad": {
       "namespace": "math",
       "type": "CT_Rad",
-      "minimal": "<CT_Rad/>",
-      "invalid": "<CT_Rad><unexpected/></CT_Rad>"
+      "minimal": "<CT_Rad><deg/><e/></CT_Rad>",
+      "invalid": "<CT_Rad><deg/><e/><unexpected/></CT_Rad>"
     },
     "math#CT_RadPr": {
       "namespace": "math",
@@ -3331,7 +3331,7 @@
       "namespace": "math",
       "type": "CT_RPR",
       "minimal": "<CT_RPR><nor/></CT_RPR>",
-      "invalid": "<CT_RPR><nor/></CT_RPR>"
+      "invalid": "<CT_RPR><nor/><unexpected/></CT_RPR>"
     },
     "math#CT_Script": {
       "namespace": "math",
@@ -3354,8 +3354,8 @@
     "math#CT_SPre": {
       "namespace": "math",
       "type": "CT_SPre",
-      "minimal": "<CT_SPre/>",
-      "invalid": "<CT_SPre><unexpected/></CT_SPre>"
+      "minimal": "<CT_SPre><sub/><sup/><e/></CT_SPre>",
+      "invalid": "<CT_SPre><sub/><sup/><e/><unexpected/></CT_SPre>"
     },
     "math#CT_SPrePr": {
       "namespace": "math",
@@ -3366,8 +3366,8 @@
     "math#CT_SSub": {
       "namespace": "math",
       "type": "CT_SSub",
-      "minimal": "<CT_SSub/>",
-      "invalid": "<CT_SSub><unexpected/></CT_SSub>"
+      "minimal": "<CT_SSub><e/><sub/></CT_SSub>",
+      "invalid": "<CT_SSub><e/><sub/><unexpected/></CT_SSub>"
     },
     "math#CT_SSubPr": {
       "namespace": "math",
@@ -3378,8 +3378,8 @@
     "math#CT_SSubSup": {
       "namespace": "math",
       "type": "CT_SSubSup",
-      "minimal": "<CT_SSubSup/>",
-      "invalid": "<CT_SSubSup><unexpected/></CT_SSubSup>"
+      "minimal": "<CT_SSubSup><e/><sub/><sup/></CT_SSubSup>",
+      "invalid": "<CT_SSubSup><e/><sub/><sup/><unexpected/></CT_SSubSup>"
     },
     "math#CT_SSubSupPr": {
       "namespace": "math",
@@ -3390,8 +3390,8 @@
     "math#CT_SSup": {
       "namespace": "math",
       "type": "CT_SSup",
-      "minimal": "<CT_SSup/>",
-      "invalid": "<CT_SSup><unexpected/></CT_SSup>"
+      "minimal": "<CT_SSup><e/><sup/></CT_SSup>",
+      "invalid": "<CT_SSup><e/><sup/><unexpected/></CT_SSup>"
     },
     "math#CT_SSupPr": {
       "namespace": "math",
@@ -3499,7 +3499,7 @@
       "namespace": "opc-digital-signature",
       "type": "CT_SignatureTime",
       "minimal": "<CT_SignatureTime><Format/><Value/></CT_SignatureTime>",
-      "invalid": "<CT_SignatureTime><Format/><Value/></CT_SignatureTime>"
+      "invalid": "<CT_SignatureTime><Format/><Value/><unexpected/></CT_SignatureTime>"
     },
     "opc-relationships#CT_Relationship": {
       "namespace": "opc-relationships",
@@ -3523,13 +3523,13 @@
       "namespace": "pml",
       "type": "CT_Background",
       "minimal": "<CT_Background><bgPr/></CT_Background>",
-      "invalid": "<CT_Background><bgPr/></CT_Background>"
+      "invalid": "<CT_Background><bgPr/><unexpected/></CT_Background>"
     },
     "pml#CT_BackgroundProperties": {
       "namespace": "pml",
       "type": "CT_BackgroundProperties",
       "minimal": "<CT_BackgroundProperties><noFill/></CT_BackgroundProperties>",
-      "invalid": "<CT_BackgroundProperties><noFill/></CT_BackgroundProperties>"
+      "invalid": "<CT_BackgroundProperties><noFill/><unexpected/></CT_BackgroundProperties>"
     },
     "pml#CT_BuildList": {
       "namespace": "pml",
@@ -3540,8 +3540,8 @@
     "pml#CT_Comment": {
       "namespace": "pml",
       "type": "CT_Comment",
-      "minimal": "<CT_Comment authorId=\"0\" idx=\"fixture\"><text/></CT_Comment>",
-      "invalid": "<CT_Comment authorId=\"0\" idx=\"fixture\"><text/></CT_Comment>"
+      "minimal": "<CT_Comment authorId=\"0\" idx=\"fixture\"><pos/><text/></CT_Comment>",
+      "invalid": "<CT_Comment authorId=\"0\" idx=\"fixture\"><pos/><text/><unexpected/></CT_Comment>"
     },
     "pml#CT_CommentAuthor": {
       "namespace": "pml",
@@ -3564,32 +3564,32 @@
     "pml#CT_CommonSlideData": {
       "namespace": "pml",
       "type": "CT_CommonSlideData",
-      "minimal": "<CT_CommonSlideData/>",
-      "invalid": "<CT_CommonSlideData><unexpected/></CT_CommonSlideData>"
+      "minimal": "<CT_CommonSlideData><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></CT_CommonSlideData>",
+      "invalid": "<CT_CommonSlideData><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree><unexpected/></CT_CommonSlideData>"
     },
     "pml#CT_CommonSlideViewProperties": {
       "namespace": "pml",
       "type": "CT_CommonSlideViewProperties",
-      "minimal": "<CT_CommonSlideViewProperties/>",
-      "invalid": "<CT_CommonSlideViewProperties><unexpected/></CT_CommonSlideViewProperties>"
+      "minimal": "<CT_CommonSlideViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></CT_CommonSlideViewProperties>",
+      "invalid": "<CT_CommonSlideViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr><unexpected/></CT_CommonSlideViewProperties>"
     },
     "pml#CT_CommonViewProperties": {
       "namespace": "pml",
       "type": "CT_CommonViewProperties",
-      "minimal": "<CT_CommonViewProperties/>",
-      "invalid": "<CT_CommonViewProperties><unexpected/></CT_CommonViewProperties>"
+      "minimal": "<CT_CommonViewProperties><scale><sx/><sy/></scale><origin/></CT_CommonViewProperties>",
+      "invalid": "<CT_CommonViewProperties><scale><sx/><sy/></scale><origin/><unexpected/></CT_CommonViewProperties>"
     },
     "pml#CT_Connector": {
       "namespace": "pml",
       "type": "CT_Connector",
-      "minimal": "<CT_Connector/>",
-      "invalid": "<CT_Connector><unexpected/></CT_Connector>"
+      "minimal": "<CT_Connector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/><nvPr/></nvCxnSpPr><spPr/></CT_Connector>",
+      "invalid": "<CT_Connector><nvCxnSpPr><cNvPr/><cNvCxnSpPr/><nvPr/></nvCxnSpPr><spPr/><unexpected/></CT_Connector>"
     },
     "pml#CT_ConnectorNonVisual": {
       "namespace": "pml",
       "type": "CT_ConnectorNonVisual",
-      "minimal": "<CT_ConnectorNonVisual/>",
-      "invalid": "<CT_ConnectorNonVisual><unexpected/></CT_ConnectorNonVisual>"
+      "minimal": "<CT_ConnectorNonVisual><cNvPr/><cNvCxnSpPr/><nvPr/></CT_ConnectorNonVisual>",
+      "invalid": "<CT_ConnectorNonVisual><cNvPr/><cNvCxnSpPr/><nvPr/><unexpected/></CT_ConnectorNonVisual>"
     },
     "pml#CT_Control": {
       "namespace": "pml",
@@ -3624,8 +3624,8 @@
     "pml#CT_CustomShow": {
       "namespace": "pml",
       "type": "CT_CustomShow",
-      "minimal": "<CT_CustomShow name=\"fixture\" id=\"0\"/>",
-      "invalid": "<CT_CustomShow name=\"fixture\" id=\"0\"><unexpected/></CT_CustomShow>"
+      "minimal": "<CT_CustomShow name=\"fixture\" id=\"0\"><sldLst/></CT_CustomShow>",
+      "invalid": "<CT_CustomShow name=\"fixture\" id=\"0\"><sldLst/><unexpected/></CT_CustomShow>"
     },
     "pml#CT_CustomShowId": {
       "namespace": "pml",
@@ -3660,8 +3660,8 @@
     "pml#CT_EmbeddedFontListEntry": {
       "namespace": "pml",
       "type": "CT_EmbeddedFontListEntry",
-      "minimal": "<CT_EmbeddedFontListEntry/>",
-      "invalid": "<CT_EmbeddedFontListEntry><unexpected/></CT_EmbeddedFontListEntry>"
+      "minimal": "<CT_EmbeddedFontListEntry><font/></CT_EmbeddedFontListEntry>",
+      "invalid": "<CT_EmbeddedFontListEntry><font/><unexpected/></CT_EmbeddedFontListEntry>"
     },
     "pml#CT_Empty": {
       "namespace": "pml",
@@ -3690,26 +3690,26 @@
     "pml#CT_GraphicalObjectFrame": {
       "namespace": "pml",
       "type": "CT_GraphicalObjectFrame",
-      "minimal": "<CT_GraphicalObjectFrame/>",
-      "invalid": "<CT_GraphicalObjectFrame><unexpected/></CT_GraphicalObjectFrame>"
+      "minimal": "<CT_GraphicalObjectFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/><nvPr/></nvGraphicFramePr><xfrm/><graphic><graphicData/></graphic></CT_GraphicalObjectFrame>",
+      "invalid": "<CT_GraphicalObjectFrame><nvGraphicFramePr><cNvPr/><cNvGraphicFramePr/><nvPr/></nvGraphicFramePr><xfrm/><graphic><graphicData/></graphic><unexpected/></CT_GraphicalObjectFrame>"
     },
     "pml#CT_GraphicalObjectFrameNonVisual": {
       "namespace": "pml",
       "type": "CT_GraphicalObjectFrameNonVisual",
-      "minimal": "<CT_GraphicalObjectFrameNonVisual/>",
-      "invalid": "<CT_GraphicalObjectFrameNonVisual><unexpected/></CT_GraphicalObjectFrameNonVisual>"
+      "minimal": "<CT_GraphicalObjectFrameNonVisual><cNvPr/><cNvGraphicFramePr/><nvPr/></CT_GraphicalObjectFrameNonVisual>",
+      "invalid": "<CT_GraphicalObjectFrameNonVisual><cNvPr/><cNvGraphicFramePr/><nvPr/><unexpected/></CT_GraphicalObjectFrameNonVisual>"
     },
     "pml#CT_GroupShape": {
       "namespace": "pml",
       "type": "CT_GroupShape",
-      "minimal": "<CT_GroupShape/>",
-      "invalid": "<CT_GroupShape><unexpected/></CT_GroupShape>"
+      "minimal": "<CT_GroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></CT_GroupShape>",
+      "invalid": "<CT_GroupShape><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/><unexpected/></CT_GroupShape>"
     },
     "pml#CT_GroupShapeNonVisual": {
       "namespace": "pml",
       "type": "CT_GroupShapeNonVisual",
-      "minimal": "<CT_GroupShapeNonVisual/>",
-      "invalid": "<CT_GroupShapeNonVisual><unexpected/></CT_GroupShapeNonVisual>"
+      "minimal": "<CT_GroupShapeNonVisual><cNvPr/><cNvGrpSpPr/><nvPr/></CT_GroupShapeNonVisual>",
+      "invalid": "<CT_GroupShapeNonVisual><cNvPr/><cNvGrpSpPr/><nvPr/><unexpected/></CT_GroupShapeNonVisual>"
     },
     "pml#CT_Guide": {
       "namespace": "pml",
@@ -3726,8 +3726,8 @@
     "pml#CT_HandoutMaster": {
       "namespace": "pml",
       "type": "CT_HandoutMaster",
-      "minimal": "<CT_HandoutMaster/>",
-      "invalid": "<CT_HandoutMaster><unexpected/></CT_HandoutMaster>"
+      "minimal": "<CT_HandoutMaster><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><clrMap/></CT_HandoutMaster>",
+      "invalid": "<CT_HandoutMaster><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><clrMap/><unexpected/></CT_HandoutMaster>"
     },
     "pml#CT_HandoutMasterIdList": {
       "namespace": "pml",
@@ -3751,7 +3751,7 @@
       "namespace": "pml",
       "type": "CT_HtmlPublishProperties",
       "minimal": "<CT_HtmlPublishProperties id=\"fixture\"><sldAll/></CT_HtmlPublishProperties>",
-      "invalid": "<CT_HtmlPublishProperties id=\"fixture\"><sldAll/></CT_HtmlPublishProperties>"
+      "invalid": "<CT_HtmlPublishProperties id=\"fixture\"><sldAll/><unexpected/></CT_HtmlPublishProperties>"
     },
     "pml#CT_IndexRange": {
       "namespace": "pml",
@@ -3786,14 +3786,14 @@
     "pml#CT_NormalViewProperties": {
       "namespace": "pml",
       "type": "CT_NormalViewProperties",
-      "minimal": "<CT_NormalViewProperties/>",
-      "invalid": "<CT_NormalViewProperties><unexpected/></CT_NormalViewProperties>"
+      "minimal": "<CT_NormalViewProperties><restoredLeft/><restoredTop/></CT_NormalViewProperties>",
+      "invalid": "<CT_NormalViewProperties><restoredLeft/><restoredTop/><unexpected/></CT_NormalViewProperties>"
     },
     "pml#CT_NotesMaster": {
       "namespace": "pml",
       "type": "CT_NotesMaster",
-      "minimal": "<CT_NotesMaster/>",
-      "invalid": "<CT_NotesMaster><unexpected/></CT_NotesMaster>"
+      "minimal": "<CT_NotesMaster><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><clrMap/></CT_NotesMaster>",
+      "invalid": "<CT_NotesMaster><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><clrMap/><unexpected/></CT_NotesMaster>"
     },
     "pml#CT_NotesMasterIdList": {
       "namespace": "pml",
@@ -3810,26 +3810,26 @@
     "pml#CT_NotesSlide": {
       "namespace": "pml",
       "type": "CT_NotesSlide",
-      "minimal": "<CT_NotesSlide/>",
-      "invalid": "<CT_NotesSlide><unexpected/></CT_NotesSlide>"
+      "minimal": "<CT_NotesSlide><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld></CT_NotesSlide>",
+      "invalid": "<CT_NotesSlide><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><unexpected/></CT_NotesSlide>"
     },
     "pml#CT_NotesTextViewProperties": {
       "namespace": "pml",
       "type": "CT_NotesTextViewProperties",
-      "minimal": "<CT_NotesTextViewProperties/>",
-      "invalid": "<CT_NotesTextViewProperties><unexpected/></CT_NotesTextViewProperties>"
+      "minimal": "<CT_NotesTextViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></CT_NotesTextViewProperties>",
+      "invalid": "<CT_NotesTextViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr><unexpected/></CT_NotesTextViewProperties>"
     },
     "pml#CT_NotesViewProperties": {
       "namespace": "pml",
       "type": "CT_NotesViewProperties",
-      "minimal": "<CT_NotesViewProperties/>",
-      "invalid": "<CT_NotesViewProperties><unexpected/></CT_NotesViewProperties>"
+      "minimal": "<CT_NotesViewProperties><cSldViewPr><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></cSldViewPr></CT_NotesViewProperties>",
+      "invalid": "<CT_NotesViewProperties><cSldViewPr><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></cSldViewPr><unexpected/></CT_NotesViewProperties>"
     },
     "pml#CT_OleObject": {
       "namespace": "pml",
       "type": "CT_OleObject",
       "minimal": "<CT_OleObject><embed/></CT_OleObject>",
-      "invalid": "<CT_OleObject><embed/></CT_OleObject>"
+      "invalid": "<CT_OleObject><embed/><unexpected/></CT_OleObject>"
     },
     "pml#CT_OleObjectEmbed": {
       "namespace": "pml",
@@ -3858,8 +3858,8 @@
     "pml#CT_OutlineViewProperties": {
       "namespace": "pml",
       "type": "CT_OutlineViewProperties",
-      "minimal": "<CT_OutlineViewProperties/>",
-      "invalid": "<CT_OutlineViewProperties><unexpected/></CT_OutlineViewProperties>"
+      "minimal": "<CT_OutlineViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></CT_OutlineViewProperties>",
+      "invalid": "<CT_OutlineViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr><unexpected/></CT_OutlineViewProperties>"
     },
     "pml#CT_OutlineViewSlideEntry": {
       "namespace": "pml",
@@ -3882,14 +3882,14 @@
     "pml#CT_Picture": {
       "namespace": "pml",
       "type": "CT_Picture",
-      "minimal": "<CT_Picture/>",
-      "invalid": "<CT_Picture><unexpected/></CT_Picture>"
+      "minimal": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/><nvPr/></nvPicPr><blipFill/><spPr/></CT_Picture>",
+      "invalid": "<CT_Picture><nvPicPr><cNvPr/><cNvPicPr/><nvPr/></nvPicPr><blipFill/><spPr/><unexpected/></CT_Picture>"
     },
     "pml#CT_PictureNonVisual": {
       "namespace": "pml",
       "type": "CT_PictureNonVisual",
-      "minimal": "<CT_PictureNonVisual/>",
-      "invalid": "<CT_PictureNonVisual><unexpected/></CT_PictureNonVisual>"
+      "minimal": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/><nvPr/></CT_PictureNonVisual>",
+      "invalid": "<CT_PictureNonVisual><cNvPr/><cNvPicPr/><nvPr/><unexpected/></CT_PictureNonVisual>"
     },
     "pml#CT_Placeholder": {
       "namespace": "pml",
@@ -3900,8 +3900,8 @@
     "pml#CT_Presentation": {
       "namespace": "pml",
       "type": "CT_Presentation",
-      "minimal": "<CT_Presentation/>",
-      "invalid": "<CT_Presentation><unexpected/></CT_Presentation>"
+      "minimal": "<CT_Presentation><notesSz/></CT_Presentation>",
+      "invalid": "<CT_Presentation><notesSz/><unexpected/></CT_Presentation>"
     },
     "pml#CT_PresentationProperties": {
       "namespace": "pml",
@@ -3924,14 +3924,14 @@
     "pml#CT_Shape": {
       "namespace": "pml",
       "type": "CT_Shape",
-      "minimal": "<CT_Shape/>",
-      "invalid": "<CT_Shape><unexpected/></CT_Shape>"
+      "minimal": "<CT_Shape><nvSpPr><cNvPr/><cNvSpPr/><nvPr/></nvSpPr><spPr/></CT_Shape>",
+      "invalid": "<CT_Shape><nvSpPr><cNvPr/><cNvSpPr/><nvPr/></nvSpPr><spPr/><unexpected/></CT_Shape>"
     },
     "pml#CT_ShapeNonVisual": {
       "namespace": "pml",
       "type": "CT_ShapeNonVisual",
-      "minimal": "<CT_ShapeNonVisual/>",
-      "invalid": "<CT_ShapeNonVisual><unexpected/></CT_ShapeNonVisual>"
+      "minimal": "<CT_ShapeNonVisual><cNvPr/><cNvSpPr/><nvPr/></CT_ShapeNonVisual>",
+      "invalid": "<CT_ShapeNonVisual><cNvPr/><cNvSpPr/><nvPr/><unexpected/></CT_ShapeNonVisual>"
     },
     "pml#CT_ShowInfoBrowse": {
       "namespace": "pml",
@@ -3960,8 +3960,8 @@
     "pml#CT_Slide": {
       "namespace": "pml",
       "type": "CT_Slide",
-      "minimal": "<CT_Slide/>",
-      "invalid": "<CT_Slide><unexpected/></CT_Slide>"
+      "minimal": "<CT_Slide><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld></CT_Slide>",
+      "invalid": "<CT_Slide><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><unexpected/></CT_Slide>"
     },
     "pml#CT_SlideIdList": {
       "namespace": "pml",
@@ -3978,8 +3978,8 @@
     "pml#CT_SlideLayout": {
       "namespace": "pml",
       "type": "CT_SlideLayout",
-      "minimal": "<CT_SlideLayout/>",
-      "invalid": "<CT_SlideLayout><unexpected/></CT_SlideLayout>"
+      "minimal": "<CT_SlideLayout><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld></CT_SlideLayout>",
+      "invalid": "<CT_SlideLayout><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><unexpected/></CT_SlideLayout>"
     },
     "pml#CT_SlideLayoutIdList": {
       "namespace": "pml",
@@ -3996,8 +3996,8 @@
     "pml#CT_SlideMaster": {
       "namespace": "pml",
       "type": "CT_SlideMaster",
-      "minimal": "<CT_SlideMaster/>",
-      "invalid": "<CT_SlideMaster><unexpected/></CT_SlideMaster>"
+      "minimal": "<CT_SlideMaster><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><clrMap/></CT_SlideMaster>",
+      "invalid": "<CT_SlideMaster><cSld><spTree><nvGrpSpPr><cNvPr/><cNvGrpSpPr/><nvPr/></nvGrpSpPr><grpSpPr/></spTree></cSld><clrMap/><unexpected/></CT_SlideMaster>"
     },
     "pml#CT_SlideMasterIdList": {
       "namespace": "pml",
@@ -4038,8 +4038,8 @@
     "pml#CT_SlideSorterViewProperties": {
       "namespace": "pml",
       "type": "CT_SlideSorterViewProperties",
-      "minimal": "<CT_SlideSorterViewProperties/>",
-      "invalid": "<CT_SlideSorterViewProperties><unexpected/></CT_SlideSorterViewProperties>"
+      "minimal": "<CT_SlideSorterViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></CT_SlideSorterViewProperties>",
+      "invalid": "<CT_SlideSorterViewProperties><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr><unexpected/></CT_SlideSorterViewProperties>"
     },
     "pml#CT_SlideSyncProperties": {
       "namespace": "pml",
@@ -4062,8 +4062,8 @@
     "pml#CT_SlideViewProperties": {
       "namespace": "pml",
       "type": "CT_SlideViewProperties",
-      "minimal": "<CT_SlideViewProperties/>",
-      "invalid": "<CT_SlideViewProperties><unexpected/></CT_SlideViewProperties>"
+      "minimal": "<CT_SlideViewProperties><cSldViewPr><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></cSldViewPr></CT_SlideViewProperties>",
+      "invalid": "<CT_SlideViewProperties><cSldViewPr><cViewPr><scale><sx/><sy/></scale><origin/></cViewPr></cSldViewPr><unexpected/></CT_SlideViewProperties>"
     },
     "pml#CT_SmartTags": {
       "namespace": "pml",
@@ -4104,44 +4104,44 @@
     "pml#CT_TLAnimateBehavior": {
       "namespace": "pml",
       "type": "CT_TLAnimateBehavior",
-      "minimal": "<CT_TLAnimateBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateBehavior>",
-      "invalid": "<CT_TLAnimateBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateBehavior>"
+      "minimal": "<CT_TLAnimateBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateBehavior>",
+      "invalid": "<CT_TLAnimateBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLAnimateBehavior>"
     },
     "pml#CT_TLAnimateColorBehavior": {
       "namespace": "pml",
       "type": "CT_TLAnimateColorBehavior",
-      "minimal": "<CT_TLAnimateColorBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateColorBehavior>",
-      "invalid": "<CT_TLAnimateColorBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateColorBehavior>"
+      "minimal": "<CT_TLAnimateColorBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateColorBehavior>",
+      "invalid": "<CT_TLAnimateColorBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLAnimateColorBehavior>"
     },
     "pml#CT_TLAnimateEffectBehavior": {
       "namespace": "pml",
       "type": "CT_TLAnimateEffectBehavior",
-      "minimal": "<CT_TLAnimateEffectBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateEffectBehavior>",
-      "invalid": "<CT_TLAnimateEffectBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateEffectBehavior>"
+      "minimal": "<CT_TLAnimateEffectBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateEffectBehavior>",
+      "invalid": "<CT_TLAnimateEffectBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLAnimateEffectBehavior>"
     },
     "pml#CT_TLAnimateMotionBehavior": {
       "namespace": "pml",
       "type": "CT_TLAnimateMotionBehavior",
-      "minimal": "<CT_TLAnimateMotionBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateMotionBehavior>",
-      "invalid": "<CT_TLAnimateMotionBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateMotionBehavior>"
+      "minimal": "<CT_TLAnimateMotionBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateMotionBehavior>",
+      "invalid": "<CT_TLAnimateMotionBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLAnimateMotionBehavior>"
     },
     "pml#CT_TLAnimateRotationBehavior": {
       "namespace": "pml",
       "type": "CT_TLAnimateRotationBehavior",
-      "minimal": "<CT_TLAnimateRotationBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateRotationBehavior>",
-      "invalid": "<CT_TLAnimateRotationBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateRotationBehavior>"
+      "minimal": "<CT_TLAnimateRotationBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateRotationBehavior>",
+      "invalid": "<CT_TLAnimateRotationBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLAnimateRotationBehavior>"
     },
     "pml#CT_TLAnimateScaleBehavior": {
       "namespace": "pml",
       "type": "CT_TLAnimateScaleBehavior",
-      "minimal": "<CT_TLAnimateScaleBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateScaleBehavior>",
-      "invalid": "<CT_TLAnimateScaleBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateScaleBehavior>"
+      "minimal": "<CT_TLAnimateScaleBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLAnimateScaleBehavior>",
+      "invalid": "<CT_TLAnimateScaleBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLAnimateScaleBehavior>"
     },
     "pml#CT_TLAnimVariant": {
       "namespace": "pml",
       "type": "CT_TLAnimVariant",
       "minimal": "<CT_TLAnimVariant><boolVal/></CT_TLAnimVariant>",
-      "invalid": "<CT_TLAnimVariant><boolVal/></CT_TLAnimVariant>"
+      "invalid": "<CT_TLAnimVariant><boolVal/><unexpected/></CT_TLAnimVariant>"
     },
     "pml#CT_TLAnimVariantBooleanVal": {
       "namespace": "pml",
@@ -4189,7 +4189,7 @@
       "namespace": "pml",
       "type": "CT_TLByAnimateColorTransform",
       "minimal": "<CT_TLByAnimateColorTransform><rgb/></CT_TLByAnimateColorTransform>",
-      "invalid": "<CT_TLByAnimateColorTransform><rgb/></CT_TLByAnimateColorTransform>"
+      "invalid": "<CT_TLByAnimateColorTransform><rgb/><unexpected/></CT_TLByAnimateColorTransform>"
     },
     "pml#CT_TLByHslColorTransform": {
       "namespace": "pml",
@@ -4206,20 +4206,20 @@
     "pml#CT_TLCommandBehavior": {
       "namespace": "pml",
       "type": "CT_TLCommandBehavior",
-      "minimal": "<CT_TLCommandBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLCommandBehavior>",
-      "invalid": "<CT_TLCommandBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLCommandBehavior>"
+      "minimal": "<CT_TLCommandBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLCommandBehavior>",
+      "invalid": "<CT_TLCommandBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLCommandBehavior>"
     },
     "pml#CT_TLCommonBehaviorData": {
       "namespace": "pml",
       "type": "CT_TLCommonBehaviorData",
-      "minimal": "<CT_TLCommonBehaviorData><tgtEl><sldTgt/></tgtEl></CT_TLCommonBehaviorData>",
-      "invalid": "<CT_TLCommonBehaviorData><tgtEl><sldTgt/></tgtEl></CT_TLCommonBehaviorData>"
+      "minimal": "<CT_TLCommonBehaviorData><cTn/><tgtEl><sldTgt/></tgtEl></CT_TLCommonBehaviorData>",
+      "invalid": "<CT_TLCommonBehaviorData><cTn/><tgtEl><sldTgt/></tgtEl><unexpected/></CT_TLCommonBehaviorData>"
     },
     "pml#CT_TLCommonMediaNodeData": {
       "namespace": "pml",
       "type": "CT_TLCommonMediaNodeData",
-      "minimal": "<CT_TLCommonMediaNodeData><tgtEl><sldTgt/></tgtEl></CT_TLCommonMediaNodeData>",
-      "invalid": "<CT_TLCommonMediaNodeData><tgtEl><sldTgt/></tgtEl></CT_TLCommonMediaNodeData>"
+      "minimal": "<CT_TLCommonMediaNodeData><cTn/><tgtEl><sldTgt/></tgtEl></CT_TLCommonMediaNodeData>",
+      "invalid": "<CT_TLCommonMediaNodeData><cTn/><tgtEl><sldTgt/></tgtEl><unexpected/></CT_TLCommonMediaNodeData>"
     },
     "pml#CT_TLCommonTimeNodeData": {
       "namespace": "pml",
@@ -4231,13 +4231,13 @@
       "namespace": "pml",
       "type": "CT_TLGraphicalObjectBuild",
       "minimal": "<CT_TLGraphicalObjectBuild spid=\"fixture\" grpId=\"0\"><bldAsOne/></CT_TLGraphicalObjectBuild>",
-      "invalid": "<CT_TLGraphicalObjectBuild spid=\"fixture\" grpId=\"0\"><bldAsOne/></CT_TLGraphicalObjectBuild>"
+      "invalid": "<CT_TLGraphicalObjectBuild spid=\"fixture\" grpId=\"0\"><bldAsOne/><unexpected/></CT_TLGraphicalObjectBuild>"
     },
     "pml#CT_TLIterateData": {
       "namespace": "pml",
       "type": "CT_TLIterateData",
       "minimal": "<CT_TLIterateData><tmAbs/></CT_TLIterateData>",
-      "invalid": "<CT_TLIterateData><tmAbs/></CT_TLIterateData>"
+      "invalid": "<CT_TLIterateData><tmAbs/><unexpected/></CT_TLIterateData>"
     },
     "pml#CT_TLIterateIntervalPercentage": {
       "namespace": "pml",
@@ -4254,14 +4254,14 @@
     "pml#CT_TLMediaNodeAudio": {
       "namespace": "pml",
       "type": "CT_TLMediaNodeAudio",
-      "minimal": "<CT_TLMediaNodeAudio><cMediaNode><tgtEl><sldTgt/></tgtEl></cMediaNode></CT_TLMediaNodeAudio>",
-      "invalid": "<CT_TLMediaNodeAudio><cMediaNode><tgtEl><sldTgt/></tgtEl></cMediaNode></CT_TLMediaNodeAudio>"
+      "minimal": "<CT_TLMediaNodeAudio><cMediaNode><cTn/><tgtEl><sldTgt/></tgtEl></cMediaNode></CT_TLMediaNodeAudio>",
+      "invalid": "<CT_TLMediaNodeAudio><cMediaNode><cTn/><tgtEl><sldTgt/></tgtEl></cMediaNode><unexpected/></CT_TLMediaNodeAudio>"
     },
     "pml#CT_TLMediaNodeVideo": {
       "namespace": "pml",
       "type": "CT_TLMediaNodeVideo",
-      "minimal": "<CT_TLMediaNodeVideo><cMediaNode><tgtEl><sldTgt/></tgtEl></cMediaNode></CT_TLMediaNodeVideo>",
-      "invalid": "<CT_TLMediaNodeVideo><cMediaNode><tgtEl><sldTgt/></tgtEl></cMediaNode></CT_TLMediaNodeVideo>"
+      "minimal": "<CT_TLMediaNodeVideo><cMediaNode><cTn/><tgtEl><sldTgt/></tgtEl></cMediaNode></CT_TLMediaNodeVideo>",
+      "invalid": "<CT_TLMediaNodeVideo><cMediaNode><cTn/><tgtEl><sldTgt/></tgtEl></cMediaNode><unexpected/></CT_TLMediaNodeVideo>"
     },
     "pml#CT_TLOleBuildChart": {
       "namespace": "pml",
@@ -4284,8 +4284,8 @@
     "pml#CT_TLSetBehavior": {
       "namespace": "pml",
       "type": "CT_TLSetBehavior",
-      "minimal": "<CT_TLSetBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLSetBehavior>",
-      "invalid": "<CT_TLSetBehavior><cBhvr><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLSetBehavior>"
+      "minimal": "<CT_TLSetBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr></CT_TLSetBehavior>",
+      "invalid": "<CT_TLSetBehavior><cBhvr><cTn/><tgtEl><sldTgt/></tgtEl></cBhvr><unexpected/></CT_TLSetBehavior>"
     },
     "pml#CT_TLShapeTargetElement": {
       "namespace": "pml",
@@ -4302,8 +4302,8 @@
     "pml#CT_TLTemplate": {
       "namespace": "pml",
       "type": "CT_TLTemplate",
-      "minimal": "<CT_TLTemplate/>",
-      "invalid": "<CT_TLTemplate><unexpected/></CT_TLTemplate>"
+      "minimal": "<CT_TLTemplate><tnLst/></CT_TLTemplate>",
+      "invalid": "<CT_TLTemplate><tnLst/><unexpected/></CT_TLTemplate>"
     },
     "pml#CT_TLTemplateList": {
       "namespace": "pml",
@@ -4344,26 +4344,26 @@
     "pml#CT_TLTimeNodeExclusive": {
       "namespace": "pml",
       "type": "CT_TLTimeNodeExclusive",
-      "minimal": "<CT_TLTimeNodeExclusive/>",
-      "invalid": "<CT_TLTimeNodeExclusive><unexpected/></CT_TLTimeNodeExclusive>"
+      "minimal": "<CT_TLTimeNodeExclusive><cTn/></CT_TLTimeNodeExclusive>",
+      "invalid": "<CT_TLTimeNodeExclusive><cTn/><unexpected/></CT_TLTimeNodeExclusive>"
     },
     "pml#CT_TLTimeNodeParallel": {
       "namespace": "pml",
       "type": "CT_TLTimeNodeParallel",
-      "minimal": "<CT_TLTimeNodeParallel/>",
-      "invalid": "<CT_TLTimeNodeParallel><unexpected/></CT_TLTimeNodeParallel>"
+      "minimal": "<CT_TLTimeNodeParallel><cTn/></CT_TLTimeNodeParallel>",
+      "invalid": "<CT_TLTimeNodeParallel><cTn/><unexpected/></CT_TLTimeNodeParallel>"
     },
     "pml#CT_TLTimeNodeSequence": {
       "namespace": "pml",
       "type": "CT_TLTimeNodeSequence",
-      "minimal": "<CT_TLTimeNodeSequence/>",
-      "invalid": "<CT_TLTimeNodeSequence><unexpected/></CT_TLTimeNodeSequence>"
+      "minimal": "<CT_TLTimeNodeSequence><cTn/></CT_TLTimeNodeSequence>",
+      "invalid": "<CT_TLTimeNodeSequence><cTn/><unexpected/></CT_TLTimeNodeSequence>"
     },
     "pml#CT_TLTimeTargetElement": {
       "namespace": "pml",
       "type": "CT_TLTimeTargetElement",
       "minimal": "<CT_TLTimeTargetElement><sldTgt/></CT_TLTimeTargetElement>",
-      "invalid": "<CT_TLTimeTargetElement><sldTgt/></CT_TLTimeTargetElement>"
+      "invalid": "<CT_TLTimeTargetElement><sldTgt/><unexpected/></CT_TLTimeTargetElement>"
     },
     "pml#CT_TLTriggerRuntimeNode": {
       "namespace": "pml",
@@ -4381,13 +4381,13 @@
       "namespace": "pml",
       "type": "CT_TransitionSoundAction",
       "minimal": "<CT_TransitionSoundAction><stSnd/></CT_TransitionSoundAction>",
-      "invalid": "<CT_TransitionSoundAction><stSnd/></CT_TransitionSoundAction>"
+      "invalid": "<CT_TransitionSoundAction><stSnd/><unexpected/></CT_TransitionSoundAction>"
     },
     "pml#CT_TransitionStartSoundAction": {
       "namespace": "pml",
       "type": "CT_TransitionStartSoundAction",
-      "minimal": "<CT_TransitionStartSoundAction/>",
-      "invalid": "<CT_TransitionStartSoundAction><unexpected/></CT_TransitionStartSoundAction>"
+      "minimal": "<CT_TransitionStartSoundAction><snd/></CT_TransitionStartSoundAction>",
+      "invalid": "<CT_TransitionStartSoundAction><snd/><unexpected/></CT_TransitionStartSoundAction>"
     },
     "pml#CT_ViewProperties": {
       "namespace": "pml",
@@ -4434,8 +4434,8 @@
     "sml#CT_AutoSortScope": {
       "namespace": "sml",
       "type": "CT_AutoSortScope",
-      "minimal": "<CT_AutoSortScope/>",
-      "invalid": "<CT_AutoSortScope><unexpected/></CT_AutoSortScope>"
+      "minimal": "<CT_AutoSortScope><pivotArea/></CT_AutoSortScope>",
+      "invalid": "<CT_AutoSortScope><pivotArea/><unexpected/></CT_AutoSortScope>"
     },
     "sml#CT_BookView": {
       "namespace": "sml",
@@ -4536,8 +4536,8 @@
     "sml#CT_CalculatedItem": {
       "namespace": "sml",
       "type": "CT_CalculatedItem",
-      "minimal": "<CT_CalculatedItem/>",
-      "invalid": "<CT_CalculatedItem><unexpected/></CT_CalculatedItem>"
+      "minimal": "<CT_CalculatedItem><pivotArea/></CT_CalculatedItem>",
+      "invalid": "<CT_CalculatedItem><pivotArea/><unexpected/></CT_CalculatedItem>"
     },
     "sml#CT_CalculatedItems": {
       "namespace": "sml",
@@ -4650,8 +4650,8 @@
     "sml#CT_ChartFormat": {
       "namespace": "sml",
       "type": "CT_ChartFormat",
-      "minimal": "<CT_ChartFormat chart=\"0\" format=\"0\"/>",
-      "invalid": "<CT_ChartFormat chart=\"0\" format=\"0\"><unexpected/></CT_ChartFormat>"
+      "minimal": "<CT_ChartFormat chart=\"0\" format=\"0\"><pivotArea/></CT_ChartFormat>",
+      "invalid": "<CT_ChartFormat chart=\"0\" format=\"0\"><pivotArea/><unexpected/></CT_ChartFormat>"
     },
     "sml#CT_ChartFormats": {
       "namespace": "sml",
@@ -4662,8 +4662,8 @@
     "sml#CT_Chartsheet": {
       "namespace": "sml",
       "type": "CT_Chartsheet",
-      "minimal": "<CT_Chartsheet/>",
-      "invalid": "<CT_Chartsheet><unexpected/></CT_Chartsheet>"
+      "minimal": "<CT_Chartsheet><sheetViews/><drawing/></CT_Chartsheet>",
+      "invalid": "<CT_Chartsheet><sheetViews/><drawing/><unexpected/></CT_Chartsheet>"
     },
     "sml#CT_ChartsheetPr": {
       "namespace": "sml",
@@ -4746,8 +4746,8 @@
     "sml#CT_Comment": {
       "namespace": "sml",
       "type": "CT_Comment",
-      "minimal": "<CT_Comment ref=\"fixture\" authorId=\"0\"/>",
-      "invalid": "<CT_Comment ref=\"fixture\" authorId=\"0\"><unexpected/></CT_Comment>"
+      "minimal": "<CT_Comment ref=\"fixture\" authorId=\"0\"><text/></CT_Comment>",
+      "invalid": "<CT_Comment ref=\"fixture\" authorId=\"0\"><text/><unexpected/></CT_Comment>"
     },
     "sml#CT_CommentList": {
       "namespace": "sml",
@@ -4759,19 +4759,19 @@
       "namespace": "sml",
       "type": "CT_CommentPr",
       "minimal": "<CT_CommentPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor></CT_CommentPr>",
-      "invalid": "<CT_CommentPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor></CT_CommentPr>"
+      "invalid": "<CT_CommentPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor><unexpected/></CT_CommentPr>"
     },
     "sml#CT_Comments": {
       "namespace": "sml",
       "type": "CT_Comments",
-      "minimal": "<CT_Comments/>",
-      "invalid": "<CT_Comments><unexpected/></CT_Comments>"
+      "minimal": "<CT_Comments><authors/><commentList/></CT_Comments>",
+      "invalid": "<CT_Comments><authors/><commentList/><unexpected/></CT_Comments>"
     },
     "sml#CT_ConditionalFormat": {
       "namespace": "sml",
       "type": "CT_ConditionalFormat",
-      "minimal": "<CT_ConditionalFormat priority=\"0\"/>",
-      "invalid": "<CT_ConditionalFormat priority=\"0\"><unexpected/></CT_ConditionalFormat>"
+      "minimal": "<CT_ConditionalFormat priority=\"0\"><pivotAreas/></CT_ConditionalFormat>",
+      "invalid": "<CT_ConditionalFormat priority=\"0\"><pivotAreas/><unexpected/></CT_ConditionalFormat>"
     },
     "sml#CT_ConditionalFormats": {
       "namespace": "sml",
@@ -4800,8 +4800,8 @@
     "sml#CT_Consolidation": {
       "namespace": "sml",
       "type": "CT_Consolidation",
-      "minimal": "<CT_Consolidation/>",
-      "invalid": "<CT_Consolidation><unexpected/></CT_Consolidation>"
+      "minimal": "<CT_Consolidation><rangeSets/></CT_Consolidation>",
+      "invalid": "<CT_Consolidation><rangeSets/><unexpected/></CT_Consolidation>"
     },
     "sml#CT_Control": {
       "namespace": "sml",
@@ -4813,7 +4813,7 @@
       "namespace": "sml",
       "type": "CT_ControlPr",
       "minimal": "<CT_ControlPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor></CT_ControlPr>",
-      "invalid": "<CT_ControlPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor></CT_ControlPr>"
+      "invalid": "<CT_ControlPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor><unexpected/></CT_ControlPr>"
     },
     "sml#CT_Controls": {
       "namespace": "sml",
@@ -4890,8 +4890,8 @@
     "sml#CT_DataBar": {
       "namespace": "sml",
       "type": "CT_DataBar",
-      "minimal": "<CT_DataBar/>",
-      "invalid": "<CT_DataBar><unexpected/></CT_DataBar>"
+      "minimal": "<CT_DataBar><color/></CT_DataBar>",
+      "invalid": "<CT_DataBar><color/><unexpected/></CT_DataBar>"
     },
     "sml#CT_DataBinding": {
       "namespace": "sml",
@@ -4981,7 +4981,7 @@
       "namespace": "sml",
       "type": "CT_DdeValue",
       "minimal": "<CT_DdeValue><val/></CT_DdeValue>",
-      "invalid": "<CT_DdeValue><val/></CT_DdeValue>"
+      "invalid": "<CT_DdeValue><val/><unexpected/></CT_DdeValue>"
     },
     "sml#CT_DdeValues": {
       "namespace": "sml",
@@ -5101,7 +5101,7 @@
       "namespace": "sml",
       "type": "CT_ExternalLink",
       "minimal": "<CT_ExternalLink><externalBook/></CT_ExternalLink>",
-      "invalid": "<CT_ExternalLink><externalBook/></CT_ExternalLink>"
+      "invalid": "<CT_ExternalLink><externalBook/><unexpected/></CT_ExternalLink>"
     },
     "sml#CT_ExternalReference": {
       "namespace": "sml",
@@ -5191,7 +5191,7 @@
       "namespace": "sml",
       "type": "CT_Fill",
       "minimal": "<CT_Fill><patternFill/></CT_Fill>",
-      "invalid": "<CT_Fill><patternFill/></CT_Fill>"
+      "invalid": "<CT_Fill><patternFill/><unexpected/></CT_Fill>"
     },
     "sml#CT_Fills": {
       "namespace": "sml",
@@ -5256,8 +5256,8 @@
     "sml#CT_Format": {
       "namespace": "sml",
       "type": "CT_Format",
-      "minimal": "<CT_Format/>",
-      "invalid": "<CT_Format><unexpected/></CT_Format>"
+      "minimal": "<CT_Format><pivotArea/></CT_Format>",
+      "invalid": "<CT_Format><pivotArea/><unexpected/></CT_Format>"
     },
     "sml#CT_Formats": {
       "namespace": "sml",
@@ -5298,8 +5298,8 @@
     "sml#CT_GradientStop": {
       "namespace": "sml",
       "type": "CT_GradientStop",
-      "minimal": "<CT_GradientStop position=\"0\"/>",
-      "invalid": "<CT_GradientStop position=\"0\"><unexpected/></CT_GradientStop>"
+      "minimal": "<CT_GradientStop position=\"0\"><color/></CT_GradientStop>",
+      "invalid": "<CT_GradientStop position=\"0\"><color/><unexpected/></CT_GradientStop>"
     },
     "sml#CT_GroupItems": {
       "namespace": "sml",
@@ -5436,8 +5436,8 @@
     "sml#CT_LevelGroup": {
       "namespace": "sml",
       "type": "CT_LevelGroup",
-      "minimal": "<CT_LevelGroup name=\"fixture\" uniqueName=\"fixture\" caption=\"fixture\"/>",
-      "invalid": "<CT_LevelGroup name=\"fixture\" uniqueName=\"fixture\" caption=\"fixture\"><unexpected/></CT_LevelGroup>"
+      "minimal": "<CT_LevelGroup name=\"fixture\" uniqueName=\"fixture\" caption=\"fixture\"><groupMembers/></CT_LevelGroup>",
+      "invalid": "<CT_LevelGroup name=\"fixture\" uniqueName=\"fixture\" caption=\"fixture\"><groupMembers/><unexpected/></CT_LevelGroup>"
     },
     "sml#CT_Location": {
       "namespace": "sml",
@@ -5448,8 +5448,8 @@
     "sml#CT_Macrosheet": {
       "namespace": "sml",
       "type": "CT_Macrosheet",
-      "minimal": "<CT_Macrosheet/>",
-      "invalid": "<CT_Macrosheet><unexpected/></CT_Macrosheet>"
+      "minimal": "<CT_Macrosheet><sheetData/></CT_Macrosheet>",
+      "invalid": "<CT_Macrosheet><sheetData/><unexpected/></CT_Macrosheet>"
     },
     "sml#CT_Map": {
       "namespace": "sml",
@@ -5467,7 +5467,7 @@
       "namespace": "sml",
       "type": "CT_Mdx",
       "minimal": "<CT_Mdx n=\"0\" f=\"fixture\"><t/></CT_Mdx>",
-      "invalid": "<CT_Mdx n=\"0\" f=\"fixture\"><t/></CT_Mdx>"
+      "invalid": "<CT_Mdx n=\"0\" f=\"fixture\"><t/><unexpected/></CT_Mdx>"
     },
     "sml#CT_MdxKPI": {
       "namespace": "sml",
@@ -5641,13 +5641,13 @@
       "namespace": "sml",
       "type": "CT_ObjectAnchor",
       "minimal": "<CT_ObjectAnchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></CT_ObjectAnchor>",
-      "invalid": "<CT_ObjectAnchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></CT_ObjectAnchor>"
+      "invalid": "<CT_ObjectAnchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to><unexpected/></CT_ObjectAnchor>"
     },
     "sml#CT_ObjectPr": {
       "namespace": "sml",
       "type": "CT_ObjectPr",
       "minimal": "<CT_ObjectPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor></CT_ObjectPr>",
-      "invalid": "<CT_ObjectPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor></CT_ObjectPr>"
+      "invalid": "<CT_ObjectPr><anchor><from><col/><colOff/><row/><rowOff/></from><to><col/><colOff/><row/><rowOff/></to></anchor><unexpected/></CT_ObjectPr>"
     },
     "sml#CT_OlapPr": {
       "namespace": "sml",
@@ -5803,7 +5803,7 @@
       "namespace": "sml",
       "type": "CT_PhoneticRun",
       "minimal": "<CT_PhoneticRun sb=\"0\" eb=\"0\"><t/></CT_PhoneticRun>",
-      "invalid": "<CT_PhoneticRun sb=\"0\" eb=\"0\"><t/></CT_PhoneticRun>"
+      "invalid": "<CT_PhoneticRun sb=\"0\" eb=\"0\"><t/><unexpected/></CT_PhoneticRun>"
     },
     "sml#CT_PivotArea": {
       "namespace": "sml",
@@ -5838,8 +5838,8 @@
     "sml#CT_PivotCacheDefinition": {
       "namespace": "sml",
       "type": "CT_PivotCacheDefinition",
-      "minimal": "<CT_PivotCacheDefinition/>",
-      "invalid": "<CT_PivotCacheDefinition><unexpected/></CT_PivotCacheDefinition>"
+      "minimal": "<CT_PivotCacheDefinition><cacheSource/><cacheFields/></CT_PivotCacheDefinition>",
+      "invalid": "<CT_PivotCacheDefinition><cacheSource/><cacheFields/><unexpected/></CT_PivotCacheDefinition>"
     },
     "sml#CT_PivotCacheRecords": {
       "namespace": "sml",
@@ -5874,8 +5874,8 @@
     "sml#CT_PivotFilter": {
       "namespace": "sml",
       "type": "CT_PivotFilter",
-      "minimal": "<CT_PivotFilter fld=\"0\" type=\"fixture\" id=\"0\"/>",
-      "invalid": "<CT_PivotFilter fld=\"0\" type=\"fixture\" id=\"0\"><unexpected/></CT_PivotFilter>"
+      "minimal": "<CT_PivotFilter fld=\"0\" type=\"fixture\" id=\"0\"><autoFilter/></CT_PivotFilter>",
+      "invalid": "<CT_PivotFilter fld=\"0\" type=\"fixture\" id=\"0\"><autoFilter/><unexpected/></CT_PivotFilter>"
     },
     "sml#CT_PivotFilters": {
       "namespace": "sml",
@@ -5898,14 +5898,14 @@
     "sml#CT_PivotSelection": {
       "namespace": "sml",
       "type": "CT_PivotSelection",
-      "minimal": "<CT_PivotSelection/>",
-      "invalid": "<CT_PivotSelection><unexpected/></CT_PivotSelection>"
+      "minimal": "<CT_PivotSelection><pivotArea/></CT_PivotSelection>",
+      "invalid": "<CT_PivotSelection><pivotArea/><unexpected/></CT_PivotSelection>"
     },
     "sml#CT_pivotTableDefinition": {
       "namespace": "sml",
       "type": "CT_pivotTableDefinition",
-      "minimal": "<CT_pivotTableDefinition name=\"fixture\" cacheId=\"0\" dataCaption=\"fixture\"/>",
-      "invalid": "<CT_pivotTableDefinition name=\"fixture\" cacheId=\"0\" dataCaption=\"fixture\"><unexpected/></CT_pivotTableDefinition>"
+      "minimal": "<CT_pivotTableDefinition name=\"fixture\" cacheId=\"0\" dataCaption=\"fixture\"><location/></CT_pivotTableDefinition>",
+      "invalid": "<CT_pivotTableDefinition name=\"fixture\" cacheId=\"0\" dataCaption=\"fixture\"><location/><unexpected/></CT_pivotTableDefinition>"
     },
     "sml#CT_PivotTableStyle": {
       "namespace": "sml",
@@ -5970,8 +5970,8 @@
     "sml#CT_QueryTableRefresh": {
       "namespace": "sml",
       "type": "CT_QueryTableRefresh",
-      "minimal": "<CT_QueryTableRefresh/>",
-      "invalid": "<CT_QueryTableRefresh><unexpected/></CT_QueryTableRefresh>"
+      "minimal": "<CT_QueryTableRefresh><queryTableFields/></CT_QueryTableRefresh>",
+      "invalid": "<CT_QueryTableRefresh><queryTableFields/><unexpected/></CT_QueryTableRefresh>"
     },
     "sml#CT_RangePr": {
       "namespace": "sml",
@@ -6001,7 +6001,7 @@
       "namespace": "sml",
       "type": "CT_RElt",
       "minimal": "<CT_RElt><t/></CT_RElt>",
-      "invalid": "<CT_RElt><t/></CT_RElt>"
+      "invalid": "<CT_RElt><t/><unexpected/></CT_RElt>"
     },
     "sml#CT_Reviewed": {
       "namespace": "sml",
@@ -6024,8 +6024,8 @@
     "sml#CT_RevisionCellChange": {
       "namespace": "sml",
       "type": "CT_RevisionCellChange",
-      "minimal": "<CT_RevisionCellChange rId=\"0\" sId=\"0\"/>",
-      "invalid": "<CT_RevisionCellChange rId=\"0\" sId=\"0\"><unexpected/></CT_RevisionCellChange>"
+      "minimal": "<CT_RevisionCellChange rId=\"0\" sId=\"0\"><nc/></CT_RevisionCellChange>",
+      "invalid": "<CT_RevisionCellChange rId=\"0\" sId=\"0\"><nc/><unexpected/></CT_RevisionCellChange>"
     },
     "sml#CT_RevisionComment": {
       "namespace": "sml",
@@ -6060,8 +6060,8 @@
     "sml#CT_RevisionHeader": {
       "namespace": "sml",
       "type": "CT_RevisionHeader",
-      "minimal": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" id=\"fixture\"/>",
-      "invalid": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" id=\"fixture\"><unexpected/></CT_RevisionHeader>"
+      "minimal": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" id=\"fixture\"><sheetIdMap/></CT_RevisionHeader>",
+      "invalid": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" id=\"fixture\"><sheetIdMap/><unexpected/></CT_RevisionHeader>"
     },
     "sml#CT_RevisionHeaders": {
       "namespace": "sml",
@@ -6288,8 +6288,8 @@
     "sml#CT_SingleXmlCell": {
       "namespace": "sml",
       "type": "CT_SingleXmlCell",
-      "minimal": "<CT_SingleXmlCell id=\"0\" r=\"fixture\" connectionId=\"0\"/>",
-      "invalid": "<CT_SingleXmlCell id=\"0\" r=\"fixture\" connectionId=\"0\"><unexpected/></CT_SingleXmlCell>"
+      "minimal": "<CT_SingleXmlCell id=\"0\" r=\"fixture\" connectionId=\"0\"><xmlCellPr><xmlPr/></xmlCellPr></CT_SingleXmlCell>",
+      "invalid": "<CT_SingleXmlCell id=\"0\" r=\"fixture\" connectionId=\"0\"><xmlCellPr><xmlPr/></xmlCellPr><unexpected/></CT_SingleXmlCell>"
     },
     "sml#CT_SingleXmlCells": {
       "namespace": "sml",
@@ -6354,8 +6354,8 @@
     "sml#CT_Table": {
       "namespace": "sml",
       "type": "CT_Table",
-      "minimal": "<CT_Table id=\"0\" displayName=\"fixture\" ref=\"fixture\"/>",
-      "invalid": "<CT_Table id=\"0\" displayName=\"fixture\" ref=\"fixture\"><unexpected/></CT_Table>"
+      "minimal": "<CT_Table id=\"0\" displayName=\"fixture\" ref=\"fixture\"><tableColumns/></CT_Table>",
+      "invalid": "<CT_Table id=\"0\" displayName=\"fixture\" ref=\"fixture\"><tableColumns/><unexpected/></CT_Table>"
     },
     "sml#CT_TableColumn": {
       "namespace": "sml",
@@ -6499,7 +6499,7 @@
       "namespace": "sml",
       "type": "CT_VolTopic",
       "minimal": "<CT_VolTopic><v/></CT_VolTopic>",
-      "invalid": "<CT_VolTopic><v/></CT_VolTopic>"
+      "invalid": "<CT_VolTopic><v/><unexpected/></CT_VolTopic>"
     },
     "sml#CT_VolTopicRef": {
       "namespace": "sml",
@@ -6558,8 +6558,8 @@
     "sml#CT_Workbook": {
       "namespace": "sml",
       "type": "CT_Workbook",
-      "minimal": "<CT_Workbook/>",
-      "invalid": "<CT_Workbook><unexpected/></CT_Workbook>"
+      "minimal": "<CT_Workbook><sheets/></CT_Workbook>",
+      "invalid": "<CT_Workbook><sheets/><unexpected/></CT_Workbook>"
     },
     "sml#CT_WorkbookPr": {
       "namespace": "sml",
@@ -6576,8 +6576,8 @@
     "sml#CT_Worksheet": {
       "namespace": "sml",
       "type": "CT_Worksheet",
-      "minimal": "<CT_Worksheet/>",
-      "invalid": "<CT_Worksheet><unexpected/></CT_Worksheet>"
+      "minimal": "<CT_Worksheet><sheetData/></CT_Worksheet>",
+      "invalid": "<CT_Worksheet><sheetData/><unexpected/></CT_Worksheet>"
     },
     "sml#CT_WorksheetSource": {
       "namespace": "sml",
@@ -6600,8 +6600,8 @@
     "sml#CT_XmlCellPr": {
       "namespace": "sml",
       "type": "CT_XmlCellPr",
-      "minimal": "<CT_XmlCellPr id=\"0\"/>",
-      "invalid": "<CT_XmlCellPr id=\"0\"><unexpected/></CT_XmlCellPr>"
+      "minimal": "<CT_XmlCellPr id=\"0\"><xmlPr/></CT_XmlCellPr>",
+      "invalid": "<CT_XmlCellPr id=\"0\"><xmlPr/><unexpected/></CT_XmlCellPr>"
     },
     "sml#CT_XmlColumnPr": {
       "namespace": "sml",
@@ -6936,8 +6936,8 @@
     "vml#CT_Textbox": {
       "namespace": "vml",
       "type": "CT_Textbox",
-      "minimal": "<CT_Textbox/>",
-      "invalid": "<CT_Textbox><unexpected/></CT_Textbox>"
+      "minimal": "<CT_Textbox><txbxContent/></CT_Textbox>",
+      "invalid": "<CT_Textbox><txbxContent/><unexpected/></CT_Textbox>"
     },
     "vml#CT_TextPath": {
       "namespace": "vml",
@@ -7188,8 +7188,8 @@
     "wml#CT_Div": {
       "namespace": "wml",
       "type": "CT_Div",
-      "minimal": "<CT_Div id=\"fixture\"/>",
-      "invalid": "<CT_Div id=\"fixture\"><unexpected/></CT_Div>"
+      "minimal": "<CT_Div id=\"fixture\"><marLeft/><marRight/><marTop/><marBottom/></CT_Div>",
+      "invalid": "<CT_Div id=\"fixture\"><marLeft/><marRight/><marTop/><marBottom/><unexpected/></CT_Div>"
     },
     "wml#CT_DivBdr": {
       "namespace": "wml",
@@ -7230,14 +7230,14 @@
     "wml#CT_DocPartBehaviors": {
       "namespace": "wml",
       "type": "CT_DocPartBehaviors",
-      "minimal": "<CT_DocPartBehaviors/>",
-      "invalid": "<CT_DocPartBehaviors><unexpected/></CT_DocPartBehaviors>"
+      "minimal": "<CT_DocPartBehaviors><behavior/></CT_DocPartBehaviors>",
+      "invalid": "<CT_DocPartBehaviors><behavior/><unexpected/></CT_DocPartBehaviors>"
     },
     "wml#CT_DocPartCategory": {
       "namespace": "wml",
       "type": "CT_DocPartCategory",
-      "minimal": "<CT_DocPartCategory/>",
-      "invalid": "<CT_DocPartCategory><unexpected/></CT_DocPartCategory>"
+      "minimal": "<CT_DocPartCategory><name/><gallery/></CT_DocPartCategory>",
+      "invalid": "<CT_DocPartCategory><name/><gallery/><unexpected/></CT_DocPartCategory>"
     },
     "wml#CT_DocPartGallery": {
       "namespace": "wml",
@@ -7254,14 +7254,14 @@
     "wml#CT_DocPartPr": {
       "namespace": "wml",
       "type": "CT_DocPartPr",
-      "minimal": "<CT_DocPartPr/>",
-      "invalid": "<CT_DocPartPr><unexpected/></CT_DocPartPr>"
+      "minimal": "<CT_DocPartPr><name/></CT_DocPartPr>",
+      "invalid": "<CT_DocPartPr><name/><unexpected/></CT_DocPartPr>"
     },
     "wml#CT_DocParts": {
       "namespace": "wml",
       "type": "CT_DocParts",
-      "minimal": "<CT_DocParts/>",
-      "invalid": "<CT_DocParts><unexpected/></CT_DocParts>"
+      "minimal": "<CT_DocParts><docPart/></CT_DocParts>",
+      "invalid": "<CT_DocParts><docPart/><unexpected/></CT_DocParts>"
     },
     "wml#CT_DocPartType": {
       "namespace": "wml",
@@ -7272,8 +7272,8 @@
     "wml#CT_DocPartTypes": {
       "namespace": "wml",
       "type": "CT_DocPartTypes",
-      "minimal": "<CT_DocPartTypes/>",
-      "invalid": "<CT_DocPartTypes><unexpected/></CT_DocPartTypes>"
+      "minimal": "<CT_DocPartTypes><type/></CT_DocPartTypes>",
+      "invalid": "<CT_DocPartTypes><type/><unexpected/></CT_DocPartTypes>"
     },
     "wml#CT_DocProtect": {
       "namespace": "wml",
@@ -7369,7 +7369,7 @@
       "namespace": "wml",
       "type": "CT_FFCheckBox",
       "minimal": "<CT_FFCheckBox><size/></CT_FFCheckBox>",
-      "invalid": "<CT_FFCheckBox><size/></CT_FFCheckBox>"
+      "invalid": "<CT_FFCheckBox><size/><unexpected/></CT_FFCheckBox>"
     },
     "wml#CT_FFData": {
       "namespace": "wml",
@@ -7423,7 +7423,7 @@
       "namespace": "wml",
       "type": "CT_FldChar",
       "minimal": "<CT_FldChar fldCharType=\"fixture\"><fldData/></CT_FldChar>",
-      "invalid": "<CT_FldChar fldCharType=\"fixture\"><fldData/></CT_FldChar>"
+      "invalid": "<CT_FldChar fldCharType=\"fixture\"><fldData/><unexpected/></CT_FldChar>"
     },
     "wml#CT_Font": {
       "namespace": "wml",
@@ -7698,8 +7698,8 @@
     "wml#CT_MailMerge": {
       "namespace": "wml",
       "type": "CT_MailMerge",
-      "minimal": "<CT_MailMerge/>",
-      "invalid": "<CT_MailMerge><unexpected/></CT_MailMerge>"
+      "minimal": "<CT_MailMerge><mainDocumentType/><dataType/></CT_MailMerge>",
+      "invalid": "<CT_MailMerge><mainDocumentType/><dataType/><unexpected/></CT_MailMerge>"
     },
     "wml#CT_MailMergeDataType": {
       "namespace": "wml",
@@ -7770,8 +7770,8 @@
     "wml#CT_Num": {
       "namespace": "wml",
       "type": "CT_Num",
-      "minimal": "<CT_Num numId=\"fixture\"/>",
-      "invalid": "<CT_Num numId=\"fixture\"><unexpected/></CT_Num>"
+      "minimal": "<CT_Num numId=\"fixture\"><abstractNumId/></CT_Num>",
+      "invalid": "<CT_Num numId=\"fixture\"><abstractNumId/><unexpected/></CT_Num>"
     },
     "wml#CT_Numbering": {
       "namespace": "wml",
@@ -7795,7 +7795,7 @@
       "namespace": "wml",
       "type": "CT_NumPicBullet",
       "minimal": "<CT_NumPicBullet numPicBulletId=\"fixture\"><pict/></CT_NumPicBullet>",
-      "invalid": "<CT_NumPicBullet numPicBulletId=\"fixture\"><pict/></CT_NumPicBullet>"
+      "invalid": "<CT_NumPicBullet numPicBulletId=\"fixture\"><pict/><unexpected/></CT_NumPicBullet>"
     },
     "wml#CT_NumPr": {
       "namespace": "wml",
@@ -7908,8 +7908,8 @@
     "wml#CT_ParaRPrChange": {
       "namespace": "wml",
       "type": "CT_ParaRPrChange",
-      "minimal": "<CT_ParaRPrChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_ParaRPrChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_ParaRPrChange>"
+      "minimal": "<CT_ParaRPrChange id=\"fixture\" author=\"fixture\"><rPr/></CT_ParaRPrChange>",
+      "invalid": "<CT_ParaRPrChange id=\"fixture\" author=\"fixture\"><rPr/><unexpected/></CT_ParaRPrChange>"
     },
     "wml#CT_ParaRPrOriginal": {
       "namespace": "wml",
@@ -7956,8 +7956,8 @@
     "wml#CT_Placeholder": {
       "namespace": "wml",
       "type": "CT_Placeholder",
-      "minimal": "<CT_Placeholder/>",
-      "invalid": "<CT_Placeholder><unexpected/></CT_Placeholder>"
+      "minimal": "<CT_Placeholder><docPart/></CT_Placeholder>",
+      "invalid": "<CT_Placeholder><docPart/><unexpected/></CT_Placeholder>"
     },
     "wml#CT_PPr": {
       "namespace": "wml",
@@ -7974,8 +7974,8 @@
     "wml#CT_PPrChange": {
       "namespace": "wml",
       "type": "CT_PPrChange",
-      "minimal": "<CT_PPrChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_PPrChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_PPrChange>"
+      "minimal": "<CT_PPrChange id=\"fixture\" author=\"fixture\"><pPr/></CT_PPrChange>",
+      "invalid": "<CT_PPrChange id=\"fixture\" author=\"fixture\"><pPr/><unexpected/></CT_PPrChange>"
     },
     "wml#CT_PPrDefault": {
       "namespace": "wml",
@@ -8022,8 +8022,8 @@
     "wml#CT_RecipientData": {
       "namespace": "wml",
       "type": "CT_RecipientData",
-      "minimal": "<CT_RecipientData/>",
-      "invalid": "<CT_RecipientData><unexpected/></CT_RecipientData>"
+      "minimal": "<CT_RecipientData><column/><uniqueTag/></CT_RecipientData>",
+      "invalid": "<CT_RecipientData><column/><uniqueTag/><unexpected/></CT_RecipientData>"
     },
     "wml#CT_Recipients": {
       "namespace": "wml",
@@ -8052,8 +8052,8 @@
     "wml#CT_RPrChange": {
       "namespace": "wml",
       "type": "CT_RPrChange",
-      "minimal": "<CT_RPrChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_RPrChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_RPrChange>"
+      "minimal": "<CT_RPrChange id=\"fixture\" author=\"fixture\"><rPr/></CT_RPrChange>",
+      "invalid": "<CT_RPrChange id=\"fixture\" author=\"fixture\"><rPr/><unexpected/></CT_RPrChange>"
     },
     "wml#CT_RPrDefault": {
       "namespace": "wml",
@@ -8070,8 +8070,8 @@
     "wml#CT_Ruby": {
       "namespace": "wml",
       "type": "CT_Ruby",
-      "minimal": "<CT_Ruby/>",
-      "invalid": "<CT_Ruby><unexpected/></CT_Ruby>"
+      "minimal": "<CT_Ruby><rubyPr><rubyAlign/><hps/><hpsRaise/><hpsBaseText/><lid/></rubyPr><rt/><rubyBase/></CT_Ruby>",
+      "invalid": "<CT_Ruby><rubyPr><rubyAlign/><hps/><hpsRaise/><hpsBaseText/><lid/></rubyPr><rt/><rubyBase/><unexpected/></CT_Ruby>"
     },
     "wml#CT_RubyAlign": {
       "namespace": "wml",
@@ -8088,8 +8088,8 @@
     "wml#CT_RubyPr": {
       "namespace": "wml",
       "type": "CT_RubyPr",
-      "minimal": "<CT_RubyPr/>",
-      "invalid": "<CT_RubyPr><unexpected/></CT_RubyPr>"
+      "minimal": "<CT_RubyPr><rubyAlign/><hps/><hpsRaise/><hpsBaseText/><lid/></CT_RubyPr>",
+      "invalid": "<CT_RubyPr><rubyAlign/><hps/><hpsRaise/><hpsBaseText/><lid/><unexpected/></CT_RubyPr>"
     },
     "wml#CT_RunTrackChange": {
       "namespace": "wml",
@@ -8346,8 +8346,8 @@
     "wml#CT_Tbl": {
       "namespace": "wml",
       "type": "CT_Tbl",
-      "minimal": "<CT_Tbl/>",
-      "invalid": "<CT_Tbl><unexpected/></CT_Tbl>"
+      "minimal": "<CT_Tbl><tblPr/><tblGrid/></CT_Tbl>",
+      "invalid": "<CT_Tbl><tblPr/><tblGrid/><unexpected/></CT_Tbl>"
     },
     "wml#CT_TblBorders": {
       "namespace": "wml",
@@ -8376,8 +8376,8 @@
     "wml#CT_TblGridChange": {
       "namespace": "wml",
       "type": "CT_TblGridChange",
-      "minimal": "<CT_TblGridChange id=\"fixture\"/>",
-      "invalid": "<CT_TblGridChange id=\"fixture\"><unexpected/></CT_TblGridChange>"
+      "minimal": "<CT_TblGridChange id=\"fixture\"><tblGrid/></CT_TblGridChange>",
+      "invalid": "<CT_TblGridChange id=\"fixture\"><tblGrid/><unexpected/></CT_TblGridChange>"
     },
     "wml#CT_TblGridCol": {
       "namespace": "wml",
@@ -8424,8 +8424,8 @@
     "wml#CT_TblPrChange": {
       "namespace": "wml",
       "type": "CT_TblPrChange",
-      "minimal": "<CT_TblPrChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_TblPrChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_TblPrChange>"
+      "minimal": "<CT_TblPrChange id=\"fixture\" author=\"fixture\"><tblPr/></CT_TblPrChange>",
+      "invalid": "<CT_TblPrChange id=\"fixture\" author=\"fixture\"><tblPr/><unexpected/></CT_TblPrChange>"
     },
     "wml#CT_TblPrEx": {
       "namespace": "wml",
@@ -8442,8 +8442,8 @@
     "wml#CT_TblPrExChange": {
       "namespace": "wml",
       "type": "CT_TblPrExChange",
-      "minimal": "<CT_TblPrExChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_TblPrExChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_TblPrExChange>"
+      "minimal": "<CT_TblPrExChange id=\"fixture\" author=\"fixture\"><tblPrEx/></CT_TblPrExChange>",
+      "invalid": "<CT_TblPrExChange id=\"fixture\" author=\"fixture\"><tblPrEx/><unexpected/></CT_TblPrExChange>"
     },
     "wml#CT_TblStylePr": {
       "namespace": "wml",
@@ -8490,8 +8490,8 @@
     "wml#CT_TcPrChange": {
       "namespace": "wml",
       "type": "CT_TcPrChange",
-      "minimal": "<CT_TcPrChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_TcPrChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_TcPrChange>"
+      "minimal": "<CT_TcPrChange id=\"fixture\" author=\"fixture\"><tcPr/></CT_TcPrChange>",
+      "invalid": "<CT_TcPrChange id=\"fixture\" author=\"fixture\"><tcPr/><unexpected/></CT_TcPrChange>"
     },
     "wml#CT_TcPrInner": {
       "namespace": "wml",
@@ -8580,8 +8580,8 @@
     "wml#CT_TrPrChange": {
       "namespace": "wml",
       "type": "CT_TrPrChange",
-      "minimal": "<CT_TrPrChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_TrPrChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_TrPrChange>"
+      "minimal": "<CT_TrPrChange id=\"fixture\" author=\"fixture\"><trPr/></CT_TrPrChange>",
+      "invalid": "<CT_TrPrChange id=\"fixture\" author=\"fixture\"><trPr/><unexpected/></CT_TrPrChange>"
     },
     "wml#CT_TwipsMeasure": {
       "namespace": "wml",

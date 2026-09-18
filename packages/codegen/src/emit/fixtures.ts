@@ -96,19 +96,23 @@ function slotXml(
 }
 
 function renameRoot(xml: string, localName: string): string {
-  const close = xml.indexOf('>');
-  if (close < 0) return `<${localName}/>`;
-  if (xml.endsWith('/>')) return `<${localName}${xml.slice(close - 0)}`.replace(/^<[^>]+>/, '');
+  if (xml.endsWith('/>')) return `<${localName}/>`;
   const openEnd = xml.indexOf('>');
-  const body = xml.slice(openEnd + 1, xml.lastIndexOf('</'));
+  const closeStart = xml.lastIndexOf('</');
+  if (openEnd < 0 || closeStart < 0) return `<${localName}/>`;
+  const body = xml.slice(openEnd + 1, closeStart);
   return body.length === 0 ? `<${localName}/>` : `<${localName}>${body}</${localName}>`;
 }
 
 function invalidXml(set: ModelSet, ct: ModelComplexType): string {
   const valid = minimalXml(set, ct, 0, new Set());
-  return valid.endsWith('/>')
-    ? `${valid.slice(0, -2)}><unexpected/></${ct.tsName}>`
-    : valid.replace(/<\/${ct.tsName}>$/, '<unexpected/></' + ct.tsName + '>');
+  if (valid.endsWith('/>')) {
+    return `${valid.slice(0, -2)}><unexpected/></${ct.tsName}>`;
+  }
+  const closeStart = valid.lastIndexOf('</');
+  return closeStart < 0
+    ? `${valid}<unexpected/>`
+    : `${valid.slice(0, closeStart)}<unexpected/>${valid.slice(closeStart)}`;
 }
 
 function lexical(type: TypeRef): string {
