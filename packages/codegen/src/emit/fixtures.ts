@@ -1,5 +1,6 @@
 import type { TypeRef } from '../ir.js';
 import type { ModelComplexType, ModelSet, Slot } from '../model.js';
+import { NS_BY_TOKEN } from '../namespaces.js';
 import type { EmittedModule } from './types.js';
 
 /**
@@ -59,10 +60,24 @@ function minimalXml(
 
   const next = new Set(active);
   next.add(key);
-  const attrs = ct.attributes
-    .filter((a) => a.required)
-    .map((a) => ` ${a.name}="${lexical(a.type)}"`)
-    .join('');
+
+  const nsDecls = new Map<string, string>();
+  const attrParts: string[] = [];
+  for (const a of ct.attributes.filter((x) => x.required)) {
+    if (a.ns !== null) {
+      const binding = NS_BY_TOKEN.get(a.ns);
+      const prefix = binding?.prefix ?? a.ns;
+      if (binding?.transitional) {
+        nsDecls.set(prefix, binding.transitional);
+      }
+      attrParts.push(`${prefix}:${a.name}="${lexical(a.type)}"`);
+    } else {
+      attrParts.push(`${a.name}="${lexical(a.type)}"`);
+    }
+  }
+  const decls = [...nsDecls.entries()].map(([p, uri]) => ` xmlns:${p}="${uri}"`).join('');
+  const attrs = attrParts.map((x) => ` ${x}`).join('') + decls;
+
   const children =
     ct.content.kind === 'elements'
       ? ct.content.slots

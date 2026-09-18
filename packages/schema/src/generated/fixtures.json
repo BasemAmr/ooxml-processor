@@ -60,14 +60,14 @@
     "custom-xml#CT_DatastoreItem": {
       "namespace": "custom-xml",
       "type": "CT_DatastoreItem",
-      "minimal": "<CT_DatastoreItem itemID=\"fixture\"/>",
-      "invalid": "<CT_DatastoreItem itemID=\"fixture\"><unexpected/></CT_DatastoreItem>"
+      "minimal": "<CT_DatastoreItem ds:itemID=\"fixture\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"/>",
+      "invalid": "<CT_DatastoreItem ds:itemID=\"fixture\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"><unexpected/></CT_DatastoreItem>"
     },
     "custom-xml#CT_DatastoreSchemaRef": {
       "namespace": "custom-xml",
       "type": "CT_DatastoreSchemaRef",
-      "minimal": "<CT_DatastoreSchemaRef uri=\"fixture\"/>",
-      "invalid": "<CT_DatastoreSchemaRef uri=\"fixture\"><unexpected/></CT_DatastoreSchemaRef>"
+      "minimal": "<CT_DatastoreSchemaRef ds:uri=\"fixture\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"/>",
+      "invalid": "<CT_DatastoreSchemaRef ds:uri=\"fixture\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"><unexpected/></CT_DatastoreSchemaRef>"
     },
     "custom-xml#CT_DatastoreSchemaRefs": {
       "namespace": "custom-xml",
@@ -336,8 +336,8 @@
     "dml-chart#CT_ExternalData": {
       "namespace": "dml-chart",
       "type": "CT_ExternalData",
-      "minimal": "<CT_ExternalData id=\"fixture\"/>",
-      "invalid": "<CT_ExternalData id=\"fixture\"><unexpected/></CT_ExternalData>"
+      "minimal": "<CT_ExternalData r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_ExternalData r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_ExternalData>"
     },
     "dml-chart#CT_FirstSliceAng": {
       "namespace": "dml-chart",
@@ -666,8 +666,8 @@
     "dml-chart#CT_RelId": {
       "namespace": "dml-chart",
       "type": "CT_RelId",
-      "minimal": "<CT_RelId id=\"fixture\"/>",
-      "invalid": "<CT_RelId id=\"fixture\"><unexpected/></CT_RelId>"
+      "minimal": "<CT_RelId r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_RelId r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_RelId>"
     },
     "dml-chart#CT_RotX": {
       "namespace": "dml-chart",
@@ -1236,8 +1236,8 @@
     "dml-diagram#CT_RelIds": {
       "namespace": "dml-diagram",
       "type": "CT_RelIds",
-      "minimal": "<CT_RelIds dm=\"fixture\" lo=\"fixture\" qs=\"fixture\" cs=\"fixture\"/>",
-      "invalid": "<CT_RelIds dm=\"fixture\" lo=\"fixture\" qs=\"fixture\" cs=\"fixture\"><unexpected/></CT_RelIds>"
+      "minimal": "<CT_RelIds r:dm=\"fixture\" r:lo=\"fixture\" r:qs=\"fixture\" r:cs=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_RelIds r:dm=\"fixture\" r:lo=\"fixture\" r:qs=\"fixture\" r:cs=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_RelIds>"
     },
     "dml-diagram#CT_ResizeHandles": {
       "namespace": "dml-diagram",
@@ -1440,8 +1440,8 @@
     "dml-main#CT_AudioFile": {
       "namespace": "dml-main",
       "type": "CT_AudioFile",
-      "minimal": "<CT_AudioFile link=\"fixture\"/>",
-      "invalid": "<CT_AudioFile link=\"fixture\"><unexpected/></CT_AudioFile>"
+      "minimal": "<CT_AudioFile r:link=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_AudioFile r:link=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_AudioFile>"
     },
     "dml-main#CT_Backdrop": {
       "namespace": "dml-main",
@@ -1704,8 +1704,8 @@
     "dml-main#CT_EmbeddedWAVAudioFile": {
       "namespace": "dml-main",
       "type": "CT_EmbeddedWAVAudioFile",
-      "minimal": "<CT_EmbeddedWAVAudioFile embed=\"fixture\"/>",
-      "invalid": "<CT_EmbeddedWAVAudioFile embed=\"fixture\"><unexpected/></CT_EmbeddedWAVAudioFile>"
+      "minimal": "<CT_EmbeddedWAVAudioFile r:embed=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_EmbeddedWAVAudioFile r:embed=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_EmbeddedWAVAudioFile>"
     },
     "dml-main#CT_EmptyElement": {
       "namespace": "dml-main",
@@ -2262,8 +2262,8 @@
     "dml-main#CT_QuickTimeFile": {
       "namespace": "dml-main",
       "type": "CT_QuickTimeFile",
-      "minimal": "<CT_QuickTimeFile link=\"fixture\"/>",
-      "invalid": "<CT_QuickTimeFile link=\"fixture\"><unexpected/></CT_QuickTimeFile>"
+      "minimal": "<CT_QuickTimeFile r:link=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_QuickTimeFile r:link=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_QuickTimeFile>"
     },
     "dml-main#CT_Ratio": {
       "namespace": "dml-main",
@@ -2694,8 +2694,8 @@
     "dml-main#CT_VideoFile": {
       "namespace": "dml-main",
       "type": "CT_VideoFile",
-      "minimal": "<CT_VideoFile link=\"fixture\"/>",
-      "invalid": "<CT_VideoFile link=\"fixture\"><unexpected/></CT_VideoFile>"
+      "minimal": "<CT_VideoFile r:link=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_VideoFile r:link=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_VideoFile>"
     },
     "dml-main#CT_WholeE2oFormatting": {
       "namespace": "dml-main",
@@ -2802,8 +2802,8 @@
     "dml-spreadsheetDrawing#CT_Rel": {
       "namespace": "dml-spreadsheetDrawing",
       "type": "CT_Rel",
-      "minimal": "<CT_Rel id=\"fixture\"/>",
-      "invalid": "<CT_Rel id=\"fixture\"><unexpected/></CT_Rel>"
+      "minimal": "<CT_Rel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_Rel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_Rel>"
     },
     "dml-spreadsheetDrawing#CT_Shape": {
       "namespace": "dml-spreadsheetDrawing",
@@ -2886,8 +2886,8 @@
     "dml-wordprocessingDrawing#CT_WordprocessingContentPart": {
       "namespace": "dml-wordprocessingDrawing",
       "type": "CT_WordprocessingContentPart",
-      "minimal": "<CT_WordprocessingContentPart id=\"fixture\"/>",
-      "invalid": "<CT_WordprocessingContentPart id=\"fixture\"><unexpected/></CT_WordprocessingContentPart>"
+      "minimal": "<CT_WordprocessingContentPart r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_WordprocessingContentPart r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_WordprocessingContentPart>"
     },
     "dml-wordprocessingDrawing#CT_WordprocessingContentPartNonVisual": {
       "namespace": "dml-wordprocessingDrawing",
@@ -3078,8 +3078,8 @@
     "math#CT_Char": {
       "namespace": "math",
       "type": "CT_Char",
-      "minimal": "<CT_Char val=\"fixture\"/>",
-      "invalid": "<CT_Char val=\"fixture\"><unexpected/></CT_Char>"
+      "minimal": "<CT_Char m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_Char m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_Char>"
     },
     "math#CT_CtrlPr": {
       "namespace": "math",
@@ -3126,8 +3126,8 @@
     "math#CT_FType": {
       "namespace": "math",
       "type": "CT_FType",
-      "minimal": "<CT_FType val=\"fixture\"/>",
-      "invalid": "<CT_FType val=\"fixture\"><unexpected/></CT_FType>"
+      "minimal": "<CT_FType m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_FType m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_FType>"
     },
     "math#CT_Func": {
       "namespace": "math",
@@ -3156,20 +3156,20 @@
     "math#CT_Integer2": {
       "namespace": "math",
       "type": "CT_Integer2",
-      "minimal": "<CT_Integer2 val=\"fixture\"/>",
-      "invalid": "<CT_Integer2 val=\"fixture\"><unexpected/></CT_Integer2>"
+      "minimal": "<CT_Integer2 m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_Integer2 m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_Integer2>"
     },
     "math#CT_Integer255": {
       "namespace": "math",
       "type": "CT_Integer255",
-      "minimal": "<CT_Integer255 val=\"fixture\"/>",
-      "invalid": "<CT_Integer255 val=\"fixture\"><unexpected/></CT_Integer255>"
+      "minimal": "<CT_Integer255 m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_Integer255 m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_Integer255>"
     },
     "math#CT_LimLoc": {
       "namespace": "math",
       "type": "CT_LimLoc",
-      "minimal": "<CT_LimLoc val=\"fixture\"/>",
-      "invalid": "<CT_LimLoc val=\"fixture\"><unexpected/></CT_LimLoc>"
+      "minimal": "<CT_LimLoc m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_LimLoc m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_LimLoc>"
     },
     "math#CT_LimLow": {
       "namespace": "math",
@@ -3342,14 +3342,14 @@
     "math#CT_Shp": {
       "namespace": "math",
       "type": "CT_Shp",
-      "minimal": "<CT_Shp val=\"fixture\"/>",
-      "invalid": "<CT_Shp val=\"fixture\"><unexpected/></CT_Shp>"
+      "minimal": "<CT_Shp m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_Shp m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_Shp>"
     },
     "math#CT_SpacingRule": {
       "namespace": "math",
       "type": "CT_SpacingRule",
-      "minimal": "<CT_SpacingRule val=\"fixture\"/>",
-      "invalid": "<CT_SpacingRule val=\"fixture\"><unexpected/></CT_SpacingRule>"
+      "minimal": "<CT_SpacingRule m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_SpacingRule m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_SpacingRule>"
     },
     "math#CT_SPre": {
       "namespace": "math",
@@ -3420,32 +3420,32 @@
     "math#CT_TopBot": {
       "namespace": "math",
       "type": "CT_TopBot",
-      "minimal": "<CT_TopBot val=\"fixture\"/>",
-      "invalid": "<CT_TopBot val=\"fixture\"><unexpected/></CT_TopBot>"
+      "minimal": "<CT_TopBot m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_TopBot m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_TopBot>"
     },
     "math#CT_TwipsMeasure": {
       "namespace": "math",
       "type": "CT_TwipsMeasure",
-      "minimal": "<CT_TwipsMeasure val=\"fixture\"/>",
-      "invalid": "<CT_TwipsMeasure val=\"fixture\"><unexpected/></CT_TwipsMeasure>"
+      "minimal": "<CT_TwipsMeasure m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_TwipsMeasure m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_TwipsMeasure>"
     },
     "math#CT_UnSignedInteger": {
       "namespace": "math",
       "type": "CT_UnSignedInteger",
-      "minimal": "<CT_UnSignedInteger val=\"fixture\"/>",
-      "invalid": "<CT_UnSignedInteger val=\"fixture\"><unexpected/></CT_UnSignedInteger>"
+      "minimal": "<CT_UnSignedInteger m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_UnSignedInteger m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_UnSignedInteger>"
     },
     "math#CT_XAlign": {
       "namespace": "math",
       "type": "CT_XAlign",
-      "minimal": "<CT_XAlign val=\"fixture\"/>",
-      "invalid": "<CT_XAlign val=\"fixture\"><unexpected/></CT_XAlign>"
+      "minimal": "<CT_XAlign m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_XAlign m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_XAlign>"
     },
     "math#CT_YAlign": {
       "namespace": "math",
       "type": "CT_YAlign",
-      "minimal": "<CT_YAlign val=\"fixture\"/>",
-      "invalid": "<CT_YAlign val=\"fixture\"><unexpected/></CT_YAlign>"
+      "minimal": "<CT_YAlign m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"/>",
+      "invalid": "<CT_YAlign m:val=\"fixture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><unexpected/></CT_YAlign>"
     },
     "opc-content-types#CT_Default": {
       "namespace": "opc-content-types",
@@ -3612,8 +3612,8 @@
     "pml#CT_CustomerData": {
       "namespace": "pml",
       "type": "CT_CustomerData",
-      "minimal": "<CT_CustomerData id=\"fixture\"/>",
-      "invalid": "<CT_CustomerData id=\"fixture\"><unexpected/></CT_CustomerData>"
+      "minimal": "<CT_CustomerData r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_CustomerData r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_CustomerData>"
     },
     "pml#CT_CustomerDataList": {
       "namespace": "pml",
@@ -3648,8 +3648,8 @@
     "pml#CT_EmbeddedFontDataId": {
       "namespace": "pml",
       "type": "CT_EmbeddedFontDataId",
-      "minimal": "<CT_EmbeddedFontDataId id=\"fixture\"/>",
-      "invalid": "<CT_EmbeddedFontDataId id=\"fixture\"><unexpected/></CT_EmbeddedFontDataId>"
+      "minimal": "<CT_EmbeddedFontDataId r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_EmbeddedFontDataId r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_EmbeddedFontDataId>"
     },
     "pml#CT_EmbeddedFontList": {
       "namespace": "pml",
@@ -3738,8 +3738,8 @@
     "pml#CT_HandoutMasterIdListEntry": {
       "namespace": "pml",
       "type": "CT_HandoutMasterIdListEntry",
-      "minimal": "<CT_HandoutMasterIdListEntry id=\"fixture\"/>",
-      "invalid": "<CT_HandoutMasterIdListEntry id=\"fixture\"><unexpected/></CT_HandoutMasterIdListEntry>"
+      "minimal": "<CT_HandoutMasterIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_HandoutMasterIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_HandoutMasterIdListEntry>"
     },
     "pml#CT_HeaderFooter": {
       "namespace": "pml",
@@ -3750,8 +3750,8 @@
     "pml#CT_HtmlPublishProperties": {
       "namespace": "pml",
       "type": "CT_HtmlPublishProperties",
-      "minimal": "<CT_HtmlPublishProperties id=\"fixture\"><sldAll/></CT_HtmlPublishProperties>",
-      "invalid": "<CT_HtmlPublishProperties id=\"fixture\"><sldAll/><unexpected/></CT_HtmlPublishProperties>"
+      "minimal": "<CT_HtmlPublishProperties r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><sldAll/></CT_HtmlPublishProperties>",
+      "invalid": "<CT_HtmlPublishProperties r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><sldAll/><unexpected/></CT_HtmlPublishProperties>"
     },
     "pml#CT_IndexRange": {
       "namespace": "pml",
@@ -3804,8 +3804,8 @@
     "pml#CT_NotesMasterIdListEntry": {
       "namespace": "pml",
       "type": "CT_NotesMasterIdListEntry",
-      "minimal": "<CT_NotesMasterIdListEntry id=\"fixture\"/>",
-      "invalid": "<CT_NotesMasterIdListEntry id=\"fixture\"><unexpected/></CT_NotesMasterIdListEntry>"
+      "minimal": "<CT_NotesMasterIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_NotesMasterIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_NotesMasterIdListEntry>"
     },
     "pml#CT_NotesSlide": {
       "namespace": "pml",
@@ -3864,8 +3864,8 @@
     "pml#CT_OutlineViewSlideEntry": {
       "namespace": "pml",
       "type": "CT_OutlineViewSlideEntry",
-      "minimal": "<CT_OutlineViewSlideEntry id=\"fixture\"/>",
-      "invalid": "<CT_OutlineViewSlideEntry id=\"fixture\"><unexpected/></CT_OutlineViewSlideEntry>"
+      "minimal": "<CT_OutlineViewSlideEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_OutlineViewSlideEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_OutlineViewSlideEntry>"
     },
     "pml#CT_OutlineViewSlideList": {
       "namespace": "pml",
@@ -3918,8 +3918,8 @@
     "pml#CT_Rel": {
       "namespace": "pml",
       "type": "CT_Rel",
-      "minimal": "<CT_Rel id=\"fixture\"/>",
-      "invalid": "<CT_Rel id=\"fixture\"><unexpected/></CT_Rel>"
+      "minimal": "<CT_Rel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_Rel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_Rel>"
     },
     "pml#CT_Shape": {
       "namespace": "pml",
@@ -3972,8 +3972,8 @@
     "pml#CT_SlideIdListEntry": {
       "namespace": "pml",
       "type": "CT_SlideIdListEntry",
-      "minimal": "<CT_SlideIdListEntry id=\"fixture\" id=\"fixture\"/>",
-      "invalid": "<CT_SlideIdListEntry id=\"fixture\" id=\"fixture\"><unexpected/></CT_SlideIdListEntry>"
+      "minimal": "<CT_SlideIdListEntry id=\"fixture\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_SlideIdListEntry id=\"fixture\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_SlideIdListEntry>"
     },
     "pml#CT_SlideLayout": {
       "namespace": "pml",
@@ -3990,8 +3990,8 @@
     "pml#CT_SlideLayoutIdListEntry": {
       "namespace": "pml",
       "type": "CT_SlideLayoutIdListEntry",
-      "minimal": "<CT_SlideLayoutIdListEntry id=\"fixture\"/>",
-      "invalid": "<CT_SlideLayoutIdListEntry id=\"fixture\"><unexpected/></CT_SlideLayoutIdListEntry>"
+      "minimal": "<CT_SlideLayoutIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_SlideLayoutIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_SlideLayoutIdListEntry>"
     },
     "pml#CT_SlideMaster": {
       "namespace": "pml",
@@ -4008,8 +4008,8 @@
     "pml#CT_SlideMasterIdListEntry": {
       "namespace": "pml",
       "type": "CT_SlideMasterIdListEntry",
-      "minimal": "<CT_SlideMasterIdListEntry id=\"fixture\"/>",
-      "invalid": "<CT_SlideMasterIdListEntry id=\"fixture\"><unexpected/></CT_SlideMasterIdListEntry>"
+      "minimal": "<CT_SlideMasterIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_SlideMasterIdListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_SlideMasterIdListEntry>"
     },
     "pml#CT_SlideMasterTextStyles": {
       "namespace": "pml",
@@ -4026,8 +4026,8 @@
     "pml#CT_SlideRelationshipListEntry": {
       "namespace": "pml",
       "type": "CT_SlideRelationshipListEntry",
-      "minimal": "<CT_SlideRelationshipListEntry id=\"fixture\"/>",
-      "invalid": "<CT_SlideRelationshipListEntry id=\"fixture\"><unexpected/></CT_SlideRelationshipListEntry>"
+      "minimal": "<CT_SlideRelationshipListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_SlideRelationshipListEntry r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_SlideRelationshipListEntry>"
     },
     "pml#CT_SlideSize": {
       "namespace": "pml",
@@ -4068,8 +4068,8 @@
     "pml#CT_SmartTags": {
       "namespace": "pml",
       "type": "CT_SmartTags",
-      "minimal": "<CT_SmartTags id=\"fixture\"/>",
-      "invalid": "<CT_SmartTags id=\"fixture\"><unexpected/></CT_SmartTags>"
+      "minimal": "<CT_SmartTags r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_SmartTags r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_SmartTags>"
     },
     "pml#CT_SplitTransition": {
       "namespace": "pml",
@@ -4092,8 +4092,8 @@
     "pml#CT_TagsData": {
       "namespace": "pml",
       "type": "CT_TagsData",
-      "minimal": "<CT_TagsData id=\"fixture\"/>",
-      "invalid": "<CT_TagsData id=\"fixture\"><unexpected/></CT_TagsData>"
+      "minimal": "<CT_TagsData r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_TagsData r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_TagsData>"
     },
     "pml#CT_TimeNodeList": {
       "namespace": "pml",
@@ -4806,8 +4806,8 @@
     "sml#CT_Control": {
       "namespace": "sml",
       "type": "CT_Control",
-      "minimal": "<CT_Control shapeId=\"0\" id=\"fixture\"/>",
-      "invalid": "<CT_Control shapeId=\"0\" id=\"fixture\"><unexpected/></CT_Control>"
+      "minimal": "<CT_Control shapeId=\"0\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_Control shapeId=\"0\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_Control>"
     },
     "sml#CT_ControlPr": {
       "namespace": "sml",
@@ -4860,8 +4860,8 @@
     "sml#CT_CustomProperty": {
       "namespace": "sml",
       "type": "CT_CustomProperty",
-      "minimal": "<CT_CustomProperty name=\"fixture\" id=\"fixture\"/>",
-      "invalid": "<CT_CustomProperty name=\"fixture\" id=\"fixture\"><unexpected/></CT_CustomProperty>"
+      "minimal": "<CT_CustomProperty name=\"fixture\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_CustomProperty name=\"fixture\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_CustomProperty>"
     },
     "sml#CT_CustomSheetView": {
       "namespace": "sml",
@@ -5028,14 +5028,14 @@
     "sml#CT_Drawing": {
       "namespace": "sml",
       "type": "CT_Drawing",
-      "minimal": "<CT_Drawing id=\"fixture\"/>",
-      "invalid": "<CT_Drawing id=\"fixture\"><unexpected/></CT_Drawing>"
+      "minimal": "<CT_Drawing r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_Drawing r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_Drawing>"
     },
     "sml#CT_DrawingHF": {
       "namespace": "sml",
       "type": "CT_DrawingHF",
-      "minimal": "<CT_DrawingHF id=\"fixture\"/>",
-      "invalid": "<CT_DrawingHF id=\"fixture\"><unexpected/></CT_DrawingHF>"
+      "minimal": "<CT_DrawingHF r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_DrawingHF r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_DrawingHF>"
     },
     "sml#CT_Dxf": {
       "namespace": "sml",
@@ -5076,8 +5076,8 @@
     "sml#CT_ExternalBook": {
       "namespace": "sml",
       "type": "CT_ExternalBook",
-      "minimal": "<CT_ExternalBook id=\"fixture\"/>",
-      "invalid": "<CT_ExternalBook id=\"fixture\"><unexpected/></CT_ExternalBook>"
+      "minimal": "<CT_ExternalBook r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_ExternalBook r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_ExternalBook>"
     },
     "sml#CT_ExternalCell": {
       "namespace": "sml",
@@ -5106,8 +5106,8 @@
     "sml#CT_ExternalReference": {
       "namespace": "sml",
       "type": "CT_ExternalReference",
-      "minimal": "<CT_ExternalReference id=\"fixture\"/>",
-      "invalid": "<CT_ExternalReference id=\"fixture\"><unexpected/></CT_ExternalReference>"
+      "minimal": "<CT_ExternalReference r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_ExternalReference r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_ExternalReference>"
     },
     "sml#CT_ExternalReferences": {
       "namespace": "sml",
@@ -5430,8 +5430,8 @@
     "sml#CT_LegacyDrawing": {
       "namespace": "sml",
       "type": "CT_LegacyDrawing",
-      "minimal": "<CT_LegacyDrawing id=\"fixture\"/>",
-      "invalid": "<CT_LegacyDrawing id=\"fixture\"><unexpected/></CT_LegacyDrawing>"
+      "minimal": "<CT_LegacyDrawing r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_LegacyDrawing r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_LegacyDrawing>"
     },
     "sml#CT_LevelGroup": {
       "namespace": "sml",
@@ -5670,8 +5670,8 @@
     "sml#CT_OleLink": {
       "namespace": "sml",
       "type": "CT_OleLink",
-      "minimal": "<CT_OleLink id=\"fixture\" progId=\"fixture\"/>",
-      "invalid": "<CT_OleLink id=\"fixture\" progId=\"fixture\"><unexpected/></CT_OleLink>"
+      "minimal": "<CT_OleLink r:id=\"fixture\" progId=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_OleLink r:id=\"fixture\" progId=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_OleLink>"
     },
     "sml#CT_OleObject": {
       "namespace": "sml",
@@ -5832,8 +5832,8 @@
     "sml#CT_PivotCache": {
       "namespace": "sml",
       "type": "CT_PivotCache",
-      "minimal": "<CT_PivotCache cacheId=\"0\" id=\"fixture\"/>",
-      "invalid": "<CT_PivotCache cacheId=\"0\" id=\"fixture\"><unexpected/></CT_PivotCache>"
+      "minimal": "<CT_PivotCache cacheId=\"0\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_PivotCache cacheId=\"0\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_PivotCache>"
     },
     "sml#CT_PivotCacheDefinition": {
       "namespace": "sml",
@@ -6060,8 +6060,8 @@
     "sml#CT_RevisionHeader": {
       "namespace": "sml",
       "type": "CT_RevisionHeader",
-      "minimal": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" id=\"fixture\"><sheetIdMap/></CT_RevisionHeader>",
-      "invalid": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" id=\"fixture\"><sheetIdMap/><unexpected/></CT_RevisionHeader>"
+      "minimal": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><sheetIdMap/></CT_RevisionHeader>",
+      "invalid": "<CT_RevisionHeader guid=\"fixture\" dateTime=\"fixture\" maxSheetId=\"0\" userName=\"fixture\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><sheetIdMap/><unexpected/></CT_RevisionHeader>"
     },
     "sml#CT_RevisionHeaders": {
       "namespace": "sml",
@@ -6210,14 +6210,14 @@
     "sml#CT_Sheet": {
       "namespace": "sml",
       "type": "CT_Sheet",
-      "minimal": "<CT_Sheet name=\"fixture\" sheetId=\"0\" id=\"fixture\"/>",
-      "invalid": "<CT_Sheet name=\"fixture\" sheetId=\"0\" id=\"fixture\"><unexpected/></CT_Sheet>"
+      "minimal": "<CT_Sheet name=\"fixture\" sheetId=\"0\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_Sheet name=\"fixture\" sheetId=\"0\" r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_Sheet>"
     },
     "sml#CT_SheetBackgroundPicture": {
       "namespace": "sml",
       "type": "CT_SheetBackgroundPicture",
-      "minimal": "<CT_SheetBackgroundPicture id=\"fixture\"/>",
-      "invalid": "<CT_SheetBackgroundPicture id=\"fixture\"><unexpected/></CT_SheetBackgroundPicture>"
+      "minimal": "<CT_SheetBackgroundPicture r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_SheetBackgroundPicture r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_SheetBackgroundPicture>"
     },
     "sml#CT_SheetCalcPr": {
       "namespace": "sml",
@@ -6384,8 +6384,8 @@
     "sml#CT_TablePart": {
       "namespace": "sml",
       "type": "CT_TablePart",
-      "minimal": "<CT_TablePart id=\"fixture\"/>",
-      "invalid": "<CT_TablePart id=\"fixture\"><unexpected/></CT_TablePart>"
+      "minimal": "<CT_TablePart r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_TablePart r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_TablePart>"
     },
     "sml#CT_TableParts": {
       "namespace": "sml",
@@ -6636,8 +6636,8 @@
     "vml-office#CT_ClipPath": {
       "namespace": "vml-office",
       "type": "CT_ClipPath",
-      "minimal": "<CT_ClipPath v=\"fixture\"/>",
-      "invalid": "<CT_ClipPath v=\"fixture\"><unexpected/></CT_ClipPath>"
+      "minimal": "<CT_ClipPath o:v=\"fixture\" xmlns:o=\"urn:schemas-microsoft-com:office:office\"/>",
+      "invalid": "<CT_ClipPath o:v=\"fixture\" xmlns:o=\"urn:schemas-microsoft-com:office:office\"><unexpected/></CT_ClipPath>"
     },
     "vml-office#CT_ColorMenu": {
       "namespace": "vml-office",
@@ -6948,8 +6948,8 @@
     "wml#CT_AbstractNum": {
       "namespace": "wml",
       "type": "CT_AbstractNum",
-      "minimal": "<CT_AbstractNum abstractNumId=\"fixture\"/>",
-      "invalid": "<CT_AbstractNum abstractNumId=\"fixture\"><unexpected/></CT_AbstractNum>"
+      "minimal": "<CT_AbstractNum w:abstractNumId=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_AbstractNum w:abstractNumId=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_AbstractNum>"
     },
     "wml#CT_AltChunk": {
       "namespace": "wml",
@@ -6966,14 +6966,14 @@
     "wml#CT_Attr": {
       "namespace": "wml",
       "type": "CT_Attr",
-      "minimal": "<CT_Attr name=\"fixture\" val=\"fixture\"/>",
-      "invalid": "<CT_Attr name=\"fixture\" val=\"fixture\"><unexpected/></CT_Attr>"
+      "minimal": "<CT_Attr w:name=\"fixture\" w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Attr w:name=\"fixture\" w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Attr>"
     },
     "wml#CT_AutoCaption": {
       "namespace": "wml",
       "type": "CT_AutoCaption",
-      "minimal": "<CT_AutoCaption name=\"fixture\" caption=\"fixture\"/>",
-      "invalid": "<CT_AutoCaption name=\"fixture\" caption=\"fixture\"><unexpected/></CT_AutoCaption>"
+      "minimal": "<CT_AutoCaption w:name=\"fixture\" w:caption=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_AutoCaption w:name=\"fixture\" w:caption=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_AutoCaption>"
     },
     "wml#CT_AutoCaptions": {
       "namespace": "wml",
@@ -6990,8 +6990,8 @@
     "wml#CT_Base64Binary": {
       "namespace": "wml",
       "type": "CT_Base64Binary",
-      "minimal": "<CT_Base64Binary val=\"fixture\"/>",
-      "invalid": "<CT_Base64Binary val=\"fixture\"><unexpected/></CT_Base64Binary>"
+      "minimal": "<CT_Base64Binary w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Base64Binary w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Base64Binary>"
     },
     "wml#CT_BdoContentRun": {
       "namespace": "wml",
@@ -7008,26 +7008,26 @@
     "wml#CT_Bookmark": {
       "namespace": "wml",
       "type": "CT_Bookmark",
-      "minimal": "<CT_Bookmark id=\"fixture\" name=\"fixture\"/>",
-      "invalid": "<CT_Bookmark id=\"fixture\" name=\"fixture\"><unexpected/></CT_Bookmark>"
+      "minimal": "<CT_Bookmark w:id=\"fixture\" w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Bookmark w:id=\"fixture\" w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Bookmark>"
     },
     "wml#CT_BookmarkRange": {
       "namespace": "wml",
       "type": "CT_BookmarkRange",
-      "minimal": "<CT_BookmarkRange id=\"fixture\"/>",
-      "invalid": "<CT_BookmarkRange id=\"fixture\"><unexpected/></CT_BookmarkRange>"
+      "minimal": "<CT_BookmarkRange w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_BookmarkRange w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_BookmarkRange>"
     },
     "wml#CT_Border": {
       "namespace": "wml",
       "type": "CT_Border",
-      "minimal": "<CT_Border val=\"fixture\"/>",
-      "invalid": "<CT_Border val=\"fixture\"><unexpected/></CT_Border>"
+      "minimal": "<CT_Border w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Border w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Border>"
     },
     "wml#CT_BottomPageBorder": {
       "namespace": "wml",
       "type": "CT_BottomPageBorder",
-      "minimal": "<CT_BottomPageBorder val=\"fixture\"/>",
-      "invalid": "<CT_BottomPageBorder val=\"fixture\"><unexpected/></CT_BottomPageBorder>"
+      "minimal": "<CT_BottomPageBorder w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_BottomPageBorder w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_BottomPageBorder>"
     },
     "wml#CT_Br": {
       "namespace": "wml",
@@ -7044,8 +7044,8 @@
     "wml#CT_Caption": {
       "namespace": "wml",
       "type": "CT_Caption",
-      "minimal": "<CT_Caption name=\"fixture\"/>",
-      "invalid": "<CT_Caption name=\"fixture\"><unexpected/></CT_Caption>"
+      "minimal": "<CT_Caption w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Caption w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Caption>"
     },
     "wml#CT_Captions": {
       "namespace": "wml",
@@ -7056,14 +7056,14 @@
     "wml#CT_CellMergeTrackChange": {
       "namespace": "wml",
       "type": "CT_CellMergeTrackChange",
-      "minimal": "<CT_CellMergeTrackChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_CellMergeTrackChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_CellMergeTrackChange>"
+      "minimal": "<CT_CellMergeTrackChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_CellMergeTrackChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_CellMergeTrackChange>"
     },
     "wml#CT_CharacterSpacing": {
       "namespace": "wml",
       "type": "CT_CharacterSpacing",
-      "minimal": "<CT_CharacterSpacing val=\"fixture\"/>",
-      "invalid": "<CT_CharacterSpacing val=\"fixture\"><unexpected/></CT_CharacterSpacing>"
+      "minimal": "<CT_CharacterSpacing w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_CharacterSpacing w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_CharacterSpacing>"
     },
     "wml#CT_Charset": {
       "namespace": "wml",
@@ -7080,8 +7080,8 @@
     "wml#CT_Color": {
       "namespace": "wml",
       "type": "CT_Color",
-      "minimal": "<CT_Color val=\"fixture\"/>",
-      "invalid": "<CT_Color val=\"fixture\"><unexpected/></CT_Color>"
+      "minimal": "<CT_Color w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Color w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Color>"
     },
     "wml#CT_ColorSchemeMapping": {
       "namespace": "wml",
@@ -7104,8 +7104,8 @@
     "wml#CT_Comment": {
       "namespace": "wml",
       "type": "CT_Comment",
-      "minimal": "<CT_Comment id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_Comment id=\"fixture\" author=\"fixture\"><unexpected/></CT_Comment>"
+      "minimal": "<CT_Comment w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Comment w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Comment>"
     },
     "wml#CT_Comments": {
       "namespace": "wml",
@@ -7134,14 +7134,14 @@
     "wml#CT_CustomXmlBlock": {
       "namespace": "wml",
       "type": "CT_CustomXmlBlock",
-      "minimal": "<CT_CustomXmlBlock element=\"fixture\"/>",
-      "invalid": "<CT_CustomXmlBlock element=\"fixture\"><unexpected/></CT_CustomXmlBlock>"
+      "minimal": "<CT_CustomXmlBlock w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_CustomXmlBlock w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_CustomXmlBlock>"
     },
     "wml#CT_CustomXmlCell": {
       "namespace": "wml",
       "type": "CT_CustomXmlCell",
-      "minimal": "<CT_CustomXmlCell element=\"fixture\"/>",
-      "invalid": "<CT_CustomXmlCell element=\"fixture\"><unexpected/></CT_CustomXmlCell>"
+      "minimal": "<CT_CustomXmlCell w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_CustomXmlCell w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_CustomXmlCell>"
     },
     "wml#CT_CustomXmlPr": {
       "namespace": "wml",
@@ -7152,32 +7152,32 @@
     "wml#CT_CustomXmlRow": {
       "namespace": "wml",
       "type": "CT_CustomXmlRow",
-      "minimal": "<CT_CustomXmlRow element=\"fixture\"/>",
-      "invalid": "<CT_CustomXmlRow element=\"fixture\"><unexpected/></CT_CustomXmlRow>"
+      "minimal": "<CT_CustomXmlRow w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_CustomXmlRow w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_CustomXmlRow>"
     },
     "wml#CT_CustomXmlRun": {
       "namespace": "wml",
       "type": "CT_CustomXmlRun",
-      "minimal": "<CT_CustomXmlRun element=\"fixture\"/>",
-      "invalid": "<CT_CustomXmlRun element=\"fixture\"><unexpected/></CT_CustomXmlRun>"
+      "minimal": "<CT_CustomXmlRun w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_CustomXmlRun w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_CustomXmlRun>"
     },
     "wml#CT_DataBinding": {
       "namespace": "wml",
       "type": "CT_DataBinding",
-      "minimal": "<CT_DataBinding xpath=\"fixture\" storeItemID=\"fixture\"/>",
-      "invalid": "<CT_DataBinding xpath=\"fixture\" storeItemID=\"fixture\"><unexpected/></CT_DataBinding>"
+      "minimal": "<CT_DataBinding w:xpath=\"fixture\" w:storeItemID=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DataBinding w:xpath=\"fixture\" w:storeItemID=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DataBinding>"
     },
     "wml#CT_DecimalNumber": {
       "namespace": "wml",
       "type": "CT_DecimalNumber",
-      "minimal": "<CT_DecimalNumber val=\"fixture\"/>",
-      "invalid": "<CT_DecimalNumber val=\"fixture\"><unexpected/></CT_DecimalNumber>"
+      "minimal": "<CT_DecimalNumber w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DecimalNumber w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DecimalNumber>"
     },
     "wml#CT_DecimalNumberOrPrecent": {
       "namespace": "wml",
       "type": "CT_DecimalNumberOrPrecent",
-      "minimal": "<CT_DecimalNumberOrPrecent val=\"fixture\"/>",
-      "invalid": "<CT_DecimalNumberOrPrecent val=\"fixture\"><unexpected/></CT_DecimalNumberOrPrecent>"
+      "minimal": "<CT_DecimalNumberOrPrecent w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DecimalNumberOrPrecent w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DecimalNumberOrPrecent>"
     },
     "wml#CT_DirContentRun": {
       "namespace": "wml",
@@ -7188,8 +7188,8 @@
     "wml#CT_Div": {
       "namespace": "wml",
       "type": "CT_Div",
-      "minimal": "<CT_Div id=\"fixture\"><marLeft/><marRight/><marTop/><marBottom/></CT_Div>",
-      "invalid": "<CT_Div id=\"fixture\"><marLeft/><marRight/><marTop/><marBottom/><unexpected/></CT_Div>"
+      "minimal": "<CT_Div w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><marLeft/><marRight/><marTop/><marBottom/></CT_Div>",
+      "invalid": "<CT_Div w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><marLeft/><marRight/><marTop/><marBottom/><unexpected/></CT_Div>"
     },
     "wml#CT_DivBdr": {
       "namespace": "wml",
@@ -7224,8 +7224,8 @@
     "wml#CT_DocPartBehavior": {
       "namespace": "wml",
       "type": "CT_DocPartBehavior",
-      "minimal": "<CT_DocPartBehavior val=\"fixture\"/>",
-      "invalid": "<CT_DocPartBehavior val=\"fixture\"><unexpected/></CT_DocPartBehavior>"
+      "minimal": "<CT_DocPartBehavior w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DocPartBehavior w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DocPartBehavior>"
     },
     "wml#CT_DocPartBehaviors": {
       "namespace": "wml",
@@ -7242,14 +7242,14 @@
     "wml#CT_DocPartGallery": {
       "namespace": "wml",
       "type": "CT_DocPartGallery",
-      "minimal": "<CT_DocPartGallery val=\"fixture\"/>",
-      "invalid": "<CT_DocPartGallery val=\"fixture\"><unexpected/></CT_DocPartGallery>"
+      "minimal": "<CT_DocPartGallery w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DocPartGallery w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DocPartGallery>"
     },
     "wml#CT_DocPartName": {
       "namespace": "wml",
       "type": "CT_DocPartName",
-      "minimal": "<CT_DocPartName val=\"fixture\"/>",
-      "invalid": "<CT_DocPartName val=\"fixture\"><unexpected/></CT_DocPartName>"
+      "minimal": "<CT_DocPartName w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DocPartName w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DocPartName>"
     },
     "wml#CT_DocPartPr": {
       "namespace": "wml",
@@ -7266,8 +7266,8 @@
     "wml#CT_DocPartType": {
       "namespace": "wml",
       "type": "CT_DocPartType",
-      "minimal": "<CT_DocPartType val=\"fixture\"/>",
-      "invalid": "<CT_DocPartType val=\"fixture\"><unexpected/></CT_DocPartType>"
+      "minimal": "<CT_DocPartType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DocPartType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DocPartType>"
     },
     "wml#CT_DocPartTypes": {
       "namespace": "wml",
@@ -7290,8 +7290,8 @@
     "wml#CT_DocType": {
       "namespace": "wml",
       "type": "CT_DocType",
-      "minimal": "<CT_DocType val=\"fixture\"/>",
-      "invalid": "<CT_DocType val=\"fixture\"><unexpected/></CT_DocType>"
+      "minimal": "<CT_DocType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DocType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DocType>"
     },
     "wml#CT_Document": {
       "namespace": "wml",
@@ -7308,8 +7308,8 @@
     "wml#CT_DocVar": {
       "namespace": "wml",
       "type": "CT_DocVar",
-      "minimal": "<CT_DocVar name=\"fixture\" val=\"fixture\"/>",
-      "invalid": "<CT_DocVar name=\"fixture\" val=\"fixture\"><unexpected/></CT_DocVar>"
+      "minimal": "<CT_DocVar w:name=\"fixture\" w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_DocVar w:name=\"fixture\" w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_DocVar>"
     },
     "wml#CT_DocVars": {
       "namespace": "wml",
@@ -7338,8 +7338,8 @@
     "wml#CT_EdnPos": {
       "namespace": "wml",
       "type": "CT_EdnPos",
-      "minimal": "<CT_EdnPos val=\"fixture\"/>",
-      "invalid": "<CT_EdnPos val=\"fixture\"><unexpected/></CT_EdnPos>"
+      "minimal": "<CT_EdnPos w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_EdnPos w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_EdnPos>"
     },
     "wml#CT_EdnProps": {
       "namespace": "wml",
@@ -7350,8 +7350,8 @@
     "wml#CT_Em": {
       "namespace": "wml",
       "type": "CT_Em",
-      "minimal": "<CT_Em val=\"fixture\"/>",
-      "invalid": "<CT_Em val=\"fixture\"><unexpected/></CT_Em>"
+      "minimal": "<CT_Em w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Em w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Em>"
     },
     "wml#CT_Empty": {
       "namespace": "wml",
@@ -7410,38 +7410,38 @@
     "wml#CT_FFTextType": {
       "namespace": "wml",
       "type": "CT_FFTextType",
-      "minimal": "<CT_FFTextType val=\"fixture\"/>",
-      "invalid": "<CT_FFTextType val=\"fixture\"><unexpected/></CT_FFTextType>"
+      "minimal": "<CT_FFTextType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FFTextType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FFTextType>"
     },
     "wml#CT_FitText": {
       "namespace": "wml",
       "type": "CT_FitText",
-      "minimal": "<CT_FitText val=\"fixture\"/>",
-      "invalid": "<CT_FitText val=\"fixture\"><unexpected/></CT_FitText>"
+      "minimal": "<CT_FitText w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FitText w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FitText>"
     },
     "wml#CT_FldChar": {
       "namespace": "wml",
       "type": "CT_FldChar",
-      "minimal": "<CT_FldChar fldCharType=\"fixture\"><fldData/></CT_FldChar>",
-      "invalid": "<CT_FldChar fldCharType=\"fixture\"><fldData/><unexpected/></CT_FldChar>"
+      "minimal": "<CT_FldChar w:fldCharType=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><fldData/></CT_FldChar>",
+      "invalid": "<CT_FldChar w:fldCharType=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><fldData/><unexpected/></CT_FldChar>"
     },
     "wml#CT_Font": {
       "namespace": "wml",
       "type": "CT_Font",
-      "minimal": "<CT_Font name=\"fixture\"/>",
-      "invalid": "<CT_Font name=\"fixture\"><unexpected/></CT_Font>"
+      "minimal": "<CT_Font w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Font w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Font>"
     },
     "wml#CT_FontFamily": {
       "namespace": "wml",
       "type": "CT_FontFamily",
-      "minimal": "<CT_FontFamily val=\"fixture\"/>",
-      "invalid": "<CT_FontFamily val=\"fixture\"><unexpected/></CT_FontFamily>"
+      "minimal": "<CT_FontFamily w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FontFamily w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FontFamily>"
     },
     "wml#CT_FontRel": {
       "namespace": "wml",
       "type": "CT_FontRel",
-      "minimal": "<CT_FontRel id=\"fixture\"/>",
-      "invalid": "<CT_FontRel id=\"fixture\"><unexpected/></CT_FontRel>"
+      "minimal": "<CT_FontRel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_FontRel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_FontRel>"
     },
     "wml#CT_Fonts": {
       "namespace": "wml",
@@ -7452,8 +7452,8 @@
     "wml#CT_FontSig": {
       "namespace": "wml",
       "type": "CT_FontSig",
-      "minimal": "<CT_FontSig usb0=\"fixture\" usb1=\"fixture\" usb2=\"fixture\" usb3=\"fixture\" csb0=\"fixture\" csb1=\"fixture\"/>",
-      "invalid": "<CT_FontSig usb0=\"fixture\" usb1=\"fixture\" usb2=\"fixture\" usb3=\"fixture\" csb0=\"fixture\" csb1=\"fixture\"><unexpected/></CT_FontSig>"
+      "minimal": "<CT_FontSig w:usb0=\"fixture\" w:usb1=\"fixture\" w:usb2=\"fixture\" w:usb3=\"fixture\" w:csb0=\"fixture\" w:csb1=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FontSig w:usb0=\"fixture\" w:usb1=\"fixture\" w:usb2=\"fixture\" w:usb3=\"fixture\" w:csb0=\"fixture\" w:csb1=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FontSig>"
     },
     "wml#CT_FontsList": {
       "namespace": "wml",
@@ -7476,8 +7476,8 @@
     "wml#CT_FrameLayout": {
       "namespace": "wml",
       "type": "CT_FrameLayout",
-      "minimal": "<CT_FrameLayout val=\"fixture\"/>",
-      "invalid": "<CT_FrameLayout val=\"fixture\"><unexpected/></CT_FrameLayout>"
+      "minimal": "<CT_FrameLayout w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FrameLayout w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FrameLayout>"
     },
     "wml#CT_FramePr": {
       "namespace": "wml",
@@ -7488,8 +7488,8 @@
     "wml#CT_FrameScrollbar": {
       "namespace": "wml",
       "type": "CT_FrameScrollbar",
-      "minimal": "<CT_FrameScrollbar val=\"fixture\"/>",
-      "invalid": "<CT_FrameScrollbar val=\"fixture\"><unexpected/></CT_FrameScrollbar>"
+      "minimal": "<CT_FrameScrollbar w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FrameScrollbar w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FrameScrollbar>"
     },
     "wml#CT_Frameset": {
       "namespace": "wml",
@@ -7512,26 +7512,26 @@
     "wml#CT_FtnEdn": {
       "namespace": "wml",
       "type": "CT_FtnEdn",
-      "minimal": "<CT_FtnEdn id=\"fixture\"/>",
-      "invalid": "<CT_FtnEdn id=\"fixture\"><unexpected/></CT_FtnEdn>"
+      "minimal": "<CT_FtnEdn w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FtnEdn w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FtnEdn>"
     },
     "wml#CT_FtnEdnRef": {
       "namespace": "wml",
       "type": "CT_FtnEdnRef",
-      "minimal": "<CT_FtnEdnRef id=\"fixture\"/>",
-      "invalid": "<CT_FtnEdnRef id=\"fixture\"><unexpected/></CT_FtnEdnRef>"
+      "minimal": "<CT_FtnEdnRef w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FtnEdnRef w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FtnEdnRef>"
     },
     "wml#CT_FtnEdnSepRef": {
       "namespace": "wml",
       "type": "CT_FtnEdnSepRef",
-      "minimal": "<CT_FtnEdnSepRef id=\"fixture\"/>",
-      "invalid": "<CT_FtnEdnSepRef id=\"fixture\"><unexpected/></CT_FtnEdnSepRef>"
+      "minimal": "<CT_FtnEdnSepRef w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FtnEdnSepRef w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FtnEdnSepRef>"
     },
     "wml#CT_FtnPos": {
       "namespace": "wml",
       "type": "CT_FtnPos",
-      "minimal": "<CT_FtnPos val=\"fixture\"/>",
-      "invalid": "<CT_FtnPos val=\"fixture\"><unexpected/></CT_FtnPos>"
+      "minimal": "<CT_FtnPos w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_FtnPos w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_FtnPos>"
     },
     "wml#CT_FtnProps": {
       "namespace": "wml",
@@ -7560,8 +7560,8 @@
     "wml#CT_HdrFtrRef": {
       "namespace": "wml",
       "type": "CT_HdrFtrRef",
-      "minimal": "<CT_HdrFtrRef id=\"fixture\" type=\"fixture\"/>",
-      "invalid": "<CT_HdrFtrRef id=\"fixture\" type=\"fixture\"><unexpected/></CT_HdrFtrRef>"
+      "minimal": "<CT_HdrFtrRef r:id=\"fixture\" w:type=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_HdrFtrRef r:id=\"fixture\" w:type=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_HdrFtrRef>"
     },
     "wml#CT_Headers": {
       "namespace": "wml",
@@ -7578,8 +7578,8 @@
     "wml#CT_Highlight": {
       "namespace": "wml",
       "type": "CT_Highlight",
-      "minimal": "<CT_Highlight val=\"fixture\"/>",
-      "invalid": "<CT_Highlight val=\"fixture\"><unexpected/></CT_Highlight>"
+      "minimal": "<CT_Highlight w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Highlight w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Highlight>"
     },
     "wml#CT_HMerge": {
       "namespace": "wml",
@@ -7590,8 +7590,8 @@
     "wml#CT_HpsMeasure": {
       "namespace": "wml",
       "type": "CT_HpsMeasure",
-      "minimal": "<CT_HpsMeasure val=\"fixture\"/>",
-      "invalid": "<CT_HpsMeasure val=\"fixture\"><unexpected/></CT_HpsMeasure>"
+      "minimal": "<CT_HpsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_HpsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_HpsMeasure>"
     },
     "wml#CT_Hyperlink": {
       "namespace": "wml",
@@ -7608,26 +7608,26 @@
     "wml#CT_Jc": {
       "namespace": "wml",
       "type": "CT_Jc",
-      "minimal": "<CT_Jc val=\"fixture\"/>",
-      "invalid": "<CT_Jc val=\"fixture\"><unexpected/></CT_Jc>"
+      "minimal": "<CT_Jc w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Jc w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Jc>"
     },
     "wml#CT_JcTable": {
       "namespace": "wml",
       "type": "CT_JcTable",
-      "minimal": "<CT_JcTable val=\"fixture\"/>",
-      "invalid": "<CT_JcTable val=\"fixture\"><unexpected/></CT_JcTable>"
+      "minimal": "<CT_JcTable w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_JcTable w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_JcTable>"
     },
     "wml#CT_Kinsoku": {
       "namespace": "wml",
       "type": "CT_Kinsoku",
-      "minimal": "<CT_Kinsoku lang=\"fixture\" val=\"fixture\"/>",
-      "invalid": "<CT_Kinsoku lang=\"fixture\" val=\"fixture\"><unexpected/></CT_Kinsoku>"
+      "minimal": "<CT_Kinsoku w:lang=\"fixture\" w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Kinsoku w:lang=\"fixture\" w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Kinsoku>"
     },
     "wml#CT_Lang": {
       "namespace": "wml",
       "type": "CT_Lang",
-      "minimal": "<CT_Lang val=\"fixture\"/>",
-      "invalid": "<CT_Lang val=\"fixture\"><unexpected/></CT_Lang>"
+      "minimal": "<CT_Lang w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Lang w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Lang>"
     },
     "wml#CT_Language": {
       "namespace": "wml",
@@ -7644,8 +7644,8 @@
     "wml#CT_LevelSuffix": {
       "namespace": "wml",
       "type": "CT_LevelSuffix",
-      "minimal": "<CT_LevelSuffix val=\"fixture\"/>",
-      "invalid": "<CT_LevelSuffix val=\"fixture\"><unexpected/></CT_LevelSuffix>"
+      "minimal": "<CT_LevelSuffix w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_LevelSuffix w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_LevelSuffix>"
     },
     "wml#CT_LevelText": {
       "namespace": "wml",
@@ -7668,20 +7668,20 @@
     "wml#CT_LongHexNumber": {
       "namespace": "wml",
       "type": "CT_LongHexNumber",
-      "minimal": "<CT_LongHexNumber val=\"fixture\"/>",
-      "invalid": "<CT_LongHexNumber val=\"fixture\"><unexpected/></CT_LongHexNumber>"
+      "minimal": "<CT_LongHexNumber w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_LongHexNumber w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_LongHexNumber>"
     },
     "wml#CT_LsdException": {
       "namespace": "wml",
       "type": "CT_LsdException",
-      "minimal": "<CT_LsdException name=\"fixture\"/>",
-      "invalid": "<CT_LsdException name=\"fixture\"><unexpected/></CT_LsdException>"
+      "minimal": "<CT_LsdException w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_LsdException w:name=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_LsdException>"
     },
     "wml#CT_Lvl": {
       "namespace": "wml",
       "type": "CT_Lvl",
-      "minimal": "<CT_Lvl ilvl=\"fixture\"/>",
-      "invalid": "<CT_Lvl ilvl=\"fixture\"><unexpected/></CT_Lvl>"
+      "minimal": "<CT_Lvl w:ilvl=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Lvl w:ilvl=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Lvl>"
     },
     "wml#CT_LvlLegacy": {
       "namespace": "wml",
@@ -7692,8 +7692,8 @@
     "wml#CT_MacroName": {
       "namespace": "wml",
       "type": "CT_MacroName",
-      "minimal": "<CT_MacroName val=\"fixture\"/>",
-      "invalid": "<CT_MacroName val=\"fixture\"><unexpected/></CT_MacroName>"
+      "minimal": "<CT_MacroName w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MacroName w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MacroName>"
     },
     "wml#CT_MailMerge": {
       "namespace": "wml",
@@ -7704,74 +7704,74 @@
     "wml#CT_MailMergeDataType": {
       "namespace": "wml",
       "type": "CT_MailMergeDataType",
-      "minimal": "<CT_MailMergeDataType val=\"fixture\"/>",
-      "invalid": "<CT_MailMergeDataType val=\"fixture\"><unexpected/></CT_MailMergeDataType>"
+      "minimal": "<CT_MailMergeDataType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MailMergeDataType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MailMergeDataType>"
     },
     "wml#CT_MailMergeDest": {
       "namespace": "wml",
       "type": "CT_MailMergeDest",
-      "minimal": "<CT_MailMergeDest val=\"fixture\"/>",
-      "invalid": "<CT_MailMergeDest val=\"fixture\"><unexpected/></CT_MailMergeDest>"
+      "minimal": "<CT_MailMergeDest w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MailMergeDest w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MailMergeDest>"
     },
     "wml#CT_MailMergeDocType": {
       "namespace": "wml",
       "type": "CT_MailMergeDocType",
-      "minimal": "<CT_MailMergeDocType val=\"fixture\"/>",
-      "invalid": "<CT_MailMergeDocType val=\"fixture\"><unexpected/></CT_MailMergeDocType>"
+      "minimal": "<CT_MailMergeDocType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MailMergeDocType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MailMergeDocType>"
     },
     "wml#CT_MailMergeOdsoFMDFieldType": {
       "namespace": "wml",
       "type": "CT_MailMergeOdsoFMDFieldType",
-      "minimal": "<CT_MailMergeOdsoFMDFieldType val=\"fixture\"/>",
-      "invalid": "<CT_MailMergeOdsoFMDFieldType val=\"fixture\"><unexpected/></CT_MailMergeOdsoFMDFieldType>"
+      "minimal": "<CT_MailMergeOdsoFMDFieldType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MailMergeOdsoFMDFieldType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MailMergeOdsoFMDFieldType>"
     },
     "wml#CT_MailMergeSourceType": {
       "namespace": "wml",
       "type": "CT_MailMergeSourceType",
-      "minimal": "<CT_MailMergeSourceType val=\"fixture\"/>",
-      "invalid": "<CT_MailMergeSourceType val=\"fixture\"><unexpected/></CT_MailMergeSourceType>"
+      "minimal": "<CT_MailMergeSourceType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MailMergeSourceType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MailMergeSourceType>"
     },
     "wml#CT_Markup": {
       "namespace": "wml",
       "type": "CT_Markup",
-      "minimal": "<CT_Markup id=\"fixture\"/>",
-      "invalid": "<CT_Markup id=\"fixture\"><unexpected/></CT_Markup>"
+      "minimal": "<CT_Markup w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Markup w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Markup>"
     },
     "wml#CT_MarkupRange": {
       "namespace": "wml",
       "type": "CT_MarkupRange",
-      "minimal": "<CT_MarkupRange id=\"fixture\"/>",
-      "invalid": "<CT_MarkupRange id=\"fixture\"><unexpected/></CT_MarkupRange>"
+      "minimal": "<CT_MarkupRange w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MarkupRange w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MarkupRange>"
     },
     "wml#CT_MathCtrlDel": {
       "namespace": "wml",
       "type": "CT_MathCtrlDel",
-      "minimal": "<CT_MathCtrlDel id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_MathCtrlDel id=\"fixture\" author=\"fixture\"><unexpected/></CT_MathCtrlDel>"
+      "minimal": "<CT_MathCtrlDel w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MathCtrlDel w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MathCtrlDel>"
     },
     "wml#CT_MathCtrlIns": {
       "namespace": "wml",
       "type": "CT_MathCtrlIns",
-      "minimal": "<CT_MathCtrlIns id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_MathCtrlIns id=\"fixture\" author=\"fixture\"><unexpected/></CT_MathCtrlIns>"
+      "minimal": "<CT_MathCtrlIns w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MathCtrlIns w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MathCtrlIns>"
     },
     "wml#CT_MoveBookmark": {
       "namespace": "wml",
       "type": "CT_MoveBookmark",
-      "minimal": "<CT_MoveBookmark id=\"fixture\" name=\"fixture\" author=\"fixture\" date=\"fixture\"/>",
-      "invalid": "<CT_MoveBookmark id=\"fixture\" name=\"fixture\" author=\"fixture\" date=\"fixture\"><unexpected/></CT_MoveBookmark>"
+      "minimal": "<CT_MoveBookmark w:id=\"fixture\" w:name=\"fixture\" w:author=\"fixture\" w:date=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MoveBookmark w:id=\"fixture\" w:name=\"fixture\" w:author=\"fixture\" w:date=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MoveBookmark>"
     },
     "wml#CT_MultiLevelType": {
       "namespace": "wml",
       "type": "CT_MultiLevelType",
-      "minimal": "<CT_MultiLevelType val=\"fixture\"/>",
-      "invalid": "<CT_MultiLevelType val=\"fixture\"><unexpected/></CT_MultiLevelType>"
+      "minimal": "<CT_MultiLevelType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_MultiLevelType w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_MultiLevelType>"
     },
     "wml#CT_Num": {
       "namespace": "wml",
       "type": "CT_Num",
-      "minimal": "<CT_Num numId=\"fixture\"><abstractNumId/></CT_Num>",
-      "invalid": "<CT_Num numId=\"fixture\"><abstractNumId/><unexpected/></CT_Num>"
+      "minimal": "<CT_Num w:numId=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><abstractNumId/></CT_Num>",
+      "invalid": "<CT_Num w:numId=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><abstractNumId/><unexpected/></CT_Num>"
     },
     "wml#CT_Numbering": {
       "namespace": "wml",
@@ -7782,20 +7782,20 @@
     "wml#CT_NumFmt": {
       "namespace": "wml",
       "type": "CT_NumFmt",
-      "minimal": "<CT_NumFmt val=\"fixture\"/>",
-      "invalid": "<CT_NumFmt val=\"fixture\"><unexpected/></CT_NumFmt>"
+      "minimal": "<CT_NumFmt w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_NumFmt w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_NumFmt>"
     },
     "wml#CT_NumLvl": {
       "namespace": "wml",
       "type": "CT_NumLvl",
-      "minimal": "<CT_NumLvl ilvl=\"fixture\"/>",
-      "invalid": "<CT_NumLvl ilvl=\"fixture\"><unexpected/></CT_NumLvl>"
+      "minimal": "<CT_NumLvl w:ilvl=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_NumLvl w:ilvl=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_NumLvl>"
     },
     "wml#CT_NumPicBullet": {
       "namespace": "wml",
       "type": "CT_NumPicBullet",
-      "minimal": "<CT_NumPicBullet numPicBulletId=\"fixture\"><pict/></CT_NumPicBullet>",
-      "invalid": "<CT_NumPicBullet numPicBulletId=\"fixture\"><pict/><unexpected/></CT_NumPicBullet>"
+      "minimal": "<CT_NumPicBullet w:numPicBulletId=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><pict/></CT_NumPicBullet>",
+      "invalid": "<CT_NumPicBullet w:numPicBulletId=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><pict/><unexpected/></CT_NumPicBullet>"
     },
     "wml#CT_NumPr": {
       "namespace": "wml",
@@ -7806,8 +7806,8 @@
     "wml#CT_NumRestart": {
       "namespace": "wml",
       "type": "CT_NumRestart",
-      "minimal": "<CT_NumRestart val=\"fixture\"/>",
-      "invalid": "<CT_NumRestart val=\"fixture\"><unexpected/></CT_NumRestart>"
+      "minimal": "<CT_NumRestart w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_NumRestart w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_NumRestart>"
     },
     "wml#CT_Object": {
       "namespace": "wml",
@@ -7818,14 +7818,14 @@
     "wml#CT_ObjectEmbed": {
       "namespace": "wml",
       "type": "CT_ObjectEmbed",
-      "minimal": "<CT_ObjectEmbed id=\"fixture\"/>",
-      "invalid": "<CT_ObjectEmbed id=\"fixture\"><unexpected/></CT_ObjectEmbed>"
+      "minimal": "<CT_ObjectEmbed r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_ObjectEmbed r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_ObjectEmbed>"
     },
     "wml#CT_ObjectLink": {
       "namespace": "wml",
       "type": "CT_ObjectLink",
-      "minimal": "<CT_ObjectLink id=\"fixture\" updateMode=\"fixture\"/>",
-      "invalid": "<CT_ObjectLink id=\"fixture\" updateMode=\"fixture\"><unexpected/></CT_ObjectLink>"
+      "minimal": "<CT_ObjectLink r:id=\"fixture\" w:updateMode=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_ObjectLink r:id=\"fixture\" w:updateMode=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_ObjectLink>"
     },
     "wml#CT_Odso": {
       "namespace": "wml",
@@ -7860,8 +7860,8 @@
     "wml#CT_PageBorder": {
       "namespace": "wml",
       "type": "CT_PageBorder",
-      "minimal": "<CT_PageBorder val=\"fixture\"/>",
-      "invalid": "<CT_PageBorder val=\"fixture\"><unexpected/></CT_PageBorder>"
+      "minimal": "<CT_PageBorder w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_PageBorder w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_PageBorder>"
     },
     "wml#CT_PageBorders": {
       "namespace": "wml",
@@ -7872,8 +7872,8 @@
     "wml#CT_PageMar": {
       "namespace": "wml",
       "type": "CT_PageMar",
-      "minimal": "<CT_PageMar top=\"fixture\" right=\"fixture\" bottom=\"fixture\" left=\"fixture\" header=\"fixture\" footer=\"fixture\" gutter=\"fixture\"/>",
-      "invalid": "<CT_PageMar top=\"fixture\" right=\"fixture\" bottom=\"fixture\" left=\"fixture\" header=\"fixture\" footer=\"fixture\" gutter=\"fixture\"><unexpected/></CT_PageMar>"
+      "minimal": "<CT_PageMar w:top=\"fixture\" w:right=\"fixture\" w:bottom=\"fixture\" w:left=\"fixture\" w:header=\"fixture\" w:footer=\"fixture\" w:gutter=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_PageMar w:top=\"fixture\" w:right=\"fixture\" w:bottom=\"fixture\" w:left=\"fixture\" w:header=\"fixture\" w:footer=\"fixture\" w:gutter=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_PageMar>"
     },
     "wml#CT_PageNumber": {
       "namespace": "wml",
@@ -7890,8 +7890,8 @@
     "wml#CT_Panose": {
       "namespace": "wml",
       "type": "CT_Panose",
-      "minimal": "<CT_Panose val=\"fixture\"/>",
-      "invalid": "<CT_Panose val=\"fixture\"><unexpected/></CT_Panose>"
+      "minimal": "<CT_Panose w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Panose w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Panose>"
     },
     "wml#CT_PaperSource": {
       "namespace": "wml",
@@ -7908,8 +7908,8 @@
     "wml#CT_ParaRPrChange": {
       "namespace": "wml",
       "type": "CT_ParaRPrChange",
-      "minimal": "<CT_ParaRPrChange id=\"fixture\" author=\"fixture\"><rPr/></CT_ParaRPrChange>",
-      "invalid": "<CT_ParaRPrChange id=\"fixture\" author=\"fixture\"><rPr/><unexpected/></CT_ParaRPrChange>"
+      "minimal": "<CT_ParaRPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><rPr/></CT_ParaRPrChange>",
+      "invalid": "<CT_ParaRPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><rPr/><unexpected/></CT_ParaRPrChange>"
     },
     "wml#CT_ParaRPrOriginal": {
       "namespace": "wml",
@@ -7926,14 +7926,14 @@
     "wml#CT_Perm": {
       "namespace": "wml",
       "type": "CT_Perm",
-      "minimal": "<CT_Perm id=\"fixture\"/>",
-      "invalid": "<CT_Perm id=\"fixture\"><unexpected/></CT_Perm>"
+      "minimal": "<CT_Perm w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Perm w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Perm>"
     },
     "wml#CT_PermStart": {
       "namespace": "wml",
       "type": "CT_PermStart",
-      "minimal": "<CT_PermStart id=\"fixture\"/>",
-      "invalid": "<CT_PermStart id=\"fixture\"><unexpected/></CT_PermStart>"
+      "minimal": "<CT_PermStart w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_PermStart w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_PermStart>"
     },
     "wml#CT_Picture": {
       "namespace": "wml",
@@ -7944,14 +7944,14 @@
     "wml#CT_Pitch": {
       "namespace": "wml",
       "type": "CT_Pitch",
-      "minimal": "<CT_Pitch val=\"fixture\"/>",
-      "invalid": "<CT_Pitch val=\"fixture\"><unexpected/></CT_Pitch>"
+      "minimal": "<CT_Pitch w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Pitch w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Pitch>"
     },
     "wml#CT_PixelsMeasure": {
       "namespace": "wml",
       "type": "CT_PixelsMeasure",
-      "minimal": "<CT_PixelsMeasure val=\"fixture\"/>",
-      "invalid": "<CT_PixelsMeasure val=\"fixture\"><unexpected/></CT_PixelsMeasure>"
+      "minimal": "<CT_PixelsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_PixelsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_PixelsMeasure>"
     },
     "wml#CT_Placeholder": {
       "namespace": "wml",
@@ -7974,8 +7974,8 @@
     "wml#CT_PPrChange": {
       "namespace": "wml",
       "type": "CT_PPrChange",
-      "minimal": "<CT_PPrChange id=\"fixture\" author=\"fixture\"><pPr/></CT_PPrChange>",
-      "invalid": "<CT_PPrChange id=\"fixture\" author=\"fixture\"><pPr/><unexpected/></CT_PPrChange>"
+      "minimal": "<CT_PPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><pPr/></CT_PPrChange>",
+      "invalid": "<CT_PPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><pPr/><unexpected/></CT_PPrChange>"
     },
     "wml#CT_PPrDefault": {
       "namespace": "wml",
@@ -7998,14 +7998,14 @@
     "wml#CT_ProofErr": {
       "namespace": "wml",
       "type": "CT_ProofErr",
-      "minimal": "<CT_ProofErr type=\"fixture\"/>",
-      "invalid": "<CT_ProofErr type=\"fixture\"><unexpected/></CT_ProofErr>"
+      "minimal": "<CT_ProofErr w:type=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_ProofErr w:type=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_ProofErr>"
     },
     "wml#CT_PTab": {
       "namespace": "wml",
       "type": "CT_PTab",
-      "minimal": "<CT_PTab alignment=\"fixture\" relativeTo=\"fixture\" leader=\"fixture\"/>",
-      "invalid": "<CT_PTab alignment=\"fixture\" relativeTo=\"fixture\" leader=\"fixture\"><unexpected/></CT_PTab>"
+      "minimal": "<CT_PTab w:alignment=\"fixture\" w:relativeTo=\"fixture\" w:leader=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_PTab w:alignment=\"fixture\" w:relativeTo=\"fixture\" w:leader=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_PTab>"
     },
     "wml#CT_R": {
       "namespace": "wml",
@@ -8016,8 +8016,8 @@
     "wml#CT_ReadingModeInkLockDown": {
       "namespace": "wml",
       "type": "CT_ReadingModeInkLockDown",
-      "minimal": "<CT_ReadingModeInkLockDown actualPg=\"fixture\" w=\"fixture\" h=\"fixture\" fontSz=\"fixture\"/>",
-      "invalid": "<CT_ReadingModeInkLockDown actualPg=\"fixture\" w=\"fixture\" h=\"fixture\" fontSz=\"fixture\"><unexpected/></CT_ReadingModeInkLockDown>"
+      "minimal": "<CT_ReadingModeInkLockDown w:actualPg=\"fixture\" w:w=\"fixture\" w:h=\"fixture\" w:fontSz=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_ReadingModeInkLockDown w:actualPg=\"fixture\" w:w=\"fixture\" w:h=\"fixture\" w:fontSz=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_ReadingModeInkLockDown>"
     },
     "wml#CT_RecipientData": {
       "namespace": "wml",
@@ -8034,8 +8034,8 @@
     "wml#CT_Rel": {
       "namespace": "wml",
       "type": "CT_Rel",
-      "minimal": "<CT_Rel id=\"fixture\"/>",
-      "invalid": "<CT_Rel id=\"fixture\"><unexpected/></CT_Rel>"
+      "minimal": "<CT_Rel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"/>",
+      "invalid": "<CT_Rel r:id=\"fixture\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><unexpected/></CT_Rel>"
     },
     "wml#CT_Row": {
       "namespace": "wml",
@@ -8052,8 +8052,8 @@
     "wml#CT_RPrChange": {
       "namespace": "wml",
       "type": "CT_RPrChange",
-      "minimal": "<CT_RPrChange id=\"fixture\" author=\"fixture\"><rPr/></CT_RPrChange>",
-      "invalid": "<CT_RPrChange id=\"fixture\" author=\"fixture\"><rPr/><unexpected/></CT_RPrChange>"
+      "minimal": "<CT_RPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><rPr/></CT_RPrChange>",
+      "invalid": "<CT_RPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><rPr/><unexpected/></CT_RPrChange>"
     },
     "wml#CT_RPrDefault": {
       "namespace": "wml",
@@ -8076,8 +8076,8 @@
     "wml#CT_RubyAlign": {
       "namespace": "wml",
       "type": "CT_RubyAlign",
-      "minimal": "<CT_RubyAlign val=\"fixture\"/>",
-      "invalid": "<CT_RubyAlign val=\"fixture\"><unexpected/></CT_RubyAlign>"
+      "minimal": "<CT_RubyAlign w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_RubyAlign w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_RubyAlign>"
     },
     "wml#CT_RubyContent": {
       "namespace": "wml",
@@ -8094,8 +8094,8 @@
     "wml#CT_RunTrackChange": {
       "namespace": "wml",
       "type": "CT_RunTrackChange",
-      "minimal": "<CT_RunTrackChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_RunTrackChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_RunTrackChange>"
+      "minimal": "<CT_RunTrackChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_RunTrackChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_RunTrackChange>"
     },
     "wml#CT_SaveThroughXslt": {
       "namespace": "wml",
@@ -8220,8 +8220,8 @@
     "wml#CT_SectPrChange": {
       "namespace": "wml",
       "type": "CT_SectPrChange",
-      "minimal": "<CT_SectPrChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_SectPrChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_SectPrChange>"
+      "minimal": "<CT_SectPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_SectPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_SectPrChange>"
     },
     "wml#CT_SectType": {
       "namespace": "wml",
@@ -8244,26 +8244,26 @@
     "wml#CT_Shd": {
       "namespace": "wml",
       "type": "CT_Shd",
-      "minimal": "<CT_Shd val=\"fixture\"/>",
-      "invalid": "<CT_Shd val=\"fixture\"><unexpected/></CT_Shd>"
+      "minimal": "<CT_Shd w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Shd w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Shd>"
     },
     "wml#CT_SignedHpsMeasure": {
       "namespace": "wml",
       "type": "CT_SignedHpsMeasure",
-      "minimal": "<CT_SignedHpsMeasure val=\"fixture\"/>",
-      "invalid": "<CT_SignedHpsMeasure val=\"fixture\"><unexpected/></CT_SignedHpsMeasure>"
+      "minimal": "<CT_SignedHpsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_SignedHpsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_SignedHpsMeasure>"
     },
     "wml#CT_SignedTwipsMeasure": {
       "namespace": "wml",
       "type": "CT_SignedTwipsMeasure",
-      "minimal": "<CT_SignedTwipsMeasure val=\"fixture\"/>",
-      "invalid": "<CT_SignedTwipsMeasure val=\"fixture\"><unexpected/></CT_SignedTwipsMeasure>"
+      "minimal": "<CT_SignedTwipsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_SignedTwipsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_SignedTwipsMeasure>"
     },
     "wml#CT_SimpleField": {
       "namespace": "wml",
       "type": "CT_SimpleField",
-      "minimal": "<CT_SimpleField instr=\"fixture\"/>",
-      "invalid": "<CT_SimpleField instr=\"fixture\"><unexpected/></CT_SimpleField>"
+      "minimal": "<CT_SimpleField w:instr=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_SimpleField w:instr=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_SimpleField>"
     },
     "wml#CT_SmartTagPr": {
       "namespace": "wml",
@@ -8274,8 +8274,8 @@
     "wml#CT_SmartTagRun": {
       "namespace": "wml",
       "type": "CT_SmartTagRun",
-      "minimal": "<CT_SmartTagRun element=\"fixture\"/>",
-      "invalid": "<CT_SmartTagRun element=\"fixture\"><unexpected/></CT_SmartTagRun>"
+      "minimal": "<CT_SmartTagRun w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_SmartTagRun w:element=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_SmartTagRun>"
     },
     "wml#CT_SmartTagType": {
       "namespace": "wml",
@@ -8292,8 +8292,8 @@
     "wml#CT_String": {
       "namespace": "wml",
       "type": "CT_String",
-      "minimal": "<CT_String val=\"fixture\"/>",
-      "invalid": "<CT_String val=\"fixture\"><unexpected/></CT_String>"
+      "minimal": "<CT_String w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_String w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_String>"
     },
     "wml#CT_Style": {
       "namespace": "wml",
@@ -8316,8 +8316,8 @@
     "wml#CT_StyleSort": {
       "namespace": "wml",
       "type": "CT_StyleSort",
-      "minimal": "<CT_StyleSort val=\"fixture\"/>",
-      "invalid": "<CT_StyleSort val=\"fixture\"><unexpected/></CT_StyleSort>"
+      "minimal": "<CT_StyleSort w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_StyleSort w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_StyleSort>"
     },
     "wml#CT_Sym": {
       "namespace": "wml",
@@ -8334,14 +8334,14 @@
     "wml#CT_TabStop": {
       "namespace": "wml",
       "type": "CT_TabStop",
-      "minimal": "<CT_TabStop val=\"fixture\" pos=\"fixture\"/>",
-      "invalid": "<CT_TabStop val=\"fixture\" pos=\"fixture\"><unexpected/></CT_TabStop>"
+      "minimal": "<CT_TabStop w:val=\"fixture\" w:pos=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TabStop w:val=\"fixture\" w:pos=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TabStop>"
     },
     "wml#CT_TargetScreenSz": {
       "namespace": "wml",
       "type": "CT_TargetScreenSz",
-      "minimal": "<CT_TargetScreenSz val=\"fixture\"/>",
-      "invalid": "<CT_TargetScreenSz val=\"fixture\"><unexpected/></CT_TargetScreenSz>"
+      "minimal": "<CT_TargetScreenSz w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TargetScreenSz w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TargetScreenSz>"
     },
     "wml#CT_Tbl": {
       "namespace": "wml",
@@ -8376,8 +8376,8 @@
     "wml#CT_TblGridChange": {
       "namespace": "wml",
       "type": "CT_TblGridChange",
-      "minimal": "<CT_TblGridChange id=\"fixture\"><tblGrid/></CT_TblGridChange>",
-      "invalid": "<CT_TblGridChange id=\"fixture\"><tblGrid/><unexpected/></CT_TblGridChange>"
+      "minimal": "<CT_TblGridChange w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tblGrid/></CT_TblGridChange>",
+      "invalid": "<CT_TblGridChange w:id=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tblGrid/><unexpected/></CT_TblGridChange>"
     },
     "wml#CT_TblGridCol": {
       "namespace": "wml",
@@ -8400,8 +8400,8 @@
     "wml#CT_TblOverlap": {
       "namespace": "wml",
       "type": "CT_TblOverlap",
-      "minimal": "<CT_TblOverlap val=\"fixture\"/>",
-      "invalid": "<CT_TblOverlap val=\"fixture\"><unexpected/></CT_TblOverlap>"
+      "minimal": "<CT_TblOverlap w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TblOverlap w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TblOverlap>"
     },
     "wml#CT_TblPPr": {
       "namespace": "wml",
@@ -8424,8 +8424,8 @@
     "wml#CT_TblPrChange": {
       "namespace": "wml",
       "type": "CT_TblPrChange",
-      "minimal": "<CT_TblPrChange id=\"fixture\" author=\"fixture\"><tblPr/></CT_TblPrChange>",
-      "invalid": "<CT_TblPrChange id=\"fixture\" author=\"fixture\"><tblPr/><unexpected/></CT_TblPrChange>"
+      "minimal": "<CT_TblPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tblPr/></CT_TblPrChange>",
+      "invalid": "<CT_TblPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tblPr/><unexpected/></CT_TblPrChange>"
     },
     "wml#CT_TblPrEx": {
       "namespace": "wml",
@@ -8442,14 +8442,14 @@
     "wml#CT_TblPrExChange": {
       "namespace": "wml",
       "type": "CT_TblPrExChange",
-      "minimal": "<CT_TblPrExChange id=\"fixture\" author=\"fixture\"><tblPrEx/></CT_TblPrExChange>",
-      "invalid": "<CT_TblPrExChange id=\"fixture\" author=\"fixture\"><tblPrEx/><unexpected/></CT_TblPrExChange>"
+      "minimal": "<CT_TblPrExChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tblPrEx/></CT_TblPrExChange>",
+      "invalid": "<CT_TblPrExChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tblPrEx/><unexpected/></CT_TblPrExChange>"
     },
     "wml#CT_TblStylePr": {
       "namespace": "wml",
       "type": "CT_TblStylePr",
-      "minimal": "<CT_TblStylePr type=\"fixture\"/>",
-      "invalid": "<CT_TblStylePr type=\"fixture\"><unexpected/></CT_TblStylePr>"
+      "minimal": "<CT_TblStylePr w:type=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TblStylePr w:type=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TblStylePr>"
     },
     "wml#CT_TblWidth": {
       "namespace": "wml",
@@ -8490,8 +8490,8 @@
     "wml#CT_TcPrChange": {
       "namespace": "wml",
       "type": "CT_TcPrChange",
-      "minimal": "<CT_TcPrChange id=\"fixture\" author=\"fixture\"><tcPr/></CT_TcPrChange>",
-      "invalid": "<CT_TcPrChange id=\"fixture\" author=\"fixture\"><tcPr/><unexpected/></CT_TcPrChange>"
+      "minimal": "<CT_TcPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tcPr/></CT_TcPrChange>",
+      "invalid": "<CT_TcPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><tcPr/><unexpected/></CT_TcPrChange>"
     },
     "wml#CT_TcPrInner": {
       "namespace": "wml",
@@ -8508,26 +8508,26 @@
     "wml#CT_TextAlignment": {
       "namespace": "wml",
       "type": "CT_TextAlignment",
-      "minimal": "<CT_TextAlignment val=\"fixture\"/>",
-      "invalid": "<CT_TextAlignment val=\"fixture\"><unexpected/></CT_TextAlignment>"
+      "minimal": "<CT_TextAlignment w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TextAlignment w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TextAlignment>"
     },
     "wml#CT_TextboxTightWrap": {
       "namespace": "wml",
       "type": "CT_TextboxTightWrap",
-      "minimal": "<CT_TextboxTightWrap val=\"fixture\"/>",
-      "invalid": "<CT_TextboxTightWrap val=\"fixture\"><unexpected/></CT_TextboxTightWrap>"
+      "minimal": "<CT_TextboxTightWrap w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TextboxTightWrap w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TextboxTightWrap>"
     },
     "wml#CT_TextDirection": {
       "namespace": "wml",
       "type": "CT_TextDirection",
-      "minimal": "<CT_TextDirection val=\"fixture\"/>",
-      "invalid": "<CT_TextDirection val=\"fixture\"><unexpected/></CT_TextDirection>"
+      "minimal": "<CT_TextDirection w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TextDirection w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TextDirection>"
     },
     "wml#CT_TextEffect": {
       "namespace": "wml",
       "type": "CT_TextEffect",
-      "minimal": "<CT_TextEffect val=\"fixture\"/>",
-      "invalid": "<CT_TextEffect val=\"fixture\"><unexpected/></CT_TextEffect>"
+      "minimal": "<CT_TextEffect w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TextEffect w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TextEffect>"
     },
     "wml#CT_TextScale": {
       "namespace": "wml",
@@ -8538,26 +8538,26 @@
     "wml#CT_TopPageBorder": {
       "namespace": "wml",
       "type": "CT_TopPageBorder",
-      "minimal": "<CT_TopPageBorder val=\"fixture\"/>",
-      "invalid": "<CT_TopPageBorder val=\"fixture\"><unexpected/></CT_TopPageBorder>"
+      "minimal": "<CT_TopPageBorder w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TopPageBorder w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TopPageBorder>"
     },
     "wml#CT_TrackChange": {
       "namespace": "wml",
       "type": "CT_TrackChange",
-      "minimal": "<CT_TrackChange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_TrackChange id=\"fixture\" author=\"fixture\"><unexpected/></CT_TrackChange>"
+      "minimal": "<CT_TrackChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TrackChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TrackChange>"
     },
     "wml#CT_TrackChangeNumbering": {
       "namespace": "wml",
       "type": "CT_TrackChangeNumbering",
-      "minimal": "<CT_TrackChangeNumbering id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_TrackChangeNumbering id=\"fixture\" author=\"fixture\"><unexpected/></CT_TrackChangeNumbering>"
+      "minimal": "<CT_TrackChangeNumbering w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TrackChangeNumbering w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TrackChangeNumbering>"
     },
     "wml#CT_TrackChangeRange": {
       "namespace": "wml",
       "type": "CT_TrackChangeRange",
-      "minimal": "<CT_TrackChangeRange id=\"fixture\" author=\"fixture\"/>",
-      "invalid": "<CT_TrackChangeRange id=\"fixture\" author=\"fixture\"><unexpected/></CT_TrackChangeRange>"
+      "minimal": "<CT_TrackChangeRange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TrackChangeRange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TrackChangeRange>"
     },
     "wml#CT_TrackChangesView": {
       "namespace": "wml",
@@ -8580,14 +8580,14 @@
     "wml#CT_TrPrChange": {
       "namespace": "wml",
       "type": "CT_TrPrChange",
-      "minimal": "<CT_TrPrChange id=\"fixture\" author=\"fixture\"><trPr/></CT_TrPrChange>",
-      "invalid": "<CT_TrPrChange id=\"fixture\" author=\"fixture\"><trPr/><unexpected/></CT_TrPrChange>"
+      "minimal": "<CT_TrPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><trPr/></CT_TrPrChange>",
+      "invalid": "<CT_TrPrChange w:id=\"fixture\" w:author=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><trPr/><unexpected/></CT_TrPrChange>"
     },
     "wml#CT_TwipsMeasure": {
       "namespace": "wml",
       "type": "CT_TwipsMeasure",
-      "minimal": "<CT_TwipsMeasure val=\"fixture\"/>",
-      "invalid": "<CT_TwipsMeasure val=\"fixture\"><unexpected/></CT_TwipsMeasure>"
+      "minimal": "<CT_TwipsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_TwipsMeasure w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_TwipsMeasure>"
     },
     "wml#CT_TxbxContent": {
       "namespace": "wml",
@@ -8604,26 +8604,26 @@
     "wml#CT_UnsignedDecimalNumber": {
       "namespace": "wml",
       "type": "CT_UnsignedDecimalNumber",
-      "minimal": "<CT_UnsignedDecimalNumber val=\"fixture\"/>",
-      "invalid": "<CT_UnsignedDecimalNumber val=\"fixture\"><unexpected/></CT_UnsignedDecimalNumber>"
+      "minimal": "<CT_UnsignedDecimalNumber w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_UnsignedDecimalNumber w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_UnsignedDecimalNumber>"
     },
     "wml#CT_VerticalAlignRun": {
       "namespace": "wml",
       "type": "CT_VerticalAlignRun",
-      "minimal": "<CT_VerticalAlignRun val=\"fixture\"/>",
-      "invalid": "<CT_VerticalAlignRun val=\"fixture\"><unexpected/></CT_VerticalAlignRun>"
+      "minimal": "<CT_VerticalAlignRun w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_VerticalAlignRun w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_VerticalAlignRun>"
     },
     "wml#CT_VerticalJc": {
       "namespace": "wml",
       "type": "CT_VerticalJc",
-      "minimal": "<CT_VerticalJc val=\"fixture\"/>",
-      "invalid": "<CT_VerticalJc val=\"fixture\"><unexpected/></CT_VerticalJc>"
+      "minimal": "<CT_VerticalJc w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_VerticalJc w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_VerticalJc>"
     },
     "wml#CT_View": {
       "namespace": "wml",
       "type": "CT_View",
-      "minimal": "<CT_View val=\"fixture\"/>",
-      "invalid": "<CT_View val=\"fixture\"><unexpected/></CT_View>"
+      "minimal": "<CT_View w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_View w:val=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_View>"
     },
     "wml#CT_VMerge": {
       "namespace": "wml",
@@ -8646,14 +8646,14 @@
     "wml#CT_WritingStyle": {
       "namespace": "wml",
       "type": "CT_WritingStyle",
-      "minimal": "<CT_WritingStyle lang=\"fixture\" vendorID=\"fixture\" dllVersion=\"fixture\" checkStyle=\"fixture\" appName=\"fixture\"/>",
-      "invalid": "<CT_WritingStyle lang=\"fixture\" vendorID=\"fixture\" dllVersion=\"fixture\" checkStyle=\"fixture\" appName=\"fixture\"><unexpected/></CT_WritingStyle>"
+      "minimal": "<CT_WritingStyle w:lang=\"fixture\" w:vendorID=\"fixture\" w:dllVersion=\"fixture\" w:checkStyle=\"fixture\" w:appName=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_WritingStyle w:lang=\"fixture\" w:vendorID=\"fixture\" w:dllVersion=\"fixture\" w:checkStyle=\"fixture\" w:appName=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_WritingStyle>"
     },
     "wml#CT_Zoom": {
       "namespace": "wml",
       "type": "CT_Zoom",
-      "minimal": "<CT_Zoom percent=\"fixture\"/>",
-      "invalid": "<CT_Zoom percent=\"fixture\"><unexpected/></CT_Zoom>"
+      "minimal": "<CT_Zoom w:percent=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"/>",
+      "invalid": "<CT_Zoom w:percent=\"fixture\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><unexpected/></CT_Zoom>"
     }
   }
 }
