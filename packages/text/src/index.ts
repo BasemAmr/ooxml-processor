@@ -140,3 +140,39 @@ export type {
   FontLoaderOptions,
 } from './font-loader.js';
 export { BrowserFontFaceAdapter, FontLoader } from './font-loader.js';
+
+// P4-12: ShapedRun Representation & Packed Cluster Storage
+export type {
+  RunDirection,
+  ShapedRun,
+  PackedShapedRunOptions,
+  ClusterInput,
+} from './shaped-run.js';
+export {
+  CLUSTER_STRIDE,
+  GLYPH_ID_OFFSET,
+  X_ADVANCE_OFFSET,
+  X_OFFSET_OFFSET,
+  Y_OFFSET_OFFSET,
+  SRC_OFFSET_OFFSET,
+  SRC_LENGTH_OFFSET,
+  PackedShapedRun,
+  createPackedShapedRun,
+} from './shaped-run.js';
+
+// P4-09: Text Shaper Architecture & HarfBuzz Adapter
+export type {
+  ResolvedFontFace,
+  ShaperFeatureOptions,
+  TextShaper,
+  HarfBuzzBlob,
+  HarfBuzzFace,
+  HarfBuzzFont,
+  HarfBuzzBuffer,
+  HarfBuzzWasmApi,
+} from './shaper.js';
+export { FallbackTextShaper, HarfBuzzTextShaper, createTextShaper } from './shaper.js';
+
+// P4-10: The measureText Fast Path & Eligibility Predicate
+export type { FastPathOptions } from './fast-path.js';
+export { isFastPathEligible, calculateFastCharAdvance, measureFastPath } from './fast-path.js';
