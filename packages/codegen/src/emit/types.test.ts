@@ -254,7 +254,7 @@ describe('complex types', () => {
 
   it('emits optional, required and repeated slots correctly', () => {
     const out = emit(paragraphish);
-    expect(out).toContain('readonly pPr?: CT_PPr;');
+    expect(out).toContain('readonly pPr?: CT_PPr | undefined;');
     expect(out).toContain('readonly pContent: readonly CT_P_PContent[];');
   });
 
@@ -300,7 +300,7 @@ describe('complex types', () => {
         ],
       }),
     );
-    expect(out).toContain('readonly $unknown?: readonly PositionedRaw[];');
+    expect(out).toContain('readonly $unknown?: readonly PositionedRaw[] | undefined;');
   });
 
   it('omits the positional anchor when a repeating choice already carries $raw', () => {
@@ -322,7 +322,7 @@ describe('complex types', () => {
       }),
     );
     expect(out).toContain('readonly $value: string;');
-    expect(out).toContain('readonly space?: string;');
+    expect(out).toContain('readonly space?: string | undefined;');
   });
 
   it('marks required attributes as non-optional', () => {
@@ -336,8 +336,8 @@ describe('complex types', () => {
         ],
       }),
     );
-    expect(out).toContain('readonly id: string;');
-    expect(out).toContain('readonly val?: string;');
+    expect(out).toContain('readonly id?: string | undefined;');
+    expect(out).toContain('readonly val?: string | undefined;');
   });
 
   it('documents a schema default without applying it', () => {
@@ -361,7 +361,7 @@ describe('complex types', () => {
     // Absence must stay distinguishable from an explicit default, or every save
     // of an untouched document produces a diff.
     expect(out).toContain('Schema default `0`');
-    expect(out).toContain('readonly left?: string;');
+    expect(out).toContain('readonly left?: string | undefined;');
   });
 
   it('flags a dialect-specific type in its doc comment', () => {
@@ -571,14 +571,14 @@ describe('golden', () => {
       /** Defined at \`transitional/wml.xsd:42\`. */
       export interface CT_Hyperlink {
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
 
       /** Defined at \`transitional/wml.xsd:42\`. */
       export interface CT_Jc {
-        readonly val: ST_Jc;
+        readonly val?: ST_Jc | undefined;
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
 
       /** Alternatives of \`EG_PContent\` as used by \`CT_P\`. */
@@ -589,11 +589,11 @@ describe('golden', () => {
 
       /** Defined at \`transitional/wml.xsd:42\`. */
       export interface CT_P {
-        readonly pPr?: CT_PPr;
+        readonly pPr?: CT_PPr | undefined;
         /** Child content in document order. */
         readonly pContent: readonly CT_P_PContent[];
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
 
       /**
@@ -602,47 +602,47 @@ describe('golden', () => {
        * Defined at \`transitional/wml.xsd:42\`.
        */
       export interface CT_PPr {
-        readonly jc?: CT_Jc;
-        readonly sectPr?: CT_SectPr;
+        readonly jc?: CT_Jc | undefined;
+        readonly sectPr?: CT_SectPr | undefined;
         /** Unrecognized children, anchored to the slot they followed. See ADR 0009. */
-        readonly $unknown?: readonly PositionedRaw[];
+        readonly $unknown?: readonly PositionedRaw[] | undefined;
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
 
       /** Defined at \`transitional/wml.xsd:42\`. */
       export interface CT_PPrBase {
-        readonly jc?: CT_Jc;
+        readonly jc?: CT_Jc | undefined;
         /** Unrecognized children, anchored to the slot they followed. See ADR 0009. */
-        readonly $unknown?: readonly PositionedRaw[];
+        readonly $unknown?: readonly PositionedRaw[] | undefined;
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
 
       /** Defined at \`transitional/wml.xsd:42\`. */
       export interface CT_R {
         readonly t: readonly CT_Text[];
         /** Unrecognized children, anchored to the slot they followed. See ADR 0009. */
-        readonly $unknown?: readonly PositionedRaw[];
+        readonly $unknown?: readonly PositionedRaw[] | undefined;
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
 
       /** Defined at \`transitional/wml.xsd:42\`. */
       export interface CT_SectPr {
         /** Schema default \`0\`. Not applied on read — absence is preserved. */
-        readonly gutter?: ST_TwipsMeasure;
+        readonly gutter?: ST_TwipsMeasure | undefined;
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
 
       /** Defined at \`transitional/wml.xsd:42\`. */
       export interface CT_Text {
         /** Text content of this element. */
         readonly $value: string;
-        readonly space?: string;
+        readonly space?: string | undefined;
         /** Unrecognized attributes, in source order. See ADR 0009. */
-        readonly $unknownAttrs?: readonly XmlAttr[];
+        readonly $unknownAttrs?: readonly XmlAttr[] | undefined;
       }
       "
     `);

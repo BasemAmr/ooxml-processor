@@ -19,7 +19,8 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "gen": "tsc --build && node ./dist/cli.js"
+    "gen": "tsc --build && node ./dist/cli.js",
+    "survey": "tsc --build && node ./dist/survey.js"
   },
   "dependencies": {
     "saxes": "^6.0.0"

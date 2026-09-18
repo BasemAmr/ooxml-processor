@@ -17,6 +17,12 @@
  * the generated tree is the parse result and edits go through the model layer,
  * which is what keeps range annotations (bookmarks, comments, moves) from being
  * corrupted by a stray in-place write.
+ *
+ * Every non-repeating property is `?: T | undefined`, regardless of whether the
+ * schema marks it required. See `docs/adr/0010-required-is-a-validator-property.md`:
+ * a reader that must open defective documents cannot promise a required child is
+ * there, and `| undefined` (rather than bare `?`) is what lets the reader build
+ * one object literal under `exactOptionalPropertyTypes`.
  */
 
 import type { LogicalNs, QName, TypeRef } from '../ir.js';
@@ -135,6 +141,7 @@ class TypeContext {
   private tsName(q: QName): string {
     const key = qnameKey(q);
     const def = this.set.complexTypes.get(key) ?? this.set.simpleTypes.get(key);
+    if (!def && (q.ns === 'xml' || q.ns === 'dcterms' || q.ns === 'dc')) return 'string';
     if (!def) {
       // A dangling reference is a loader bug. Emitting `unknown` would let it
       // reach the generated code and fail somewhere far away.
@@ -267,7 +274,7 @@ function emitSlot(ct: ModelComplexType, slot: Slot, ctx: TypeContext, file: Sour
         file.line(`readonly ${key}: readonly ${t}[];`);
       } else {
         file.doc(slot.doc);
-        file.line(`readonly ${key}${slot.cardinality.required ? '' : '?'}: ${t};`);
+        file.line(`readonly ${key}?: ${t} | undefined;`);
       }
       return;
     }
@@ -278,7 +285,7 @@ function emitSlot(ct: ModelComplexType, slot: Slot, ctx: TypeContext, file: Sour
         file.doc('Child content in document order.');
         file.line(`readonly ${key}: readonly ${unionName}[];`);
       } else {
-        file.line(`readonly ${key}${slot.cardinality.required ? '' : '?'}: ${unionName};`);
+        file.line(`readonly ${key}?: ${unionName} | undefined;`);
       }
       return;
     }
@@ -337,7 +344,7 @@ function emitAttribute(a: ModelAttribute, ctx: TypeContext, file: SourceFile): v
     .join('\n\n');
 
   file.doc(doc.length > 0 ? doc : undefined);
-  file.line(`readonly ${propertyKey(a.prop)}${a.required ? '' : '?'}: ${ctx.tsType(a.type)};`);
+  file.line(`readonly ${propertyKey(a.prop)}?: ${ctx.tsType(a.type)} | undefined;`);
 }
 
 /**
@@ -353,16 +360,16 @@ function emitPreservationProperties(
   file: SourceFile,
 ): void {
   // Unknown children only need a positional anchor where they are NOT already
-  // covered by a repeating choice's `$raw` alternative or a wildcard slot.
-  const coveredByRaw = slots.some(
-    (s) => (s.kind === 'choice' && s.cardinality.repeated) || s.kind === 'wildcard',
-  );
+  // covered by a repeating choice's `$raw` alternative. A wildcard slot does
+  // *not* count: `##other` excludes the target namespace, so a same-namespace
+  // element the content model does not allow has nowhere to go without this.
+  const coveredByRaw = slots.some((s) => s.kind === 'choice' && s.cardinality.repeated);
 
   // These docs are emitted ~2,800 times. Long prose here is 30k lines of noise
   // in every regenerated diff; the ADR is the place for the reasoning.
   if (slots.length > 0 && !coveredByRaw) {
     file.doc('Unrecognized children, anchored to the slot they followed. See ADR 0009.');
-    file.line(`readonly $unknown?: readonly ${ctx.positionedRaw()}[];`);
+    file.line(`readonly $unknown?: readonly ${ctx.positionedRaw()}[] | undefined;`);
   }
 
   // Unconditional: an extension attribute can appear on *any* element, including
@@ -371,7 +378,7 @@ function emitPreservationProperties(
   // Gating this on `attributes.length > 0` would silently drop them, and silent
   // loss is the exact failure ADR 0009 exists to prevent.
   file.doc('Unrecognized attributes, in source order. See ADR 0009.');
-  file.line(`readonly $unknownAttrs?: readonly ${ctx.xmlAttr()}[];`);
+  file.line(`readonly $unknownAttrs?: readonly ${ctx.xmlAttr()}[] | undefined;`);
 }
 
 function choiceUnionName(ct: ModelComplexType, slot: ChoiceSlot): string {
