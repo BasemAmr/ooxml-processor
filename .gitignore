@@ -20,3 +20,6 @@ packages/conformance/corpus/**/*.docx
 # OS
 Thumbs.db
 .DS_Store
+
+# Local worktree exports (scratch snapshots, not source)
+fullcodebase.txt
