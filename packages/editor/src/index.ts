@@ -39,3 +39,21 @@ export {
   moveToDocumentEdge,
   extendSelection,
 } from './navigation/index.js';
+
+// P6-08: Input proxy
+export type { InputProxyOptions } from './input/proxy.js';
+export { InputProxy } from './input/proxy.js';
+
+// P6-09: IME composition
+export type { CompositionState } from './input/ime.js';
+export {
+  createCompositionState,
+  onCompositionStart,
+  onCompositionUpdate,
+  onCompositionEnd,
+  cancelComposition,
+} from './input/ime.js';
+
+// P6-16: Accessibility mirror
+export type { AccessibilityMirror } from './a11y/mirror.js';
+export { createAccessibilityMirror } from './a11y/mirror.js';
