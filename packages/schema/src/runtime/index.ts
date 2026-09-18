@@ -196,4 +196,4 @@ export { isAlternateContent, MC_NAMES, McContext, McError, McResolver, QNameSet 
 
 /* --- Unknown-content preservation ----------------------------------------- */
 export type { PositionedRaw } from './preserve.js';
-export { sortPositioned } from './preserve.js';
+export { PositionedRawQueue, sortPositioned } from './preserve.js';

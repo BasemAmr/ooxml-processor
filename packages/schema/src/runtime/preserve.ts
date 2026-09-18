@@ -12,7 +12,7 @@
  * This module covers everything else.
  */
 
-import type { RawNode } from './xml.js';
+import type { RawNode, XmlSink } from './xml.js';
 
 /**
  * An unrecognized child element, anchored to the slot it followed.
@@ -59,4 +59,61 @@ export function sortPositioned(entries: readonly PositionedRaw[]): readonly Posi
     const bi = b.afterIndex ?? Number.POSITIVE_INFINITY;
     return ai === bi ? 0 : ai < bi ? -1 : 1;
   });
+}
+
+/**
+ * Orders and drains {@link PositionedRaw} entries during serialization.
+ *
+ * Interleaves unrecognized content back at its original anchor points:
+ * - `afterSlot: -1` flushes before the first slot
+ * - `afterSlot: i, afterIndex: idx` flushes immediately following repetition `idx` of slot `i`
+ * - `afterSlot: i` (afterIndex absent) flushes after slot `i` as a whole
+ * - any remaining entries flush before closing the parent element
+ */
+export class PositionedRawQueue {
+  private readonly entries: readonly PositionedRaw[];
+  private cursor = 0;
+
+  constructor(entries: readonly PositionedRaw[] | undefined) {
+    this.entries = entries && entries.length > 0 ? sortPositioned(entries) : [];
+  }
+
+  /**
+   * Drain entries anchored at or before `afterSlot`.
+   * When `afterIndex` is specified, drains entries anchored at `(afterSlot, idx)` with `idx <= afterIndex`.
+   * When `afterIndex` is absent (undefined), drains all entries anchored at `afterSlot` as a whole.
+   */
+  flush(sink: XmlSink, afterSlot: number, afterIndex?: number): void {
+    while (this.cursor < this.entries.length) {
+      const entry = this.entries[this.cursor]!;
+      if (entry.afterSlot < afterSlot) {
+        sink.raw(entry.node);
+        this.cursor++;
+        continue;
+      }
+      if (entry.afterSlot === afterSlot) {
+        if (afterIndex === undefined) {
+          sink.raw(entry.node);
+          this.cursor++;
+          continue;
+        }
+        if (entry.afterIndex !== undefined && entry.afterIndex <= afterIndex) {
+          sink.raw(entry.node);
+          this.cursor++;
+          continue;
+        }
+      }
+      break;
+    }
+  }
+
+  /**
+   * Flush any remaining entries anchored past the emitted slots.
+   */
+  flushRemaining(sink: XmlSink): void {
+    while (this.cursor < this.entries.length) {
+      sink.raw(this.entries[this.cursor]!.node);
+      this.cursor++;
+    }
+  }
 }
