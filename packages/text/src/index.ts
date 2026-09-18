@@ -176,3 +176,23 @@ export { FallbackTextShaper, HarfBuzzTextShaper, createTextShaper } from './shap
 // P4-10: The measureText Fast Path & Eligibility Predicate
 export type { FastPathOptions } from './fast-path.js';
 export { isFastPathEligible, calculateFastCharAdvance, measureFastPath } from './fast-path.js';
+
+// P4-11: The Measurement Cache (Two-tier, Memory-bounded, Zero-allocation)
+export type { L1CacheNode, CacheStats, MeasurementCacheOptions } from './cache.js';
+export {
+  DEFAULT_MAX_CACHE_BYTES,
+  NODE_METADATA_OVERHEAD_BYTES,
+  estimateShapedRunBytes,
+  TextInternTable,
+  FeatureSetInternTable,
+  MeasurementCache,
+} from './cache.js';
+
+// Phase 4 Multi-Script Text Engine & Orchestrator
+export type {
+  FaceResolver,
+  TextEngineOptions,
+  ShapedSubRunResult,
+  ParagraphShapingResult,
+} from './text-engine.js';
+export { TextEngine } from './text-engine.js';
