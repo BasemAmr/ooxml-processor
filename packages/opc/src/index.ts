@@ -33,6 +33,7 @@ export type {
   PartNameErrorCode,
   ZipErrorCode,
   OpcLimitName,
+  LimitErrorCode,
   ContentTypeErrorCode,
   RelationshipErrorCode,
   PackageErrorCode,

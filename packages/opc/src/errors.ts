@@ -171,11 +171,44 @@ export type OpcLimitName =
   | 'maxCompressionRatio'
   | 'maxPartNameLength';
 
+/**
+ * Machine-readable limit violation code (ADR-0007 §8).
+ *
+ * Provides stable discriminants matching the project-wide security taxonomy.
+ */
+export type LimitErrorCode =
+  | 'archive-too-large'
+  | 'too-many-entries'
+  | 'entry-too-large'
+  | 'total-uncompressed-too-large'
+  | 'compression-ratio-exceeded'
+  | 'part-name-too-long';
+
+export const LIMIT_TO_CODE: Readonly<Record<OpcLimitName, LimitErrorCode>> = {
+  maxArchiveBytes: 'archive-too-large',
+  maxEntryCount: 'too-many-entries',
+  maxEntryUncompressedBytes: 'entry-too-large',
+  maxTotalUncompressedBytes: 'total-uncompressed-too-large',
+  maxCompressionRatio: 'compression-ratio-exceeded',
+  maxPartNameLength: 'part-name-too-long',
+};
+
+export const CODE_TO_LIMIT: Readonly<Record<LimitErrorCode, OpcLimitName>> = {
+  'archive-too-large': 'maxArchiveBytes',
+  'too-many-entries': 'maxEntryCount',
+  'entry-too-large': 'maxEntryUncompressedBytes',
+  'total-uncompressed-too-large': 'maxTotalUncompressedBytes',
+  'compression-ratio-exceeded': 'maxCompressionRatio',
+  'part-name-too-long': 'maxPartNameLength',
+};
+
 export class OpcLimitError extends OpcError {
   override readonly kind = 'limit' as const;
+  readonly limit: OpcLimitName;
+  readonly code: LimitErrorCode;
 
   constructor(
-    readonly limit: OpcLimitName,
+    limitOrCode: OpcLimitName | LimitErrorCode,
     /** The configured ceiling. */
     readonly allowed: number,
     /** What was observed, or as much of it as we saw before aborting. */
@@ -183,10 +216,21 @@ export class OpcLimitError extends OpcError {
     /** The entry that tripped it, if attributable. */
     readonly entryName?: string,
   ) {
+    const limit =
+      limitOrCode in CODE_TO_LIMIT
+        ? CODE_TO_LIMIT[limitOrCode as LimitErrorCode]
+        : (limitOrCode as OpcLimitName);
+    const code =
+      limitOrCode in LIMIT_TO_CODE
+        ? LIMIT_TO_CODE[limitOrCode as OpcLimitName]
+        : (limitOrCode as LimitErrorCode);
+
     super(
       `OPC limit ${limit} exceeded: observed ${observed}, allowed ${allowed}` +
         (entryName === undefined ? '' : ` (entry ${JSON.stringify(truncate(entryName))})`),
     );
+    this.limit = limit;
+    this.code = code;
   }
 }
 

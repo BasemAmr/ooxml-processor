@@ -34,6 +34,7 @@ describe('OpcError taxonomy', () => {
     expect(limitErr.name).toBe('OpcLimitError');
     expect(limitErr.kind).toBe('limit');
     expect(limitErr.limit).toBe('maxEntryCount');
+    expect(limitErr.code).toBe('too-many-entries');
     expect(limitErr.allowed).toBe(10);
     expect(limitErr.observed).toBe(15);
     expect(limitErr.entryName).toBe('entry.xml');
