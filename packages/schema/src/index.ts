@@ -45,3 +45,7 @@ export { createWriteContext, uriFor } from './runtime/write.js';
 export * from './generated/wml/types.js';
 export * as wmlReader from './generated/wml/reader.js';
 export * as wmlWriter from './generated/wml/writer.js';
+
+export * as dmlMainTypes from './generated/dml-main/types.js';
+export * as dmlMainReader from './generated/dml-main/reader.js';
+export * as dmlMainWriter from './generated/dml-main/writer.js';
