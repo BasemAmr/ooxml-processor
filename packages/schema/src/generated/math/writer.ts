@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import {
   writeCT_Bookmark,
   writeCT_Br,
@@ -119,91 +124,134 @@ import type {
 /** Write a `CT_Acc`; the caller supplies its element local name. */
 export function writeCT_Acc(s: XmlSink, value: CT_Acc, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['accPr'] !== undefined) writeCT_AccPr(s, value['accPr'], ctx, 'accPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['accPr'] !== undefined) writeCT_AccPr(s, value['accPr'], ctx, 'accPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_AccPr`; the caller supplies its element local name. */
 export function writeCT_AccPr(s: XmlSink, value: CT_AccPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['chr'] !== undefined) writeCT_Char(s, value['chr'], ctx, 'chr');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['chr'] !== undefined) writeCT_Char(s, value['chr'], ctx, 'chr');
+  $q.flush(s, 0);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Bar`; the caller supplies its element local name. */
 export function writeCT_Bar(s: XmlSink, value: CT_Bar, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['barPr'] !== undefined) writeCT_BarPr(s, value['barPr'], ctx, 'barPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['barPr'] !== undefined) writeCT_BarPr(s, value['barPr'], ctx, 'barPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BarPr`; the caller supplies its element local name. */
 export function writeCT_BarPr(s: XmlSink, value: CT_BarPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['pos'] !== undefined) writeCT_TopBot(s, value['pos'], ctx, 'pos');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['pos'] !== undefined) writeCT_TopBot(s, value['pos'], ctx, 'pos');
+  $q.flush(s, 0);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BorderBox`; the caller supplies its element local name. */
 export function writeCT_BorderBox(s: XmlSink, value: CT_BorderBox, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['borderBoxPr'] !== undefined) writeCT_BorderBoxPr(s, value['borderBoxPr'], ctx, 'borderBoxPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['borderBoxPr'] !== undefined) writeCT_BorderBoxPr(s, value['borderBoxPr'], ctx, 'borderBoxPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BorderBoxPr`; the caller supplies its element local name. */
 export function writeCT_BorderBoxPr(s: XmlSink, value: CT_BorderBoxPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['hideTop'] !== undefined) writeCT_OnOff(s, value['hideTop'], ctx, 'hideTop');
-  if (value['hideBot'] !== undefined) writeCT_OnOff(s, value['hideBot'], ctx, 'hideBot');
-  if (value['hideLeft'] !== undefined) writeCT_OnOff(s, value['hideLeft'], ctx, 'hideLeft');
-  if (value['hideRight'] !== undefined) writeCT_OnOff(s, value['hideRight'], ctx, 'hideRight');
-  if (value['strikeH'] !== undefined) writeCT_OnOff(s, value['strikeH'], ctx, 'strikeH');
-  if (value['strikeV'] !== undefined) writeCT_OnOff(s, value['strikeV'], ctx, 'strikeV');
-  if (value['strikeBLTR'] !== undefined) writeCT_OnOff(s, value['strikeBLTR'], ctx, 'strikeBLTR');
-  if (value['strikeTLBR'] !== undefined) writeCT_OnOff(s, value['strikeTLBR'], ctx, 'strikeTLBR');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['hideTop'] !== undefined) writeCT_OnOff(s, value['hideTop'], ctx, 'hideTop');
+  $q.flush(s, 0);
+  if (value['hideBot'] !== undefined) writeCT_OnOff(s, value['hideBot'], ctx, 'hideBot');
+  $q.flush(s, 1);
+  if (value['hideLeft'] !== undefined) writeCT_OnOff(s, value['hideLeft'], ctx, 'hideLeft');
+  $q.flush(s, 2);
+  if (value['hideRight'] !== undefined) writeCT_OnOff(s, value['hideRight'], ctx, 'hideRight');
+  $q.flush(s, 3);
+  if (value['strikeH'] !== undefined) writeCT_OnOff(s, value['strikeH'], ctx, 'strikeH');
+  $q.flush(s, 4);
+  if (value['strikeV'] !== undefined) writeCT_OnOff(s, value['strikeV'], ctx, 'strikeV');
+  $q.flush(s, 5);
+  if (value['strikeBLTR'] !== undefined) writeCT_OnOff(s, value['strikeBLTR'], ctx, 'strikeBLTR');
+  $q.flush(s, 6);
+  if (value['strikeTLBR'] !== undefined) writeCT_OnOff(s, value['strikeTLBR'], ctx, 'strikeTLBR');
+  $q.flush(s, 7);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 8);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Box`; the caller supplies its element local name. */
 export function writeCT_Box(s: XmlSink, value: CT_Box, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['boxPr'] !== undefined) writeCT_BoxPr(s, value['boxPr'], ctx, 'boxPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['boxPr'] !== undefined) writeCT_BoxPr(s, value['boxPr'], ctx, 'boxPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BoxPr`; the caller supplies its element local name. */
 export function writeCT_BoxPr(s: XmlSink, value: CT_BoxPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['opEmu'] !== undefined) writeCT_OnOff(s, value['opEmu'], ctx, 'opEmu');
-  if (value['noBreak'] !== undefined) writeCT_OnOff(s, value['noBreak'], ctx, 'noBreak');
-  if (value['diff'] !== undefined) writeCT_OnOff(s, value['diff'], ctx, 'diff');
-  if (value['brk'] !== undefined) writeCT_ManualBreak(s, value['brk'], ctx, 'brk');
-  if (value['aln'] !== undefined) writeCT_OnOff(s, value['aln'], ctx, 'aln');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['opEmu'] !== undefined) writeCT_OnOff(s, value['opEmu'], ctx, 'opEmu');
+  $q.flush(s, 0);
+  if (value['noBreak'] !== undefined) writeCT_OnOff(s, value['noBreak'], ctx, 'noBreak');
+  $q.flush(s, 1);
+  if (value['diff'] !== undefined) writeCT_OnOff(s, value['diff'], ctx, 'diff');
+  $q.flush(s, 2);
+  if (value['brk'] !== undefined) writeCT_ManualBreak(s, value['brk'], ctx, 'brk');
+  $q.flush(s, 3);
+  if (value['aln'] !== undefined) writeCT_OnOff(s, value['aln'], ctx, 'aln');
+  $q.flush(s, 4);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -234,86 +282,126 @@ export function writeCT_Char(s: XmlSink, value: CT_Char, ctx: WriteContext, loca
 /** Write a `CT_CtrlPr`; the caller supplies its element local name. */
 export function writeCT_CtrlPr(s: XmlSink, value: CT_CtrlPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['rPrMath'] !== undefined) {
     if (value['rPrMath'].kind === 'rPr') writeCT_RPr(s, value['rPrMath'].value, ctx, 'rPr');
     if (value['rPrMath'].kind === 'ins') writeCT_MathCtrlIns(s, value['rPrMath'].value, ctx, 'ins');
     if (value['rPrMath'].kind === 'del') writeCT_MathCtrlDel(s, value['rPrMath'].value, ctx, 'del');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_D`; the caller supplies its element local name. */
 export function writeCT_D(s: XmlSink, value: CT_D, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['dPr'] !== undefined) writeCT_DPr(s, value['dPr'], ctx, 'dPr');
-  for (const v_e of value['e']) {
-    writeCT_OMathArg(s, v_e, ctx, 'e');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['dPr'] !== undefined) writeCT_DPr(s, value['dPr'], ctx, 'dPr');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['e'].length; idx++) {
+    const v_e = value['e'][idx]!;
+    writeCT_OMathArg(s, v_e, ctx, 'e');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DPr`; the caller supplies its element local name. */
 export function writeCT_DPr(s: XmlSink, value: CT_DPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['begChr'] !== undefined) writeCT_Char(s, value['begChr'], ctx, 'begChr');
-  if (value['sepChr'] !== undefined) writeCT_Char(s, value['sepChr'], ctx, 'sepChr');
-  if (value['endChr'] !== undefined) writeCT_Char(s, value['endChr'], ctx, 'endChr');
-  if (value['grow'] !== undefined) writeCT_OnOff(s, value['grow'], ctx, 'grow');
-  if (value['shp'] !== undefined) writeCT_Shp(s, value['shp'], ctx, 'shp');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['begChr'] !== undefined) writeCT_Char(s, value['begChr'], ctx, 'begChr');
+  $q.flush(s, 0);
+  if (value['sepChr'] !== undefined) writeCT_Char(s, value['sepChr'], ctx, 'sepChr');
+  $q.flush(s, 1);
+  if (value['endChr'] !== undefined) writeCT_Char(s, value['endChr'], ctx, 'endChr');
+  $q.flush(s, 2);
+  if (value['grow'] !== undefined) writeCT_OnOff(s, value['grow'], ctx, 'grow');
+  $q.flush(s, 3);
+  if (value['shp'] !== undefined) writeCT_Shp(s, value['shp'], ctx, 'shp');
+  $q.flush(s, 4);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_EqArr`; the caller supplies its element local name. */
 export function writeCT_EqArr(s: XmlSink, value: CT_EqArr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['eqArrPr'] !== undefined) writeCT_EqArrPr(s, value['eqArrPr'], ctx, 'eqArrPr');
-  for (const v_e of value['e']) {
-    writeCT_OMathArg(s, v_e, ctx, 'e');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['eqArrPr'] !== undefined) writeCT_EqArrPr(s, value['eqArrPr'], ctx, 'eqArrPr');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['e'].length; idx++) {
+    const v_e = value['e'][idx]!;
+    writeCT_OMathArg(s, v_e, ctx, 'e');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_EqArrPr`; the caller supplies its element local name. */
 export function writeCT_EqArrPr(s: XmlSink, value: CT_EqArrPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['baseJc'] !== undefined) writeCT_YAlign(s, value['baseJc'], ctx, 'baseJc');
-  if (value['maxDist'] !== undefined) writeCT_OnOff(s, value['maxDist'], ctx, 'maxDist');
-  if (value['objDist'] !== undefined) writeCT_OnOff(s, value['objDist'], ctx, 'objDist');
-  if (value['rSpRule'] !== undefined) writeCT_SpacingRule(s, value['rSpRule'], ctx, 'rSpRule');
-  if (value['rSp'] !== undefined) writeCT_UnSignedInteger(s, value['rSp'], ctx, 'rSp');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['baseJc'] !== undefined) writeCT_YAlign(s, value['baseJc'], ctx, 'baseJc');
+  $q.flush(s, 0);
+  if (value['maxDist'] !== undefined) writeCT_OnOff(s, value['maxDist'], ctx, 'maxDist');
+  $q.flush(s, 1);
+  if (value['objDist'] !== undefined) writeCT_OnOff(s, value['objDist'], ctx, 'objDist');
+  $q.flush(s, 2);
+  if (value['rSpRule'] !== undefined) writeCT_SpacingRule(s, value['rSpRule'], ctx, 'rSpRule');
+  $q.flush(s, 3);
+  if (value['rSp'] !== undefined) writeCT_UnSignedInteger(s, value['rSp'], ctx, 'rSp');
+  $q.flush(s, 4);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_F`; the caller supplies its element local name. */
 export function writeCT_F(s: XmlSink, value: CT_F, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['fPr'] !== undefined) writeCT_FPr(s, value['fPr'], ctx, 'fPr');
-  if (value['num'] !== undefined) writeCT_OMathArg(s, value['num'], ctx, 'num');
-  if (value['den'] !== undefined) writeCT_OMathArg(s, value['den'], ctx, 'den');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fPr'] !== undefined) writeCT_FPr(s, value['fPr'], ctx, 'fPr');
+  $q.flush(s, 0);
+  if (value['num'] !== undefined) writeCT_OMathArg(s, value['num'], ctx, 'num');
+  $q.flush(s, 1);
+  if (value['den'] !== undefined) writeCT_OMathArg(s, value['den'], ctx, 'den');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_FPr`; the caller supplies its element local name. */
 export function writeCT_FPr(s: XmlSink, value: CT_FPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['type'] !== undefined) writeCT_FType(s, value['type'], ctx, 'type');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['type'] !== undefined) writeCT_FType(s, value['type'], ctx, 'type');
+  $q.flush(s, 0);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -328,42 +416,60 @@ export function writeCT_FType(s: XmlSink, value: CT_FType, ctx: WriteContext, lo
 /** Write a `CT_Func`; the caller supplies its element local name. */
 export function writeCT_Func(s: XmlSink, value: CT_Func, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['funcPr'] !== undefined) writeCT_FuncPr(s, value['funcPr'], ctx, 'funcPr');
-  if (value['fName'] !== undefined) writeCT_OMathArg(s, value['fName'], ctx, 'fName');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['funcPr'] !== undefined) writeCT_FuncPr(s, value['funcPr'], ctx, 'funcPr');
+  $q.flush(s, 0);
+  if (value['fName'] !== undefined) writeCT_OMathArg(s, value['fName'], ctx, 'fName');
+  $q.flush(s, 1);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_FuncPr`; the caller supplies its element local name. */
 export function writeCT_FuncPr(s: XmlSink, value: CT_FuncPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GroupChr`; the caller supplies its element local name. */
 export function writeCT_GroupChr(s: XmlSink, value: CT_GroupChr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['groupChrPr'] !== undefined) writeCT_GroupChrPr(s, value['groupChrPr'], ctx, 'groupChrPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['groupChrPr'] !== undefined) writeCT_GroupChrPr(s, value['groupChrPr'], ctx, 'groupChrPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GroupChrPr`; the caller supplies its element local name. */
 export function writeCT_GroupChrPr(s: XmlSink, value: CT_GroupChrPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['chr'] !== undefined) writeCT_Char(s, value['chr'], ctx, 'chr');
-  if (value['pos'] !== undefined) writeCT_TopBot(s, value['pos'], ctx, 'pos');
-  if (value['vertJc'] !== undefined) writeCT_TopBot(s, value['vertJc'], ctx, 'vertJc');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['chr'] !== undefined) writeCT_Char(s, value['chr'], ctx, 'chr');
+  $q.flush(s, 0);
+  if (value['pos'] !== undefined) writeCT_TopBot(s, value['pos'], ctx, 'pos');
+  $q.flush(s, 1);
+  if (value['vertJc'] !== undefined) writeCT_TopBot(s, value['vertJc'], ctx, 'vertJc');
+  $q.flush(s, 2);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -394,52 +500,74 @@ export function writeCT_LimLoc(s: XmlSink, value: CT_LimLoc, ctx: WriteContext, 
 /** Write a `CT_LimLow`; the caller supplies its element local name. */
 export function writeCT_LimLow(s: XmlSink, value: CT_LimLow, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['limLowPr'] !== undefined) writeCT_LimLowPr(s, value['limLowPr'], ctx, 'limLowPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  if (value['lim'] !== undefined) writeCT_OMathArg(s, value['lim'], ctx, 'lim');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['limLowPr'] !== undefined) writeCT_LimLowPr(s, value['limLowPr'], ctx, 'limLowPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  if (value['lim'] !== undefined) writeCT_OMathArg(s, value['lim'], ctx, 'lim');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_LimLowPr`; the caller supplies its element local name. */
 export function writeCT_LimLowPr(s: XmlSink, value: CT_LimLowPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_LimUpp`; the caller supplies its element local name. */
 export function writeCT_LimUpp(s: XmlSink, value: CT_LimUpp, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['limUppPr'] !== undefined) writeCT_LimUppPr(s, value['limUppPr'], ctx, 'limUppPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  if (value['lim'] !== undefined) writeCT_OMathArg(s, value['lim'], ctx, 'lim');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['limUppPr'] !== undefined) writeCT_LimUppPr(s, value['limUppPr'], ctx, 'limUppPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  if (value['lim'] !== undefined) writeCT_OMathArg(s, value['lim'], ctx, 'lim');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_LimUppPr`; the caller supplies its element local name. */
 export function writeCT_LimUppPr(s: XmlSink, value: CT_LimUppPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_M`; the caller supplies its element local name. */
 export function writeCT_M(s: XmlSink, value: CT_M, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['mPr'] !== undefined) writeCT_MPr(s, value['mPr'], ctx, 'mPr');
-  for (const v_mr of value['mr']) {
-    writeCT_MR(s, v_mr, ctx, 'mr');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['mPr'] !== undefined) writeCT_MPr(s, value['mPr'], ctx, 'mPr');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['mr'].length; idx++) {
+    const v_mr = value['mr'][idx]!;
+    writeCT_MR(s, v_mr, ctx, 'mr');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -454,116 +582,176 @@ export function writeCT_ManualBreak(s: XmlSink, value: CT_ManualBreak, ctx: Writ
 /** Write a `CT_MathPr`; the caller supplies its element local name. */
 export function writeCT_MathPr(s: XmlSink, value: CT_MathPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['mathFont'] !== undefined) writeCT_String(s, value['mathFont'], ctx, 'mathFont');
+  $q.flush(s, 0);
   if (value['brkBin'] !== undefined) writeCT_BreakBin(s, value['brkBin'], ctx, 'brkBin');
+  $q.flush(s, 1);
   if (value['brkBinSub'] !== undefined) writeCT_BreakBinSub(s, value['brkBinSub'], ctx, 'brkBinSub');
+  $q.flush(s, 2);
   if (value['smallFrac'] !== undefined) writeCT_OnOff(s, value['smallFrac'], ctx, 'smallFrac');
+  $q.flush(s, 3);
   if (value['dispDef'] !== undefined) writeCT_OnOff(s, value['dispDef'], ctx, 'dispDef');
+  $q.flush(s, 4);
   if (value['lMargin'] !== undefined) writeCT_TwipsMeasure(s, value['lMargin'], ctx, 'lMargin');
+  $q.flush(s, 5);
   if (value['rMargin'] !== undefined) writeCT_TwipsMeasure(s, value['rMargin'], ctx, 'rMargin');
+  $q.flush(s, 6);
   if (value['defJc'] !== undefined) writeCT_OMathJc(s, value['defJc'], ctx, 'defJc');
+  $q.flush(s, 7);
   if (value['preSp'] !== undefined) writeCT_TwipsMeasure(s, value['preSp'], ctx, 'preSp');
+  $q.flush(s, 8);
   if (value['postSp'] !== undefined) writeCT_TwipsMeasure(s, value['postSp'], ctx, 'postSp');
+  $q.flush(s, 9);
   if (value['interSp'] !== undefined) writeCT_TwipsMeasure(s, value['interSp'], ctx, 'interSp');
+  $q.flush(s, 10);
   if (value['intraSp'] !== undefined) writeCT_TwipsMeasure(s, value['intraSp'], ctx, 'intraSp');
+  $q.flush(s, 11);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'wrapIndent') writeCT_TwipsMeasure(s, value['content'].value, ctx, 'wrapIndent');
     if (value['content'].kind === 'wrapRight') writeCT_OnOff(s, value['content'].value, ctx, 'wrapRight');
   }
+  $q.flush(s, 12);
   if (value['intLim'] !== undefined) writeCT_LimLoc(s, value['intLim'], ctx, 'intLim');
+  $q.flush(s, 13);
   if (value['naryLim'] !== undefined) writeCT_LimLoc(s, value['naryLim'], ctx, 'naryLim');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 14);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_MC`; the caller supplies its element local name. */
 export function writeCT_MC(s: XmlSink, value: CT_MC, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['mcPr'] !== undefined) writeCT_MCPr(s, value['mcPr'], ctx, 'mcPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['mcPr'] !== undefined) writeCT_MCPr(s, value['mcPr'], ctx, 'mcPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_MCPr`; the caller supplies its element local name. */
 export function writeCT_MCPr(s: XmlSink, value: CT_MCPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['count'] !== undefined) writeCT_Integer255(s, value['count'], ctx, 'count');
-  if (value['mcJc'] !== undefined) writeCT_XAlign(s, value['mcJc'], ctx, 'mcJc');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['count'] !== undefined) writeCT_Integer255(s, value['count'], ctx, 'count');
+  $q.flush(s, 0);
+  if (value['mcJc'] !== undefined) writeCT_XAlign(s, value['mcJc'], ctx, 'mcJc');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_MCS`; the caller supplies its element local name. */
 export function writeCT_MCS(s: XmlSink, value: CT_MCS, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  for (const v_mc of value['mc']) {
-    writeCT_MC(s, v_mc, ctx, 'mc');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['mc'].length; idx++) {
+    const v_mc = value['mc'][idx]!;
+    writeCT_MC(s, v_mc, ctx, 'mc');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_MPr`; the caller supplies its element local name. */
 export function writeCT_MPr(s: XmlSink, value: CT_MPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['baseJc'] !== undefined) writeCT_YAlign(s, value['baseJc'], ctx, 'baseJc');
-  if (value['plcHide'] !== undefined) writeCT_OnOff(s, value['plcHide'], ctx, 'plcHide');
-  if (value['rSpRule'] !== undefined) writeCT_SpacingRule(s, value['rSpRule'], ctx, 'rSpRule');
-  if (value['cGpRule'] !== undefined) writeCT_SpacingRule(s, value['cGpRule'], ctx, 'cGpRule');
-  if (value['rSp'] !== undefined) writeCT_UnSignedInteger(s, value['rSp'], ctx, 'rSp');
-  if (value['cSp'] !== undefined) writeCT_UnSignedInteger(s, value['cSp'], ctx, 'cSp');
-  if (value['cGp'] !== undefined) writeCT_UnSignedInteger(s, value['cGp'], ctx, 'cGp');
-  if (value['mcs'] !== undefined) writeCT_MCS(s, value['mcs'], ctx, 'mcs');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['baseJc'] !== undefined) writeCT_YAlign(s, value['baseJc'], ctx, 'baseJc');
+  $q.flush(s, 0);
+  if (value['plcHide'] !== undefined) writeCT_OnOff(s, value['plcHide'], ctx, 'plcHide');
+  $q.flush(s, 1);
+  if (value['rSpRule'] !== undefined) writeCT_SpacingRule(s, value['rSpRule'], ctx, 'rSpRule');
+  $q.flush(s, 2);
+  if (value['cGpRule'] !== undefined) writeCT_SpacingRule(s, value['cGpRule'], ctx, 'cGpRule');
+  $q.flush(s, 3);
+  if (value['rSp'] !== undefined) writeCT_UnSignedInteger(s, value['rSp'], ctx, 'rSp');
+  $q.flush(s, 4);
+  if (value['cSp'] !== undefined) writeCT_UnSignedInteger(s, value['cSp'], ctx, 'cSp');
+  $q.flush(s, 5);
+  if (value['cGp'] !== undefined) writeCT_UnSignedInteger(s, value['cGp'], ctx, 'cGp');
+  $q.flush(s, 6);
+  if (value['mcs'] !== undefined) writeCT_MCS(s, value['mcs'], ctx, 'mcs');
+  $q.flush(s, 7);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 8);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_MR`; the caller supplies its element local name. */
 export function writeCT_MR(s: XmlSink, value: CT_MR, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  for (const v_e of value['e']) {
-    writeCT_OMathArg(s, v_e, ctx, 'e');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['e'].length; idx++) {
+    const v_e = value['e'][idx]!;
+    writeCT_OMathArg(s, v_e, ctx, 'e');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Nary`; the caller supplies its element local name. */
 export function writeCT_Nary(s: XmlSink, value: CT_Nary, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['naryPr'] !== undefined) writeCT_NaryPr(s, value['naryPr'], ctx, 'naryPr');
-  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
-  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['naryPr'] !== undefined) writeCT_NaryPr(s, value['naryPr'], ctx, 'naryPr');
+  $q.flush(s, 0);
+  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
+  $q.flush(s, 1);
+  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
+  $q.flush(s, 2);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_NaryPr`; the caller supplies its element local name. */
 export function writeCT_NaryPr(s: XmlSink, value: CT_NaryPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['chr'] !== undefined) writeCT_Char(s, value['chr'], ctx, 'chr');
-  if (value['limLoc'] !== undefined) writeCT_LimLoc(s, value['limLoc'], ctx, 'limLoc');
-  if (value['grow'] !== undefined) writeCT_OnOff(s, value['grow'], ctx, 'grow');
-  if (value['subHide'] !== undefined) writeCT_OnOff(s, value['subHide'], ctx, 'subHide');
-  if (value['supHide'] !== undefined) writeCT_OnOff(s, value['supHide'], ctx, 'supHide');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['chr'] !== undefined) writeCT_Char(s, value['chr'], ctx, 'chr');
+  $q.flush(s, 0);
+  if (value['limLoc'] !== undefined) writeCT_LimLoc(s, value['limLoc'], ctx, 'limLoc');
+  $q.flush(s, 1);
+  if (value['grow'] !== undefined) writeCT_OnOff(s, value['grow'], ctx, 'grow');
+  $q.flush(s, 2);
+  if (value['subHide'] !== undefined) writeCT_OnOff(s, value['subHide'], ctx, 'subHide');
+  $q.flush(s, 3);
+  if (value['supHide'] !== undefined) writeCT_OnOff(s, value['supHide'], ctx, 'supHide');
+  $q.flush(s, 4);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_OMath`; the caller supplies its element local name. */
 export function writeCT_OMath(s: XmlSink, value: CT_OMath, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_oMathElements of value['oMathElements']) {
     if (v_oMathElements.kind === 'acc') writeCT_Acc(s, v_oMathElements.value, ctx, 'acc');
     if (v_oMathElements.kind === 'bar') writeCT_Bar(s, v_oMathElements.value, ctx, 'bar');
@@ -617,13 +805,13 @@ export function writeCT_OMath(s: XmlSink, value: CT_OMath, ctx: WriteContext, lo
     if (v_oMathElements.kind === 'oMath') writeCT_OMath(s, v_oMathElements.value, ctx, 'oMath');
     if (v_oMathElements.kind === '$raw') { s.raw(v_oMathElements.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_OMathArg`; the caller supplies its element local name. */
 export function writeCT_OMathArg(s: XmlSink, value: CT_OMathArg, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   if (value['argPr'] !== undefined) writeCT_OMathArgPr(s, value['argPr'], ctx, 'argPr');
   for (const v_oMathElements of value['oMathElements']) {
     if (v_oMathElements.kind === 'acc') writeCT_Acc(s, v_oMathElements.value, ctx, 'acc');
@@ -679,16 +867,18 @@ export function writeCT_OMathArg(s: XmlSink, value: CT_OMathArg, ctx: WriteConte
     if (v_oMathElements.kind === '$raw') { s.raw(v_oMathElements.value); }
   }
   if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_OMathArgPr`; the caller supplies its element local name. */
 export function writeCT_OMathArgPr(s: XmlSink, value: CT_OMathArgPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['argSz'] !== undefined) writeCT_Integer2(s, value['argSz'], ctx, 'argSz');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['argSz'] !== undefined) writeCT_Integer2(s, value['argSz'], ctx, 'argSz');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -703,21 +893,30 @@ export function writeCT_OMathJc(s: XmlSink, value: CT_OMathJc, ctx: WriteContext
 /** Write a `CT_OMathPara`; the caller supplies its element local name. */
 export function writeCT_OMathPara(s: XmlSink, value: CT_OMathPara, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['oMathParaPr'] !== undefined) writeCT_OMathParaPr(s, value['oMathParaPr'], ctx, 'oMathParaPr');
-  for (const v_oMath of value['oMath']) {
-    writeCT_OMath(s, v_oMath, ctx, 'oMath');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['oMathParaPr'] !== undefined) writeCT_OMathParaPr(s, value['oMathParaPr'], ctx, 'oMathParaPr');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['oMath'].length; idx++) {
+    const v_oMath = value['oMath'][idx]!;
+    writeCT_OMath(s, v_oMath, ctx, 'oMath');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_OMathParaPr`; the caller supplies its element local name. */
 export function writeCT_OMathParaPr(s: XmlSink, value: CT_OMathParaPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['jc'] !== undefined) writeCT_OMathJc(s, value['jc'], ctx, 'jc');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['jc'] !== undefined) writeCT_OMathJc(s, value['jc'], ctx, 'jc');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -732,30 +931,43 @@ export function writeCT_OnOff(s: XmlSink, value: CT_OnOff, ctx: WriteContext, lo
 /** Write a `CT_Phant`; the caller supplies its element local name. */
 export function writeCT_Phant(s: XmlSink, value: CT_Phant, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['phantPr'] !== undefined) writeCT_PhantPr(s, value['phantPr'], ctx, 'phantPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['phantPr'] !== undefined) writeCT_PhantPr(s, value['phantPr'], ctx, 'phantPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PhantPr`; the caller supplies its element local name. */
 export function writeCT_PhantPr(s: XmlSink, value: CT_PhantPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['show'] !== undefined) writeCT_OnOff(s, value['show'], ctx, 'show');
-  if (value['zeroWid'] !== undefined) writeCT_OnOff(s, value['zeroWid'], ctx, 'zeroWid');
-  if (value['zeroAsc'] !== undefined) writeCT_OnOff(s, value['zeroAsc'], ctx, 'zeroAsc');
-  if (value['zeroDesc'] !== undefined) writeCT_OnOff(s, value['zeroDesc'], ctx, 'zeroDesc');
-  if (value['transp'] !== undefined) writeCT_OnOff(s, value['transp'], ctx, 'transp');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['show'] !== undefined) writeCT_OnOff(s, value['show'], ctx, 'show');
+  $q.flush(s, 0);
+  if (value['zeroWid'] !== undefined) writeCT_OnOff(s, value['zeroWid'], ctx, 'zeroWid');
+  $q.flush(s, 1);
+  if (value['zeroAsc'] !== undefined) writeCT_OnOff(s, value['zeroAsc'], ctx, 'zeroAsc');
+  $q.flush(s, 2);
+  if (value['zeroDesc'] !== undefined) writeCT_OnOff(s, value['zeroDesc'], ctx, 'zeroDesc');
+  $q.flush(s, 3);
+  if (value['transp'] !== undefined) writeCT_OnOff(s, value['transp'], ctx, 'transp');
+  $q.flush(s, 4);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_R`; the caller supplies its element local name. */
 export function writeCT_R(s: XmlSink, value: CT_R, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   if (value['rPr'] !== undefined) writeCT_RPR(s, value['rPr'], ctx, 'rPr');
   if (value['rPr2'] !== undefined) writeCT_RPr(s, value['rPr2'], ctx, 'rPr');
   for (const v_content of value['content']) {
@@ -795,44 +1007,58 @@ export function writeCT_R(s: XmlSink, value: CT_R, ctx: WriteContext, localName:
     if (v_content.kind === 't_math') writeCT_Text(s, v_content.value, ctx, 't');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_Rad`; the caller supplies its element local name. */
 export function writeCT_Rad(s: XmlSink, value: CT_Rad, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['radPr'] !== undefined) writeCT_RadPr(s, value['radPr'], ctx, 'radPr');
-  if (value['deg'] !== undefined) writeCT_OMathArg(s, value['deg'], ctx, 'deg');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['radPr'] !== undefined) writeCT_RadPr(s, value['radPr'], ctx, 'radPr');
+  $q.flush(s, 0);
+  if (value['deg'] !== undefined) writeCT_OMathArg(s, value['deg'], ctx, 'deg');
+  $q.flush(s, 1);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_RadPr`; the caller supplies its element local name. */
 export function writeCT_RadPr(s: XmlSink, value: CT_RadPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['degHide'] !== undefined) writeCT_OnOff(s, value['degHide'], ctx, 'degHide');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['degHide'] !== undefined) writeCT_OnOff(s, value['degHide'], ctx, 'degHide');
+  $q.flush(s, 0);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_RPR`; the caller supplies its element local name. */
 export function writeCT_RPR(s: XmlSink, value: CT_RPR, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['lit'] !== undefined) writeCT_OnOff(s, value['lit'], ctx, 'lit');
+  $q.flush(s, 0);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'nor') writeCT_OnOff(s, value['content'].value, ctx, 'nor');
     if (value['content'].kind === 'scr') writeCT_Script(s, value['content'].value, ctx, 'scr');
     if (value['content'].kind === 'sty') writeCT_Style(s, value['content'].value, ctx, 'sty');
   }
+  $q.flush(s, 1);
   if (value['brk'] !== undefined) writeCT_ManualBreak(s, value['brk'], ctx, 'brk');
+  $q.flush(s, 2);
   if (value['aln'] !== undefined) writeCT_OnOff(s, value['aln'], ctx, 'aln');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -863,83 +1089,118 @@ export function writeCT_SpacingRule(s: XmlSink, value: CT_SpacingRule, ctx: Writ
 /** Write a `CT_SPre`; the caller supplies its element local name. */
 export function writeCT_SPre(s: XmlSink, value: CT_SPre, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['sPrePr'] !== undefined) writeCT_SPrePr(s, value['sPrePr'], ctx, 'sPrePr');
-  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
-  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['sPrePr'] !== undefined) writeCT_SPrePr(s, value['sPrePr'], ctx, 'sPrePr');
+  $q.flush(s, 0);
+  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
+  $q.flush(s, 1);
+  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
+  $q.flush(s, 2);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SPrePr`; the caller supplies its element local name. */
 export function writeCT_SPrePr(s: XmlSink, value: CT_SPrePr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SSub`; the caller supplies its element local name. */
 export function writeCT_SSub(s: XmlSink, value: CT_SSub, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['sSubPr'] !== undefined) writeCT_SSubPr(s, value['sSubPr'], ctx, 'sSubPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['sSubPr'] !== undefined) writeCT_SSubPr(s, value['sSubPr'], ctx, 'sSubPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SSubPr`; the caller supplies its element local name. */
 export function writeCT_SSubPr(s: XmlSink, value: CT_SSubPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SSubSup`; the caller supplies its element local name. */
 export function writeCT_SSubSup(s: XmlSink, value: CT_SSubSup, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['sSubSupPr'] !== undefined) writeCT_SSubSupPr(s, value['sSubSupPr'], ctx, 'sSubSupPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
-  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['sSubSupPr'] !== undefined) writeCT_SSubSupPr(s, value['sSubSupPr'], ctx, 'sSubSupPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  if (value['sub'] !== undefined) writeCT_OMathArg(s, value['sub'], ctx, 'sub');
+  $q.flush(s, 2);
+  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SSubSupPr`; the caller supplies its element local name. */
 export function writeCT_SSubSupPr(s: XmlSink, value: CT_SSubSupPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['alnScr'] !== undefined) writeCT_OnOff(s, value['alnScr'], ctx, 'alnScr');
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['alnScr'] !== undefined) writeCT_OnOff(s, value['alnScr'], ctx, 'alnScr');
+  $q.flush(s, 0);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SSup`; the caller supplies its element local name. */
 export function writeCT_SSup(s: XmlSink, value: CT_SSup, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['sSupPr'] !== undefined) writeCT_SSupPr(s, value['sSupPr'], ctx, 'sSupPr');
-  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
-  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['sSupPr'] !== undefined) writeCT_SSupPr(s, value['sSupPr'], ctx, 'sSupPr');
+  $q.flush(s, 0);
+  if (value['e'] !== undefined) writeCT_OMathArg(s, value['e'], ctx, 'e');
+  $q.flush(s, 1);
+  if (value['sup'] !== undefined) writeCT_OMathArg(s, value['sup'], ctx, 'sup');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SSupPr`; the caller supplies its element local name. */
 export function writeCT_SSupPr(s: XmlSink, value: CT_SSupPr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
-  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ctrlPr'] !== undefined) writeCT_CtrlPr(s, value['ctrlPr'], ctx, 'ctrlPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -963,8 +1224,8 @@ export function writeCT_Style(s: XmlSink, value: CT_Style, ctx: WriteContext, lo
 export function writeCT_Text(s: XmlSink, value: CT_Text, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'math'), localName);
   if (value['space'] !== undefined) s.attr(uriFor(ctx, 'xml'), 'space', String(value['space']));
-  s.text(String(value.$value));
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  s.text(String(value.$value));
   s.endElement();
 }
 

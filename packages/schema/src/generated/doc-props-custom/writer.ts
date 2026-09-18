@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import {
   writeCT_Array,
   writeCT_Empty,
@@ -22,11 +27,16 @@ import type { CT_Properties, CT_Property } from './types.js';
 /** Write a `CT_Properties`; the caller supplies its element local name. */
 export function writeCT_Properties(s: XmlSink, value: CT_Properties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'doc-props-custom'), localName);
-  for (const v_property of value['property']) {
-    writeCT_Property(s, v_property, ctx, 'property');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['property'].length; idx++) {
+    const v_property = value['property'][idx]!;
+    writeCT_Property(s, v_property, ctx, 'property');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -37,6 +47,9 @@ export function writeCT_Property(s: XmlSink, value: CT_Property, ctx: WriteConte
   if (value['pid'] !== undefined) s.attr(null, 'pid', String(value['pid']));
   if (value['name'] !== undefined) s.attr(null, 'name', String(value['name']));
   if (value['linkTarget'] !== undefined) s.attr(null, 'linkTarget', String(value['linkTarget']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'vector') writeCT_Vector(s, value['content'].value, ctx, 'vector');
     if (value['content'].kind === 'array') writeCT_Array(s, value['content'].value, ctx, 'array');
@@ -72,7 +85,7 @@ export function writeCT_Property(s: XmlSink, value: CT_Property, ctx: WriteConte
     if (value['content'].kind === 'vstream') writeCT_Vstream(s, value['content'].value, ctx, 'vstream');
     if (value['content'].kind === 'clsid') s.text(String(value['content'].value));
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }

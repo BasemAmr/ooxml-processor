@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import {
   writeCT_BlipFillProperties,
   writeCT_NonVisualDrawingProps,
@@ -21,20 +26,29 @@ import type { CT_Picture, CT_PictureNonVisual } from './types.js';
 /** Write a `CT_Picture`; the caller supplies its element local name. */
 export function writeCT_Picture(s: XmlSink, value: CT_Picture, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-picture'), localName);
-  if (value['nvPicPr'] !== undefined) writeCT_PictureNonVisual(s, value['nvPicPr'], ctx, 'nvPicPr');
-  if (value['blipFill'] !== undefined) writeCT_BlipFillProperties(s, value['blipFill'], ctx, 'blipFill');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvPicPr'] !== undefined) writeCT_PictureNonVisual(s, value['nvPicPr'], ctx, 'nvPicPr');
+  $q.flush(s, 0);
+  if (value['blipFill'] !== undefined) writeCT_BlipFillProperties(s, value['blipFill'], ctx, 'blipFill');
+  $q.flush(s, 1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PictureNonVisual`; the caller supplies its element local name. */
 export function writeCT_PictureNonVisual(s: XmlSink, value: CT_PictureNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-picture'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvPicPr'] !== undefined) writeCT_NonVisualPictureProperties(s, value['cNvPicPr'], ctx, 'cNvPicPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvPicPr'] !== undefined) writeCT_NonVisualPictureProperties(s, value['cNvPicPr'], ctx, 'cNvPicPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }

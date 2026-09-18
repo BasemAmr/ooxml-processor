@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type {
   CT_AuthorType,
   CT_NameListType,
@@ -23,6 +28,7 @@ import type {
 /** Write a `CT_AuthorType`; the caller supplies its element local name. */
 export function writeCT_AuthorType(s: XmlSink, value: CT_AuthorType, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'bibliography'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'Artist') writeCT_NameType(s, v_content.value, ctx, 'Artist');
     if (v_content.kind === 'Author') writeCT_NameOrCorporateType(s, v_content.value, ctx, 'Author');
@@ -42,50 +48,77 @@ export function writeCT_AuthorType(s: XmlSink, value: CT_AuthorType, ctx: WriteC
     if (v_content.kind === 'Writer') writeCT_NameType(s, v_content.value, ctx, 'Writer');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_NameListType`; the caller supplies its element local name. */
 export function writeCT_NameListType(s: XmlSink, value: CT_NameListType, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'bibliography'), localName);
-  for (const v_Person of value['Person']) {
-    writeCT_PersonType(s, v_Person, ctx, 'Person');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['Person'].length; idx++) {
+    const v_Person = value['Person'][idx]!;
+    writeCT_PersonType(s, v_Person, ctx, 'Person');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_NameOrCorporateType`; the caller supplies its element local name. */
 export function writeCT_NameOrCorporateType(s: XmlSink, value: CT_NameOrCorporateType, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'bibliography'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'NameList') writeCT_NameListType(s, value['content'].value, ctx, 'NameList');
     if (value['content'].kind === 'Corporate') s.text(String(value['content'].value));
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_NameType`; the caller supplies its element local name. */
 export function writeCT_NameType(s: XmlSink, value: CT_NameType, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'bibliography'), localName);
-  if (value['NameList'] !== undefined) writeCT_NameListType(s, value['NameList'], ctx, 'NameList');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['NameList'] !== undefined) writeCT_NameListType(s, value['NameList'], ctx, 'NameList');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PersonType`; the caller supplies its element local name. */
 export function writeCT_PersonType(s: XmlSink, value: CT_PersonType, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'bibliography'), localName);
-  for (const v_Last of value['Last']) if (v_Last !== undefined) s.text(String(v_Last));
-  for (const v_First of value['First']) if (v_First !== undefined) s.text(String(v_First));
-  for (const v_Middle of value['Middle']) if (v_Middle !== undefined) s.text(String(v_Middle));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['Last'].length; idx++) {
+    const v_Last = value['Last'][idx];
+    if (v_Last !== undefined) s.text(String(v_Last));
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['First'].length; idx++) {
+    const v_First = value['First'][idx];
+    if (v_First !== undefined) s.text(String(v_First));
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['Middle'].length; idx++) {
+    const v_Middle = value['Middle'][idx];
+    if (v_Middle !== undefined) s.text(String(v_Middle));
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -95,17 +128,23 @@ export function writeCT_Sources(s: XmlSink, value: CT_Sources, ctx: WriteContext
   if (value['SelectedStyle'] !== undefined) s.attr(null, 'SelectedStyle', String(value['SelectedStyle']));
   if (value['StyleName'] !== undefined) s.attr(null, 'StyleName', String(value['StyleName']));
   if (value['URI'] !== undefined) s.attr(null, 'URI', String(value['URI']));
-  for (const v_Source of value['Source']) {
-    writeCT_SourceType(s, v_Source, ctx, 'Source');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['Source'].length; idx++) {
+    const v_Source = value['Source'][idx]!;
+    writeCT_SourceType(s, v_Source, ctx, 'Source');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SourceType`; the caller supplies its element local name. */
 export function writeCT_SourceType(s: XmlSink, value: CT_SourceType, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'bibliography'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'AbbreviatedCaseNumber') s.text(String(v_content.value));
     if (v_content.kind === 'AlbumTitle') s.text(String(v_content.value));
@@ -161,6 +200,5 @@ export function writeCT_SourceType(s: XmlSink, value: CT_SourceType, ctx: WriteC
     if (v_content.kind === 'YearAccessed') s.text(String(v_content.value));
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }

@@ -33,11 +33,11 @@ export function writeCT_Override(s: XmlSink, value: CT_Override, ctx: WriteConte
 /** Write a `CT_Types`; the caller supplies its element local name. */
 export function writeCT_Types(s: XmlSink, value: CT_Types, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-content-types'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'Default') writeCT_Default(s, v_content.value, ctx, 'Default');
     if (v_content.kind === 'Override') writeCT_Override(s, v_content.value, ctx, 'Override');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }

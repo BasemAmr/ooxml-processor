@@ -16,6 +16,7 @@ import type { CT_ClientData } from './types.js';
 export function writeCT_ClientData(s: XmlSink, value: CT_ClientData, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml-excel'), localName);
   if (value['ObjectType'] !== undefined) s.attr(null, 'ObjectType', String(value['ObjectType']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'MoveWithCells') s.text(String(v_content.value));
     if (v_content.kind === 'SizeWithCells') s.text(String(v_content.value));
@@ -86,6 +87,5 @@ export function writeCT_ClientData(s: XmlSink, value: CT_ClientData, ctx: WriteC
     if (v_content.kind === 'FmlaTxbx') s.text(String(v_content.value));
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }

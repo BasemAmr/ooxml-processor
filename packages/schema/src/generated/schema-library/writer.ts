@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type { CT_Schema, CT_SchemaLibrary } from './types.js';
 
 // XML writers. Element names are supplied by the owning particle.
@@ -26,10 +31,15 @@ export function writeCT_Schema(s: XmlSink, value: CT_Schema, ctx: WriteContext, 
 /** Write a `CT_SchemaLibrary`; the caller supplies its element local name. */
 export function writeCT_SchemaLibrary(s: XmlSink, value: CT_SchemaLibrary, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'schema-library'), localName);
-  for (const v_schema of value['schema']) {
-    writeCT_Schema(s, v_schema, ctx, 'schema');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['schema'].length; idx++) {
+    const v_schema = value['schema'][idx]!;
+    writeCT_Schema(s, v_schema, ctx, 'schema');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }

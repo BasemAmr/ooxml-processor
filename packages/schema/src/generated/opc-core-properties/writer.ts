@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type { CT_CoreProperties, CT_Keyword, CT_Keywords } from './types.js';
 
 // XML writers. Element names are supplied by the owning particle.
@@ -15,23 +20,40 @@ import type { CT_CoreProperties, CT_Keyword, CT_Keywords } from './types.js';
 /** Write a `CT_CoreProperties`; the caller supplies its element local name. */
 export function writeCT_CoreProperties(s: XmlSink, value: CT_CoreProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-core-properties'), localName);
-  for (const v_category of [value['category']]) if (v_category !== undefined) s.text(String(v_category));
-  for (const v_contentStatus of [value['contentStatus']]) if (v_contentStatus !== undefined) s.text(String(v_contentStatus));
-  for (const v_created of [value['created']]) if (v_created !== undefined) s.text(String(v_created));
-  for (const v_creator of [value['creator']]) if (v_creator !== undefined) s.text(String(v_creator));
-  for (const v_description of [value['description']]) if (v_description !== undefined) s.text(String(v_description));
-  for (const v_identifier of [value['identifier']]) if (v_identifier !== undefined) s.text(String(v_identifier));
-  if (value['keywords'] !== undefined) writeCT_Keywords(s, value['keywords'], ctx, 'keywords');
-  for (const v_language of [value['language']]) if (v_language !== undefined) s.text(String(v_language));
-  for (const v_lastModifiedBy of [value['lastModifiedBy']]) if (v_lastModifiedBy !== undefined) s.text(String(v_lastModifiedBy));
-  for (const v_lastPrinted of [value['lastPrinted']]) if (v_lastPrinted !== undefined) s.text(String(v_lastPrinted));
-  for (const v_modified of [value['modified']]) if (v_modified !== undefined) s.text(String(v_modified));
-  for (const v_revision of [value['revision']]) if (v_revision !== undefined) s.text(String(v_revision));
-  for (const v_subject of [value['subject']]) if (v_subject !== undefined) s.text(String(v_subject));
-  for (const v_title of [value['title']]) if (v_title !== undefined) s.text(String(v_title));
-  for (const v_version of [value['version']]) if (v_version !== undefined) s.text(String(v_version));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['category'] !== undefined) s.text(String(value['category']));
+  $q.flush(s, 0);
+  if (value['contentStatus'] !== undefined) s.text(String(value['contentStatus']));
+  $q.flush(s, 1);
+  if (value['created'] !== undefined) s.text(String(value['created']));
+  $q.flush(s, 2);
+  if (value['creator'] !== undefined) s.text(String(value['creator']));
+  $q.flush(s, 3);
+  if (value['description'] !== undefined) s.text(String(value['description']));
+  $q.flush(s, 4);
+  if (value['identifier'] !== undefined) s.text(String(value['identifier']));
+  $q.flush(s, 5);
+  if (value['keywords'] !== undefined) writeCT_Keywords(s, value['keywords'], ctx, 'keywords');
+  $q.flush(s, 6);
+  if (value['language'] !== undefined) s.text(String(value['language']));
+  $q.flush(s, 7);
+  if (value['lastModifiedBy'] !== undefined) s.text(String(value['lastModifiedBy']));
+  $q.flush(s, 8);
+  if (value['lastPrinted'] !== undefined) s.text(String(value['lastPrinted']));
+  $q.flush(s, 9);
+  if (value['modified'] !== undefined) s.text(String(value['modified']));
+  $q.flush(s, 10);
+  if (value['revision'] !== undefined) s.text(String(value['revision']));
+  $q.flush(s, 11);
+  if (value['subject'] !== undefined) s.text(String(value['subject']));
+  $q.flush(s, 12);
+  if (value['title'] !== undefined) s.text(String(value['title']));
+  $q.flush(s, 13);
+  if (value['version'] !== undefined) s.text(String(value['version']));
+  $q.flush(s, 14);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -39,8 +61,8 @@ export function writeCT_CoreProperties(s: XmlSink, value: CT_CoreProperties, ctx
 export function writeCT_Keyword(s: XmlSink, value: CT_Keyword, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-core-properties'), localName);
   if (value['lang'] !== undefined) s.attr(uriFor(ctx, 'xml'), 'lang', String(value['lang']));
-  s.text(String(value.$value));
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  s.text(String(value.$value));
   s.endElement();
 }
 
@@ -48,10 +70,15 @@ export function writeCT_Keyword(s: XmlSink, value: CT_Keyword, ctx: WriteContext
 export function writeCT_Keywords(s: XmlSink, value: CT_Keywords, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-core-properties'), localName);
   if (value['lang'] !== undefined) s.attr(uriFor(ctx, 'xml'), 'lang', String(value['lang']));
-  for (const v_value of value['value']) {
-    writeCT_Keyword(s, v_value, ctx, 'value');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['value'].length; idx++) {
+    const v_value = value['value'][idx]!;
+    writeCT_Keyword(s, v_value, ctx, 'value');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }

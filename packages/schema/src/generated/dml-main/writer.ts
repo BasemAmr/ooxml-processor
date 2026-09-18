@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type {
   CT_AdjPoint2D,
   CT_AdjustHandleList,
@@ -256,12 +261,12 @@ export function writeCT_AdjPoint2D(s: XmlSink, value: CT_AdjPoint2D, ctx: WriteC
 /** Write a `CT_AdjustHandleList`; the caller supplies its element local name. */
 export function writeCT_AdjustHandleList(s: XmlSink, value: CT_AdjustHandleList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'ahXY') writeCT_XYAdjustHandle(s, v_content.value, ctx, 'ahXY');
     if (v_content.kind === 'ahPolar') writeCT_PolarAdjustHandle(s, v_content.value, ctx, 'ahPolar');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -290,6 +295,9 @@ export function writeCT_AlphaFloorEffect(s: XmlSink, value: CT_AlphaFloorEffect,
 /** Write a `CT_AlphaInverseEffect`; the caller supplies its element local name. */
 export function writeCT_AlphaInverseEffect(s: XmlSink, value: CT_AlphaInverseEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -298,17 +306,20 @@ export function writeCT_AlphaInverseEffect(s: XmlSink, value: CT_AlphaInverseEff
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_AlphaModulateEffect`; the caller supplies its element local name. */
 export function writeCT_AlphaModulateEffect(s: XmlSink, value: CT_AlphaModulateEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['cont'] !== undefined) writeCT_EffectContainer(s, value['cont'], ctx, 'cont');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cont'] !== undefined) writeCT_EffectContainer(s, value['cont'], ctx, 'cont');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -384,12 +395,15 @@ export function writeCT_AnimationDgmElement(s: XmlSink, value: CT_AnimationDgmEl
 /** Write a `CT_AnimationElementChoice`; the caller supplies its element local name. */
 export function writeCT_AnimationElementChoice(s: XmlSink, value: CT_AnimationElementChoice, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'dgm') writeCT_AnimationDgmElement(s, value['content'].value, ctx, 'dgm');
     if (value['content'].kind === 'chart') writeCT_AnimationChartElement(s, value['content'].value, ctx, 'chart');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -399,23 +413,31 @@ export function writeCT_AnimationElementChoice(s: XmlSink, value: CT_AnimationEl
  */
 export function writeCT_AnimationGraphicalObjectBuildProperties(s: XmlSink, value: CT_AnimationGraphicalObjectBuildProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'bldDgm') writeCT_AnimationDgmBuildProperties(s, value['content'].value, ctx, 'bldDgm');
     if (value['content'].kind === 'bldChart') writeCT_AnimationChartBuildProperties(s, value['content'].value, ctx, 'bldChart');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_AudioCD`; the caller supplies its element local name. */
 export function writeCT_AudioCD(s: XmlSink, value: CT_AudioCD, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['st'] !== undefined) writeCT_AudioCDTime(s, value['st'], ctx, 'st');
-  if (value['end'] !== undefined) writeCT_AudioCDTime(s, value['end'], ctx, 'end');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['st'] !== undefined) writeCT_AudioCDTime(s, value['st'], ctx, 'st');
+  $q.flush(s, 0);
+  if (value['end'] !== undefined) writeCT_AudioCDTime(s, value['end'], ctx, 'end');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -433,27 +455,37 @@ export function writeCT_AudioFile(s: XmlSink, value: CT_AudioFile, ctx: WriteCon
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['link'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'link', String(value['link']));
   if (value['contentType'] !== undefined) s.attr(null, 'contentType', String(value['contentType']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Backdrop`; the caller supplies its element local name. */
 export function writeCT_Backdrop(s: XmlSink, value: CT_Backdrop, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['anchor'] !== undefined) writeCT_Point3D(s, value['anchor'], ctx, 'anchor');
-  if (value['norm'] !== undefined) writeCT_Vector3D(s, value['norm'], ctx, 'norm');
-  if (value['up'] !== undefined) writeCT_Vector3D(s, value['up'], ctx, 'up');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['anchor'] !== undefined) writeCT_Point3D(s, value['anchor'], ctx, 'anchor');
+  $q.flush(s, 0);
+  if (value['norm'] !== undefined) writeCT_Vector3D(s, value['norm'], ctx, 'norm');
+  $q.flush(s, 1);
+  if (value['up'] !== undefined) writeCT_Vector3D(s, value['up'], ctx, 'up');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BackgroundFillStyleList`; the caller supplies its element local name. */
 export function writeCT_BackgroundFillStyleList(s: XmlSink, value: CT_BackgroundFillStyleList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_fillProperties of value['fillProperties']) {
     if (v_fillProperties.kind === 'noFill') writeCT_NoFillProperties(s, v_fillProperties.value, ctx, 'noFill');
     if (v_fillProperties.kind === 'solidFill') writeCT_SolidColorFillProperties(s, v_fillProperties.value, ctx, 'solidFill');
@@ -463,13 +495,15 @@ export function writeCT_BackgroundFillStyleList(s: XmlSink, value: CT_Background
     if (v_fillProperties.kind === 'grpFill') writeCT_GroupFillProperties(s, v_fillProperties.value, ctx, 'grpFill');
     if (v_fillProperties.kind === '$raw') { s.raw(v_fillProperties.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_BackgroundFormatting`; the caller supplies its element local name. */
 export function writeCT_BackgroundFormatting(s: XmlSink, value: CT_BackgroundFormatting, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -478,35 +512,47 @@ export function writeCT_BackgroundFormatting(s: XmlSink, value: CT_BackgroundFor
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
+  $q.flush(s, 0);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BaseStyles`; the caller supplies its element local name. */
 export function writeCT_BaseStyles(s: XmlSink, value: CT_BaseStyles, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['clrScheme'] !== undefined) writeCT_ColorScheme(s, value['clrScheme'], ctx, 'clrScheme');
-  if (value['fontScheme'] !== undefined) writeCT_FontScheme(s, value['fontScheme'], ctx, 'fontScheme');
-  if (value['fmtScheme'] !== undefined) writeCT_StyleMatrix(s, value['fmtScheme'], ctx, 'fmtScheme');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['clrScheme'] !== undefined) writeCT_ColorScheme(s, value['clrScheme'], ctx, 'clrScheme');
+  $q.flush(s, 0);
+  if (value['fontScheme'] !== undefined) writeCT_FontScheme(s, value['fontScheme'], ctx, 'fontScheme');
+  $q.flush(s, 1);
+  if (value['fmtScheme'] !== undefined) writeCT_StyleMatrix(s, value['fmtScheme'], ctx, 'fmtScheme');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BaseStylesOverride`; the caller supplies its element local name. */
 export function writeCT_BaseStylesOverride(s: XmlSink, value: CT_BaseStylesOverride, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['clrScheme'] !== undefined) writeCT_ColorScheme(s, value['clrScheme'], ctx, 'clrScheme');
-  if (value['fontScheme'] !== undefined) writeCT_FontScheme(s, value['fontScheme'], ctx, 'fontScheme');
-  if (value['fmtScheme'] !== undefined) writeCT_StyleMatrix(s, value['fmtScheme'], ctx, 'fmtScheme');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['clrScheme'] !== undefined) writeCT_ColorScheme(s, value['clrScheme'], ctx, 'clrScheme');
+  $q.flush(s, 0);
+  if (value['fontScheme'] !== undefined) writeCT_FontScheme(s, value['fontScheme'], ctx, 'fontScheme');
+  $q.flush(s, 1);
+  if (value['fmtScheme'] !== undefined) writeCT_StyleMatrix(s, value['fmtScheme'], ctx, 'fmtScheme');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -532,9 +578,12 @@ export function writeCT_BiLevelEffect(s: XmlSink, value: CT_BiLevelEffect, ctx: 
 export function writeCT_BlendEffect(s: XmlSink, value: CT_BlendEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['blend'] !== undefined) s.attr(null, 'blend', String(value['blend']));
-  if (value['cont'] !== undefined) writeCT_EffectContainer(s, value['cont'], ctx, 'cont');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cont'] !== undefined) writeCT_EffectContainer(s, value['cont'], ctx, 'cont');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -544,6 +593,7 @@ export function writeCT_Blip(s: XmlSink, value: CT_Blip, ctx: WriteContext, loca
   if (value['embed'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'embed', String(value['embed']));
   if (value['link'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'link', String(value['link']));
   if (value['cstate'] !== undefined) s.attr(null, 'cstate', String(value['cstate']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'alphaBiLevel') writeCT_AlphaBiLevelEffect(s, v_content.value, ctx, 'alphaBiLevel');
     if (v_content.kind === 'alphaCeiling') writeCT_AlphaCeilingEffect(s, v_content.value, ctx, 'alphaCeiling');
@@ -565,7 +615,6 @@ export function writeCT_Blip(s: XmlSink, value: CT_Blip, ctx: WriteContext, loca
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -574,14 +623,19 @@ export function writeCT_BlipFillProperties(s: XmlSink, value: CT_BlipFillPropert
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['dpi'] !== undefined) s.attr(null, 'dpi', String(value['dpi']));
   if (value['rotWithShape'] !== undefined) s.attr(null, 'rotWithShape', String(value['rotWithShape']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['blip'] !== undefined) writeCT_Blip(s, value['blip'], ctx, 'blip');
+  $q.flush(s, 0);
   if (value['srcRect'] !== undefined) writeCT_RelativeRect(s, value['srcRect'], ctx, 'srcRect');
+  $q.flush(s, 1);
   if (value['fillModeProperties'] !== undefined) {
     if (value['fillModeProperties'].kind === 'tile') writeCT_TileInfoProperties(s, value['fillModeProperties'].value, ctx, 'tile');
     if (value['fillModeProperties'].kind === 'stretch') writeCT_StretchInfoProperties(s, value['fillModeProperties'].value, ctx, 'stretch');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -608,9 +662,12 @@ export function writeCT_Camera(s: XmlSink, value: CT_Camera, ctx: WriteContext, 
   if (value['prst'] !== undefined) s.attr(null, 'prst', String(value['prst']));
   if (value['fov'] !== undefined) s.attr(null, 'fov', String(value['fov']));
   if (value['zoom'] !== undefined) s.attr(null, 'zoom', String(value['zoom']));
-  if (value['rot'] !== undefined) writeCT_SphereCoords(s, value['rot'], ctx, 'rot');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['rot'] !== undefined) writeCT_SphereCoords(s, value['rot'], ctx, 'rot');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -618,27 +675,39 @@ export function writeCT_Camera(s: XmlSink, value: CT_Camera, ctx: WriteContext, 
 export function writeCT_Cell3D(s: XmlSink, value: CT_Cell3D, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['prstMaterial'] !== undefined) s.attr(null, 'prstMaterial', String(value['prstMaterial']));
-  if (value['bevel'] !== undefined) writeCT_Bevel(s, value['bevel'], ctx, 'bevel');
-  if (value['lightRig'] !== undefined) writeCT_LightRig(s, value['lightRig'], ctx, 'lightRig');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['bevel'] !== undefined) writeCT_Bevel(s, value['bevel'], ctx, 'bevel');
+  $q.flush(s, 0);
+  if (value['lightRig'] !== undefined) writeCT_LightRig(s, value['lightRig'], ctx, 'lightRig');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ClipboardStyleSheet`; the caller supplies its element local name. */
 export function writeCT_ClipboardStyleSheet(s: XmlSink, value: CT_ClipboardStyleSheet, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['themeElements'] !== undefined) writeCT_BaseStyles(s, value['themeElements'], ctx, 'themeElements');
-  if (value['clrMap'] !== undefined) writeCT_ColorMapping(s, value['clrMap'], ctx, 'clrMap');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['themeElements'] !== undefined) writeCT_BaseStyles(s, value['themeElements'], ctx, 'themeElements');
+  $q.flush(s, 0);
+  if (value['clrMap'] !== undefined) writeCT_ColorMapping(s, value['clrMap'], ctx, 'clrMap');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Color`; the caller supplies its element local name. */
 export function writeCT_Color(s: XmlSink, value: CT_Color, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -647,8 +716,8 @@ export function writeCT_Color(s: XmlSink, value: CT_Color, ctx: WriteContext, lo
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -656,10 +725,14 @@ export function writeCT_Color(s: XmlSink, value: CT_Color, ctx: WriteContext, lo
 export function writeCT_ColorChangeEffect(s: XmlSink, value: CT_ColorChangeEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['useA'] !== undefined) s.attr(null, 'useA', String(value['useA']));
-  if (value['clrFrom'] !== undefined) writeCT_Color(s, value['clrFrom'], ctx, 'clrFrom');
-  if (value['clrTo'] !== undefined) writeCT_Color(s, value['clrTo'], ctx, 'clrTo');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['clrFrom'] !== undefined) writeCT_Color(s, value['clrFrom'], ctx, 'clrFrom');
+  $q.flush(s, 0);
+  if (value['clrTo'] !== undefined) writeCT_Color(s, value['clrTo'], ctx, 'clrTo');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -678,27 +751,34 @@ export function writeCT_ColorMapping(s: XmlSink, value: CT_ColorMapping, ctx: Wr
   if (value['accent6'] !== undefined) s.attr(null, 'accent6', String(value['accent6']));
   if (value['hlink'] !== undefined) s.attr(null, 'hlink', String(value['hlink']));
   if (value['folHlink'] !== undefined) s.attr(null, 'folHlink', String(value['folHlink']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ColorMappingOverride`; the caller supplies its element local name. */
 export function writeCT_ColorMappingOverride(s: XmlSink, value: CT_ColorMappingOverride, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'masterClrMapping') writeCT_EmptyElement(s, value['content'].value, ctx, 'masterClrMapping');
     if (value['content'].kind === 'overrideClrMapping') writeCT_ColorMapping(s, value['content'].value, ctx, 'overrideClrMapping');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ColorMRU`; the caller supplies its element local name. */
 export function writeCT_ColorMRU(s: XmlSink, value: CT_ColorMRU, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorChoice of value['colorChoice']) {
     if (v_colorChoice.kind === 'scrgbClr') writeCT_ScRgbColor(s, v_colorChoice.value, ctx, 'scrgbClr');
     if (v_colorChoice.kind === 'srgbClr') writeCT_SRgbColor(s, v_colorChoice.value, ctx, 'srgbClr');
@@ -708,13 +788,15 @@ export function writeCT_ColorMRU(s: XmlSink, value: CT_ColorMRU, ctx: WriteConte
     if (v_colorChoice.kind === 'prstClr') writeCT_PresetColor(s, v_colorChoice.value, ctx, 'prstClr');
     if (v_colorChoice.kind === '$raw') { s.raw(v_colorChoice.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_ColorReplaceEffect`; the caller supplies its element local name. */
 export function writeCT_ColorReplaceEffect(s: XmlSink, value: CT_ColorReplaceEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -723,8 +805,8 @@ export function writeCT_ColorReplaceEffect(s: XmlSink, value: CT_ColorReplaceEff
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -732,42 +814,66 @@ export function writeCT_ColorReplaceEffect(s: XmlSink, value: CT_ColorReplaceEff
 export function writeCT_ColorScheme(s: XmlSink, value: CT_ColorScheme, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['name'] !== undefined) s.attr(null, 'name', String(value['name']));
-  if (value['dk1'] !== undefined) writeCT_Color(s, value['dk1'], ctx, 'dk1');
-  if (value['lt1'] !== undefined) writeCT_Color(s, value['lt1'], ctx, 'lt1');
-  if (value['dk2'] !== undefined) writeCT_Color(s, value['dk2'], ctx, 'dk2');
-  if (value['lt2'] !== undefined) writeCT_Color(s, value['lt2'], ctx, 'lt2');
-  if (value['accent1'] !== undefined) writeCT_Color(s, value['accent1'], ctx, 'accent1');
-  if (value['accent2'] !== undefined) writeCT_Color(s, value['accent2'], ctx, 'accent2');
-  if (value['accent3'] !== undefined) writeCT_Color(s, value['accent3'], ctx, 'accent3');
-  if (value['accent4'] !== undefined) writeCT_Color(s, value['accent4'], ctx, 'accent4');
-  if (value['accent5'] !== undefined) writeCT_Color(s, value['accent5'], ctx, 'accent5');
-  if (value['accent6'] !== undefined) writeCT_Color(s, value['accent6'], ctx, 'accent6');
-  if (value['hlink'] !== undefined) writeCT_Color(s, value['hlink'], ctx, 'hlink');
-  if (value['folHlink'] !== undefined) writeCT_Color(s, value['folHlink'], ctx, 'folHlink');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['dk1'] !== undefined) writeCT_Color(s, value['dk1'], ctx, 'dk1');
+  $q.flush(s, 0);
+  if (value['lt1'] !== undefined) writeCT_Color(s, value['lt1'], ctx, 'lt1');
+  $q.flush(s, 1);
+  if (value['dk2'] !== undefined) writeCT_Color(s, value['dk2'], ctx, 'dk2');
+  $q.flush(s, 2);
+  if (value['lt2'] !== undefined) writeCT_Color(s, value['lt2'], ctx, 'lt2');
+  $q.flush(s, 3);
+  if (value['accent1'] !== undefined) writeCT_Color(s, value['accent1'], ctx, 'accent1');
+  $q.flush(s, 4);
+  if (value['accent2'] !== undefined) writeCT_Color(s, value['accent2'], ctx, 'accent2');
+  $q.flush(s, 5);
+  if (value['accent3'] !== undefined) writeCT_Color(s, value['accent3'], ctx, 'accent3');
+  $q.flush(s, 6);
+  if (value['accent4'] !== undefined) writeCT_Color(s, value['accent4'], ctx, 'accent4');
+  $q.flush(s, 7);
+  if (value['accent5'] !== undefined) writeCT_Color(s, value['accent5'], ctx, 'accent5');
+  $q.flush(s, 8);
+  if (value['accent6'] !== undefined) writeCT_Color(s, value['accent6'], ctx, 'accent6');
+  $q.flush(s, 9);
+  if (value['hlink'] !== undefined) writeCT_Color(s, value['hlink'], ctx, 'hlink');
+  $q.flush(s, 10);
+  if (value['folHlink'] !== undefined) writeCT_Color(s, value['folHlink'], ctx, 'folHlink');
+  $q.flush(s, 11);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 12);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ColorSchemeAndMapping`; the caller supplies its element local name. */
 export function writeCT_ColorSchemeAndMapping(s: XmlSink, value: CT_ColorSchemeAndMapping, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['clrScheme'] !== undefined) writeCT_ColorScheme(s, value['clrScheme'], ctx, 'clrScheme');
-  if (value['clrMap'] !== undefined) writeCT_ColorMapping(s, value['clrMap'], ctx, 'clrMap');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['clrScheme'] !== undefined) writeCT_ColorScheme(s, value['clrScheme'], ctx, 'clrScheme');
+  $q.flush(s, 0);
+  if (value['clrMap'] !== undefined) writeCT_ColorMapping(s, value['clrMap'], ctx, 'clrMap');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ColorSchemeList`; the caller supplies its element local name. */
 export function writeCT_ColorSchemeList(s: XmlSink, value: CT_ColorSchemeList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_extraClrScheme of value['extraClrScheme']) {
-    writeCT_ColorSchemeAndMapping(s, v_extraClrScheme, ctx, 'extraClrScheme');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['extraClrScheme'].length; idx++) {
+    const v_extraClrScheme = value['extraClrScheme'][idx]!;
+    writeCT_ColorSchemeAndMapping(s, v_extraClrScheme, ctx, 'extraClrScheme');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -791,20 +897,28 @@ export function writeCT_Connection(s: XmlSink, value: CT_Connection, ctx: WriteC
 export function writeCT_ConnectionSite(s: XmlSink, value: CT_ConnectionSite, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['ang'] !== undefined) s.attr(null, 'ang', String(value['ang']));
-  if (value['pos'] !== undefined) writeCT_AdjPoint2D(s, value['pos'], ctx, 'pos');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['pos'] !== undefined) writeCT_AdjPoint2D(s, value['pos'], ctx, 'pos');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ConnectionSiteList`; the caller supplies its element local name. */
 export function writeCT_ConnectionSiteList(s: XmlSink, value: CT_ConnectionSiteList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_cxn of value['cxn']) {
-    writeCT_ConnectionSite(s, v_cxn, ctx, 'cxn');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['cxn'].length; idx++) {
+    const v_cxn = value['cxn'][idx]!;
+    writeCT_ConnectionSite(s, v_cxn, ctx, 'cxn');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -821,9 +935,12 @@ export function writeCT_ConnectorLocking(s: XmlSink, value: CT_ConnectorLocking,
   if (value['noAdjustHandles'] !== undefined) s.attr(null, 'noAdjustHandles', String(value['noAdjustHandles']));
   if (value['noChangeArrowheads'] !== undefined) s.attr(null, 'noChangeArrowheads', String(value['noChangeArrowheads']));
   if (value['noChangeShapeType'] !== undefined) s.attr(null, 'noChangeShapeType', String(value['noChangeShapeType']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -840,9 +957,12 @@ export function writeCT_ContentPartLocking(s: XmlSink, value: CT_ContentPartLock
   if (value['noAdjustHandles'] !== undefined) s.attr(null, 'noAdjustHandles', String(value['noAdjustHandles']));
   if (value['noChangeArrowheads'] !== undefined) s.attr(null, 'noChangeArrowheads', String(value['noChangeArrowheads']));
   if (value['noChangeShapeType'] !== undefined) s.attr(null, 'noChangeShapeType', String(value['noChangeShapeType']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -850,6 +970,9 @@ export function writeCT_ContentPartLocking(s: XmlSink, value: CT_ContentPartLock
 export function writeCT_CustomColor(s: XmlSink, value: CT_CustomColor, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['name'] !== undefined) s.attr(null, 'name', String(value['name']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -858,33 +981,46 @@ export function writeCT_CustomColor(s: XmlSink, value: CT_CustomColor, ctx: Writ
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_CustomColorList`; the caller supplies its element local name. */
 export function writeCT_CustomColorList(s: XmlSink, value: CT_CustomColorList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_custClr of value['custClr']) {
-    writeCT_CustomColor(s, v_custClr, ctx, 'custClr');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['custClr'].length; idx++) {
+    const v_custClr = value['custClr'][idx]!;
+    writeCT_CustomColor(s, v_custClr, ctx, 'custClr');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_CustomGeometry2D`; the caller supplies its element local name. */
 export function writeCT_CustomGeometry2D(s: XmlSink, value: CT_CustomGeometry2D, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['avLst'] !== undefined) writeCT_GeomGuideList(s, value['avLst'], ctx, 'avLst');
-  if (value['gdLst'] !== undefined) writeCT_GeomGuideList(s, value['gdLst'], ctx, 'gdLst');
-  if (value['ahLst'] !== undefined) writeCT_AdjustHandleList(s, value['ahLst'], ctx, 'ahLst');
-  if (value['cxnLst'] !== undefined) writeCT_ConnectionSiteList(s, value['cxnLst'], ctx, 'cxnLst');
-  if (value['rect'] !== undefined) writeCT_GeomRect(s, value['rect'], ctx, 'rect');
-  if (value['pathLst'] !== undefined) writeCT_Path2DList(s, value['pathLst'], ctx, 'pathLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['avLst'] !== undefined) writeCT_GeomGuideList(s, value['avLst'], ctx, 'avLst');
+  $q.flush(s, 0);
+  if (value['gdLst'] !== undefined) writeCT_GeomGuideList(s, value['gdLst'], ctx, 'gdLst');
+  $q.flush(s, 1);
+  if (value['ahLst'] !== undefined) writeCT_AdjustHandleList(s, value['ahLst'], ctx, 'ahLst');
+  $q.flush(s, 2);
+  if (value['cxnLst'] !== undefined) writeCT_ConnectionSiteList(s, value['cxnLst'], ctx, 'cxnLst');
+  $q.flush(s, 3);
+  if (value['rect'] !== undefined) writeCT_GeomRect(s, value['rect'], ctx, 'rect');
+  $q.flush(s, 4);
+  if (value['pathLst'] !== undefined) writeCT_Path2DList(s, value['pathLst'], ctx, 'pathLst');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -900,30 +1036,43 @@ export function writeCT_DashStop(s: XmlSink, value: CT_DashStop, ctx: WriteConte
 /** Write a `CT_DashStopList`; the caller supplies its element local name. */
 export function writeCT_DashStopList(s: XmlSink, value: CT_DashStopList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_ds of value['ds']) {
-    writeCT_DashStop(s, v_ds, ctx, 'ds');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['ds'].length; idx++) {
+    const v_ds = value['ds'][idx]!;
+    writeCT_DashStop(s, v_ds, ctx, 'ds');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DefaultShapeDefinition`; the caller supplies its element local name. */
 export function writeCT_DefaultShapeDefinition(s: XmlSink, value: CT_DefaultShapeDefinition, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['bodyPr'] !== undefined) writeCT_TextBodyProperties(s, value['bodyPr'], ctx, 'bodyPr');
-  if (value['lstStyle'] !== undefined) writeCT_TextListStyle(s, value['lstStyle'], ctx, 'lstStyle');
-  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 0);
+  if (value['bodyPr'] !== undefined) writeCT_TextBodyProperties(s, value['bodyPr'], ctx, 'bodyPr');
+  $q.flush(s, 1);
+  if (value['lstStyle'] !== undefined) writeCT_TextListStyle(s, value['lstStyle'], ctx, 'lstStyle');
+  $q.flush(s, 2);
+  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DuotoneEffect`; the caller supplies its element local name. */
 export function writeCT_DuotoneEffect(s: XmlSink, value: CT_DuotoneEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorChoice of value['colorChoice']) {
     if (v_colorChoice.kind === 'scrgbClr') writeCT_ScRgbColor(s, v_colorChoice.value, ctx, 'scrgbClr');
     if (v_colorChoice.kind === 'srgbClr') writeCT_SRgbColor(s, v_colorChoice.value, ctx, 'srgbClr');
@@ -933,7 +1082,6 @@ export function writeCT_DuotoneEffect(s: XmlSink, value: CT_DuotoneEffect, ctx: 
     if (v_colorChoice.kind === 'prstClr') writeCT_PresetColor(s, v_colorChoice.value, ctx, 'prstClr');
     if (v_colorChoice.kind === '$raw') { s.raw(v_colorChoice.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -942,6 +1090,7 @@ export function writeCT_EffectContainer(s: XmlSink, value: CT_EffectContainer, c
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['type'] !== undefined) s.attr(null, 'type', String(value['type']));
   if (value['name'] !== undefined) s.attr(null, 'name', String(value['name']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_effect of value['effect']) {
     if (v_effect.kind === 'cont') writeCT_EffectContainer(s, v_effect.value, ctx, 'cont');
     if (v_effect.kind === 'effect') writeCT_EffectReference(s, v_effect.value, ctx, 'effect');
@@ -975,35 +1124,47 @@ export function writeCT_EffectContainer(s: XmlSink, value: CT_EffectContainer, c
     if (v_effect.kind === 'xfrm') writeCT_TransformEffect(s, v_effect.value, ctx, 'xfrm');
     if (v_effect.kind === '$raw') { s.raw(v_effect.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_EffectList`; the caller supplies its element local name. */
 export function writeCT_EffectList(s: XmlSink, value: CT_EffectList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['blur'] !== undefined) writeCT_BlurEffect(s, value['blur'], ctx, 'blur');
-  if (value['fillOverlay'] !== undefined) writeCT_FillOverlayEffect(s, value['fillOverlay'], ctx, 'fillOverlay');
-  if (value['glow'] !== undefined) writeCT_GlowEffect(s, value['glow'], ctx, 'glow');
-  if (value['innerShdw'] !== undefined) writeCT_InnerShadowEffect(s, value['innerShdw'], ctx, 'innerShdw');
-  if (value['outerShdw'] !== undefined) writeCT_OuterShadowEffect(s, value['outerShdw'], ctx, 'outerShdw');
-  if (value['prstShdw'] !== undefined) writeCT_PresetShadowEffect(s, value['prstShdw'], ctx, 'prstShdw');
-  if (value['reflection'] !== undefined) writeCT_ReflectionEffect(s, value['reflection'], ctx, 'reflection');
-  if (value['softEdge'] !== undefined) writeCT_SoftEdgesEffect(s, value['softEdge'], ctx, 'softEdge');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['blur'] !== undefined) writeCT_BlurEffect(s, value['blur'], ctx, 'blur');
+  $q.flush(s, 0);
+  if (value['fillOverlay'] !== undefined) writeCT_FillOverlayEffect(s, value['fillOverlay'], ctx, 'fillOverlay');
+  $q.flush(s, 1);
+  if (value['glow'] !== undefined) writeCT_GlowEffect(s, value['glow'], ctx, 'glow');
+  $q.flush(s, 2);
+  if (value['innerShdw'] !== undefined) writeCT_InnerShadowEffect(s, value['innerShdw'], ctx, 'innerShdw');
+  $q.flush(s, 3);
+  if (value['outerShdw'] !== undefined) writeCT_OuterShadowEffect(s, value['outerShdw'], ctx, 'outerShdw');
+  $q.flush(s, 4);
+  if (value['prstShdw'] !== undefined) writeCT_PresetShadowEffect(s, value['prstShdw'], ctx, 'prstShdw');
+  $q.flush(s, 5);
+  if (value['reflection'] !== undefined) writeCT_ReflectionEffect(s, value['reflection'], ctx, 'reflection');
+  $q.flush(s, 6);
+  if (value['softEdge'] !== undefined) writeCT_SoftEdgesEffect(s, value['softEdge'], ctx, 'softEdge');
+  $q.flush(s, 7);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_EffectProperties`; the caller supplies its element local name. */
 export function writeCT_EffectProperties(s: XmlSink, value: CT_EffectProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1018,25 +1179,35 @@ export function writeCT_EffectReference(s: XmlSink, value: CT_EffectReference, c
 /** Write a `CT_EffectStyleItem`; the caller supplies its element local name. */
 export function writeCT_EffectStyleItem(s: XmlSink, value: CT_EffectStyleItem, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
+  $q.flush(s, 0);
   if (value['scene3d'] !== undefined) writeCT_Scene3D(s, value['scene3d'], ctx, 'scene3d');
+  $q.flush(s, 1);
   if (value['sp3d'] !== undefined) writeCT_Shape3D(s, value['sp3d'], ctx, 'sp3d');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_EffectStyleList`; the caller supplies its element local name. */
 export function writeCT_EffectStyleList(s: XmlSink, value: CT_EffectStyleList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_effectStyle of value['effectStyle']) {
-    writeCT_EffectStyleItem(s, v_effectStyle, ctx, 'effectStyle');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['effectStyle'].length; idx++) {
+    const v_effectStyle = value['effectStyle'][idx]!;
+    writeCT_EffectStyleItem(s, v_effectStyle, ctx, 'effectStyle');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1059,6 +1230,9 @@ export function writeCT_EmptyElement(s: XmlSink, value: CT_EmptyElement, ctx: Wr
 /** Write a `CT_FillEffect`; the caller supplies its element local name. */
 export function writeCT_FillEffect(s: XmlSink, value: CT_FillEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -1067,8 +1241,8 @@ export function writeCT_FillEffect(s: XmlSink, value: CT_FillEffect, ctx: WriteC
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1076,6 +1250,9 @@ export function writeCT_FillEffect(s: XmlSink, value: CT_FillEffect, ctx: WriteC
 export function writeCT_FillOverlayEffect(s: XmlSink, value: CT_FillOverlayEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['blend'] !== undefined) s.attr(null, 'blend', String(value['blend']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -1084,14 +1261,17 @@ export function writeCT_FillOverlayEffect(s: XmlSink, value: CT_FillOverlayEffec
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_FillProperties`; the caller supplies its element local name. */
 export function writeCT_FillProperties(s: XmlSink, value: CT_FillProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -1100,14 +1280,15 @@ export function writeCT_FillProperties(s: XmlSink, value: CT_FillProperties, ctx
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_FillStyleList`; the caller supplies its element local name. */
 export function writeCT_FillStyleList(s: XmlSink, value: CT_FillStyleList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_fillProperties of value['fillProperties']) {
     if (v_fillProperties.kind === 'noFill') writeCT_NoFillProperties(s, v_fillProperties.value, ctx, 'noFill');
     if (v_fillProperties.kind === 'solidFill') writeCT_SolidColorFillProperties(s, v_fillProperties.value, ctx, 'solidFill');
@@ -1117,7 +1298,6 @@ export function writeCT_FillStyleList(s: XmlSink, value: CT_FillStyleList, ctx: 
     if (v_fillProperties.kind === 'grpFill') writeCT_GroupFillProperties(s, v_fillProperties.value, ctx, 'grpFill');
     if (v_fillProperties.kind === '$raw') { s.raw(v_fillProperties.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -1140,15 +1320,24 @@ export function writeCT_FlatText(s: XmlSink, value: CT_FlatText, ctx: WriteConte
 /** Write a `CT_FontCollection`; the caller supplies its element local name. */
 export function writeCT_FontCollection(s: XmlSink, value: CT_FontCollection, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['latin'] !== undefined) writeCT_TextFont(s, value['latin'], ctx, 'latin');
-  if (value['ea'] !== undefined) writeCT_TextFont(s, value['ea'], ctx, 'ea');
-  if (value['cs'] !== undefined) writeCT_TextFont(s, value['cs'], ctx, 'cs');
-  for (const v_font of value['font']) {
-    writeCT_SupplementalFont(s, v_font, ctx, 'font');
-  }
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['latin'] !== undefined) writeCT_TextFont(s, value['latin'], ctx, 'latin');
+  $q.flush(s, 0);
+  if (value['ea'] !== undefined) writeCT_TextFont(s, value['ea'], ctx, 'ea');
+  $q.flush(s, 1);
+  if (value['cs'] !== undefined) writeCT_TextFont(s, value['cs'], ctx, 'cs');
+  $q.flush(s, 2);
+  for (let idx = 0; idx < value['font'].length; idx++) {
+    const v_font = value['font'][idx]!;
+    writeCT_SupplementalFont(s, v_font, ctx, 'font');
+    $q.flush(s, 3, idx);
+  }
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1156,6 +1345,9 @@ export function writeCT_FontCollection(s: XmlSink, value: CT_FontCollection, ctx
 export function writeCT_FontReference(s: XmlSink, value: CT_FontReference, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['idx'] !== undefined) s.attr(null, 'idx', String(value['idx']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -1164,8 +1356,8 @@ export function writeCT_FontReference(s: XmlSink, value: CT_FontReference, ctx: 
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1173,11 +1365,16 @@ export function writeCT_FontReference(s: XmlSink, value: CT_FontReference, ctx: 
 export function writeCT_FontScheme(s: XmlSink, value: CT_FontScheme, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['name'] !== undefined) s.attr(null, 'name', String(value['name']));
-  if (value['majorFont'] !== undefined) writeCT_FontCollection(s, value['majorFont'], ctx, 'majorFont');
-  if (value['minorFont'] !== undefined) writeCT_FontCollection(s, value['minorFont'], ctx, 'minorFont');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['majorFont'] !== undefined) writeCT_FontCollection(s, value['majorFont'], ctx, 'majorFont');
+  $q.flush(s, 0);
+  if (value['minorFont'] !== undefined) writeCT_FontCollection(s, value['minorFont'], ctx, 'minorFont');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1200,11 +1397,16 @@ export function writeCT_GeomGuide(s: XmlSink, value: CT_GeomGuide, ctx: WriteCon
 /** Write a `CT_GeomGuideList`; the caller supplies its element local name. */
 export function writeCT_GeomGuideList(s: XmlSink, value: CT_GeomGuideList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_gd of value['gd']) {
-    writeCT_GeomGuide(s, v_gd, ctx, 'gd');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['gd'].length; idx++) {
+    const v_gd = value['gd'][idx]!;
+    writeCT_GeomGuide(s, v_gd, ctx, 'gd');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1223,6 +1425,9 @@ export function writeCT_GeomRect(s: XmlSink, value: CT_GeomRect, ctx: WriteConte
 export function writeCT_GlowEffect(s: XmlSink, value: CT_GlowEffect, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['rad'] !== undefined) s.attr(null, 'rad', String(value['rad']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -1231,8 +1436,8 @@ export function writeCT_GlowEffect(s: XmlSink, value: CT_GlowEffect, ctx: WriteC
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1241,14 +1446,19 @@ export function writeCT_GradientFillProperties(s: XmlSink, value: CT_GradientFil
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['flip'] !== undefined) s.attr(null, 'flip', String(value['flip']));
   if (value['rotWithShape'] !== undefined) s.attr(null, 'rotWithShape', String(value['rotWithShape']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['gsLst'] !== undefined) writeCT_GradientStopList(s, value['gsLst'], ctx, 'gsLst');
+  $q.flush(s, 0);
   if (value['shadeProperties'] !== undefined) {
     if (value['shadeProperties'].kind === 'lin') writeCT_LinearShadeProperties(s, value['shadeProperties'].value, ctx, 'lin');
     if (value['shadeProperties'].kind === 'path') writeCT_PathShadeProperties(s, value['shadeProperties'].value, ctx, 'path');
   }
+  $q.flush(s, 1);
   if (value['tileRect'] !== undefined) writeCT_RelativeRect(s, value['tileRect'], ctx, 'tileRect');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1256,6 +1466,9 @@ export function writeCT_GradientFillProperties(s: XmlSink, value: CT_GradientFil
 export function writeCT_GradientStop(s: XmlSink, value: CT_GradientStop, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['pos'] !== undefined) s.attr(null, 'pos', String(value['pos']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -1264,28 +1477,36 @@ export function writeCT_GradientStop(s: XmlSink, value: CT_GradientStop, ctx: Wr
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GradientStopList`; the caller supplies its element local name. */
 export function writeCT_GradientStopList(s: XmlSink, value: CT_GradientStopList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_gs of value['gs']) {
-    writeCT_GradientStop(s, v_gs, ctx, 'gs');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['gs'].length; idx++) {
+    const v_gs = value['gs'][idx]!;
+    writeCT_GradientStop(s, v_gs, ctx, 'gs');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GraphicalObject`; the caller supplies its element local name. */
 export function writeCT_GraphicalObject(s: XmlSink, value: CT_GraphicalObject, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['graphicData'] !== undefined) writeCT_GraphicalObjectData(s, value['graphicData'], ctx, 'graphicData');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['graphicData'] !== undefined) writeCT_GraphicalObjectData(s, value['graphicData'], ctx, 'graphicData');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1293,11 +1514,14 @@ export function writeCT_GraphicalObject(s: XmlSink, value: CT_GraphicalObject, c
 export function writeCT_GraphicalObjectData(s: XmlSink, value: CT_GraphicalObjectData, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['uri'] !== undefined) s.attr(null, 'uri', String(value['uri']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   for (const raw of value['any']) {
     s.raw(raw);
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1310,9 +1534,12 @@ export function writeCT_GraphicalObjectFrameLocking(s: XmlSink, value: CT_Graphi
   if (value['noChangeAspect'] !== undefined) s.attr(null, 'noChangeAspect', String(value['noChangeAspect']));
   if (value['noMove'] !== undefined) s.attr(null, 'noMove', String(value['noMove']));
   if (value['noResize'] !== undefined) s.attr(null, 'noResize', String(value['noResize']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1347,9 +1574,12 @@ export function writeCT_GroupLocking(s: XmlSink, value: CT_GroupLocking, ctx: Wr
   if (value['noChangeAspect'] !== undefined) s.attr(null, 'noChangeAspect', String(value['noChangeAspect']));
   if (value['noMove'] !== undefined) s.attr(null, 'noMove', String(value['noMove']));
   if (value['noResize'] !== undefined) s.attr(null, 'noResize', String(value['noResize']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1357,7 +1587,11 @@ export function writeCT_GroupLocking(s: XmlSink, value: CT_GroupLocking, ctx: Wr
 export function writeCT_GroupShapeProperties(s: XmlSink, value: CT_GroupShapeProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['bwMode'] !== undefined) s.attr(null, 'bwMode', String(value['bwMode']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['xfrm'] !== undefined) writeCT_GroupTransform2D(s, value['xfrm'], ctx, 'xfrm');
+  $q.flush(s, 0);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -1366,14 +1600,17 @@ export function writeCT_GroupShapeProperties(s: XmlSink, value: CT_GroupShapePro
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
+  $q.flush(s, 1);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
+  $q.flush(s, 2);
   if (value['scene3d'] !== undefined) writeCT_Scene3D(s, value['scene3d'], ctx, 'scene3d');
+  $q.flush(s, 3);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1383,62 +1620,89 @@ export function writeCT_GroupTransform2D(s: XmlSink, value: CT_GroupTransform2D,
   if (value['rot'] !== undefined) s.attr(null, 'rot', String(value['rot']));
   if (value['flipH'] !== undefined) s.attr(null, 'flipH', String(value['flipH']));
   if (value['flipV'] !== undefined) s.attr(null, 'flipV', String(value['flipV']));
-  if (value['off'] !== undefined) writeCT_Point2D(s, value['off'], ctx, 'off');
-  if (value['ext'] !== undefined) writeCT_PositiveSize2D(s, value['ext'], ctx, 'ext');
-  if (value['chOff'] !== undefined) writeCT_Point2D(s, value['chOff'], ctx, 'chOff');
-  if (value['chExt'] !== undefined) writeCT_PositiveSize2D(s, value['chExt'], ctx, 'chExt');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['off'] !== undefined) writeCT_Point2D(s, value['off'], ctx, 'off');
+  $q.flush(s, 0);
+  if (value['ext'] !== undefined) writeCT_PositiveSize2D(s, value['ext'], ctx, 'ext');
+  $q.flush(s, 1);
+  if (value['chOff'] !== undefined) writeCT_Point2D(s, value['chOff'], ctx, 'chOff');
+  $q.flush(s, 2);
+  if (value['chExt'] !== undefined) writeCT_PositiveSize2D(s, value['chExt'], ctx, 'chExt');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlConnector`; the caller supplies its element local name. */
 export function writeCT_GvmlConnector(s: XmlSink, value: CT_GvmlConnector, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['nvCxnSpPr'] !== undefined) writeCT_GvmlConnectorNonVisual(s, value['nvCxnSpPr'], ctx, 'nvCxnSpPr');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvCxnSpPr'] !== undefined) writeCT_GvmlConnectorNonVisual(s, value['nvCxnSpPr'], ctx, 'nvCxnSpPr');
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlConnectorNonVisual`; the caller supplies its element local name. */
 export function writeCT_GvmlConnectorNonVisual(s: XmlSink, value: CT_GvmlConnectorNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvCxnSpPr'] !== undefined) writeCT_NonVisualConnectorProperties(s, value['cNvCxnSpPr'], ctx, 'cNvCxnSpPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvCxnSpPr'] !== undefined) writeCT_NonVisualConnectorProperties(s, value['cNvCxnSpPr'], ctx, 'cNvCxnSpPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlGraphicalObjectFrame`; the caller supplies its element local name. */
 export function writeCT_GvmlGraphicalObjectFrame(s: XmlSink, value: CT_GvmlGraphicalObjectFrame, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['nvGraphicFramePr'] !== undefined) writeCT_GvmlGraphicFrameNonVisual(s, value['nvGraphicFramePr'], ctx, 'nvGraphicFramePr');
-  if (value['graphic'] !== undefined) writeCT_GraphicalObject(s, value['graphic'], ctx, 'graphic');
-  if (value['xfrm'] !== undefined) writeCT_Transform2D(s, value['xfrm'], ctx, 'xfrm');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvGraphicFramePr'] !== undefined) writeCT_GvmlGraphicFrameNonVisual(s, value['nvGraphicFramePr'], ctx, 'nvGraphicFramePr');
+  $q.flush(s, 0);
+  if (value['graphic'] !== undefined) writeCT_GraphicalObject(s, value['graphic'], ctx, 'graphic');
+  $q.flush(s, 1);
+  if (value['xfrm'] !== undefined) writeCT_Transform2D(s, value['xfrm'], ctx, 'xfrm');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlGraphicFrameNonVisual`; the caller supplies its element local name. */
 export function writeCT_GvmlGraphicFrameNonVisual(s: XmlSink, value: CT_GvmlGraphicFrameNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvGraphicFramePr'] !== undefined) writeCT_NonVisualGraphicFrameProperties(s, value['cNvGraphicFramePr'], ctx, 'cNvGraphicFramePr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvGraphicFramePr'] !== undefined) writeCT_NonVisualGraphicFrameProperties(s, value['cNvGraphicFramePr'], ctx, 'cNvGraphicFramePr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlGroupShape`; the caller supplies its element local name. */
 export function writeCT_GvmlGroupShape(s: XmlSink, value: CT_GvmlGroupShape, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   if (value['nvGrpSpPr'] !== undefined) writeCT_GvmlGroupShapeNonVisual(s, value['nvGrpSpPr'], ctx, 'nvGrpSpPr');
   if (value['grpSpPr'] !== undefined) writeCT_GroupShapeProperties(s, value['grpSpPr'], ctx, 'grpSpPr');
   for (const v_content of value['content']) {
@@ -1451,77 +1715,107 @@ export function writeCT_GvmlGroupShape(s: XmlSink, value: CT_GvmlGroupShape, ctx
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_GvmlGroupShapeNonVisual`; the caller supplies its element local name. */
 export function writeCT_GvmlGroupShapeNonVisual(s: XmlSink, value: CT_GvmlGroupShapeNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvGrpSpPr'] !== undefined) writeCT_NonVisualGroupDrawingShapeProps(s, value['cNvGrpSpPr'], ctx, 'cNvGrpSpPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvGrpSpPr'] !== undefined) writeCT_NonVisualGroupDrawingShapeProps(s, value['cNvGrpSpPr'], ctx, 'cNvGrpSpPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlPicture`; the caller supplies its element local name. */
 export function writeCT_GvmlPicture(s: XmlSink, value: CT_GvmlPicture, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['nvPicPr'] !== undefined) writeCT_GvmlPictureNonVisual(s, value['nvPicPr'], ctx, 'nvPicPr');
-  if (value['blipFill'] !== undefined) writeCT_BlipFillProperties(s, value['blipFill'], ctx, 'blipFill');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvPicPr'] !== undefined) writeCT_GvmlPictureNonVisual(s, value['nvPicPr'], ctx, 'nvPicPr');
+  $q.flush(s, 0);
+  if (value['blipFill'] !== undefined) writeCT_BlipFillProperties(s, value['blipFill'], ctx, 'blipFill');
+  $q.flush(s, 1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 2);
+  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlPictureNonVisual`; the caller supplies its element local name. */
 export function writeCT_GvmlPictureNonVisual(s: XmlSink, value: CT_GvmlPictureNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvPicPr'] !== undefined) writeCT_NonVisualPictureProperties(s, value['cNvPicPr'], ctx, 'cNvPicPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvPicPr'] !== undefined) writeCT_NonVisualPictureProperties(s, value['cNvPicPr'], ctx, 'cNvPicPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlShape`; the caller supplies its element local name. */
 export function writeCT_GvmlShape(s: XmlSink, value: CT_GvmlShape, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['nvSpPr'] !== undefined) writeCT_GvmlShapeNonVisual(s, value['nvSpPr'], ctx, 'nvSpPr');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txSp'] !== undefined) writeCT_GvmlTextShape(s, value['txSp'], ctx, 'txSp');
-  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvSpPr'] !== undefined) writeCT_GvmlShapeNonVisual(s, value['nvSpPr'], ctx, 'nvSpPr');
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  if (value['txSp'] !== undefined) writeCT_GvmlTextShape(s, value['txSp'], ctx, 'txSp');
+  $q.flush(s, 2);
+  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlShapeNonVisual`; the caller supplies its element local name. */
 export function writeCT_GvmlShapeNonVisual(s: XmlSink, value: CT_GvmlShapeNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvSpPr'] !== undefined) writeCT_NonVisualDrawingShapeProps(s, value['cNvSpPr'], ctx, 'cNvSpPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvSpPr'] !== undefined) writeCT_NonVisualDrawingShapeProps(s, value['cNvSpPr'], ctx, 'cNvSpPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GvmlTextShape`; the caller supplies its element local name. */
 export function writeCT_GvmlTextShape(s: XmlSink, value: CT_GvmlTextShape, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['txBody'] !== undefined) writeCT_TextBody(s, value['txBody'], ctx, 'txBody');
+  $q.flush(s, 0);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'useSpRect') writeCT_GvmlUseShapeRectangle(s, value['content'].value, ctx, 'useSpRect');
     if (value['content'].kind === 'xfrm') writeCT_Transform2D(s, value['content'].value, ctx, 'xfrm');
   }
+  $q.flush(s, 1);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1535,9 +1829,16 @@ export function writeCT_GvmlUseShapeRectangle(s: XmlSink, value: CT_GvmlUseShape
 /** Write a `CT_Headers`; the caller supplies its element local name. */
 export function writeCT_Headers(s: XmlSink, value: CT_Headers, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_header of value['header']) if (v_header !== undefined) s.text(String(v_header));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['header'].length; idx++) {
+    const v_header = value['header'][idx];
+    if (v_header !== undefined) s.text(String(v_header));
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1547,6 +1848,7 @@ export function writeCT_HslColor(s: XmlSink, value: CT_HslColor, ctx: WriteConte
   if (value['hue'] !== undefined) s.attr(null, 'hue', String(value['hue']));
   if (value['sat'] !== undefined) s.attr(null, 'sat', String(value['sat']));
   if (value['lum'] !== undefined) s.attr(null, 'lum', String(value['lum']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorTransform of value['colorTransform']) {
     if (v_colorTransform.kind === 'tint') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'tint');
     if (v_colorTransform.kind === 'shade') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'shade');
@@ -1578,7 +1880,6 @@ export function writeCT_HslColor(s: XmlSink, value: CT_HslColor, ctx: WriteConte
     if (v_colorTransform.kind === 'invGamma') writeCT_InverseGammaTransform(s, v_colorTransform.value, ctx, 'invGamma');
     if (v_colorTransform.kind === '$raw') { s.raw(v_colorTransform.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -1603,10 +1904,14 @@ export function writeCT_Hyperlink(s: XmlSink, value: CT_Hyperlink, ctx: WriteCon
   if (value['history'] !== undefined) s.attr(null, 'history', String(value['history']));
   if (value['highlightClick'] !== undefined) s.attr(null, 'highlightClick', String(value['highlightClick']));
   if (value['endSnd'] !== undefined) s.attr(null, 'endSnd', String(value['endSnd']));
-  if (value['snd'] !== undefined) writeCT_EmbeddedWAVAudioFile(s, value['snd'], ctx, 'snd');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['snd'] !== undefined) writeCT_EmbeddedWAVAudioFile(s, value['snd'], ctx, 'snd');
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1616,6 +1921,9 @@ export function writeCT_InnerShadowEffect(s: XmlSink, value: CT_InnerShadowEffec
   if (value['blurRad'] !== undefined) s.attr(null, 'blurRad', String(value['blurRad']));
   if (value['dist'] !== undefined) s.attr(null, 'dist', String(value['dist']));
   if (value['dir'] !== undefined) s.attr(null, 'dir', String(value['dir']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -1624,8 +1932,8 @@ export function writeCT_InnerShadowEffect(s: XmlSink, value: CT_InnerShadowEffec
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1648,9 +1956,12 @@ export function writeCT_LightRig(s: XmlSink, value: CT_LightRig, ctx: WriteConte
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['rig'] !== undefined) s.attr(null, 'rig', String(value['rig']));
   if (value['dir'] !== undefined) s.attr(null, 'dir', String(value['dir']));
-  if (value['rot'] !== undefined) writeCT_SphereCoords(s, value['rot'], ctx, 'rot');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['rot'] !== undefined) writeCT_SphereCoords(s, value['rot'], ctx, 'rot');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1702,37 +2013,50 @@ export function writeCT_LineProperties(s: XmlSink, value: CT_LineProperties, ctx
   if (value['cap'] !== undefined) s.attr(null, 'cap', String(value['cap']));
   if (value['cmpd'] !== undefined) s.attr(null, 'cmpd', String(value['cmpd']));
   if (value['algn'] !== undefined) s.attr(null, 'algn', String(value['algn']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['lineFillProperties'] !== undefined) {
     if (value['lineFillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['lineFillProperties'].value, ctx, 'noFill');
     if (value['lineFillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['lineFillProperties'].value, ctx, 'solidFill');
     if (value['lineFillProperties'].kind === 'gradFill') writeCT_GradientFillProperties(s, value['lineFillProperties'].value, ctx, 'gradFill');
     if (value['lineFillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['lineFillProperties'].value, ctx, 'pattFill');
   }
+  $q.flush(s, 0);
   if (value['lineDashProperties'] !== undefined) {
     if (value['lineDashProperties'].kind === 'prstDash') writeCT_PresetLineDashProperties(s, value['lineDashProperties'].value, ctx, 'prstDash');
     if (value['lineDashProperties'].kind === 'custDash') writeCT_DashStopList(s, value['lineDashProperties'].value, ctx, 'custDash');
   }
+  $q.flush(s, 1);
   if (value['lineJoinProperties'] !== undefined) {
     if (value['lineJoinProperties'].kind === 'round') writeCT_LineJoinRound(s, value['lineJoinProperties'].value, ctx, 'round');
     if (value['lineJoinProperties'].kind === 'bevel') writeCT_LineJoinBevel(s, value['lineJoinProperties'].value, ctx, 'bevel');
     if (value['lineJoinProperties'].kind === 'miter') writeCT_LineJoinMiterProperties(s, value['lineJoinProperties'].value, ctx, 'miter');
   }
+  $q.flush(s, 2);
   if (value['headEnd'] !== undefined) writeCT_LineEndProperties(s, value['headEnd'], ctx, 'headEnd');
+  $q.flush(s, 3);
   if (value['tailEnd'] !== undefined) writeCT_LineEndProperties(s, value['tailEnd'], ctx, 'tailEnd');
+  $q.flush(s, 4);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_LineStyleList`; the caller supplies its element local name. */
 export function writeCT_LineStyleList(s: XmlSink, value: CT_LineStyleList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_ln of value['ln']) {
-    writeCT_LineProperties(s, v_ln, ctx, 'ln');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['ln'].length; idx++) {
+    const v_ln = value['ln'][idx]!;
+    writeCT_LineProperties(s, v_ln, ctx, 'ln');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1755,12 +2079,18 @@ export function writeCT_NoFillProperties(s: XmlSink, value: CT_NoFillProperties,
 /** Write a `CT_NonVisualConnectorProperties`; the caller supplies its element local name. */
 export function writeCT_NonVisualConnectorProperties(s: XmlSink, value: CT_NonVisualConnectorProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['cxnSpLocks'] !== undefined) writeCT_ConnectorLocking(s, value['cxnSpLocks'], ctx, 'cxnSpLocks');
-  if (value['stCxn'] !== undefined) writeCT_Connection(s, value['stCxn'], ctx, 'stCxn');
-  if (value['endCxn'] !== undefined) writeCT_Connection(s, value['endCxn'], ctx, 'endCxn');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cxnSpLocks'] !== undefined) writeCT_ConnectorLocking(s, value['cxnSpLocks'], ctx, 'cxnSpLocks');
+  $q.flush(s, 0);
+  if (value['stCxn'] !== undefined) writeCT_Connection(s, value['stCxn'], ctx, 'stCxn');
+  $q.flush(s, 1);
+  if (value['endCxn'] !== undefined) writeCT_Connection(s, value['endCxn'], ctx, 'endCxn');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1768,10 +2098,14 @@ export function writeCT_NonVisualConnectorProperties(s: XmlSink, value: CT_NonVi
 export function writeCT_NonVisualContentPartProperties(s: XmlSink, value: CT_NonVisualContentPartProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['isComment'] !== undefined) s.attr(null, 'isComment', String(value['isComment']));
-  if (value['cpLocks'] !== undefined) writeCT_ContentPartLocking(s, value['cpLocks'], ctx, 'cpLocks');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cpLocks'] !== undefined) writeCT_ContentPartLocking(s, value['cpLocks'], ctx, 'cpLocks');
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1783,11 +2117,16 @@ export function writeCT_NonVisualDrawingProps(s: XmlSink, value: CT_NonVisualDra
   if (value['descr'] !== undefined) s.attr(null, 'descr', String(value['descr']));
   if (value['hidden'] !== undefined) s.attr(null, 'hidden', String(value['hidden']));
   if (value['title'] !== undefined) s.attr(null, 'title', String(value['title']));
-  if (value['hlinkClick'] !== undefined) writeCT_Hyperlink(s, value['hlinkClick'], ctx, 'hlinkClick');
-  if (value['hlinkHover'] !== undefined) writeCT_Hyperlink(s, value['hlinkHover'], ctx, 'hlinkHover');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['hlinkClick'] !== undefined) writeCT_Hyperlink(s, value['hlinkClick'], ctx, 'hlinkClick');
+  $q.flush(s, 0);
+  if (value['hlinkHover'] !== undefined) writeCT_Hyperlink(s, value['hlinkHover'], ctx, 'hlinkHover');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1795,30 +2134,42 @@ export function writeCT_NonVisualDrawingProps(s: XmlSink, value: CT_NonVisualDra
 export function writeCT_NonVisualDrawingShapeProps(s: XmlSink, value: CT_NonVisualDrawingShapeProps, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['txBox'] !== undefined) s.attr(null, 'txBox', String(value['txBox']));
-  if (value['spLocks'] !== undefined) writeCT_ShapeLocking(s, value['spLocks'], ctx, 'spLocks');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['spLocks'] !== undefined) writeCT_ShapeLocking(s, value['spLocks'], ctx, 'spLocks');
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_NonVisualGraphicFrameProperties`; the caller supplies its element local name. */
 export function writeCT_NonVisualGraphicFrameProperties(s: XmlSink, value: CT_NonVisualGraphicFrameProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['graphicFrameLocks'] !== undefined) writeCT_GraphicalObjectFrameLocking(s, value['graphicFrameLocks'], ctx, 'graphicFrameLocks');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['graphicFrameLocks'] !== undefined) writeCT_GraphicalObjectFrameLocking(s, value['graphicFrameLocks'], ctx, 'graphicFrameLocks');
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_NonVisualGroupDrawingShapeProps`; the caller supplies its element local name. */
 export function writeCT_NonVisualGroupDrawingShapeProps(s: XmlSink, value: CT_NonVisualGroupDrawingShapeProps, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['grpSpLocks'] !== undefined) writeCT_GroupLocking(s, value['grpSpLocks'], ctx, 'grpSpLocks');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['grpSpLocks'] !== undefined) writeCT_GroupLocking(s, value['grpSpLocks'], ctx, 'grpSpLocks');
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1826,22 +2177,32 @@ export function writeCT_NonVisualGroupDrawingShapeProps(s: XmlSink, value: CT_No
 export function writeCT_NonVisualPictureProperties(s: XmlSink, value: CT_NonVisualPictureProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['preferRelativeResize'] !== undefined) s.attr(null, 'preferRelativeResize', String(value['preferRelativeResize']));
-  if (value['picLocks'] !== undefined) writeCT_PictureLocking(s, value['picLocks'], ctx, 'picLocks');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['picLocks'] !== undefined) writeCT_PictureLocking(s, value['picLocks'], ctx, 'picLocks');
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ObjectStyleDefaults`; the caller supplies its element local name. */
 export function writeCT_ObjectStyleDefaults(s: XmlSink, value: CT_ObjectStyleDefaults, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['spDef'] !== undefined) writeCT_DefaultShapeDefinition(s, value['spDef'], ctx, 'spDef');
-  if (value['lnDef'] !== undefined) writeCT_DefaultShapeDefinition(s, value['lnDef'], ctx, 'lnDef');
-  if (value['txDef'] !== undefined) writeCT_DefaultShapeDefinition(s, value['txDef'], ctx, 'txDef');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['spDef'] !== undefined) writeCT_DefaultShapeDefinition(s, value['spDef'], ctx, 'spDef');
+  $q.flush(s, 0);
+  if (value['lnDef'] !== undefined) writeCT_DefaultShapeDefinition(s, value['lnDef'], ctx, 'lnDef');
+  $q.flush(s, 1);
+  if (value['txDef'] !== undefined) writeCT_DefaultShapeDefinition(s, value['txDef'], ctx, 'txDef');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1849,22 +2210,30 @@ export function writeCT_ObjectStyleDefaults(s: XmlSink, value: CT_ObjectStyleDef
 export function writeCT_OfficeArtExtension(s: XmlSink, value: CT_OfficeArtExtension, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['uri'] !== undefined) s.attr(null, 'uri', String(value['uri']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   for (const raw of value['any']) {
     s.raw(raw);
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_OfficeArtExtensionList`; the caller supplies its element local name. */
 export function writeCT_OfficeArtExtensionList(s: XmlSink, value: CT_OfficeArtExtensionList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_ext of value['ext']) {
-    writeCT_OfficeArtExtension(s, v_ext, ctx, 'ext');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['ext'].length; idx++) {
+    const v_ext = value['ext'][idx]!;
+    writeCT_OfficeArtExtension(s, v_ext, ctx, 'ext');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1872,13 +2241,20 @@ export function writeCT_OfficeArtExtensionList(s: XmlSink, value: CT_OfficeArtEx
 export function writeCT_OfficeStyleSheet(s: XmlSink, value: CT_OfficeStyleSheet, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['name'] !== undefined) s.attr(null, 'name', String(value['name']));
-  if (value['themeElements'] !== undefined) writeCT_BaseStyles(s, value['themeElements'], ctx, 'themeElements');
-  if (value['objectDefaults'] !== undefined) writeCT_ObjectStyleDefaults(s, value['objectDefaults'], ctx, 'objectDefaults');
-  if (value['extraClrSchemeLst'] !== undefined) writeCT_ColorSchemeList(s, value['extraClrSchemeLst'], ctx, 'extraClrSchemeLst');
-  if (value['custClrLst'] !== undefined) writeCT_CustomColorList(s, value['custClrLst'], ctx, 'custClrLst');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['themeElements'] !== undefined) writeCT_BaseStyles(s, value['themeElements'], ctx, 'themeElements');
+  $q.flush(s, 0);
+  if (value['objectDefaults'] !== undefined) writeCT_ObjectStyleDefaults(s, value['objectDefaults'], ctx, 'objectDefaults');
+  $q.flush(s, 1);
+  if (value['extraClrSchemeLst'] !== undefined) writeCT_ColorSchemeList(s, value['extraClrSchemeLst'], ctx, 'extraClrSchemeLst');
+  $q.flush(s, 2);
+  if (value['custClrLst'] !== undefined) writeCT_CustomColorList(s, value['custClrLst'], ctx, 'custClrLst');
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1894,6 +2270,9 @@ export function writeCT_OuterShadowEffect(s: XmlSink, value: CT_OuterShadowEffec
   if (value['ky'] !== undefined) s.attr(null, 'ky', String(value['ky']));
   if (value['algn'] !== undefined) s.attr(null, 'algn', String(value['algn']));
   if (value['rotWithShape'] !== undefined) s.attr(null, 'rotWithShape', String(value['rotWithShape']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -1902,8 +2281,8 @@ export function writeCT_OuterShadowEffect(s: XmlSink, value: CT_OuterShadowEffec
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1915,6 +2294,7 @@ export function writeCT_Path2D(s: XmlSink, value: CT_Path2D, ctx: WriteContext, 
   if (value['fill'] !== undefined) s.attr(null, 'fill', String(value['fill']));
   if (value['stroke'] !== undefined) s.attr(null, 'stroke', String(value['stroke']));
   if (value['extrusionOk'] !== undefined) s.attr(null, 'extrusionOk', String(value['extrusionOk']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'close') writeCT_Path2DClose(s, v_content.value, ctx, 'close');
     if (v_content.kind === 'moveTo') writeCT_Path2DMoveTo(s, v_content.value, ctx, 'moveTo');
@@ -1924,7 +2304,6 @@ export function writeCT_Path2D(s: XmlSink, value: CT_Path2D, ctx: WriteContext, 
     if (v_content.kind === 'cubicBezTo') writeCT_Path2DCubicBezierTo(s, v_content.value, ctx, 'cubicBezTo');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -1949,51 +2328,72 @@ export function writeCT_Path2DClose(s: XmlSink, value: CT_Path2DClose, ctx: Writ
 /** Write a `CT_Path2DCubicBezierTo`; the caller supplies its element local name. */
 export function writeCT_Path2DCubicBezierTo(s: XmlSink, value: CT_Path2DCubicBezierTo, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_pt of value['pt']) {
-    writeCT_AdjPoint2D(s, v_pt, ctx, 'pt');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['pt'].length; idx++) {
+    const v_pt = value['pt'][idx]!;
+    writeCT_AdjPoint2D(s, v_pt, ctx, 'pt');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Path2DLineTo`; the caller supplies its element local name. */
 export function writeCT_Path2DLineTo(s: XmlSink, value: CT_Path2DLineTo, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['pt'] !== undefined) writeCT_AdjPoint2D(s, value['pt'], ctx, 'pt');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['pt'] !== undefined) writeCT_AdjPoint2D(s, value['pt'], ctx, 'pt');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Path2DList`; the caller supplies its element local name. */
 export function writeCT_Path2DList(s: XmlSink, value: CT_Path2DList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_path of value['path']) {
-    writeCT_Path2D(s, v_path, ctx, 'path');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['path'].length; idx++) {
+    const v_path = value['path'][idx]!;
+    writeCT_Path2D(s, v_path, ctx, 'path');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Path2DMoveTo`; the caller supplies its element local name. */
 export function writeCT_Path2DMoveTo(s: XmlSink, value: CT_Path2DMoveTo, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['pt'] !== undefined) writeCT_AdjPoint2D(s, value['pt'], ctx, 'pt');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['pt'] !== undefined) writeCT_AdjPoint2D(s, value['pt'], ctx, 'pt');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Path2DQuadBezierTo`; the caller supplies its element local name. */
 export function writeCT_Path2DQuadBezierTo(s: XmlSink, value: CT_Path2DQuadBezierTo, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_pt of value['pt']) {
-    writeCT_AdjPoint2D(s, v_pt, ctx, 'pt');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['pt'].length; idx++) {
+    const v_pt = value['pt'][idx]!;
+    writeCT_AdjPoint2D(s, v_pt, ctx, 'pt');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2001,9 +2401,12 @@ export function writeCT_Path2DQuadBezierTo(s: XmlSink, value: CT_Path2DQuadBezie
 export function writeCT_PathShadeProperties(s: XmlSink, value: CT_PathShadeProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['path'] !== undefined) s.attr(null, 'path', String(value['path']));
-  if (value['fillToRect'] !== undefined) writeCT_RelativeRect(s, value['fillToRect'], ctx, 'fillToRect');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fillToRect'] !== undefined) writeCT_RelativeRect(s, value['fillToRect'], ctx, 'fillToRect');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2011,10 +2414,14 @@ export function writeCT_PathShadeProperties(s: XmlSink, value: CT_PathShadePrope
 export function writeCT_PatternFillProperties(s: XmlSink, value: CT_PatternFillProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['prst'] !== undefined) s.attr(null, 'prst', String(value['prst']));
-  if (value['fgClr'] !== undefined) writeCT_Color(s, value['fgClr'], ctx, 'fgClr');
-  if (value['bgClr'] !== undefined) writeCT_Color(s, value['bgClr'], ctx, 'bgClr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fgClr'] !== undefined) writeCT_Color(s, value['fgClr'], ctx, 'fgClr');
+  $q.flush(s, 0);
+  if (value['bgClr'] !== undefined) writeCT_Color(s, value['bgClr'], ctx, 'bgClr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2040,9 +2447,12 @@ export function writeCT_PictureLocking(s: XmlSink, value: CT_PictureLocking, ctx
   if (value['noChangeArrowheads'] !== undefined) s.attr(null, 'noChangeArrowheads', String(value['noChangeArrowheads']));
   if (value['noChangeShapeType'] !== undefined) s.attr(null, 'noChangeShapeType', String(value['noChangeShapeType']));
   if (value['noCrop'] !== undefined) s.attr(null, 'noCrop', String(value['noCrop']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2074,9 +2484,12 @@ export function writeCT_PolarAdjustHandle(s: XmlSink, value: CT_PolarAdjustHandl
   if (value['gdRefAng'] !== undefined) s.attr(null, 'gdRefAng', String(value['gdRefAng']));
   if (value['minAng'] !== undefined) s.attr(null, 'minAng', String(value['minAng']));
   if (value['maxAng'] !== undefined) s.attr(null, 'maxAng', String(value['maxAng']));
-  if (value['pos'] !== undefined) writeCT_AdjPoint2D(s, value['pos'], ctx, 'pos');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['pos'] !== undefined) writeCT_AdjPoint2D(s, value['pos'], ctx, 'pos');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2117,6 +2530,7 @@ export function writeCT_PositiveSize2D(s: XmlSink, value: CT_PositiveSize2D, ctx
 export function writeCT_PresetColor(s: XmlSink, value: CT_PresetColor, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['val'] !== undefined) s.attr(null, 'val', String(value['val']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorTransform of value['colorTransform']) {
     if (v_colorTransform.kind === 'tint') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'tint');
     if (v_colorTransform.kind === 'shade') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'shade');
@@ -2148,7 +2562,6 @@ export function writeCT_PresetColor(s: XmlSink, value: CT_PresetColor, ctx: Writ
     if (v_colorTransform.kind === 'invGamma') writeCT_InverseGammaTransform(s, v_colorTransform.value, ctx, 'invGamma');
     if (v_colorTransform.kind === '$raw') { s.raw(v_colorTransform.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -2156,9 +2569,12 @@ export function writeCT_PresetColor(s: XmlSink, value: CT_PresetColor, ctx: Writ
 export function writeCT_PresetGeometry2D(s: XmlSink, value: CT_PresetGeometry2D, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['prst'] !== undefined) s.attr(null, 'prst', String(value['prst']));
-  if (value['avLst'] !== undefined) writeCT_GeomGuideList(s, value['avLst'], ctx, 'avLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['avLst'] !== undefined) writeCT_GeomGuideList(s, value['avLst'], ctx, 'avLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2176,6 +2592,9 @@ export function writeCT_PresetShadowEffect(s: XmlSink, value: CT_PresetShadowEff
   if (value['prst'] !== undefined) s.attr(null, 'prst', String(value['prst']));
   if (value['dist'] !== undefined) s.attr(null, 'dist', String(value['dist']));
   if (value['dir'] !== undefined) s.attr(null, 'dir', String(value['dir']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -2184,8 +2603,8 @@ export function writeCT_PresetShadowEffect(s: XmlSink, value: CT_PresetShadowEff
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2193,9 +2612,12 @@ export function writeCT_PresetShadowEffect(s: XmlSink, value: CT_PresetShadowEff
 export function writeCT_PresetTextShape(s: XmlSink, value: CT_PresetTextShape, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['prst'] !== undefined) s.attr(null, 'prst', String(value['prst']));
-  if (value['avLst'] !== undefined) writeCT_GeomGuideList(s, value['avLst'], ctx, 'avLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['avLst'] !== undefined) writeCT_GeomGuideList(s, value['avLst'], ctx, 'avLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2203,9 +2625,12 @@ export function writeCT_PresetTextShape(s: XmlSink, value: CT_PresetTextShape, c
 export function writeCT_QuickTimeFile(s: XmlSink, value: CT_QuickTimeFile, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['link'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'link', String(value['link']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2242,10 +2667,14 @@ export function writeCT_ReflectionEffect(s: XmlSink, value: CT_ReflectionEffect,
 /** Write a `CT_RegularTextRun`; the caller supplies its element local name. */
 export function writeCT_RegularTextRun(s: XmlSink, value: CT_RegularTextRun, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['rPr'] !== undefined) writeCT_TextCharacterProperties(s, value['rPr'], ctx, 'rPr');
-  for (const v_t of [value['t']]) if (v_t !== undefined) s.text(String(v_t));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['rPr'] !== undefined) writeCT_TextCharacterProperties(s, value['rPr'], ctx, 'rPr');
+  $q.flush(s, 0);
+  if (value['t'] !== undefined) s.text(String(value['t']));
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2272,22 +2701,32 @@ export function writeCT_RelativeRect(s: XmlSink, value: CT_RelativeRect, ctx: Wr
 /** Write a `CT_Scale2D`; the caller supplies its element local name. */
 export function writeCT_Scale2D(s: XmlSink, value: CT_Scale2D, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['sx'] !== undefined) writeCT_Ratio(s, value['sx'], ctx, 'sx');
-  if (value['sy'] !== undefined) writeCT_Ratio(s, value['sy'], ctx, 'sy');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['sx'] !== undefined) writeCT_Ratio(s, value['sx'], ctx, 'sx');
+  $q.flush(s, 0);
+  if (value['sy'] !== undefined) writeCT_Ratio(s, value['sy'], ctx, 'sy');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Scene3D`; the caller supplies its element local name. */
 export function writeCT_Scene3D(s: XmlSink, value: CT_Scene3D, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['camera'] !== undefined) writeCT_Camera(s, value['camera'], ctx, 'camera');
-  if (value['lightRig'] !== undefined) writeCT_LightRig(s, value['lightRig'], ctx, 'lightRig');
-  if (value['backdrop'] !== undefined) writeCT_Backdrop(s, value['backdrop'], ctx, 'backdrop');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['camera'] !== undefined) writeCT_Camera(s, value['camera'], ctx, 'camera');
+  $q.flush(s, 0);
+  if (value['lightRig'] !== undefined) writeCT_LightRig(s, value['lightRig'], ctx, 'lightRig');
+  $q.flush(s, 1);
+  if (value['backdrop'] !== undefined) writeCT_Backdrop(s, value['backdrop'], ctx, 'backdrop');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2295,6 +2734,7 @@ export function writeCT_Scene3D(s: XmlSink, value: CT_Scene3D, ctx: WriteContext
 export function writeCT_SchemeColor(s: XmlSink, value: CT_SchemeColor, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['val'] !== undefined) s.attr(null, 'val', String(value['val']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorTransform of value['colorTransform']) {
     if (v_colorTransform.kind === 'tint') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'tint');
     if (v_colorTransform.kind === 'shade') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'shade');
@@ -2326,7 +2766,6 @@ export function writeCT_SchemeColor(s: XmlSink, value: CT_SchemeColor, ctx: Writ
     if (v_colorTransform.kind === 'invGamma') writeCT_InverseGammaTransform(s, v_colorTransform.value, ctx, 'invGamma');
     if (v_colorTransform.kind === '$raw') { s.raw(v_colorTransform.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -2336,6 +2775,7 @@ export function writeCT_ScRgbColor(s: XmlSink, value: CT_ScRgbColor, ctx: WriteC
   if (value['r'] !== undefined) s.attr(null, 'r', String(value['r']));
   if (value['g'] !== undefined) s.attr(null, 'g', String(value['g']));
   if (value['b'] !== undefined) s.attr(null, 'b', String(value['b']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorTransform of value['colorTransform']) {
     if (v_colorTransform.kind === 'tint') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'tint');
     if (v_colorTransform.kind === 'shade') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'shade');
@@ -2367,7 +2807,6 @@ export function writeCT_ScRgbColor(s: XmlSink, value: CT_ScRgbColor, ctx: WriteC
     if (v_colorTransform.kind === 'invGamma') writeCT_InverseGammaTransform(s, v_colorTransform.value, ctx, 'invGamma');
     if (v_colorTransform.kind === '$raw') { s.raw(v_colorTransform.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -2378,13 +2817,20 @@ export function writeCT_Shape3D(s: XmlSink, value: CT_Shape3D, ctx: WriteContext
   if (value['extrusionH'] !== undefined) s.attr(null, 'extrusionH', String(value['extrusionH']));
   if (value['contourW'] !== undefined) s.attr(null, 'contourW', String(value['contourW']));
   if (value['prstMaterial'] !== undefined) s.attr(null, 'prstMaterial', String(value['prstMaterial']));
-  if (value['bevelT'] !== undefined) writeCT_Bevel(s, value['bevelT'], ctx, 'bevelT');
-  if (value['bevelB'] !== undefined) writeCT_Bevel(s, value['bevelB'], ctx, 'bevelB');
-  if (value['extrusionClr'] !== undefined) writeCT_Color(s, value['extrusionClr'], ctx, 'extrusionClr');
-  if (value['contourClr'] !== undefined) writeCT_Color(s, value['contourClr'], ctx, 'contourClr');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['bevelT'] !== undefined) writeCT_Bevel(s, value['bevelT'], ctx, 'bevelT');
+  $q.flush(s, 0);
+  if (value['bevelB'] !== undefined) writeCT_Bevel(s, value['bevelB'], ctx, 'bevelB');
+  $q.flush(s, 1);
+  if (value['extrusionClr'] !== undefined) writeCT_Color(s, value['extrusionClr'], ctx, 'extrusionClr');
+  $q.flush(s, 2);
+  if (value['contourClr'] !== undefined) writeCT_Color(s, value['contourClr'], ctx, 'contourClr');
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2402,9 +2848,12 @@ export function writeCT_ShapeLocking(s: XmlSink, value: CT_ShapeLocking, ctx: Wr
   if (value['noChangeArrowheads'] !== undefined) s.attr(null, 'noChangeArrowheads', String(value['noChangeArrowheads']));
   if (value['noChangeShapeType'] !== undefined) s.attr(null, 'noChangeShapeType', String(value['noChangeShapeType']));
   if (value['noTextEdit'] !== undefined) s.attr(null, 'noTextEdit', String(value['noTextEdit']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2412,11 +2861,16 @@ export function writeCT_ShapeLocking(s: XmlSink, value: CT_ShapeLocking, ctx: Wr
 export function writeCT_ShapeProperties(s: XmlSink, value: CT_ShapeProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['bwMode'] !== undefined) s.attr(null, 'bwMode', String(value['bwMode']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['xfrm'] !== undefined) writeCT_Transform2D(s, value['xfrm'], ctx, 'xfrm');
+  $q.flush(s, 0);
   if (value['geometry'] !== undefined) {
     if (value['geometry'].kind === 'custGeom') writeCT_CustomGeometry2D(s, value['geometry'].value, ctx, 'custGeom');
     if (value['geometry'].kind === 'prstGeom') writeCT_PresetGeometry2D(s, value['geometry'].value, ctx, 'prstGeom');
   }
+  $q.flush(s, 1);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -2425,28 +2879,39 @@ export function writeCT_ShapeProperties(s: XmlSink, value: CT_ShapeProperties, c
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
+  $q.flush(s, 2);
   if (value['ln'] !== undefined) writeCT_LineProperties(s, value['ln'], ctx, 'ln');
+  $q.flush(s, 3);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
+  $q.flush(s, 4);
   if (value['scene3d'] !== undefined) writeCT_Scene3D(s, value['scene3d'], ctx, 'scene3d');
+  $q.flush(s, 5);
   if (value['sp3d'] !== undefined) writeCT_Shape3D(s, value['sp3d'], ctx, 'sp3d');
+  $q.flush(s, 6);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 7);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ShapeStyle`; the caller supplies its element local name. */
 export function writeCT_ShapeStyle(s: XmlSink, value: CT_ShapeStyle, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['lnRef'] !== undefined) writeCT_StyleMatrixReference(s, value['lnRef'], ctx, 'lnRef');
-  if (value['fillRef'] !== undefined) writeCT_StyleMatrixReference(s, value['fillRef'], ctx, 'fillRef');
-  if (value['effectRef'] !== undefined) writeCT_StyleMatrixReference(s, value['effectRef'], ctx, 'effectRef');
-  if (value['fontRef'] !== undefined) writeCT_FontReference(s, value['fontRef'], ctx, 'fontRef');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['lnRef'] !== undefined) writeCT_StyleMatrixReference(s, value['lnRef'], ctx, 'lnRef');
+  $q.flush(s, 0);
+  if (value['fillRef'] !== undefined) writeCT_StyleMatrixReference(s, value['fillRef'], ctx, 'fillRef');
+  $q.flush(s, 1);
+  if (value['effectRef'] !== undefined) writeCT_StyleMatrixReference(s, value['effectRef'], ctx, 'effectRef');
+  $q.flush(s, 2);
+  if (value['fontRef'] !== undefined) writeCT_FontReference(s, value['fontRef'], ctx, 'fontRef');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2461,6 +2926,9 @@ export function writeCT_SoftEdgesEffect(s: XmlSink, value: CT_SoftEdgesEffect, c
 /** Write a `CT_SolidColorFillProperties`; the caller supplies its element local name. */
 export function writeCT_SolidColorFillProperties(s: XmlSink, value: CT_SolidColorFillProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -2469,8 +2937,8 @@ export function writeCT_SolidColorFillProperties(s: XmlSink, value: CT_SolidColo
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2488,6 +2956,7 @@ export function writeCT_SphereCoords(s: XmlSink, value: CT_SphereCoords, ctx: Wr
 export function writeCT_SRgbColor(s: XmlSink, value: CT_SRgbColor, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['val'] !== undefined) s.attr(null, 'val', String(value['val']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorTransform of value['colorTransform']) {
     if (v_colorTransform.kind === 'tint') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'tint');
     if (v_colorTransform.kind === 'shade') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'shade');
@@ -2519,16 +2988,18 @@ export function writeCT_SRgbColor(s: XmlSink, value: CT_SRgbColor, ctx: WriteCon
     if (v_colorTransform.kind === 'invGamma') writeCT_InverseGammaTransform(s, v_colorTransform.value, ctx, 'invGamma');
     if (v_colorTransform.kind === '$raw') { s.raw(v_colorTransform.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_StretchInfoProperties`; the caller supplies its element local name. */
 export function writeCT_StretchInfoProperties(s: XmlSink, value: CT_StretchInfoProperties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['fillRect'] !== undefined) writeCT_RelativeRect(s, value['fillRect'], ctx, 'fillRect');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fillRect'] !== undefined) writeCT_RelativeRect(s, value['fillRect'], ctx, 'fillRect');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2536,12 +3007,18 @@ export function writeCT_StretchInfoProperties(s: XmlSink, value: CT_StretchInfoP
 export function writeCT_StyleMatrix(s: XmlSink, value: CT_StyleMatrix, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['name'] !== undefined) s.attr(null, 'name', String(value['name']));
-  if (value['fillStyleLst'] !== undefined) writeCT_FillStyleList(s, value['fillStyleLst'], ctx, 'fillStyleLst');
-  if (value['lnStyleLst'] !== undefined) writeCT_LineStyleList(s, value['lnStyleLst'], ctx, 'lnStyleLst');
-  if (value['effectStyleLst'] !== undefined) writeCT_EffectStyleList(s, value['effectStyleLst'], ctx, 'effectStyleLst');
-  if (value['bgFillStyleLst'] !== undefined) writeCT_BackgroundFillStyleList(s, value['bgFillStyleLst'], ctx, 'bgFillStyleLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fillStyleLst'] !== undefined) writeCT_FillStyleList(s, value['fillStyleLst'], ctx, 'fillStyleLst');
+  $q.flush(s, 0);
+  if (value['lnStyleLst'] !== undefined) writeCT_LineStyleList(s, value['lnStyleLst'], ctx, 'lnStyleLst');
+  $q.flush(s, 1);
+  if (value['effectStyleLst'] !== undefined) writeCT_EffectStyleList(s, value['effectStyleLst'], ctx, 'effectStyleLst');
+  $q.flush(s, 2);
+  if (value['bgFillStyleLst'] !== undefined) writeCT_BackgroundFillStyleList(s, value['bgFillStyleLst'], ctx, 'bgFillStyleLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2549,6 +3026,9 @@ export function writeCT_StyleMatrix(s: XmlSink, value: CT_StyleMatrix, ctx: Writ
 export function writeCT_StyleMatrixReference(s: XmlSink, value: CT_StyleMatrixReference, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['idx'] !== undefined) s.attr(null, 'idx', String(value['idx']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -2557,8 +3037,8 @@ export function writeCT_StyleMatrixReference(s: XmlSink, value: CT_StyleMatrixRe
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2576,6 +3056,7 @@ export function writeCT_SystemColor(s: XmlSink, value: CT_SystemColor, ctx: Writ
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['val'] !== undefined) s.attr(null, 'val', String(value['val']));
   if (value['lastClr'] !== undefined) s.attr(null, 'lastClr', String(value['lastClr']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_colorTransform of value['colorTransform']) {
     if (v_colorTransform.kind === 'tint') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'tint');
     if (v_colorTransform.kind === 'shade') writeCT_PositiveFixedPercentage(s, v_colorTransform.value, ctx, 'shade');
@@ -2607,36 +3088,46 @@ export function writeCT_SystemColor(s: XmlSink, value: CT_SystemColor, ctx: Writ
     if (v_colorTransform.kind === 'invGamma') writeCT_InverseGammaTransform(s, v_colorTransform.value, ctx, 'invGamma');
     if (v_colorTransform.kind === '$raw') { s.raw(v_colorTransform.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_Table`; the caller supplies its element local name. */
 export function writeCT_Table(s: XmlSink, value: CT_Table, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['tblPr'] !== undefined) writeCT_TableProperties(s, value['tblPr'], ctx, 'tblPr');
-  if (value['tblGrid'] !== undefined) writeCT_TableGrid(s, value['tblGrid'], ctx, 'tblGrid');
-  for (const v_tr of value['tr']) {
-    writeCT_TableRow(s, v_tr, ctx, 'tr');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['tblPr'] !== undefined) writeCT_TableProperties(s, value['tblPr'], ctx, 'tblPr');
+  $q.flush(s, 0);
+  if (value['tblGrid'] !== undefined) writeCT_TableGrid(s, value['tblGrid'], ctx, 'tblGrid');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['tr'].length; idx++) {
+    const v_tr = value['tr'][idx]!;
+    writeCT_TableRow(s, v_tr, ctx, 'tr');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TableBackgroundStyle`; the caller supplies its element local name. */
 export function writeCT_TableBackgroundStyle(s: XmlSink, value: CT_TableBackgroundStyle, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['themeableFillStyle'] !== undefined) {
     if (value['themeableFillStyle'].kind === 'fill') writeCT_FillProperties(s, value['themeableFillStyle'].value, ctx, 'fill');
     if (value['themeableFillStyle'].kind === 'fillRef') writeCT_StyleMatrixReference(s, value['themeableFillStyle'].value, ctx, 'fillRef');
   }
+  $q.flush(s, 0);
   if (value['themeableEffectStyle'] !== undefined) {
     if (value['themeableEffectStyle'].kind === 'effect') writeCT_EffectProperties(s, value['themeableEffectStyle'].value, ctx, 'effect');
     if (value['themeableEffectStyle'].kind === 'effectRef') writeCT_StyleMatrixReference(s, value['themeableEffectStyle'].value, ctx, 'effectRef');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2648,28 +3139,44 @@ export function writeCT_TableCell(s: XmlSink, value: CT_TableCell, ctx: WriteCon
   if (value['hMerge'] !== undefined) s.attr(null, 'hMerge', String(value['hMerge']));
   if (value['vMerge'] !== undefined) s.attr(null, 'vMerge', String(value['vMerge']));
   if (value['id'] !== undefined) s.attr(null, 'id', String(value['id']));
-  if (value['txBody'] !== undefined) writeCT_TextBody(s, value['txBody'], ctx, 'txBody');
-  if (value['tcPr'] !== undefined) writeCT_TableCellProperties(s, value['tcPr'], ctx, 'tcPr');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['txBody'] !== undefined) writeCT_TextBody(s, value['txBody'], ctx, 'txBody');
+  $q.flush(s, 0);
+  if (value['tcPr'] !== undefined) writeCT_TableCellProperties(s, value['tcPr'], ctx, 'tcPr');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TableCellBorderStyle`; the caller supplies its element local name. */
 export function writeCT_TableCellBorderStyle(s: XmlSink, value: CT_TableCellBorderStyle, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['left'] !== undefined) writeCT_ThemeableLineStyle(s, value['left'], ctx, 'left');
-  if (value['right'] !== undefined) writeCT_ThemeableLineStyle(s, value['right'], ctx, 'right');
-  if (value['top'] !== undefined) writeCT_ThemeableLineStyle(s, value['top'], ctx, 'top');
-  if (value['bottom'] !== undefined) writeCT_ThemeableLineStyle(s, value['bottom'], ctx, 'bottom');
-  if (value['insideH'] !== undefined) writeCT_ThemeableLineStyle(s, value['insideH'], ctx, 'insideH');
-  if (value['insideV'] !== undefined) writeCT_ThemeableLineStyle(s, value['insideV'], ctx, 'insideV');
-  if (value['tl2br'] !== undefined) writeCT_ThemeableLineStyle(s, value['tl2br'], ctx, 'tl2br');
-  if (value['tr2bl'] !== undefined) writeCT_ThemeableLineStyle(s, value['tr2bl'], ctx, 'tr2bl');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['left'] !== undefined) writeCT_ThemeableLineStyle(s, value['left'], ctx, 'left');
+  $q.flush(s, 0);
+  if (value['right'] !== undefined) writeCT_ThemeableLineStyle(s, value['right'], ctx, 'right');
+  $q.flush(s, 1);
+  if (value['top'] !== undefined) writeCT_ThemeableLineStyle(s, value['top'], ctx, 'top');
+  $q.flush(s, 2);
+  if (value['bottom'] !== undefined) writeCT_ThemeableLineStyle(s, value['bottom'], ctx, 'bottom');
+  $q.flush(s, 3);
+  if (value['insideH'] !== undefined) writeCT_ThemeableLineStyle(s, value['insideH'], ctx, 'insideH');
+  $q.flush(s, 4);
+  if (value['insideV'] !== undefined) writeCT_ThemeableLineStyle(s, value['insideV'], ctx, 'insideV');
+  $q.flush(s, 5);
+  if (value['tl2br'] !== undefined) writeCT_ThemeableLineStyle(s, value['tl2br'], ctx, 'tl2br');
+  $q.flush(s, 6);
+  if (value['tr2bl'] !== undefined) writeCT_ThemeableLineStyle(s, value['tr2bl'], ctx, 'tr2bl');
+  $q.flush(s, 7);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 8);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2684,13 +3191,23 @@ export function writeCT_TableCellProperties(s: XmlSink, value: CT_TableCellPrope
   if (value['anchor'] !== undefined) s.attr(null, 'anchor', String(value['anchor']));
   if (value['anchorCtr'] !== undefined) s.attr(null, 'anchorCtr', String(value['anchorCtr']));
   if (value['horzOverflow'] !== undefined) s.attr(null, 'horzOverflow', String(value['horzOverflow']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['lnL'] !== undefined) writeCT_LineProperties(s, value['lnL'], ctx, 'lnL');
+  $q.flush(s, 0);
   if (value['lnR'] !== undefined) writeCT_LineProperties(s, value['lnR'], ctx, 'lnR');
+  $q.flush(s, 1);
   if (value['lnT'] !== undefined) writeCT_LineProperties(s, value['lnT'], ctx, 'lnT');
+  $q.flush(s, 2);
   if (value['lnB'] !== undefined) writeCT_LineProperties(s, value['lnB'], ctx, 'lnB');
+  $q.flush(s, 3);
   if (value['lnTlToBr'] !== undefined) writeCT_LineProperties(s, value['lnTlToBr'], ctx, 'lnTlToBr');
+  $q.flush(s, 4);
   if (value['lnBlToTr'] !== undefined) writeCT_LineProperties(s, value['lnBlToTr'], ctx, 'lnBlToTr');
+  $q.flush(s, 5);
   if (value['cell3D'] !== undefined) writeCT_Cell3D(s, value['cell3D'], ctx, 'cell3D');
+  $q.flush(s, 6);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -2699,10 +3216,12 @@ export function writeCT_TableCellProperties(s: XmlSink, value: CT_TableCellPrope
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
+  $q.flush(s, 7);
   if (value['headers'] !== undefined) writeCT_Headers(s, value['headers'], ctx, 'headers');
+  $q.flush(s, 8);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2710,30 +3229,42 @@ export function writeCT_TableCellProperties(s: XmlSink, value: CT_TableCellPrope
 export function writeCT_TableCol(s: XmlSink, value: CT_TableCol, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['w'] !== undefined) s.attr(null, 'w', String(value['w']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TableGrid`; the caller supplies its element local name. */
 export function writeCT_TableGrid(s: XmlSink, value: CT_TableGrid, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_gridCol of value['gridCol']) {
-    writeCT_TableCol(s, v_gridCol, ctx, 'gridCol');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['gridCol'].length; idx++) {
+    const v_gridCol = value['gridCol'][idx]!;
+    writeCT_TableCol(s, v_gridCol, ctx, 'gridCol');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TablePartStyle`; the caller supplies its element local name. */
 export function writeCT_TablePartStyle(s: XmlSink, value: CT_TablePartStyle, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['tcTxStyle'] !== undefined) writeCT_TableStyleTextStyle(s, value['tcTxStyle'], ctx, 'tcTxStyle');
-  if (value['tcStyle'] !== undefined) writeCT_TableStyleCellStyle(s, value['tcStyle'], ctx, 'tcStyle');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['tcTxStyle'] !== undefined) writeCT_TableStyleTextStyle(s, value['tcTxStyle'], ctx, 'tcTxStyle');
+  $q.flush(s, 0);
+  if (value['tcStyle'] !== undefined) writeCT_TableStyleCellStyle(s, value['tcStyle'], ctx, 'tcStyle');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2747,6 +3278,9 @@ export function writeCT_TableProperties(s: XmlSink, value: CT_TableProperties, c
   if (value['lastCol'] !== undefined) s.attr(null, 'lastCol', String(value['lastCol']));
   if (value['bandRow'] !== undefined) s.attr(null, 'bandRow', String(value['bandRow']));
   if (value['bandCol'] !== undefined) s.attr(null, 'bandCol', String(value['bandCol']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -2755,17 +3289,20 @@ export function writeCT_TableProperties(s: XmlSink, value: CT_TableProperties, c
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
+  $q.flush(s, 0);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
+  $q.flush(s, 1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'tableStyle') writeCT_TableStyle(s, value['content'].value, ctx, 'tableStyle');
     if (value['content'].kind === 'tableStyleId') s.text(String(value['content'].value));
   }
+  $q.flush(s, 2);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2773,12 +3310,18 @@ export function writeCT_TableProperties(s: XmlSink, value: CT_TableProperties, c
 export function writeCT_TableRow(s: XmlSink, value: CT_TableRow, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['h'] !== undefined) s.attr(null, 'h', String(value['h']));
-  for (const v_tc of value['tc']) {
-    writeCT_TableCell(s, v_tc, ctx, 'tc');
-  }
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['tc'].length; idx++) {
+    const v_tc = value['tc'][idx]!;
+    writeCT_TableCell(s, v_tc, ctx, 'tc');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2787,37 +3330,59 @@ export function writeCT_TableStyle(s: XmlSink, value: CT_TableStyle, ctx: WriteC
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['styleId'] !== undefined) s.attr(null, 'styleId', String(value['styleId']));
   if (value['styleName'] !== undefined) s.attr(null, 'styleName', String(value['styleName']));
-  if (value['tblBg'] !== undefined) writeCT_TableBackgroundStyle(s, value['tblBg'], ctx, 'tblBg');
-  if (value['wholeTbl'] !== undefined) writeCT_TablePartStyle(s, value['wholeTbl'], ctx, 'wholeTbl');
-  if (value['band1H'] !== undefined) writeCT_TablePartStyle(s, value['band1H'], ctx, 'band1H');
-  if (value['band2H'] !== undefined) writeCT_TablePartStyle(s, value['band2H'], ctx, 'band2H');
-  if (value['band1V'] !== undefined) writeCT_TablePartStyle(s, value['band1V'], ctx, 'band1V');
-  if (value['band2V'] !== undefined) writeCT_TablePartStyle(s, value['band2V'], ctx, 'band2V');
-  if (value['lastCol'] !== undefined) writeCT_TablePartStyle(s, value['lastCol'], ctx, 'lastCol');
-  if (value['firstCol'] !== undefined) writeCT_TablePartStyle(s, value['firstCol'], ctx, 'firstCol');
-  if (value['lastRow'] !== undefined) writeCT_TablePartStyle(s, value['lastRow'], ctx, 'lastRow');
-  if (value['seCell'] !== undefined) writeCT_TablePartStyle(s, value['seCell'], ctx, 'seCell');
-  if (value['swCell'] !== undefined) writeCT_TablePartStyle(s, value['swCell'], ctx, 'swCell');
-  if (value['firstRow'] !== undefined) writeCT_TablePartStyle(s, value['firstRow'], ctx, 'firstRow');
-  if (value['neCell'] !== undefined) writeCT_TablePartStyle(s, value['neCell'], ctx, 'neCell');
-  if (value['nwCell'] !== undefined) writeCT_TablePartStyle(s, value['nwCell'], ctx, 'nwCell');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['tblBg'] !== undefined) writeCT_TableBackgroundStyle(s, value['tblBg'], ctx, 'tblBg');
+  $q.flush(s, 0);
+  if (value['wholeTbl'] !== undefined) writeCT_TablePartStyle(s, value['wholeTbl'], ctx, 'wholeTbl');
+  $q.flush(s, 1);
+  if (value['band1H'] !== undefined) writeCT_TablePartStyle(s, value['band1H'], ctx, 'band1H');
+  $q.flush(s, 2);
+  if (value['band2H'] !== undefined) writeCT_TablePartStyle(s, value['band2H'], ctx, 'band2H');
+  $q.flush(s, 3);
+  if (value['band1V'] !== undefined) writeCT_TablePartStyle(s, value['band1V'], ctx, 'band1V');
+  $q.flush(s, 4);
+  if (value['band2V'] !== undefined) writeCT_TablePartStyle(s, value['band2V'], ctx, 'band2V');
+  $q.flush(s, 5);
+  if (value['lastCol'] !== undefined) writeCT_TablePartStyle(s, value['lastCol'], ctx, 'lastCol');
+  $q.flush(s, 6);
+  if (value['firstCol'] !== undefined) writeCT_TablePartStyle(s, value['firstCol'], ctx, 'firstCol');
+  $q.flush(s, 7);
+  if (value['lastRow'] !== undefined) writeCT_TablePartStyle(s, value['lastRow'], ctx, 'lastRow');
+  $q.flush(s, 8);
+  if (value['seCell'] !== undefined) writeCT_TablePartStyle(s, value['seCell'], ctx, 'seCell');
+  $q.flush(s, 9);
+  if (value['swCell'] !== undefined) writeCT_TablePartStyle(s, value['swCell'], ctx, 'swCell');
+  $q.flush(s, 10);
+  if (value['firstRow'] !== undefined) writeCT_TablePartStyle(s, value['firstRow'], ctx, 'firstRow');
+  $q.flush(s, 11);
+  if (value['neCell'] !== undefined) writeCT_TablePartStyle(s, value['neCell'], ctx, 'neCell');
+  $q.flush(s, 12);
+  if (value['nwCell'] !== undefined) writeCT_TablePartStyle(s, value['nwCell'], ctx, 'nwCell');
+  $q.flush(s, 13);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 14);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TableStyleCellStyle`; the caller supplies its element local name. */
 export function writeCT_TableStyleCellStyle(s: XmlSink, value: CT_TableStyleCellStyle, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['tcBdr'] !== undefined) writeCT_TableCellBorderStyle(s, value['tcBdr'], ctx, 'tcBdr');
+  $q.flush(s, 0);
   if (value['themeableFillStyle'] !== undefined) {
     if (value['themeableFillStyle'].kind === 'fill') writeCT_FillProperties(s, value['themeableFillStyle'].value, ctx, 'fill');
     if (value['themeableFillStyle'].kind === 'fillRef') writeCT_StyleMatrixReference(s, value['themeableFillStyle'].value, ctx, 'fillRef');
   }
+  $q.flush(s, 1);
   if (value['cell3D'] !== undefined) writeCT_Cell3D(s, value['cell3D'], ctx, 'cell3D');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2825,11 +3390,16 @@ export function writeCT_TableStyleCellStyle(s: XmlSink, value: CT_TableStyleCell
 export function writeCT_TableStyleList(s: XmlSink, value: CT_TableStyleList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['def'] !== undefined) s.attr(null, 'def', String(value['def']));
-  for (const v_tblStyle of value['tblStyle']) {
-    writeCT_TableStyle(s, v_tblStyle, ctx, 'tblStyle');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['tblStyle'].length; idx++) {
+    const v_tblStyle = value['tblStyle'][idx]!;
+    writeCT_TableStyle(s, v_tblStyle, ctx, 'tblStyle');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2838,10 +3408,14 @@ export function writeCT_TableStyleTextStyle(s: XmlSink, value: CT_TableStyleText
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['b'] !== undefined) s.attr(null, 'b', String(value['b']));
   if (value['i'] !== undefined) s.attr(null, 'i', String(value['i']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['themeableFontStyles'] !== undefined) {
     if (value['themeableFontStyles'].kind === 'font') writeCT_FontCollection(s, value['themeableFontStyles'].value, ctx, 'font');
     if (value['themeableFontStyles'].kind === 'fontRef') writeCT_FontReference(s, value['themeableFontStyles'].value, ctx, 'fontRef');
   }
+  $q.flush(s, 0);
   if (value['colorChoice'] !== undefined) {
     if (value['colorChoice'].kind === 'scrgbClr') writeCT_ScRgbColor(s, value['colorChoice'].value, ctx, 'scrgbClr');
     if (value['colorChoice'].kind === 'srgbClr') writeCT_SRgbColor(s, value['colorChoice'].value, ctx, 'srgbClr');
@@ -2850,9 +3424,10 @@ export function writeCT_TableStyleTextStyle(s: XmlSink, value: CT_TableStyleText
     if (value['colorChoice'].kind === 'schemeClr') writeCT_SchemeColor(s, value['colorChoice'].value, ctx, 'schemeClr');
     if (value['colorChoice'].kind === 'prstClr') writeCT_PresetColor(s, value['colorChoice'].value, ctx, 'prstClr');
   }
+  $q.flush(s, 1);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2868,22 +3443,32 @@ export function writeCT_TextAutonumberBullet(s: XmlSink, value: CT_TextAutonumbe
 /** Write a `CT_TextBlipBullet`; the caller supplies its element local name. */
 export function writeCT_TextBlipBullet(s: XmlSink, value: CT_TextBlipBullet, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['blip'] !== undefined) writeCT_Blip(s, value['blip'], ctx, 'blip');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['blip'] !== undefined) writeCT_Blip(s, value['blip'], ctx, 'blip');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TextBody`; the caller supplies its element local name. */
 export function writeCT_TextBody(s: XmlSink, value: CT_TextBody, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['bodyPr'] !== undefined) writeCT_TextBodyProperties(s, value['bodyPr'], ctx, 'bodyPr');
-  if (value['lstStyle'] !== undefined) writeCT_TextListStyle(s, value['lstStyle'], ctx, 'lstStyle');
-  for (const v_p of value['p']) {
-    writeCT_TextParagraph(s, v_p, ctx, 'p');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['bodyPr'] !== undefined) writeCT_TextBodyProperties(s, value['bodyPr'], ctx, 'bodyPr');
+  $q.flush(s, 0);
+  if (value['lstStyle'] !== undefined) writeCT_TextListStyle(s, value['lstStyle'], ctx, 'lstStyle');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['p'].length; idx++) {
+    const v_p = value['p'][idx]!;
+    writeCT_TextParagraph(s, v_p, ctx, 'p');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2909,20 +3494,27 @@ export function writeCT_TextBodyProperties(s: XmlSink, value: CT_TextBodyPropert
   if (value['forceAA'] !== undefined) s.attr(null, 'forceAA', String(value['forceAA']));
   if (value['upright'] !== undefined) s.attr(null, 'upright', String(value['upright']));
   if (value['compatLnSpc'] !== undefined) s.attr(null, 'compatLnSpc', String(value['compatLnSpc']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['prstTxWarp'] !== undefined) writeCT_PresetTextShape(s, value['prstTxWarp'], ctx, 'prstTxWarp');
+  $q.flush(s, 0);
   if (value['textAutofit'] !== undefined) {
     if (value['textAutofit'].kind === 'noAutofit') writeCT_TextNoAutofit(s, value['textAutofit'].value, ctx, 'noAutofit');
     if (value['textAutofit'].kind === 'normAutofit') writeCT_TextNormalAutofit(s, value['textAutofit'].value, ctx, 'normAutofit');
     if (value['textAutofit'].kind === 'spAutoFit') writeCT_TextShapeAutofit(s, value['textAutofit'].value, ctx, 'spAutoFit');
   }
+  $q.flush(s, 1);
   if (value['scene3d'] !== undefined) writeCT_Scene3D(s, value['scene3d'], ctx, 'scene3d');
+  $q.flush(s, 2);
   if (value['text3D'] !== undefined) {
     if (value['text3D'].kind === 'sp3d') writeCT_Shape3D(s, value['text3D'].value, ctx, 'sp3d');
     if (value['text3D'].kind === 'flatTx') writeCT_FlatText(s, value['text3D'].value, ctx, 'flatTx');
   }
+  $q.flush(s, 3);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -2985,7 +3577,11 @@ export function writeCT_TextCharacterProperties(s: XmlSink, value: CT_TextCharac
   if (value['smtClean'] !== undefined) s.attr(null, 'smtClean', String(value['smtClean']));
   if (value['smtId'] !== undefined) s.attr(null, 'smtId', String(value['smtId']));
   if (value['bmk'] !== undefined) s.attr(null, 'bmk', String(value['bmk']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['ln'] !== undefined) writeCT_LineProperties(s, value['ln'], ctx, 'ln');
+  $q.flush(s, 0);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -2994,29 +3590,41 @@ export function writeCT_TextCharacterProperties(s: XmlSink, value: CT_TextCharac
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
+  $q.flush(s, 1);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
+  $q.flush(s, 2);
   if (value['highlight'] !== undefined) writeCT_Color(s, value['highlight'], ctx, 'highlight');
+  $q.flush(s, 3);
   if (value['textUnderlineLine'] !== undefined) {
     if (value['textUnderlineLine'].kind === 'uLnTx') writeCT_TextUnderlineLineFollowText(s, value['textUnderlineLine'].value, ctx, 'uLnTx');
     if (value['textUnderlineLine'].kind === 'uLn') writeCT_LineProperties(s, value['textUnderlineLine'].value, ctx, 'uLn');
   }
+  $q.flush(s, 4);
   if (value['textUnderlineFill'] !== undefined) {
     if (value['textUnderlineFill'].kind === 'uFillTx') writeCT_TextUnderlineFillFollowText(s, value['textUnderlineFill'].value, ctx, 'uFillTx');
     if (value['textUnderlineFill'].kind === 'uFill') writeCT_TextUnderlineFillGroupWrapper(s, value['textUnderlineFill'].value, ctx, 'uFill');
   }
+  $q.flush(s, 5);
   if (value['latin'] !== undefined) writeCT_TextFont(s, value['latin'], ctx, 'latin');
+  $q.flush(s, 6);
   if (value['ea'] !== undefined) writeCT_TextFont(s, value['ea'], ctx, 'ea');
+  $q.flush(s, 7);
   if (value['cs'] !== undefined) writeCT_TextFont(s, value['cs'], ctx, 'cs');
+  $q.flush(s, 8);
   if (value['sym'] !== undefined) writeCT_TextFont(s, value['sym'], ctx, 'sym');
+  $q.flush(s, 9);
   if (value['hlinkClick'] !== undefined) writeCT_Hyperlink(s, value['hlinkClick'], ctx, 'hlinkClick');
+  $q.flush(s, 10);
   if (value['hlinkMouseOver'] !== undefined) writeCT_Hyperlink(s, value['hlinkMouseOver'], ctx, 'hlinkMouseOver');
+  $q.flush(s, 11);
   if (value['rtl'] !== undefined) writeCT_Boolean(s, value['rtl'], ctx, 'rtl');
+  $q.flush(s, 12);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 13);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3033,11 +3641,16 @@ export function writeCT_TextField(s: XmlSink, value: CT_TextField, ctx: WriteCon
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['id'] !== undefined) s.attr(null, 'id', String(value['id']));
   if (value['type'] !== undefined) s.attr(null, 'type', String(value['type']));
-  if (value['rPr'] !== undefined) writeCT_TextCharacterProperties(s, value['rPr'], ctx, 'rPr');
-  if (value['pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['pPr'], ctx, 'pPr');
-  for (const v_t of [value['t']]) if (v_t !== undefined) s.text(String(v_t));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['rPr'] !== undefined) writeCT_TextCharacterProperties(s, value['rPr'], ctx, 'rPr');
+  $q.flush(s, 0);
+  if (value['pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['pPr'], ctx, 'pPr');
+  $q.flush(s, 1);
+  if (value['t'] !== undefined) s.text(String(value['t']));
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3055,28 +3668,44 @@ export function writeCT_TextFont(s: XmlSink, value: CT_TextFont, ctx: WriteConte
 /** Write a `CT_TextLineBreak`; the caller supplies its element local name. */
 export function writeCT_TextLineBreak(s: XmlSink, value: CT_TextLineBreak, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['rPr'] !== undefined) writeCT_TextCharacterProperties(s, value['rPr'], ctx, 'rPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['rPr'] !== undefined) writeCT_TextCharacterProperties(s, value['rPr'], ctx, 'rPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TextListStyle`; the caller supplies its element local name. */
 export function writeCT_TextListStyle(s: XmlSink, value: CT_TextListStyle, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  if (value['defPPr'] !== undefined) writeCT_TextParagraphProperties(s, value['defPPr'], ctx, 'defPPr');
-  if (value['lvl1pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl1pPr'], ctx, 'lvl1pPr');
-  if (value['lvl2pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl2pPr'], ctx, 'lvl2pPr');
-  if (value['lvl3pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl3pPr'], ctx, 'lvl3pPr');
-  if (value['lvl4pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl4pPr'], ctx, 'lvl4pPr');
-  if (value['lvl5pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl5pPr'], ctx, 'lvl5pPr');
-  if (value['lvl6pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl6pPr'], ctx, 'lvl6pPr');
-  if (value['lvl7pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl7pPr'], ctx, 'lvl7pPr');
-  if (value['lvl8pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl8pPr'], ctx, 'lvl8pPr');
-  if (value['lvl9pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl9pPr'], ctx, 'lvl9pPr');
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['defPPr'] !== undefined) writeCT_TextParagraphProperties(s, value['defPPr'], ctx, 'defPPr');
+  $q.flush(s, 0);
+  if (value['lvl1pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl1pPr'], ctx, 'lvl1pPr');
+  $q.flush(s, 1);
+  if (value['lvl2pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl2pPr'], ctx, 'lvl2pPr');
+  $q.flush(s, 2);
+  if (value['lvl3pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl3pPr'], ctx, 'lvl3pPr');
+  $q.flush(s, 3);
+  if (value['lvl4pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl4pPr'], ctx, 'lvl4pPr');
+  $q.flush(s, 4);
+  if (value['lvl5pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl5pPr'], ctx, 'lvl5pPr');
+  $q.flush(s, 5);
+  if (value['lvl6pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl6pPr'], ctx, 'lvl6pPr');
+  $q.flush(s, 6);
+  if (value['lvl7pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl7pPr'], ctx, 'lvl7pPr');
+  $q.flush(s, 7);
+  if (value['lvl8pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl8pPr'], ctx, 'lvl8pPr');
+  $q.flush(s, 8);
+  if (value['lvl9pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['lvl9pPr'], ctx, 'lvl9pPr');
+  $q.flush(s, 9);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 10);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3106,6 +3735,7 @@ export function writeCT_TextNormalAutofit(s: XmlSink, value: CT_TextNormalAutofi
 /** Write a `CT_TextParagraph`; the caller supplies its element local name. */
 export function writeCT_TextParagraph(s: XmlSink, value: CT_TextParagraph, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   if (value['pPr'] !== undefined) writeCT_TextParagraphProperties(s, value['pPr'], ctx, 'pPr');
   for (const v_textRun of value['textRun']) {
     if (v_textRun.kind === 'r') writeCT_RegularTextRun(s, v_textRun.value, ctx, 'r');
@@ -3114,7 +3744,6 @@ export function writeCT_TextParagraph(s: XmlSink, value: CT_TextParagraph, ctx: 
     if (v_textRun.kind === '$raw') { s.raw(v_textRun.value); }
   }
   if (value['endParaRPr'] !== undefined) writeCT_TextCharacterProperties(s, value['endParaRPr'], ctx, 'endParaRPr');
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -3132,33 +3761,45 @@ export function writeCT_TextParagraphProperties(s: XmlSink, value: CT_TextParagr
   if (value['fontAlgn'] !== undefined) s.attr(null, 'fontAlgn', String(value['fontAlgn']));
   if (value['latinLnBrk'] !== undefined) s.attr(null, 'latinLnBrk', String(value['latinLnBrk']));
   if (value['hangingPunct'] !== undefined) s.attr(null, 'hangingPunct', String(value['hangingPunct']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['lnSpc'] !== undefined) writeCT_TextSpacing(s, value['lnSpc'], ctx, 'lnSpc');
+  $q.flush(s, 0);
   if (value['spcBef'] !== undefined) writeCT_TextSpacing(s, value['spcBef'], ctx, 'spcBef');
+  $q.flush(s, 1);
   if (value['spcAft'] !== undefined) writeCT_TextSpacing(s, value['spcAft'], ctx, 'spcAft');
+  $q.flush(s, 2);
   if (value['textBulletColor'] !== undefined) {
     if (value['textBulletColor'].kind === 'buClrTx') writeCT_TextBulletColorFollowText(s, value['textBulletColor'].value, ctx, 'buClrTx');
     if (value['textBulletColor'].kind === 'buClr') writeCT_Color(s, value['textBulletColor'].value, ctx, 'buClr');
   }
+  $q.flush(s, 3);
   if (value['textBulletSize'] !== undefined) {
     if (value['textBulletSize'].kind === 'buSzTx') writeCT_TextBulletSizeFollowText(s, value['textBulletSize'].value, ctx, 'buSzTx');
     if (value['textBulletSize'].kind === 'buSzPct') writeCT_TextBulletSizePercent(s, value['textBulletSize'].value, ctx, 'buSzPct');
     if (value['textBulletSize'].kind === 'buSzPts') writeCT_TextBulletSizePoint(s, value['textBulletSize'].value, ctx, 'buSzPts');
   }
+  $q.flush(s, 4);
   if (value['textBulletTypeface'] !== undefined) {
     if (value['textBulletTypeface'].kind === 'buFontTx') writeCT_TextBulletTypefaceFollowText(s, value['textBulletTypeface'].value, ctx, 'buFontTx');
     if (value['textBulletTypeface'].kind === 'buFont') writeCT_TextFont(s, value['textBulletTypeface'].value, ctx, 'buFont');
   }
+  $q.flush(s, 5);
   if (value['textBullet'] !== undefined) {
     if (value['textBullet'].kind === 'buNone') writeCT_TextNoBullet(s, value['textBullet'].value, ctx, 'buNone');
     if (value['textBullet'].kind === 'buAutoNum') writeCT_TextAutonumberBullet(s, value['textBullet'].value, ctx, 'buAutoNum');
     if (value['textBullet'].kind === 'buChar') writeCT_TextCharBullet(s, value['textBullet'].value, ctx, 'buChar');
     if (value['textBullet'].kind === 'buBlip') writeCT_TextBlipBullet(s, value['textBullet'].value, ctx, 'buBlip');
   }
+  $q.flush(s, 6);
   if (value['tabLst'] !== undefined) writeCT_TextTabStopList(s, value['tabLst'], ctx, 'tabLst');
+  $q.flush(s, 7);
   if (value['defRPr'] !== undefined) writeCT_TextCharacterProperties(s, value['defRPr'], ctx, 'defRPr');
+  $q.flush(s, 8);
   if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3172,12 +3813,15 @@ export function writeCT_TextShapeAutofit(s: XmlSink, value: CT_TextShapeAutofit,
 /** Write a `CT_TextSpacing`; the caller supplies its element local name. */
 export function writeCT_TextSpacing(s: XmlSink, value: CT_TextSpacing, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'spcPct') writeCT_TextSpacingPercent(s, value['content'].value, ctx, 'spcPct');
     if (value['content'].kind === 'spcPts') writeCT_TextSpacingPoint(s, value['content'].value, ctx, 'spcPts');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3209,11 +3853,16 @@ export function writeCT_TextTabStop(s: XmlSink, value: CT_TextTabStop, ctx: Writ
 /** Write a `CT_TextTabStopList`; the caller supplies its element local name. */
 export function writeCT_TextTabStopList(s: XmlSink, value: CT_TextTabStopList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
-  for (const v_tab of value['tab']) {
-    writeCT_TextTabStop(s, v_tab, ctx, 'tab');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['tab'].length; idx++) {
+    const v_tab = value['tab'][idx]!;
+    writeCT_TextTabStop(s, v_tab, ctx, 'tab');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3227,6 +3876,9 @@ export function writeCT_TextUnderlineFillFollowText(s: XmlSink, value: CT_TextUn
 /** Write a `CT_TextUnderlineFillGroupWrapper`; the caller supplies its element local name. */
 export function writeCT_TextUnderlineFillGroupWrapper(s: XmlSink, value: CT_TextUnderlineFillGroupWrapper, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['fillProperties'] !== undefined) {
     if (value['fillProperties'].kind === 'noFill') writeCT_NoFillProperties(s, value['fillProperties'].value, ctx, 'noFill');
     if (value['fillProperties'].kind === 'solidFill') writeCT_SolidColorFillProperties(s, value['fillProperties'].value, ctx, 'solidFill');
@@ -3235,8 +3887,8 @@ export function writeCT_TextUnderlineFillGroupWrapper(s: XmlSink, value: CT_Text
     if (value['fillProperties'].kind === 'pattFill') writeCT_PatternFillProperties(s, value['fillProperties'].value, ctx, 'pattFill');
     if (value['fillProperties'].kind === 'grpFill') writeCT_GroupFillProperties(s, value['fillProperties'].value, ctx, 'grpFill');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3250,12 +3902,15 @@ export function writeCT_TextUnderlineLineFollowText(s: XmlSink, value: CT_TextUn
 /** Write a `CT_ThemeableLineStyle`; the caller supplies its element local name. */
 export function writeCT_ThemeableLineStyle(s: XmlSink, value: CT_ThemeableLineStyle, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'ln') writeCT_LineProperties(s, value['content'].value, ctx, 'ln');
     if (value['content'].kind === 'lnRef') writeCT_StyleMatrixReference(s, value['content'].value, ctx, 'lnRef');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3287,10 +3942,14 @@ export function writeCT_Transform2D(s: XmlSink, value: CT_Transform2D, ctx: Writ
   if (value['rot'] !== undefined) s.attr(null, 'rot', String(value['rot']));
   if (value['flipH'] !== undefined) s.attr(null, 'flipH', String(value['flipH']));
   if (value['flipV'] !== undefined) s.attr(null, 'flipV', String(value['flipV']));
-  if (value['off'] !== undefined) writeCT_Point2D(s, value['off'], ctx, 'off');
-  if (value['ext'] !== undefined) writeCT_PositiveSize2D(s, value['ext'], ctx, 'ext');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['off'] !== undefined) writeCT_Point2D(s, value['off'], ctx, 'off');
+  $q.flush(s, 0);
+  if (value['ext'] !== undefined) writeCT_PositiveSize2D(s, value['ext'], ctx, 'ext');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3322,22 +3981,29 @@ export function writeCT_VideoFile(s: XmlSink, value: CT_VideoFile, ctx: WriteCon
   s.startElement(uriFor(ctx, 'dml-main'), localName);
   if (value['link'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'link', String(value['link']));
   if (value['contentType'] !== undefined) s.attr(null, 'contentType', String(value['contentType']));
-  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['extLst'] !== undefined) writeCT_OfficeArtExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_WholeE2oFormatting`; the caller supplies its element local name. */
 export function writeCT_WholeE2oFormatting(s: XmlSink, value: CT_WholeE2oFormatting, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-main'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['ln'] !== undefined) writeCT_LineProperties(s, value['ln'], ctx, 'ln');
+  $q.flush(s, 0);
   if (value['effectProperties'] !== undefined) {
     if (value['effectProperties'].kind === 'effectLst') writeCT_EffectList(s, value['effectProperties'].value, ctx, 'effectLst');
     if (value['effectProperties'].kind === 'effectDag') writeCT_EffectContainer(s, value['effectProperties'].value, ctx, 'effectDag');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -3350,8 +4016,11 @@ export function writeCT_XYAdjustHandle(s: XmlSink, value: CT_XYAdjustHandle, ctx
   if (value['gdRefY'] !== undefined) s.attr(null, 'gdRefY', String(value['gdRefY']));
   if (value['minY'] !== undefined) s.attr(null, 'minY', String(value['minY']));
   if (value['maxY'] !== undefined) s.attr(null, 'maxY', String(value['maxY']));
-  if (value['pos'] !== undefined) writeCT_AdjPoint2D(s, value['pos'], ctx, 'pos');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['pos'] !== undefined) writeCT_AdjPoint2D(s, value['pos'], ctx, 'pos');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }

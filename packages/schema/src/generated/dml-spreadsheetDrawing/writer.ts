@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import {
   writeCT_BlipFillProperties,
   writeCT_GraphicalObject,
@@ -50,8 +55,13 @@ import type {
 /** Write a `CT_AbsoluteAnchor`; the caller supplies its element local name. */
 export function writeCT_AbsoluteAnchor(s: XmlSink, value: CT_AbsoluteAnchor, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['pos'] !== undefined) writeCT_Point2D(s, value['pos'], ctx, 'pos');
+  $q.flush(s, 0);
   if (value['ext'] !== undefined) writeCT_PositiveSize2D(s, value['ext'], ctx, 'ext');
+  $q.flush(s, 1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'sp') writeCT_Shape(s, value['content'].value, ctx, 'sp');
     if (value['content'].kind === 'grpSp') writeCT_GroupShape(s, value['content'].value, ctx, 'grpSp');
@@ -60,9 +70,10 @@ export function writeCT_AbsoluteAnchor(s: XmlSink, value: CT_AbsoluteAnchor, ctx
     if (value['content'].kind === 'pic') writeCT_Picture(s, value['content'].value, ctx, 'pic');
     if (value['content'].kind === 'contentPart') writeCT_Rel(s, value['content'].value, ctx, 'contentPart');
   }
+  $q.flush(s, 2);
   if (value['clientData'] !== undefined) writeCT_AnchorClientData(s, value['clientData'], ctx, 'clientData');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -80,34 +91,43 @@ export function writeCT_Connector(s: XmlSink, value: CT_Connector, ctx: WriteCon
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
   if (value['macro'] !== undefined) s.attr(null, 'macro', String(value['macro']));
   if (value['fPublished'] !== undefined) s.attr(null, 'fPublished', String(value['fPublished']));
-  if (value['nvCxnSpPr'] !== undefined) writeCT_ConnectorNonVisual(s, value['nvCxnSpPr'], ctx, 'nvCxnSpPr');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvCxnSpPr'] !== undefined) writeCT_ConnectorNonVisual(s, value['nvCxnSpPr'], ctx, 'nvCxnSpPr');
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ConnectorNonVisual`; the caller supplies its element local name. */
 export function writeCT_ConnectorNonVisual(s: XmlSink, value: CT_ConnectorNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvCxnSpPr'] !== undefined) writeCT_NonVisualConnectorProperties(s, value['cNvCxnSpPr'], ctx, 'cNvCxnSpPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvCxnSpPr'] !== undefined) writeCT_NonVisualConnectorProperties(s, value['cNvCxnSpPr'], ctx, 'cNvCxnSpPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Drawing`; the caller supplies its element local name. */
 export function writeCT_Drawing(s: XmlSink, value: CT_Drawing, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_anchor of value['anchor']) {
     if (v_anchor.kind === 'twoCellAnchor') writeCT_TwoCellAnchor(s, v_anchor.value, ctx, 'twoCellAnchor');
     if (v_anchor.kind === 'oneCellAnchor') writeCT_OneCellAnchor(s, v_anchor.value, ctx, 'oneCellAnchor');
     if (v_anchor.kind === 'absoluteAnchor') writeCT_AbsoluteAnchor(s, v_anchor.value, ctx, 'absoluteAnchor');
     if (v_anchor.kind === '$raw') { s.raw(v_anchor.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -116,27 +136,37 @@ export function writeCT_GraphicalObjectFrame(s: XmlSink, value: CT_GraphicalObje
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
   if (value['macro'] !== undefined) s.attr(null, 'macro', String(value['macro']));
   if (value['fPublished'] !== undefined) s.attr(null, 'fPublished', String(value['fPublished']));
-  if (value['nvGraphicFramePr'] !== undefined) writeCT_GraphicalObjectFrameNonVisual(s, value['nvGraphicFramePr'], ctx, 'nvGraphicFramePr');
-  if (value['xfrm'] !== undefined) writeCT_Transform2D(s, value['xfrm'], ctx, 'xfrm');
-  if (value['graphic'] !== undefined) writeCT_GraphicalObject(s, value['graphic'], ctx, 'graphic');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvGraphicFramePr'] !== undefined) writeCT_GraphicalObjectFrameNonVisual(s, value['nvGraphicFramePr'], ctx, 'nvGraphicFramePr');
+  $q.flush(s, 0);
+  if (value['xfrm'] !== undefined) writeCT_Transform2D(s, value['xfrm'], ctx, 'xfrm');
+  $q.flush(s, 1);
+  if (value['graphic'] !== undefined) writeCT_GraphicalObject(s, value['graphic'], ctx, 'graphic');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GraphicalObjectFrameNonVisual`; the caller supplies its element local name. */
 export function writeCT_GraphicalObjectFrameNonVisual(s: XmlSink, value: CT_GraphicalObjectFrameNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvGraphicFramePr'] !== undefined) writeCT_NonVisualGraphicFrameProperties(s, value['cNvGraphicFramePr'], ctx, 'cNvGraphicFramePr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvGraphicFramePr'] !== undefined) writeCT_NonVisualGraphicFrameProperties(s, value['cNvGraphicFramePr'], ctx, 'cNvGraphicFramePr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_GroupShape`; the caller supplies its element local name. */
 export function writeCT_GroupShape(s: XmlSink, value: CT_GroupShape, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   if (value['nvGrpSpPr'] !== undefined) writeCT_GroupShapeNonVisual(s, value['nvGrpSpPr'], ctx, 'nvGrpSpPr');
   if (value['grpSpPr'] !== undefined) writeCT_GroupShapeProperties(s, value['grpSpPr'], ctx, 'grpSpPr');
   for (const v_content of value['content']) {
@@ -147,37 +177,51 @@ export function writeCT_GroupShape(s: XmlSink, value: CT_GroupShape, ctx: WriteC
     if (v_content.kind === 'pic') writeCT_Picture(s, v_content.value, ctx, 'pic');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_GroupShapeNonVisual`; the caller supplies its element local name. */
 export function writeCT_GroupShapeNonVisual(s: XmlSink, value: CT_GroupShapeNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvGrpSpPr'] !== undefined) writeCT_NonVisualGroupDrawingShapeProps(s, value['cNvGrpSpPr'], ctx, 'cNvGrpSpPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvGrpSpPr'] !== undefined) writeCT_NonVisualGroupDrawingShapeProps(s, value['cNvGrpSpPr'], ctx, 'cNvGrpSpPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Marker`; the caller supplies its element local name. */
 export function writeCT_Marker(s: XmlSink, value: CT_Marker, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
-  for (const v_col of [value['col']]) if (v_col !== undefined) s.text(String(v_col));
-  for (const v_colOff of [value['colOff']]) if (v_colOff !== undefined) s.text(String(v_colOff));
-  for (const v_row of [value['row']]) if (v_row !== undefined) s.text(String(v_row));
-  for (const v_rowOff of [value['rowOff']]) if (v_rowOff !== undefined) s.text(String(v_rowOff));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['col'] !== undefined) s.text(String(value['col']));
+  $q.flush(s, 0);
+  if (value['colOff'] !== undefined) s.text(String(value['colOff']));
+  $q.flush(s, 1);
+  if (value['row'] !== undefined) s.text(String(value['row']));
+  $q.flush(s, 2);
+  if (value['rowOff'] !== undefined) s.text(String(value['rowOff']));
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_OneCellAnchor`; the caller supplies its element local name. */
 export function writeCT_OneCellAnchor(s: XmlSink, value: CT_OneCellAnchor, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['from'] !== undefined) writeCT_Marker(s, value['from'], ctx, 'from');
+  $q.flush(s, 0);
   if (value['ext'] !== undefined) writeCT_PositiveSize2D(s, value['ext'], ctx, 'ext');
+  $q.flush(s, 1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'sp') writeCT_Shape(s, value['content'].value, ctx, 'sp');
     if (value['content'].kind === 'grpSp') writeCT_GroupShape(s, value['content'].value, ctx, 'grpSp');
@@ -186,9 +230,10 @@ export function writeCT_OneCellAnchor(s: XmlSink, value: CT_OneCellAnchor, ctx: 
     if (value['content'].kind === 'pic') writeCT_Picture(s, value['content'].value, ctx, 'pic');
     if (value['content'].kind === 'contentPart') writeCT_Rel(s, value['content'].value, ctx, 'contentPart');
   }
+  $q.flush(s, 2);
   if (value['clientData'] !== undefined) writeCT_AnchorClientData(s, value['clientData'], ctx, 'clientData');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -197,22 +242,32 @@ export function writeCT_Picture(s: XmlSink, value: CT_Picture, ctx: WriteContext
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
   if (value['macro'] !== undefined) s.attr(null, 'macro', String(value['macro']));
   if (value['fPublished'] !== undefined) s.attr(null, 'fPublished', String(value['fPublished']));
-  if (value['nvPicPr'] !== undefined) writeCT_PictureNonVisual(s, value['nvPicPr'], ctx, 'nvPicPr');
-  if (value['blipFill'] !== undefined) writeCT_BlipFillProperties(s, value['blipFill'], ctx, 'blipFill');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvPicPr'] !== undefined) writeCT_PictureNonVisual(s, value['nvPicPr'], ctx, 'nvPicPr');
+  $q.flush(s, 0);
+  if (value['blipFill'] !== undefined) writeCT_BlipFillProperties(s, value['blipFill'], ctx, 'blipFill');
+  $q.flush(s, 1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 2);
+  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PictureNonVisual`; the caller supplies its element local name. */
 export function writeCT_PictureNonVisual(s: XmlSink, value: CT_PictureNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvPicPr'] !== undefined) writeCT_NonVisualPictureProperties(s, value['cNvPicPr'], ctx, 'cNvPicPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvPicPr'] !== undefined) writeCT_NonVisualPictureProperties(s, value['cNvPicPr'], ctx, 'cNvPicPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -231,22 +286,32 @@ export function writeCT_Shape(s: XmlSink, value: CT_Shape, ctx: WriteContext, lo
   if (value['textlink'] !== undefined) s.attr(null, 'textlink', String(value['textlink']));
   if (value['fLocksText'] !== undefined) s.attr(null, 'fLocksText', String(value['fLocksText']));
   if (value['fPublished'] !== undefined) s.attr(null, 'fPublished', String(value['fPublished']));
-  if (value['nvSpPr'] !== undefined) writeCT_ShapeNonVisual(s, value['nvSpPr'], ctx, 'nvSpPr');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
-  if (value['txBody'] !== undefined) writeCT_TextBody(s, value['txBody'], ctx, 'txBody');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['nvSpPr'] !== undefined) writeCT_ShapeNonVisual(s, value['nvSpPr'], ctx, 'nvSpPr');
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  if (value['style'] !== undefined) writeCT_ShapeStyle(s, value['style'], ctx, 'style');
+  $q.flush(s, 2);
+  if (value['txBody'] !== undefined) writeCT_TextBody(s, value['txBody'], ctx, 'txBody');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ShapeNonVisual`; the caller supplies its element local name. */
 export function writeCT_ShapeNonVisual(s: XmlSink, value: CT_ShapeNonVisual, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
-  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
-  if (value['cNvSpPr'] !== undefined) writeCT_NonVisualDrawingShapeProps(s, value['cNvSpPr'], ctx, 'cNvSpPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['cNvPr'] !== undefined) writeCT_NonVisualDrawingProps(s, value['cNvPr'], ctx, 'cNvPr');
+  $q.flush(s, 0);
+  if (value['cNvSpPr'] !== undefined) writeCT_NonVisualDrawingShapeProps(s, value['cNvSpPr'], ctx, 'cNvSpPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -254,8 +319,13 @@ export function writeCT_ShapeNonVisual(s: XmlSink, value: CT_ShapeNonVisual, ctx
 export function writeCT_TwoCellAnchor(s: XmlSink, value: CT_TwoCellAnchor, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-spreadsheetDrawing'), localName);
   if (value['editAs'] !== undefined) s.attr(null, 'editAs', String(value['editAs']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['from'] !== undefined) writeCT_Marker(s, value['from'], ctx, 'from');
+  $q.flush(s, 0);
   if (value['to'] !== undefined) writeCT_Marker(s, value['to'], ctx, 'to');
+  $q.flush(s, 1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'sp') writeCT_Shape(s, value['content'].value, ctx, 'sp');
     if (value['content'].kind === 'grpSp') writeCT_GroupShape(s, value['content'].value, ctx, 'grpSp');
@@ -264,8 +334,9 @@ export function writeCT_TwoCellAnchor(s: XmlSink, value: CT_TwoCellAnchor, ctx: 
     if (value['content'].kind === 'pic') writeCT_Picture(s, value['content'].value, ctx, 'pic');
     if (value['content'].kind === 'contentPart') writeCT_Rel(s, value['content'].value, ctx, 'contentPart');
   }
+  $q.flush(s, 2);
   if (value['clientData'] !== undefined) writeCT_AnchorClientData(s, value['clientData'], ctx, 'clientData');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }

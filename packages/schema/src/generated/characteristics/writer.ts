@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type { CT_AdditionalCharacteristics, CT_Characteristic } from './types.js';
 
 // XML writers. Element names are supplied by the owning particle.
@@ -15,11 +20,16 @@ import type { CT_AdditionalCharacteristics, CT_Characteristic } from './types.js
 /** Write a `CT_AdditionalCharacteristics`; the caller supplies its element local name. */
 export function writeCT_AdditionalCharacteristics(s: XmlSink, value: CT_AdditionalCharacteristics, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'characteristics'), localName);
-  for (const v_characteristic of value['characteristic']) {
-    writeCT_Characteristic(s, v_characteristic, ctx, 'characteristic');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['characteristic'].length; idx++) {
+    const v_characteristic = value['characteristic'][idx]!;
+    writeCT_Characteristic(s, v_characteristic, ctx, 'characteristic');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 

@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type { CT_DatastoreItem, CT_DatastoreSchemaRef, CT_DatastoreSchemaRefs } from './types.js';
 
 // XML writers. Element names are supplied by the owning particle.
@@ -16,9 +21,12 @@ import type { CT_DatastoreItem, CT_DatastoreSchemaRef, CT_DatastoreSchemaRefs } 
 export function writeCT_DatastoreItem(s: XmlSink, value: CT_DatastoreItem, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'custom-xml'), localName);
   if (value['itemID'] !== undefined) s.attr(uriFor(ctx, 'custom-xml'), 'itemID', String(value['itemID']));
-  if (value['schemaRefs'] !== undefined) writeCT_DatastoreSchemaRefs(s, value['schemaRefs'], ctx, 'schemaRefs');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['schemaRefs'] !== undefined) writeCT_DatastoreSchemaRefs(s, value['schemaRefs'], ctx, 'schemaRefs');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -33,10 +41,15 @@ export function writeCT_DatastoreSchemaRef(s: XmlSink, value: CT_DatastoreSchema
 /** Write a `CT_DatastoreSchemaRefs`; the caller supplies its element local name. */
 export function writeCT_DatastoreSchemaRefs(s: XmlSink, value: CT_DatastoreSchemaRefs, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'custom-xml'), localName);
-  for (const v_schemaRef of value['schemaRef']) {
-    writeCT_DatastoreSchemaRef(s, v_schemaRef, ctx, 'schemaRef');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['schemaRef'].length; idx++) {
+    const v_schemaRef = value['schemaRef'][idx]!;
+    writeCT_DatastoreSchemaRef(s, v_schemaRef, ctx, 'schemaRef');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }

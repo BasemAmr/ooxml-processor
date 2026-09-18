@@ -70,6 +70,9 @@ function emitComplexWriter(ct: ModelComplexType, ctx: WriterContext, file: Sourc
     () => {
       file.line(`s.startElement(${uriFor}(ctx, ${stringLiteral(ct.name.ns)}), localName);`);
       for (const a of ct.attributes) emitAttribute(a, ctx, file);
+      file.line(
+        'for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);',
+      );
       if (ct.content.kind === 'simpleContent') {
         file.line(`s.text(String(value.$value));`);
       } else if (ct.content.kind === 'elements') {
@@ -81,14 +84,21 @@ function emitComplexWriter(ct: ModelComplexType, ctx: WriterContext, file: Sourc
         const slots = ct.content.slots;
         const hasUnknown =
           slots.length > 0 && !slots.some((x) => x.kind === 'choice' && x.cardinality.repeated);
-        for (const slot of slots) emitSlot(ct, slot, ctx, file);
         if (hasUnknown) {
-          file.line(`for (const u of value.$unknown ?? []) s.raw(u.node);`);
+          const queue = ctx.rt('PositionedRawQueue');
+          file.line(`const $q = new ${queue}(value.$unknown);`);
+          file.line('$q.flush(s, -1);');
+        }
+        slots.forEach((slot, i) => {
+          emitSlot(ct, slot, i, hasUnknown, ctx, file);
+          if (hasUnknown) {
+            file.line(`$q.flush(s, ${i});`);
+          }
+        });
+        if (hasUnknown) {
+          file.line('$q.flushRemaining(s);');
         }
       }
-      file.line(
-        'for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);',
-      );
       file.line('s.endElement();');
     },
   );
@@ -101,25 +111,37 @@ function emitAttribute(a: ModelAttribute, ctx: WriterContext, file: SourceFile):
   );
 }
 
-function emitSlot(ct: ModelComplexType, slot: Slot, ctx: WriterContext, file: SourceFile): void {
+function emitSlot(
+  ct: ModelComplexType,
+  slot: Slot,
+  slotIndex: number,
+  hasUnknown: boolean,
+  ctx: WriterContext,
+  file: SourceFile,
+): void {
   const p = `value[${stringLiteral(slot.prop)}]`;
   if (slot.kind === 'element') {
     if (!ctx.complex(slot.type)) {
       const one = `v_${safe(slot.prop)}`;
-      const values = slot.cardinality.repeated
-        ? `value[${stringLiteral(slot.prop)}]`
-        : `[value[${stringLiteral(slot.prop)}]]`;
-      file.line(
-        `for (const ${one} of ${values}) if (${one} !== undefined) s.text(String(${one}));`,
-      );
+      if (slot.cardinality.repeated) {
+        file.block(`for (let idx = 0; idx < ${p}.length; idx++) {`, () => {
+          file.line(`const ${one} = ${p}[idx];`);
+          file.line(`if (${one} !== undefined) s.text(String(${one}));`);
+          if (hasUnknown) file.line(`$q.flush(s, ${slotIndex}, idx);`);
+        });
+      } else {
+        file.line(`if (${p} !== undefined) s.text(String(${p}));`);
+      }
       return;
     }
     const w = ctx.writerFor(slot.type);
     const one = `v_${safe(slot.prop)}`;
     if (slot.cardinality.repeated) {
-      file.block(`for (const ${one} of ${p}) {`, () =>
-        file.line(`${w}(s, ${one}, ctx, ${stringLiteral(slot.element.name)});`),
-      );
+      file.block(`for (let idx = 0; idx < ${p}.length; idx++) {`, () => {
+        file.line(`const ${one} = ${p}[idx]!;`);
+        file.line(`${w}(s, ${one}, ctx, ${stringLiteral(slot.element.name)});`);
+        if (hasUnknown) file.line(`$q.flush(s, ${slotIndex}, idx);`);
+      });
     } else {
       file.line(`if (${p} !== undefined) ${w}(s, ${p}, ctx, ${stringLiteral(slot.element.name)});`);
     }

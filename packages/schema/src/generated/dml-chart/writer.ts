@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import {
   writeCT_ColorMapping,
   writeCT_ShapeProperties,
@@ -157,71 +162,121 @@ import type {
 /** Write a `CT_Area3DChart`; the caller supplies its element local name. */
 export function writeCT_Area3DChart(s: XmlSink, value: CT_Area3DChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_AreaSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
-  if (value['gapDepth'] !== undefined) writeCT_GapAmount(s, value['gapDepth'], ctx, 'gapDepth');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
+  $q.flush(s, 0);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_AreaSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 3);
+  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
+  $q.flush(s, 4);
+  if (value['gapDepth'] !== undefined) writeCT_GapAmount(s, value['gapDepth'], ctx, 'gapDepth');
+  $q.flush(s, 5);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 6, idx);
+  }
+  $q.flush(s, 6);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 7);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_AreaChart`; the caller supplies its element local name. */
 export function writeCT_AreaChart(s: XmlSink, value: CT_AreaChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_AreaSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
+  $q.flush(s, 0);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_AreaSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 3);
+  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 6);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_AreaSer`; the caller supplies its element local name. */
 export function writeCT_AreaSer(s: XmlSink, value: CT_AreaSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
-  for (const v_dPt of value['dPt']) {
-    writeCT_DPt(s, v_dPt, ctx, 'dPt');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  for (const v_trendline of value['trendline']) {
-    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
-  }
-  for (const v_errBars of value['errBars']) {
-    writeCT_ErrBars(s, v_errBars, ctx, 'errBars');
-  }
-  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
-  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['dPt'].length; idx++) {
+    const v_dPt = value['dPt'][idx]!;
+    writeCT_DPt(s, v_dPt, ctx, 'dPt');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 6);
+  for (let idx = 0; idx < value['trendline'].length; idx++) {
+    const v_trendline = value['trendline'][idx]!;
+    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
+    $q.flush(s, 7, idx);
+  }
+  $q.flush(s, 7);
+  for (let idx = 0; idx < value['errBars'].length; idx++) {
+    const v_errBars = value['errBars'][idx]!;
+    writeCT_ErrBars(s, v_errBars, ctx, 'errBars');
+    $q.flush(s, 8, idx);
+  }
+  $q.flush(s, 8);
+  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
+  $q.flush(s, 9);
+  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
+  $q.flush(s, 10);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 11);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_AxDataSource`; the caller supplies its element local name. */
 export function writeCT_AxDataSource(s: XmlSink, value: CT_AxDataSource, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'multiLvlStrRef') writeCT_MultiLvlStrRef(s, value['content'].value, ctx, 'multiLvlStrRef');
     if (value['content'].kind === 'numRef') writeCT_NumRef(s, value['content'].value, ctx, 'numRef');
@@ -229,8 +284,8 @@ export function writeCT_AxDataSource(s: XmlSink, value: CT_AxDataSource, ctx: Wr
     if (value['content'].kind === 'strRef') writeCT_StrRef(s, value['content'].value, ctx, 'strRef');
     if (value['content'].kind === 'strLit') writeCT_StrData(s, value['content'].value, ctx, 'strLit');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -253,67 +308,110 @@ export function writeCT_AxPos(s: XmlSink, value: CT_AxPos, ctx: WriteContext, lo
 /** Write a `CT_BandFmt`; the caller supplies its element local name. */
 export function writeCT_BandFmt(s: XmlSink, value: CT_BandFmt, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BandFmts`; the caller supplies its element local name. */
 export function writeCT_BandFmts(s: XmlSink, value: CT_BandFmts, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_bandFmt of value['bandFmt']) {
-    writeCT_BandFmt(s, v_bandFmt, ctx, 'bandFmt');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['bandFmt'].length; idx++) {
+    const v_bandFmt = value['bandFmt'][idx]!;
+    writeCT_BandFmt(s, v_bandFmt, ctx, 'bandFmt');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Bar3DChart`; the caller supplies its element local name. */
 export function writeCT_Bar3DChart(s: XmlSink, value: CT_Bar3DChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['barDir'] !== undefined) writeCT_BarDir(s, value['barDir'], ctx, 'barDir');
-  if (value['grouping'] !== undefined) writeCT_BarGrouping(s, value['grouping'], ctx, 'grouping');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_BarSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
-  if (value['gapDepth'] !== undefined) writeCT_GapAmount(s, value['gapDepth'], ctx, 'gapDepth');
-  if (value['shape'] !== undefined) writeCT_Shape(s, value['shape'], ctx, 'shape');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['barDir'] !== undefined) writeCT_BarDir(s, value['barDir'], ctx, 'barDir');
+  $q.flush(s, 0);
+  if (value['grouping'] !== undefined) writeCT_BarGrouping(s, value['grouping'], ctx, 'grouping');
+  $q.flush(s, 1);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 2);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_BarSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 3, idx);
+  }
+  $q.flush(s, 3);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 4);
+  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
+  $q.flush(s, 5);
+  if (value['gapDepth'] !== undefined) writeCT_GapAmount(s, value['gapDepth'], ctx, 'gapDepth');
+  $q.flush(s, 6);
+  if (value['shape'] !== undefined) writeCT_Shape(s, value['shape'], ctx, 'shape');
+  $q.flush(s, 7);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 8, idx);
+  }
+  $q.flush(s, 8);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_BarChart`; the caller supplies its element local name. */
 export function writeCT_BarChart(s: XmlSink, value: CT_BarChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['barDir'] !== undefined) writeCT_BarDir(s, value['barDir'], ctx, 'barDir');
-  if (value['grouping'] !== undefined) writeCT_BarGrouping(s, value['grouping'], ctx, 'grouping');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_BarSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
-  if (value['overlap'] !== undefined) writeCT_Overlap(s, value['overlap'], ctx, 'overlap');
-  for (const v_serLines of value['serLines']) {
-    writeCT_ChartLines(s, v_serLines, ctx, 'serLines');
-  }
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['barDir'] !== undefined) writeCT_BarDir(s, value['barDir'], ctx, 'barDir');
+  $q.flush(s, 0);
+  if (value['grouping'] !== undefined) writeCT_BarGrouping(s, value['grouping'], ctx, 'grouping');
+  $q.flush(s, 1);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 2);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_BarSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 3, idx);
+  }
+  $q.flush(s, 3);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 4);
+  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
+  $q.flush(s, 5);
+  if (value['overlap'] !== undefined) writeCT_Overlap(s, value['overlap'], ctx, 'overlap');
+  $q.flush(s, 6);
+  for (let idx = 0; idx < value['serLines'].length; idx++) {
+    const v_serLines = value['serLines'][idx]!;
+    writeCT_ChartLines(s, v_serLines, ctx, 'serLines');
+    $q.flush(s, 7, idx);
+  }
+  $q.flush(s, 7);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 8, idx);
+  }
+  $q.flush(s, 8);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -336,26 +434,46 @@ export function writeCT_BarGrouping(s: XmlSink, value: CT_BarGrouping, ctx: Writ
 /** Write a `CT_BarSer`; the caller supplies its element local name. */
 export function writeCT_BarSer(s: XmlSink, value: CT_BarSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['invertIfNegative'] !== undefined) writeCT_Boolean(s, value['invertIfNegative'], ctx, 'invertIfNegative');
-  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
-  for (const v_dPt of value['dPt']) {
-    writeCT_DPt(s, v_dPt, ctx, 'dPt');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  for (const v_trendline of value['trendline']) {
-    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
-  }
-  if (value['errBars'] !== undefined) writeCT_ErrBars(s, value['errBars'], ctx, 'errBars');
-  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
-  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
-  if (value['shape'] !== undefined) writeCT_Shape(s, value['shape'], ctx, 'shape');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['invertIfNegative'] !== undefined) writeCT_Boolean(s, value['invertIfNegative'], ctx, 'invertIfNegative');
+  $q.flush(s, 4);
+  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
+  $q.flush(s, 5);
+  for (let idx = 0; idx < value['dPt'].length; idx++) {
+    const v_dPt = value['dPt'][idx]!;
+    writeCT_DPt(s, v_dPt, ctx, 'dPt');
+    $q.flush(s, 6, idx);
+  }
+  $q.flush(s, 6);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 7);
+  for (let idx = 0; idx < value['trendline'].length; idx++) {
+    const v_trendline = value['trendline'][idx]!;
+    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
+    $q.flush(s, 8, idx);
+  }
+  $q.flush(s, 8);
+  if (value['errBars'] !== undefined) writeCT_ErrBars(s, value['errBars'], ctx, 'errBars');
+  $q.flush(s, 9);
+  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
+  $q.flush(s, 10);
+  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
+  $q.flush(s, 11);
+  if (value['shape'] !== undefined) writeCT_Shape(s, value['shape'], ctx, 'shape');
+  $q.flush(s, 12);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 13);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -370,21 +488,36 @@ export function writeCT_Boolean(s: XmlSink, value: CT_Boolean, ctx: WriteContext
 /** Write a `CT_BubbleChart`; the caller supplies its element local name. */
 export function writeCT_BubbleChart(s: XmlSink, value: CT_BubbleChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_BubbleSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['bubble3D'] !== undefined) writeCT_Boolean(s, value['bubble3D'], ctx, 'bubble3D');
-  if (value['bubbleScale'] !== undefined) writeCT_BubbleScale(s, value['bubbleScale'], ctx, 'bubbleScale');
-  if (value['showNegBubbles'] !== undefined) writeCT_Boolean(s, value['showNegBubbles'], ctx, 'showNegBubbles');
-  if (value['sizeRepresents'] !== undefined) writeCT_SizeRepresents(s, value['sizeRepresents'], ctx, 'sizeRepresents');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_BubbleSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 2);
+  if (value['bubble3D'] !== undefined) writeCT_Boolean(s, value['bubble3D'], ctx, 'bubble3D');
+  $q.flush(s, 3);
+  if (value['bubbleScale'] !== undefined) writeCT_BubbleScale(s, value['bubbleScale'], ctx, 'bubbleScale');
+  $q.flush(s, 4);
+  if (value['showNegBubbles'] !== undefined) writeCT_Boolean(s, value['showNegBubbles'], ctx, 'showNegBubbles');
+  $q.flush(s, 5);
+  if (value['sizeRepresents'] !== undefined) writeCT_SizeRepresents(s, value['sizeRepresents'], ctx, 'sizeRepresents');
+  $q.flush(s, 6);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 7, idx);
+  }
+  $q.flush(s, 7);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 8);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -399,28 +532,50 @@ export function writeCT_BubbleScale(s: XmlSink, value: CT_BubbleScale, ctx: Writ
 /** Write a `CT_BubbleSer`; the caller supplies its element local name. */
 export function writeCT_BubbleSer(s: XmlSink, value: CT_BubbleSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['invertIfNegative'] !== undefined) writeCT_Boolean(s, value['invertIfNegative'], ctx, 'invertIfNegative');
-  for (const v_dPt of value['dPt']) {
-    writeCT_DPt(s, v_dPt, ctx, 'dPt');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  for (const v_trendline of value['trendline']) {
-    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
-  }
-  for (const v_errBars of value['errBars']) {
-    writeCT_ErrBars(s, v_errBars, ctx, 'errBars');
-  }
-  if (value['xVal'] !== undefined) writeCT_AxDataSource(s, value['xVal'], ctx, 'xVal');
-  if (value['yVal'] !== undefined) writeCT_NumDataSource(s, value['yVal'], ctx, 'yVal');
-  if (value['bubbleSize'] !== undefined) writeCT_NumDataSource(s, value['bubbleSize'], ctx, 'bubbleSize');
-  if (value['bubble3D'] !== undefined) writeCT_Boolean(s, value['bubble3D'], ctx, 'bubble3D');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['invertIfNegative'] !== undefined) writeCT_Boolean(s, value['invertIfNegative'], ctx, 'invertIfNegative');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['dPt'].length; idx++) {
+    const v_dPt = value['dPt'][idx]!;
+    writeCT_DPt(s, v_dPt, ctx, 'dPt');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 6);
+  for (let idx = 0; idx < value['trendline'].length; idx++) {
+    const v_trendline = value['trendline'][idx]!;
+    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
+    $q.flush(s, 7, idx);
+  }
+  $q.flush(s, 7);
+  for (let idx = 0; idx < value['errBars'].length; idx++) {
+    const v_errBars = value['errBars'][idx]!;
+    writeCT_ErrBars(s, v_errBars, ctx, 'errBars');
+    $q.flush(s, 8, idx);
+  }
+  $q.flush(s, 8);
+  if (value['xVal'] !== undefined) writeCT_AxDataSource(s, value['xVal'], ctx, 'xVal');
+  $q.flush(s, 9);
+  if (value['yVal'] !== undefined) writeCT_NumDataSource(s, value['yVal'], ctx, 'yVal');
+  $q.flush(s, 10);
+  if (value['bubbleSize'] !== undefined) writeCT_NumDataSource(s, value['bubbleSize'], ctx, 'bubbleSize');
+  $q.flush(s, 11);
+  if (value['bubble3D'] !== undefined) writeCT_Boolean(s, value['bubble3D'], ctx, 'bubble3D');
+  $q.flush(s, 12);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 13);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -435,85 +590,143 @@ export function writeCT_BuiltInUnit(s: XmlSink, value: CT_BuiltInUnit, ctx: Writ
 /** Write a `CT_CatAx`; the caller supplies its element local name. */
 export function writeCT_CatAx(s: XmlSink, value: CT_CatAx, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['axId'] !== undefined) writeCT_UnsignedInt(s, value['axId'], ctx, 'axId');
+  $q.flush(s, 0);
   if (value['scaling'] !== undefined) writeCT_Scaling(s, value['scaling'], ctx, 'scaling');
+  $q.flush(s, 1);
   if (value['delete'] !== undefined) writeCT_Boolean(s, value['delete'], ctx, 'delete');
+  $q.flush(s, 2);
   if (value['axPos'] !== undefined) writeCT_AxPos(s, value['axPos'], ctx, 'axPos');
+  $q.flush(s, 3);
   if (value['majorGridlines'] !== undefined) writeCT_ChartLines(s, value['majorGridlines'], ctx, 'majorGridlines');
+  $q.flush(s, 4);
   if (value['minorGridlines'] !== undefined) writeCT_ChartLines(s, value['minorGridlines'], ctx, 'minorGridlines');
+  $q.flush(s, 5);
   if (value['title'] !== undefined) writeCT_Title(s, value['title'], ctx, 'title');
+  $q.flush(s, 6);
   if (value['numFmt'] !== undefined) writeCT_NumFmt(s, value['numFmt'], ctx, 'numFmt');
+  $q.flush(s, 7);
   if (value['majorTickMark'] !== undefined) writeCT_TickMark(s, value['majorTickMark'], ctx, 'majorTickMark');
+  $q.flush(s, 8);
   if (value['minorTickMark'] !== undefined) writeCT_TickMark(s, value['minorTickMark'], ctx, 'minorTickMark');
+  $q.flush(s, 9);
   if (value['tickLblPos'] !== undefined) writeCT_TickLblPos(s, value['tickLblPos'], ctx, 'tickLblPos');
+  $q.flush(s, 10);
   if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 11);
   if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 12);
   if (value['crossAx'] !== undefined) writeCT_UnsignedInt(s, value['crossAx'], ctx, 'crossAx');
+  $q.flush(s, 13);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'crosses') writeCT_Crosses(s, value['content'].value, ctx, 'crosses');
     if (value['content'].kind === 'crossesAt') writeCT_Double(s, value['content'].value, ctx, 'crossesAt');
   }
+  $q.flush(s, 14);
   if (value['auto'] !== undefined) writeCT_Boolean(s, value['auto'], ctx, 'auto');
+  $q.flush(s, 15);
   if (value['lblAlgn'] !== undefined) writeCT_LblAlgn(s, value['lblAlgn'], ctx, 'lblAlgn');
+  $q.flush(s, 16);
   if (value['lblOffset'] !== undefined) writeCT_LblOffset(s, value['lblOffset'], ctx, 'lblOffset');
+  $q.flush(s, 17);
   if (value['tickLblSkip'] !== undefined) writeCT_Skip(s, value['tickLblSkip'], ctx, 'tickLblSkip');
+  $q.flush(s, 18);
   if (value['tickMarkSkip'] !== undefined) writeCT_Skip(s, value['tickMarkSkip'], ctx, 'tickMarkSkip');
+  $q.flush(s, 19);
   if (value['noMultiLvlLbl'] !== undefined) writeCT_Boolean(s, value['noMultiLvlLbl'], ctx, 'noMultiLvlLbl');
+  $q.flush(s, 20);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 21);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Chart`; the caller supplies its element local name. */
 export function writeCT_Chart(s: XmlSink, value: CT_Chart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['title'] !== undefined) writeCT_Title(s, value['title'], ctx, 'title');
-  if (value['autoTitleDeleted'] !== undefined) writeCT_Boolean(s, value['autoTitleDeleted'], ctx, 'autoTitleDeleted');
-  if (value['pivotFmts'] !== undefined) writeCT_PivotFmts(s, value['pivotFmts'], ctx, 'pivotFmts');
-  if (value['view3D'] !== undefined) writeCT_View3D(s, value['view3D'], ctx, 'view3D');
-  if (value['floor'] !== undefined) writeCT_Surface(s, value['floor'], ctx, 'floor');
-  if (value['sideWall'] !== undefined) writeCT_Surface(s, value['sideWall'], ctx, 'sideWall');
-  if (value['backWall'] !== undefined) writeCT_Surface(s, value['backWall'], ctx, 'backWall');
-  if (value['plotArea'] !== undefined) writeCT_PlotArea(s, value['plotArea'], ctx, 'plotArea');
-  if (value['legend'] !== undefined) writeCT_Legend(s, value['legend'], ctx, 'legend');
-  if (value['plotVisOnly'] !== undefined) writeCT_Boolean(s, value['plotVisOnly'], ctx, 'plotVisOnly');
-  if (value['dispBlanksAs'] !== undefined) writeCT_DispBlanksAs(s, value['dispBlanksAs'], ctx, 'dispBlanksAs');
-  if (value['showDLblsOverMax'] !== undefined) writeCT_Boolean(s, value['showDLblsOverMax'], ctx, 'showDLblsOverMax');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['title'] !== undefined) writeCT_Title(s, value['title'], ctx, 'title');
+  $q.flush(s, 0);
+  if (value['autoTitleDeleted'] !== undefined) writeCT_Boolean(s, value['autoTitleDeleted'], ctx, 'autoTitleDeleted');
+  $q.flush(s, 1);
+  if (value['pivotFmts'] !== undefined) writeCT_PivotFmts(s, value['pivotFmts'], ctx, 'pivotFmts');
+  $q.flush(s, 2);
+  if (value['view3D'] !== undefined) writeCT_View3D(s, value['view3D'], ctx, 'view3D');
+  $q.flush(s, 3);
+  if (value['floor'] !== undefined) writeCT_Surface(s, value['floor'], ctx, 'floor');
+  $q.flush(s, 4);
+  if (value['sideWall'] !== undefined) writeCT_Surface(s, value['sideWall'], ctx, 'sideWall');
+  $q.flush(s, 5);
+  if (value['backWall'] !== undefined) writeCT_Surface(s, value['backWall'], ctx, 'backWall');
+  $q.flush(s, 6);
+  if (value['plotArea'] !== undefined) writeCT_PlotArea(s, value['plotArea'], ctx, 'plotArea');
+  $q.flush(s, 7);
+  if (value['legend'] !== undefined) writeCT_Legend(s, value['legend'], ctx, 'legend');
+  $q.flush(s, 8);
+  if (value['plotVisOnly'] !== undefined) writeCT_Boolean(s, value['plotVisOnly'], ctx, 'plotVisOnly');
+  $q.flush(s, 9);
+  if (value['dispBlanksAs'] !== undefined) writeCT_DispBlanksAs(s, value['dispBlanksAs'], ctx, 'dispBlanksAs');
+  $q.flush(s, 10);
+  if (value['showDLblsOverMax'] !== undefined) writeCT_Boolean(s, value['showDLblsOverMax'], ctx, 'showDLblsOverMax');
+  $q.flush(s, 11);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 12);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ChartLines`; the caller supplies its element local name. */
 export function writeCT_ChartLines(s: XmlSink, value: CT_ChartLines, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ChartSpace`; the caller supplies its element local name. */
 export function writeCT_ChartSpace(s: XmlSink, value: CT_ChartSpace, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['date1904'] !== undefined) writeCT_Boolean(s, value['date1904'], ctx, 'date1904');
-  if (value['lang'] !== undefined) writeCT_TextLanguageID(s, value['lang'], ctx, 'lang');
-  if (value['roundedCorners'] !== undefined) writeCT_Boolean(s, value['roundedCorners'], ctx, 'roundedCorners');
-  if (value['style'] !== undefined) writeCT_Style(s, value['style'], ctx, 'style');
-  if (value['clrMapOvr'] !== undefined) writeCT_ColorMapping(s, value['clrMapOvr'], ctx, 'clrMapOvr');
-  if (value['pivotSource'] !== undefined) writeCT_PivotSource(s, value['pivotSource'], ctx, 'pivotSource');
-  if (value['protection'] !== undefined) writeCT_Protection(s, value['protection'], ctx, 'protection');
-  if (value['chart'] !== undefined) writeCT_Chart(s, value['chart'], ctx, 'chart');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
-  if (value['externalData'] !== undefined) writeCT_ExternalData(s, value['externalData'], ctx, 'externalData');
-  if (value['printSettings'] !== undefined) writeCT_PrintSettings(s, value['printSettings'], ctx, 'printSettings');
-  if (value['userShapes'] !== undefined) writeCT_RelId(s, value['userShapes'], ctx, 'userShapes');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['date1904'] !== undefined) writeCT_Boolean(s, value['date1904'], ctx, 'date1904');
+  $q.flush(s, 0);
+  if (value['lang'] !== undefined) writeCT_TextLanguageID(s, value['lang'], ctx, 'lang');
+  $q.flush(s, 1);
+  if (value['roundedCorners'] !== undefined) writeCT_Boolean(s, value['roundedCorners'], ctx, 'roundedCorners');
+  $q.flush(s, 2);
+  if (value['style'] !== undefined) writeCT_Style(s, value['style'], ctx, 'style');
+  $q.flush(s, 3);
+  if (value['clrMapOvr'] !== undefined) writeCT_ColorMapping(s, value['clrMapOvr'], ctx, 'clrMapOvr');
+  $q.flush(s, 4);
+  if (value['pivotSource'] !== undefined) writeCT_PivotSource(s, value['pivotSource'], ctx, 'pivotSource');
+  $q.flush(s, 5);
+  if (value['protection'] !== undefined) writeCT_Protection(s, value['protection'], ctx, 'protection');
+  $q.flush(s, 6);
+  if (value['chart'] !== undefined) writeCT_Chart(s, value['chart'], ctx, 'chart');
+  $q.flush(s, 7);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 8);
+  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 9);
+  if (value['externalData'] !== undefined) writeCT_ExternalData(s, value['externalData'], ctx, 'externalData');
+  $q.flush(s, 10);
+  if (value['printSettings'] !== undefined) writeCT_PrintSettings(s, value['printSettings'], ctx, 'printSettings');
+  $q.flush(s, 11);
+  if (value['userShapes'] !== undefined) writeCT_RelId(s, value['userShapes'], ctx, 'userShapes');
+  $q.flush(s, 12);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 13);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -536,45 +749,75 @@ export function writeCT_Crosses(s: XmlSink, value: CT_Crosses, ctx: WriteContext
 /** Write a `CT_CustSplit`; the caller supplies its element local name. */
 export function writeCT_CustSplit(s: XmlSink, value: CT_CustSplit, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_secondPiePt of value['secondPiePt']) {
-    writeCT_UnsignedInt(s, v_secondPiePt, ctx, 'secondPiePt');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['secondPiePt'].length; idx++) {
+    const v_secondPiePt = value['secondPiePt'][idx]!;
+    writeCT_UnsignedInt(s, v_secondPiePt, ctx, 'secondPiePt');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DateAx`; the caller supplies its element local name. */
 export function writeCT_DateAx(s: XmlSink, value: CT_DateAx, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['axId'] !== undefined) writeCT_UnsignedInt(s, value['axId'], ctx, 'axId');
+  $q.flush(s, 0);
   if (value['scaling'] !== undefined) writeCT_Scaling(s, value['scaling'], ctx, 'scaling');
+  $q.flush(s, 1);
   if (value['delete'] !== undefined) writeCT_Boolean(s, value['delete'], ctx, 'delete');
+  $q.flush(s, 2);
   if (value['axPos'] !== undefined) writeCT_AxPos(s, value['axPos'], ctx, 'axPos');
+  $q.flush(s, 3);
   if (value['majorGridlines'] !== undefined) writeCT_ChartLines(s, value['majorGridlines'], ctx, 'majorGridlines');
+  $q.flush(s, 4);
   if (value['minorGridlines'] !== undefined) writeCT_ChartLines(s, value['minorGridlines'], ctx, 'minorGridlines');
+  $q.flush(s, 5);
   if (value['title'] !== undefined) writeCT_Title(s, value['title'], ctx, 'title');
+  $q.flush(s, 6);
   if (value['numFmt'] !== undefined) writeCT_NumFmt(s, value['numFmt'], ctx, 'numFmt');
+  $q.flush(s, 7);
   if (value['majorTickMark'] !== undefined) writeCT_TickMark(s, value['majorTickMark'], ctx, 'majorTickMark');
+  $q.flush(s, 8);
   if (value['minorTickMark'] !== undefined) writeCT_TickMark(s, value['minorTickMark'], ctx, 'minorTickMark');
+  $q.flush(s, 9);
   if (value['tickLblPos'] !== undefined) writeCT_TickLblPos(s, value['tickLblPos'], ctx, 'tickLblPos');
+  $q.flush(s, 10);
   if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 11);
   if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 12);
   if (value['crossAx'] !== undefined) writeCT_UnsignedInt(s, value['crossAx'], ctx, 'crossAx');
+  $q.flush(s, 13);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'crosses') writeCT_Crosses(s, value['content'].value, ctx, 'crosses');
     if (value['content'].kind === 'crossesAt') writeCT_Double(s, value['content'].value, ctx, 'crossesAt');
   }
+  $q.flush(s, 14);
   if (value['auto'] !== undefined) writeCT_Boolean(s, value['auto'], ctx, 'auto');
+  $q.flush(s, 15);
   if (value['lblOffset'] !== undefined) writeCT_LblOffset(s, value['lblOffset'], ctx, 'lblOffset');
+  $q.flush(s, 16);
   if (value['baseTimeUnit'] !== undefined) writeCT_TimeUnit(s, value['baseTimeUnit'], ctx, 'baseTimeUnit');
+  $q.flush(s, 17);
   if (value['majorUnit'] !== undefined) writeCT_AxisUnit(s, value['majorUnit'], ctx, 'majorUnit');
+  $q.flush(s, 18);
   if (value['majorTimeUnit'] !== undefined) writeCT_TimeUnit(s, value['majorTimeUnit'], ctx, 'majorTimeUnit');
+  $q.flush(s, 19);
   if (value['minorUnit'] !== undefined) writeCT_AxisUnit(s, value['minorUnit'], ctx, 'minorUnit');
+  $q.flush(s, 20);
   if (value['minorTimeUnit'] !== undefined) writeCT_TimeUnit(s, value['minorTimeUnit'], ctx, 'minorTimeUnit');
+  $q.flush(s, 21);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 22);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -597,33 +840,48 @@ export function writeCT_DispBlanksAs(s: XmlSink, value: CT_DispBlanksAs, ctx: Wr
 /** Write a `CT_DispUnits`; the caller supplies its element local name. */
 export function writeCT_DispUnits(s: XmlSink, value: CT_DispUnits, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'custUnit') writeCT_Double(s, value['content'].value, ctx, 'custUnit');
     if (value['content'].kind === 'builtInUnit') writeCT_BuiltInUnit(s, value['content'].value, ctx, 'builtInUnit');
   }
+  $q.flush(s, 0);
   if (value['dispUnitsLbl'] !== undefined) writeCT_DispUnitsLbl(s, value['dispUnitsLbl'], ctx, 'dispUnitsLbl');
+  $q.flush(s, 1);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DispUnitsLbl`; the caller supplies its element local name. */
 export function writeCT_DispUnitsLbl(s: XmlSink, value: CT_DispUnitsLbl, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
-  if (value['tx'] !== undefined) writeCT_Tx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
+  $q.flush(s, 0);
+  if (value['tx'] !== undefined) writeCT_Tx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 2);
+  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DLbl`; the caller supplies its element local name. */
 export function writeCT_DLbl(s: XmlSink, value: CT_DLbl, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'delete') writeCT_Boolean(s, value['content'].value, ctx, 'delete');
     if (value['content'].kind === 'layout') writeCT_Layout(s, value['content'].value, ctx, 'layout');
@@ -640,9 +898,10 @@ export function writeCT_DLbl(s: XmlSink, value: CT_DLbl, ctx: WriteContext, loca
     if (value['content'].kind === 'showBubbleSize') writeCT_Boolean(s, value['content'].value, ctx, 'showBubbleSize');
     if (value['content'].kind === 'separator') s.text(String(value['content'].value));
   }
+  $q.flush(s, 1);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -657,9 +916,15 @@ export function writeCT_DLblPos(s: XmlSink, value: CT_DLblPos, ctx: WriteContext
 /** Write a `CT_DLbls`; the caller supplies its element local name. */
 export function writeCT_DLbls(s: XmlSink, value: CT_DLbls, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_dLbl of value['dLbl']) {
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['dLbl'].length; idx++) {
+    const v_dLbl = value['dLbl'][idx]!;
     writeCT_DLbl(s, v_dLbl, ctx, 'dLbl');
+    $q.flush(s, 0, idx);
   }
+  $q.flush(s, 0);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'delete') writeCT_Boolean(s, value['content'].value, ctx, 'delete');
     if (value['content'].kind === 'numFmt') writeCT_NumFmt(s, value['content'].value, ctx, 'numFmt');
@@ -676,9 +941,10 @@ export function writeCT_DLbls(s: XmlSink, value: CT_DLbls, ctx: WriteContext, lo
     if (value['content'].kind === 'showLeaderLines') writeCT_Boolean(s, value['content'].value, ctx, 'showLeaderLines');
     if (value['content'].kind === 'leaderLines') writeCT_ChartLines(s, value['content'].value, ctx, 'leaderLines');
   }
+  $q.flush(s, 1);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -693,64 +959,104 @@ export function writeCT_Double(s: XmlSink, value: CT_Double, ctx: WriteContext, 
 /** Write a `CT_DoughnutChart`; the caller supplies its element local name. */
 export function writeCT_DoughnutChart(s: XmlSink, value: CT_DoughnutChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_PieSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['firstSliceAng'] !== undefined) writeCT_FirstSliceAng(s, value['firstSliceAng'], ctx, 'firstSliceAng');
-  if (value['holeSize'] !== undefined) writeCT_HoleSize(s, value['holeSize'], ctx, 'holeSize');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_PieSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 2);
+  if (value['firstSliceAng'] !== undefined) writeCT_FirstSliceAng(s, value['firstSliceAng'], ctx, 'firstSliceAng');
+  $q.flush(s, 3);
+  if (value['holeSize'] !== undefined) writeCT_HoleSize(s, value['holeSize'], ctx, 'holeSize');
+  $q.flush(s, 4);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DPt`; the caller supplies its element local name. */
 export function writeCT_DPt(s: XmlSink, value: CT_DPt, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['invertIfNegative'] !== undefined) writeCT_Boolean(s, value['invertIfNegative'], ctx, 'invertIfNegative');
-  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
-  if (value['bubble3D'] !== undefined) writeCT_Boolean(s, value['bubble3D'], ctx, 'bubble3D');
-  if (value['explosion'] !== undefined) writeCT_UnsignedInt(s, value['explosion'], ctx, 'explosion');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['invertIfNegative'] !== undefined) writeCT_Boolean(s, value['invertIfNegative'], ctx, 'invertIfNegative');
+  $q.flush(s, 1);
+  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
+  $q.flush(s, 2);
+  if (value['bubble3D'] !== undefined) writeCT_Boolean(s, value['bubble3D'], ctx, 'bubble3D');
+  $q.flush(s, 3);
+  if (value['explosion'] !== undefined) writeCT_UnsignedInt(s, value['explosion'], ctx, 'explosion');
+  $q.flush(s, 4);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 5);
+  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
+  $q.flush(s, 6);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 7);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_DTable`; the caller supplies its element local name. */
 export function writeCT_DTable(s: XmlSink, value: CT_DTable, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['showHorzBorder'] !== undefined) writeCT_Boolean(s, value['showHorzBorder'], ctx, 'showHorzBorder');
-  if (value['showVertBorder'] !== undefined) writeCT_Boolean(s, value['showVertBorder'], ctx, 'showVertBorder');
-  if (value['showOutline'] !== undefined) writeCT_Boolean(s, value['showOutline'], ctx, 'showOutline');
-  if (value['showKeys'] !== undefined) writeCT_Boolean(s, value['showKeys'], ctx, 'showKeys');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['showHorzBorder'] !== undefined) writeCT_Boolean(s, value['showHorzBorder'], ctx, 'showHorzBorder');
+  $q.flush(s, 0);
+  if (value['showVertBorder'] !== undefined) writeCT_Boolean(s, value['showVertBorder'], ctx, 'showVertBorder');
+  $q.flush(s, 1);
+  if (value['showOutline'] !== undefined) writeCT_Boolean(s, value['showOutline'], ctx, 'showOutline');
+  $q.flush(s, 2);
+  if (value['showKeys'] !== undefined) writeCT_Boolean(s, value['showKeys'], ctx, 'showKeys');
+  $q.flush(s, 3);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 4);
+  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 5);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 6);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ErrBars`; the caller supplies its element local name. */
 export function writeCT_ErrBars(s: XmlSink, value: CT_ErrBars, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['errDir'] !== undefined) writeCT_ErrDir(s, value['errDir'], ctx, 'errDir');
-  if (value['errBarType'] !== undefined) writeCT_ErrBarType(s, value['errBarType'], ctx, 'errBarType');
-  if (value['errValType'] !== undefined) writeCT_ErrValType(s, value['errValType'], ctx, 'errValType');
-  if (value['noEndCap'] !== undefined) writeCT_Boolean(s, value['noEndCap'], ctx, 'noEndCap');
-  if (value['plus'] !== undefined) writeCT_NumDataSource(s, value['plus'], ctx, 'plus');
-  if (value['minus'] !== undefined) writeCT_NumDataSource(s, value['minus'], ctx, 'minus');
-  if (value['val'] !== undefined) writeCT_Double(s, value['val'], ctx, 'val');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['errDir'] !== undefined) writeCT_ErrDir(s, value['errDir'], ctx, 'errDir');
+  $q.flush(s, 0);
+  if (value['errBarType'] !== undefined) writeCT_ErrBarType(s, value['errBarType'], ctx, 'errBarType');
+  $q.flush(s, 1);
+  if (value['errValType'] !== undefined) writeCT_ErrValType(s, value['errValType'], ctx, 'errValType');
+  $q.flush(s, 2);
+  if (value['noEndCap'] !== undefined) writeCT_Boolean(s, value['noEndCap'], ctx, 'noEndCap');
+  $q.flush(s, 3);
+  if (value['plus'] !== undefined) writeCT_NumDataSource(s, value['plus'], ctx, 'plus');
+  $q.flush(s, 4);
+  if (value['minus'] !== undefined) writeCT_NumDataSource(s, value['minus'], ctx, 'minus');
+  $q.flush(s, 5);
+  if (value['val'] !== undefined) writeCT_Double(s, value['val'], ctx, 'val');
+  $q.flush(s, 6);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 7);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 8);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -782,22 +1088,30 @@ export function writeCT_ErrValType(s: XmlSink, value: CT_ErrValType, ctx: WriteC
 export function writeCT_Extension(s: XmlSink, value: CT_Extension, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
   if (value['uri'] !== undefined) s.attr(null, 'uri', String(value['uri']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   for (const raw of value['any']) {
     s.raw(raw);
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ExtensionList`; the caller supplies its element local name. */
 export function writeCT_ExtensionList(s: XmlSink, value: CT_ExtensionList, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_ext of value['ext']) {
-    writeCT_Extension(s, v_ext, ctx, 'ext');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['ext'].length; idx++) {
+    const v_ext = value['ext'][idx]!;
+    writeCT_Extension(s, v_ext, ctx, 'ext');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -805,9 +1119,12 @@ export function writeCT_ExtensionList(s: XmlSink, value: CT_ExtensionList, ctx: 
 export function writeCT_ExternalData(s: XmlSink, value: CT_ExternalData, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
   if (value['id'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'id', String(value['id']));
-  if (value['autoUpdate'] !== undefined) writeCT_Boolean(s, value['autoUpdate'], ctx, 'autoUpdate');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['autoUpdate'] !== undefined) writeCT_Boolean(s, value['autoUpdate'], ctx, 'autoUpdate');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -841,14 +1158,22 @@ export function writeCT_HeaderFooter(s: XmlSink, value: CT_HeaderFooter, ctx: Wr
   if (value['alignWithMargins'] !== undefined) s.attr(null, 'alignWithMargins', String(value['alignWithMargins']));
   if (value['differentOddEven'] !== undefined) s.attr(null, 'differentOddEven', String(value['differentOddEven']));
   if (value['differentFirst'] !== undefined) s.attr(null, 'differentFirst', String(value['differentFirst']));
-  for (const v_oddHeader of [value['oddHeader']]) if (v_oddHeader !== undefined) s.text(String(v_oddHeader));
-  for (const v_oddFooter of [value['oddFooter']]) if (v_oddFooter !== undefined) s.text(String(v_oddFooter));
-  for (const v_evenHeader of [value['evenHeader']]) if (v_evenHeader !== undefined) s.text(String(v_evenHeader));
-  for (const v_evenFooter of [value['evenFooter']]) if (v_evenFooter !== undefined) s.text(String(v_evenFooter));
-  for (const v_firstHeader of [value['firstHeader']]) if (v_firstHeader !== undefined) s.text(String(v_firstHeader));
-  for (const v_firstFooter of [value['firstFooter']]) if (v_firstFooter !== undefined) s.text(String(v_firstFooter));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['oddHeader'] !== undefined) s.text(String(value['oddHeader']));
+  $q.flush(s, 0);
+  if (value['oddFooter'] !== undefined) s.text(String(value['oddFooter']));
+  $q.flush(s, 1);
+  if (value['evenHeader'] !== undefined) s.text(String(value['evenHeader']));
+  $q.flush(s, 2);
+  if (value['evenFooter'] !== undefined) s.text(String(value['evenFooter']));
+  $q.flush(s, 3);
+  if (value['firstHeader'] !== undefined) s.text(String(value['firstHeader']));
+  $q.flush(s, 4);
+  if (value['firstFooter'] !== undefined) s.text(String(value['firstFooter']));
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -871,10 +1196,14 @@ export function writeCT_HPercent(s: XmlSink, value: CT_HPercent, ctx: WriteConte
 /** Write a `CT_Layout`; the caller supplies its element local name. */
 export function writeCT_Layout(s: XmlSink, value: CT_Layout, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['manualLayout'] !== undefined) writeCT_ManualLayout(s, value['manualLayout'], ctx, 'manualLayout');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['manualLayout'] !== undefined) writeCT_ManualLayout(s, value['manualLayout'], ctx, 'manualLayout');
+  $q.flush(s, 0);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -913,31 +1242,47 @@ export function writeCT_LblOffset(s: XmlSink, value: CT_LblOffset, ctx: WriteCon
 /** Write a `CT_Legend`; the caller supplies its element local name. */
 export function writeCT_Legend(s: XmlSink, value: CT_Legend, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['legendPos'] !== undefined) writeCT_LegendPos(s, value['legendPos'], ctx, 'legendPos');
-  for (const v_legendEntry of value['legendEntry']) {
-    writeCT_LegendEntry(s, v_legendEntry, ctx, 'legendEntry');
-  }
-  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
-  if (value['overlay'] !== undefined) writeCT_Boolean(s, value['overlay'], ctx, 'overlay');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['legendPos'] !== undefined) writeCT_LegendPos(s, value['legendPos'], ctx, 'legendPos');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['legendEntry'].length; idx++) {
+    const v_legendEntry = value['legendEntry'][idx]!;
+    writeCT_LegendEntry(s, v_legendEntry, ctx, 'legendEntry');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
+  $q.flush(s, 2);
+  if (value['overlay'] !== undefined) writeCT_Boolean(s, value['overlay'], ctx, 'overlay');
+  $q.flush(s, 3);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 4);
+  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 5);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 6);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_LegendEntry`; the caller supplies its element local name. */
 export function writeCT_LegendEntry(s: XmlSink, value: CT_LegendEntry, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'delete') writeCT_Boolean(s, value['content'].value, ctx, 'delete');
     if (value['content'].kind === 'txPr') writeCT_TextBody(s, value['content'].value, ctx, 'txPr');
   }
+  $q.flush(s, 1);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -952,68 +1297,118 @@ export function writeCT_LegendPos(s: XmlSink, value: CT_LegendPos, ctx: WriteCon
 /** Write a `CT_Line3DChart`; the caller supplies its element local name. */
 export function writeCT_Line3DChart(s: XmlSink, value: CT_Line3DChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_LineSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
-  if (value['gapDepth'] !== undefined) writeCT_GapAmount(s, value['gapDepth'], ctx, 'gapDepth');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
+  $q.flush(s, 0);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_LineSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 3);
+  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
+  $q.flush(s, 4);
+  if (value['gapDepth'] !== undefined) writeCT_GapAmount(s, value['gapDepth'], ctx, 'gapDepth');
+  $q.flush(s, 5);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 6, idx);
+  }
+  $q.flush(s, 6);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 7);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_LineChart`; the caller supplies its element local name. */
 export function writeCT_LineChart(s: XmlSink, value: CT_LineChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_LineSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
-  if (value['hiLowLines'] !== undefined) writeCT_ChartLines(s, value['hiLowLines'], ctx, 'hiLowLines');
-  if (value['upDownBars'] !== undefined) writeCT_UpDownBars(s, value['upDownBars'], ctx, 'upDownBars');
-  if (value['marker'] !== undefined) writeCT_Boolean(s, value['marker'], ctx, 'marker');
-  if (value['smooth'] !== undefined) writeCT_Boolean(s, value['smooth'], ctx, 'smooth');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['grouping'] !== undefined) writeCT_Grouping(s, value['grouping'], ctx, 'grouping');
+  $q.flush(s, 0);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_LineSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 3);
+  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
+  $q.flush(s, 4);
+  if (value['hiLowLines'] !== undefined) writeCT_ChartLines(s, value['hiLowLines'], ctx, 'hiLowLines');
+  $q.flush(s, 5);
+  if (value['upDownBars'] !== undefined) writeCT_UpDownBars(s, value['upDownBars'], ctx, 'upDownBars');
+  $q.flush(s, 6);
+  if (value['marker'] !== undefined) writeCT_Boolean(s, value['marker'], ctx, 'marker');
+  $q.flush(s, 7);
+  if (value['smooth'] !== undefined) writeCT_Boolean(s, value['smooth'], ctx, 'smooth');
+  $q.flush(s, 8);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 9, idx);
+  }
+  $q.flush(s, 9);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 10);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_LineSer`; the caller supplies its element local name. */
 export function writeCT_LineSer(s: XmlSink, value: CT_LineSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
-  for (const v_dPt of value['dPt']) {
-    writeCT_DPt(s, v_dPt, ctx, 'dPt');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  for (const v_trendline of value['trendline']) {
-    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
-  }
-  if (value['errBars'] !== undefined) writeCT_ErrBars(s, value['errBars'], ctx, 'errBars');
-  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
-  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
-  if (value['smooth'] !== undefined) writeCT_Boolean(s, value['smooth'], ctx, 'smooth');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['dPt'].length; idx++) {
+    const v_dPt = value['dPt'][idx]!;
+    writeCT_DPt(s, v_dPt, ctx, 'dPt');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 6);
+  for (let idx = 0; idx < value['trendline'].length; idx++) {
+    const v_trendline = value['trendline'][idx]!;
+    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
+    $q.flush(s, 7, idx);
+  }
+  $q.flush(s, 7);
+  if (value['errBars'] !== undefined) writeCT_ErrBars(s, value['errBars'], ctx, 'errBars');
+  $q.flush(s, 8);
+  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
+  $q.flush(s, 9);
+  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
+  $q.flush(s, 10);
+  if (value['smooth'] !== undefined) writeCT_Boolean(s, value['smooth'], ctx, 'smooth');
+  $q.flush(s, 11);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 12);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1028,41 +1423,64 @@ export function writeCT_LogBase(s: XmlSink, value: CT_LogBase, ctx: WriteContext
 /** Write a `CT_Lvl`; the caller supplies its element local name. */
 export function writeCT_Lvl(s: XmlSink, value: CT_Lvl, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_pt of value['pt']) {
-    writeCT_StrVal(s, v_pt, ctx, 'pt');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['pt'].length; idx++) {
+    const v_pt = value['pt'][idx]!;
+    writeCT_StrVal(s, v_pt, ctx, 'pt');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ManualLayout`; the caller supplies its element local name. */
 export function writeCT_ManualLayout(s: XmlSink, value: CT_ManualLayout, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['layoutTarget'] !== undefined) writeCT_LayoutTarget(s, value['layoutTarget'], ctx, 'layoutTarget');
-  if (value['xMode'] !== undefined) writeCT_LayoutMode(s, value['xMode'], ctx, 'xMode');
-  if (value['yMode'] !== undefined) writeCT_LayoutMode(s, value['yMode'], ctx, 'yMode');
-  if (value['wMode'] !== undefined) writeCT_LayoutMode(s, value['wMode'], ctx, 'wMode');
-  if (value['hMode'] !== undefined) writeCT_LayoutMode(s, value['hMode'], ctx, 'hMode');
-  if (value['x'] !== undefined) writeCT_Double(s, value['x'], ctx, 'x');
-  if (value['y'] !== undefined) writeCT_Double(s, value['y'], ctx, 'y');
-  if (value['w'] !== undefined) writeCT_Double(s, value['w'], ctx, 'w');
-  if (value['h'] !== undefined) writeCT_Double(s, value['h'], ctx, 'h');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['layoutTarget'] !== undefined) writeCT_LayoutTarget(s, value['layoutTarget'], ctx, 'layoutTarget');
+  $q.flush(s, 0);
+  if (value['xMode'] !== undefined) writeCT_LayoutMode(s, value['xMode'], ctx, 'xMode');
+  $q.flush(s, 1);
+  if (value['yMode'] !== undefined) writeCT_LayoutMode(s, value['yMode'], ctx, 'yMode');
+  $q.flush(s, 2);
+  if (value['wMode'] !== undefined) writeCT_LayoutMode(s, value['wMode'], ctx, 'wMode');
+  $q.flush(s, 3);
+  if (value['hMode'] !== undefined) writeCT_LayoutMode(s, value['hMode'], ctx, 'hMode');
+  $q.flush(s, 4);
+  if (value['x'] !== undefined) writeCT_Double(s, value['x'], ctx, 'x');
+  $q.flush(s, 5);
+  if (value['y'] !== undefined) writeCT_Double(s, value['y'], ctx, 'y');
+  $q.flush(s, 6);
+  if (value['w'] !== undefined) writeCT_Double(s, value['w'], ctx, 'w');
+  $q.flush(s, 7);
+  if (value['h'] !== undefined) writeCT_Double(s, value['h'], ctx, 'h');
+  $q.flush(s, 8);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Marker`; the caller supplies its element local name. */
 export function writeCT_Marker(s: XmlSink, value: CT_Marker, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['symbol'] !== undefined) writeCT_MarkerStyle(s, value['symbol'], ctx, 'symbol');
-  if (value['size'] !== undefined) writeCT_MarkerSize(s, value['size'], ctx, 'size');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['symbol'] !== undefined) writeCT_MarkerStyle(s, value['symbol'], ctx, 'symbol');
+  $q.flush(s, 0);
+  if (value['size'] !== undefined) writeCT_MarkerSize(s, value['size'], ctx, 'size');
+  $q.flush(s, 1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1085,50 +1503,73 @@ export function writeCT_MarkerStyle(s: XmlSink, value: CT_MarkerStyle, ctx: Writ
 /** Write a `CT_MultiLvlStrData`; the caller supplies its element local name. */
 export function writeCT_MultiLvlStrData(s: XmlSink, value: CT_MultiLvlStrData, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['ptCount'] !== undefined) writeCT_UnsignedInt(s, value['ptCount'], ctx, 'ptCount');
-  for (const v_lvl of value['lvl']) {
-    writeCT_Lvl(s, v_lvl, ctx, 'lvl');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ptCount'] !== undefined) writeCT_UnsignedInt(s, value['ptCount'], ctx, 'ptCount');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['lvl'].length; idx++) {
+    const v_lvl = value['lvl'][idx]!;
+    writeCT_Lvl(s, v_lvl, ctx, 'lvl');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_MultiLvlStrRef`; the caller supplies its element local name. */
 export function writeCT_MultiLvlStrRef(s: XmlSink, value: CT_MultiLvlStrRef, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_f of [value['f']]) if (v_f !== undefined) s.text(String(v_f));
-  if (value['multiLvlStrCache'] !== undefined) writeCT_MultiLvlStrData(s, value['multiLvlStrCache'], ctx, 'multiLvlStrCache');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['f'] !== undefined) s.text(String(value['f']));
+  $q.flush(s, 0);
+  if (value['multiLvlStrCache'] !== undefined) writeCT_MultiLvlStrData(s, value['multiLvlStrCache'], ctx, 'multiLvlStrCache');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_NumData`; the caller supplies its element local name. */
 export function writeCT_NumData(s: XmlSink, value: CT_NumData, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_formatCode of [value['formatCode']]) if (v_formatCode !== undefined) s.text(String(v_formatCode));
-  if (value['ptCount'] !== undefined) writeCT_UnsignedInt(s, value['ptCount'], ctx, 'ptCount');
-  for (const v_pt of value['pt']) {
-    writeCT_NumVal(s, v_pt, ctx, 'pt');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['formatCode'] !== undefined) s.text(String(value['formatCode']));
+  $q.flush(s, 0);
+  if (value['ptCount'] !== undefined) writeCT_UnsignedInt(s, value['ptCount'], ctx, 'ptCount');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['pt'].length; idx++) {
+    const v_pt = value['pt'][idx]!;
+    writeCT_NumVal(s, v_pt, ctx, 'pt');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_NumDataSource`; the caller supplies its element local name. */
 export function writeCT_NumDataSource(s: XmlSink, value: CT_NumDataSource, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'numRef') writeCT_NumRef(s, value['content'].value, ctx, 'numRef');
     if (value['content'].kind === 'numLit') writeCT_NumData(s, value['content'].value, ctx, 'numLit');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1144,11 +1585,16 @@ export function writeCT_NumFmt(s: XmlSink, value: CT_NumFmt, ctx: WriteContext, 
 /** Write a `CT_NumRef`; the caller supplies its element local name. */
 export function writeCT_NumRef(s: XmlSink, value: CT_NumRef, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_f of [value['f']]) if (v_f !== undefined) s.text(String(v_f));
-  if (value['numCache'] !== undefined) writeCT_NumData(s, value['numCache'], ctx, 'numCache');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['f'] !== undefined) s.text(String(value['f']));
+  $q.flush(s, 0);
+  if (value['numCache'] !== undefined) writeCT_NumData(s, value['numCache'], ctx, 'numCache');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1157,32 +1603,52 @@ export function writeCT_NumVal(s: XmlSink, value: CT_NumVal, ctx: WriteContext, 
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
   if (value['idx'] !== undefined) s.attr(null, 'idx', String(value['idx']));
   if (value['formatCode'] !== undefined) s.attr(null, 'formatCode', String(value['formatCode']));
-  for (const v_v of [value['v']]) if (v_v !== undefined) s.text(String(v_v));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['v'] !== undefined) s.text(String(value['v']));
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_OfPieChart`; the caller supplies its element local name. */
 export function writeCT_OfPieChart(s: XmlSink, value: CT_OfPieChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['ofPieType'] !== undefined) writeCT_OfPieType(s, value['ofPieType'], ctx, 'ofPieType');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_PieSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
-  if (value['splitType'] !== undefined) writeCT_SplitType(s, value['splitType'], ctx, 'splitType');
-  if (value['splitPos'] !== undefined) writeCT_Double(s, value['splitPos'], ctx, 'splitPos');
-  if (value['custSplit'] !== undefined) writeCT_CustSplit(s, value['custSplit'], ctx, 'custSplit');
-  if (value['secondPieSize'] !== undefined) writeCT_SecondPieSize(s, value['secondPieSize'], ctx, 'secondPieSize');
-  for (const v_serLines of value['serLines']) {
-    writeCT_ChartLines(s, v_serLines, ctx, 'serLines');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ofPieType'] !== undefined) writeCT_OfPieType(s, value['ofPieType'], ctx, 'ofPieType');
+  $q.flush(s, 0);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_PieSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 3);
+  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
+  $q.flush(s, 4);
+  if (value['splitType'] !== undefined) writeCT_SplitType(s, value['splitType'], ctx, 'splitType');
+  $q.flush(s, 5);
+  if (value['splitPos'] !== undefined) writeCT_Double(s, value['splitPos'], ctx, 'splitPos');
+  $q.flush(s, 6);
+  if (value['custSplit'] !== undefined) writeCT_CustSplit(s, value['custSplit'], ctx, 'custSplit');
+  $q.flush(s, 7);
+  if (value['secondPieSize'] !== undefined) writeCT_SecondPieSize(s, value['secondPieSize'], ctx, 'secondPieSize');
+  $q.flush(s, 8);
+  for (let idx = 0; idx < value['serLines'].length; idx++) {
+    const v_serLines = value['serLines'][idx]!;
+    writeCT_ChartLines(s, v_serLines, ctx, 'serLines');
+    $q.flush(s, 9, idx);
+  }
+  $q.flush(s, 9);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 10);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1276,13 +1742,20 @@ export function writeCT_PictureFormat(s: XmlSink, value: CT_PictureFormat, ctx: 
 /** Write a `CT_PictureOptions`; the caller supplies its element local name. */
 export function writeCT_PictureOptions(s: XmlSink, value: CT_PictureOptions, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['applyToFront'] !== undefined) writeCT_Boolean(s, value['applyToFront'], ctx, 'applyToFront');
-  if (value['applyToSides'] !== undefined) writeCT_Boolean(s, value['applyToSides'], ctx, 'applyToSides');
-  if (value['applyToEnd'] !== undefined) writeCT_Boolean(s, value['applyToEnd'], ctx, 'applyToEnd');
-  if (value['pictureFormat'] !== undefined) writeCT_PictureFormat(s, value['pictureFormat'], ctx, 'pictureFormat');
-  if (value['pictureStackUnit'] !== undefined) writeCT_PictureStackUnit(s, value['pictureStackUnit'], ctx, 'pictureStackUnit');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['applyToFront'] !== undefined) writeCT_Boolean(s, value['applyToFront'], ctx, 'applyToFront');
+  $q.flush(s, 0);
+  if (value['applyToSides'] !== undefined) writeCT_Boolean(s, value['applyToSides'], ctx, 'applyToSides');
+  $q.flush(s, 1);
+  if (value['applyToEnd'] !== undefined) writeCT_Boolean(s, value['applyToEnd'], ctx, 'applyToEnd');
+  $q.flush(s, 2);
+  if (value['pictureFormat'] !== undefined) writeCT_PictureFormat(s, value['pictureFormat'], ctx, 'pictureFormat');
+  $q.flush(s, 3);
+  if (value['pictureStackUnit'] !== undefined) writeCT_PictureStackUnit(s, value['pictureStackUnit'], ctx, 'pictureStackUnit');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1297,93 +1770,145 @@ export function writeCT_PictureStackUnit(s: XmlSink, value: CT_PictureStackUnit,
 /** Write a `CT_Pie3DChart`; the caller supplies its element local name. */
 export function writeCT_Pie3DChart(s: XmlSink, value: CT_Pie3DChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_PieSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_PieSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PieChart`; the caller supplies its element local name. */
 export function writeCT_PieChart(s: XmlSink, value: CT_PieChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_PieSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['firstSliceAng'] !== undefined) writeCT_FirstSliceAng(s, value['firstSliceAng'], ctx, 'firstSliceAng');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_PieSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 2);
+  if (value['firstSliceAng'] !== undefined) writeCT_FirstSliceAng(s, value['firstSliceAng'], ctx, 'firstSliceAng');
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PieSer`; the caller supplies its element local name. */
 export function writeCT_PieSer(s: XmlSink, value: CT_PieSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['explosion'] !== undefined) writeCT_UnsignedInt(s, value['explosion'], ctx, 'explosion');
-  for (const v_dPt of value['dPt']) {
-    writeCT_DPt(s, v_dPt, ctx, 'dPt');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
-  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['explosion'] !== undefined) writeCT_UnsignedInt(s, value['explosion'], ctx, 'explosion');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['dPt'].length; idx++) {
+    const v_dPt = value['dPt'][idx]!;
+    writeCT_DPt(s, v_dPt, ctx, 'dPt');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 6);
+  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
+  $q.flush(s, 7);
+  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
+  $q.flush(s, 8);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PivotFmt`; the caller supplies its element local name. */
 export function writeCT_PivotFmt(s: XmlSink, value: CT_PivotFmt, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
-  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
-  if (value['dLbl'] !== undefined) writeCT_DLbl(s, value['dLbl'], ctx, 'dLbl');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 2);
+  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
+  $q.flush(s, 3);
+  if (value['dLbl'] !== undefined) writeCT_DLbl(s, value['dLbl'], ctx, 'dLbl');
+  $q.flush(s, 4);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PivotFmts`; the caller supplies its element local name. */
 export function writeCT_PivotFmts(s: XmlSink, value: CT_PivotFmts, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_pivotFmt of value['pivotFmt']) {
-    writeCT_PivotFmt(s, v_pivotFmt, ctx, 'pivotFmt');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['pivotFmt'].length; idx++) {
+    const v_pivotFmt = value['pivotFmt'][idx]!;
+    writeCT_PivotFmt(s, v_pivotFmt, ctx, 'pivotFmt');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PivotSource`; the caller supplies its element local name. */
 export function writeCT_PivotSource(s: XmlSink, value: CT_PivotSource, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_name of [value['name']]) if (v_name !== undefined) s.text(String(v_name));
-  if (value['fmtId'] !== undefined) writeCT_UnsignedInt(s, value['fmtId'], ctx, 'fmtId');
-  for (const v_extLst of value['extLst']) {
-    writeCT_ExtensionList(s, v_extLst, ctx, 'extLst');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['name'] !== undefined) s.text(String(value['name']));
+  $q.flush(s, 0);
+  if (value['fmtId'] !== undefined) writeCT_UnsignedInt(s, value['fmtId'], ctx, 'fmtId');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['extLst'].length; idx++) {
+    const v_extLst = value['extLst'][idx]!;
+    writeCT_ExtensionList(s, v_extLst, ctx, 'extLst');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_PlotArea`; the caller supplies its element local name. */
 export function writeCT_PlotArea(s: XmlSink, value: CT_PlotArea, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
   for (const v_content of value['content']) {
     if (v_content.kind === 'areaChart') writeCT_AreaChart(s, v_content.value, ctx, 'areaChart');
@@ -1414,70 +1939,108 @@ export function writeCT_PlotArea(s: XmlSink, value: CT_PlotArea, ctx: WriteConte
   if (value['dTable'] !== undefined) writeCT_DTable(s, value['dTable'], ctx, 'dTable');
   if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
 /** Write a `CT_PrintSettings`; the caller supplies its element local name. */
 export function writeCT_PrintSettings(s: XmlSink, value: CT_PrintSettings, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['headerFooter'] !== undefined) writeCT_HeaderFooter(s, value['headerFooter'], ctx, 'headerFooter');
-  if (value['pageMargins'] !== undefined) writeCT_PageMargins(s, value['pageMargins'], ctx, 'pageMargins');
-  if (value['pageSetup'] !== undefined) writeCT_PageSetup(s, value['pageSetup'], ctx, 'pageSetup');
-  if (value['legacyDrawingHF'] !== undefined) writeCT_RelId(s, value['legacyDrawingHF'], ctx, 'legacyDrawingHF');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['headerFooter'] !== undefined) writeCT_HeaderFooter(s, value['headerFooter'], ctx, 'headerFooter');
+  $q.flush(s, 0);
+  if (value['pageMargins'] !== undefined) writeCT_PageMargins(s, value['pageMargins'], ctx, 'pageMargins');
+  $q.flush(s, 1);
+  if (value['pageSetup'] !== undefined) writeCT_PageSetup(s, value['pageSetup'], ctx, 'pageSetup');
+  $q.flush(s, 2);
+  if (value['legacyDrawingHF'] !== undefined) writeCT_RelId(s, value['legacyDrawingHF'], ctx, 'legacyDrawingHF');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Protection`; the caller supplies its element local name. */
 export function writeCT_Protection(s: XmlSink, value: CT_Protection, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['chartObject'] !== undefined) writeCT_Boolean(s, value['chartObject'], ctx, 'chartObject');
-  if (value['data'] !== undefined) writeCT_Boolean(s, value['data'], ctx, 'data');
-  if (value['formatting'] !== undefined) writeCT_Boolean(s, value['formatting'], ctx, 'formatting');
-  if (value['selection'] !== undefined) writeCT_Boolean(s, value['selection'], ctx, 'selection');
-  if (value['userInterface'] !== undefined) writeCT_Boolean(s, value['userInterface'], ctx, 'userInterface');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['chartObject'] !== undefined) writeCT_Boolean(s, value['chartObject'], ctx, 'chartObject');
+  $q.flush(s, 0);
+  if (value['data'] !== undefined) writeCT_Boolean(s, value['data'], ctx, 'data');
+  $q.flush(s, 1);
+  if (value['formatting'] !== undefined) writeCT_Boolean(s, value['formatting'], ctx, 'formatting');
+  $q.flush(s, 2);
+  if (value['selection'] !== undefined) writeCT_Boolean(s, value['selection'], ctx, 'selection');
+  $q.flush(s, 3);
+  if (value['userInterface'] !== undefined) writeCT_Boolean(s, value['userInterface'], ctx, 'userInterface');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_RadarChart`; the caller supplies its element local name. */
 export function writeCT_RadarChart(s: XmlSink, value: CT_RadarChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['radarStyle'] !== undefined) writeCT_RadarStyle(s, value['radarStyle'], ctx, 'radarStyle');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_RadarSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['radarStyle'] !== undefined) writeCT_RadarStyle(s, value['radarStyle'], ctx, 'radarStyle');
+  $q.flush(s, 0);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_RadarSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 3);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 4, idx);
+  }
+  $q.flush(s, 4);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_RadarSer`; the caller supplies its element local name. */
 export function writeCT_RadarSer(s: XmlSink, value: CT_RadarSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
-  for (const v_dPt of value['dPt']) {
-    writeCT_DPt(s, v_dPt, ctx, 'dPt');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
-  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['dPt'].length; idx++) {
+    const v_dPt = value['dPt'][idx]!;
+    writeCT_DPt(s, v_dPt, ctx, 'dPt');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 6);
+  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
+  $q.flush(s, 7);
+  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
+  $q.flush(s, 8);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1516,58 +2079,98 @@ export function writeCT_RotY(s: XmlSink, value: CT_RotY, ctx: WriteContext, loca
 /** Write a `CT_Scaling`; the caller supplies its element local name. */
 export function writeCT_Scaling(s: XmlSink, value: CT_Scaling, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['logBase'] !== undefined) writeCT_LogBase(s, value['logBase'], ctx, 'logBase');
-  if (value['orientation'] !== undefined) writeCT_Orientation(s, value['orientation'], ctx, 'orientation');
-  if (value['max'] !== undefined) writeCT_Double(s, value['max'], ctx, 'max');
-  if (value['min'] !== undefined) writeCT_Double(s, value['min'], ctx, 'min');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['logBase'] !== undefined) writeCT_LogBase(s, value['logBase'], ctx, 'logBase');
+  $q.flush(s, 0);
+  if (value['orientation'] !== undefined) writeCT_Orientation(s, value['orientation'], ctx, 'orientation');
+  $q.flush(s, 1);
+  if (value['max'] !== undefined) writeCT_Double(s, value['max'], ctx, 'max');
+  $q.flush(s, 2);
+  if (value['min'] !== undefined) writeCT_Double(s, value['min'], ctx, 'min');
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ScatterChart`; the caller supplies its element local name. */
 export function writeCT_ScatterChart(s: XmlSink, value: CT_ScatterChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['scatterStyle'] !== undefined) writeCT_ScatterStyle(s, value['scatterStyle'], ctx, 'scatterStyle');
-  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
-  for (const v_ser of value['ser']) {
-    writeCT_ScatterSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['scatterStyle'] !== undefined) writeCT_ScatterStyle(s, value['scatterStyle'], ctx, 'scatterStyle');
+  $q.flush(s, 0);
+  if (value['varyColors'] !== undefined) writeCT_Boolean(s, value['varyColors'], ctx, 'varyColors');
+  $q.flush(s, 1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_ScatterSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 2, idx);
+  }
+  $q.flush(s, 2);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 3);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 4, idx);
+  }
+  $q.flush(s, 4);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ScatterSer`; the caller supplies its element local name. */
 export function writeCT_ScatterSer(s: XmlSink, value: CT_ScatterSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
-  for (const v_dPt of value['dPt']) {
-    writeCT_DPt(s, v_dPt, ctx, 'dPt');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  for (const v_trendline of value['trendline']) {
-    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
-  }
-  for (const v_errBars of value['errBars']) {
-    writeCT_ErrBars(s, v_errBars, ctx, 'errBars');
-  }
-  if (value['xVal'] !== undefined) writeCT_AxDataSource(s, value['xVal'], ctx, 'xVal');
-  if (value['yVal'] !== undefined) writeCT_NumDataSource(s, value['yVal'], ctx, 'yVal');
-  if (value['smooth'] !== undefined) writeCT_Boolean(s, value['smooth'], ctx, 'smooth');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['marker'] !== undefined) writeCT_Marker(s, value['marker'], ctx, 'marker');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['dPt'].length; idx++) {
+    const v_dPt = value['dPt'][idx]!;
+    writeCT_DPt(s, v_dPt, ctx, 'dPt');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 6);
+  for (let idx = 0; idx < value['trendline'].length; idx++) {
+    const v_trendline = value['trendline'][idx]!;
+    writeCT_Trendline(s, v_trendline, ctx, 'trendline');
+    $q.flush(s, 7, idx);
+  }
+  $q.flush(s, 7);
+  for (let idx = 0; idx < value['errBars'].length; idx++) {
+    const v_errBars = value['errBars'][idx]!;
+    writeCT_ErrBars(s, v_errBars, ctx, 'errBars');
+    $q.flush(s, 8, idx);
+  }
+  $q.flush(s, 8);
+  if (value['xVal'] !== undefined) writeCT_AxDataSource(s, value['xVal'], ctx, 'xVal');
+  $q.flush(s, 9);
+  if (value['yVal'] !== undefined) writeCT_NumDataSource(s, value['yVal'], ctx, 'yVal');
+  $q.flush(s, 10);
+  if (value['smooth'] !== undefined) writeCT_Boolean(s, value['smooth'], ctx, 'smooth');
+  $q.flush(s, 11);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 12);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1590,41 +2193,64 @@ export function writeCT_SecondPieSize(s: XmlSink, value: CT_SecondPieSize, ctx: 
 /** Write a `CT_SerAx`; the caller supplies its element local name. */
 export function writeCT_SerAx(s: XmlSink, value: CT_SerAx, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['axId'] !== undefined) writeCT_UnsignedInt(s, value['axId'], ctx, 'axId');
+  $q.flush(s, 0);
   if (value['scaling'] !== undefined) writeCT_Scaling(s, value['scaling'], ctx, 'scaling');
+  $q.flush(s, 1);
   if (value['delete'] !== undefined) writeCT_Boolean(s, value['delete'], ctx, 'delete');
+  $q.flush(s, 2);
   if (value['axPos'] !== undefined) writeCT_AxPos(s, value['axPos'], ctx, 'axPos');
+  $q.flush(s, 3);
   if (value['majorGridlines'] !== undefined) writeCT_ChartLines(s, value['majorGridlines'], ctx, 'majorGridlines');
+  $q.flush(s, 4);
   if (value['minorGridlines'] !== undefined) writeCT_ChartLines(s, value['minorGridlines'], ctx, 'minorGridlines');
+  $q.flush(s, 5);
   if (value['title'] !== undefined) writeCT_Title(s, value['title'], ctx, 'title');
+  $q.flush(s, 6);
   if (value['numFmt'] !== undefined) writeCT_NumFmt(s, value['numFmt'], ctx, 'numFmt');
+  $q.flush(s, 7);
   if (value['majorTickMark'] !== undefined) writeCT_TickMark(s, value['majorTickMark'], ctx, 'majorTickMark');
+  $q.flush(s, 8);
   if (value['minorTickMark'] !== undefined) writeCT_TickMark(s, value['minorTickMark'], ctx, 'minorTickMark');
+  $q.flush(s, 9);
   if (value['tickLblPos'] !== undefined) writeCT_TickLblPos(s, value['tickLblPos'], ctx, 'tickLblPos');
+  $q.flush(s, 10);
   if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 11);
   if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 12);
   if (value['crossAx'] !== undefined) writeCT_UnsignedInt(s, value['crossAx'], ctx, 'crossAx');
+  $q.flush(s, 13);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'crosses') writeCT_Crosses(s, value['content'].value, ctx, 'crosses');
     if (value['content'].kind === 'crossesAt') writeCT_Double(s, value['content'].value, ctx, 'crossesAt');
   }
+  $q.flush(s, 14);
   if (value['tickLblSkip'] !== undefined) writeCT_Skip(s, value['tickLblSkip'], ctx, 'tickLblSkip');
+  $q.flush(s, 15);
   if (value['tickMarkSkip'] !== undefined) writeCT_Skip(s, value['tickMarkSkip'], ctx, 'tickMarkSkip');
+  $q.flush(s, 16);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 17);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SerTx`; the caller supplies its element local name. */
 export function writeCT_SerTx(s: XmlSink, value: CT_SerTx, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'strRef') writeCT_StrRef(s, value['content'].value, ctx, 'strRef');
     if (value['content'].kind === 'v') s.text(String(value['content'].value));
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1663,43 +2289,68 @@ export function writeCT_SplitType(s: XmlSink, value: CT_SplitType, ctx: WriteCon
 /** Write a `CT_StockChart`; the caller supplies its element local name. */
 export function writeCT_StockChart(s: XmlSink, value: CT_StockChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_ser of value['ser']) {
-    writeCT_LineSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
-  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
-  if (value['hiLowLines'] !== undefined) writeCT_ChartLines(s, value['hiLowLines'], ctx, 'hiLowLines');
-  if (value['upDownBars'] !== undefined) writeCT_UpDownBars(s, value['upDownBars'], ctx, 'upDownBars');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_LineSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  if (value['dLbls'] !== undefined) writeCT_DLbls(s, value['dLbls'], ctx, 'dLbls');
+  $q.flush(s, 1);
+  if (value['dropLines'] !== undefined) writeCT_ChartLines(s, value['dropLines'], ctx, 'dropLines');
+  $q.flush(s, 2);
+  if (value['hiLowLines'] !== undefined) writeCT_ChartLines(s, value['hiLowLines'], ctx, 'hiLowLines');
+  $q.flush(s, 3);
+  if (value['upDownBars'] !== undefined) writeCT_UpDownBars(s, value['upDownBars'], ctx, 'upDownBars');
+  $q.flush(s, 4);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 5, idx);
+  }
+  $q.flush(s, 5);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 6);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_StrData`; the caller supplies its element local name. */
 export function writeCT_StrData(s: XmlSink, value: CT_StrData, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['ptCount'] !== undefined) writeCT_UnsignedInt(s, value['ptCount'], ctx, 'ptCount');
-  for (const v_pt of value['pt']) {
-    writeCT_StrVal(s, v_pt, ctx, 'pt');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['ptCount'] !== undefined) writeCT_UnsignedInt(s, value['ptCount'], ctx, 'ptCount');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['pt'].length; idx++) {
+    const v_pt = value['pt'][idx]!;
+    writeCT_StrVal(s, v_pt, ctx, 'pt');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_StrRef`; the caller supplies its element local name. */
 export function writeCT_StrRef(s: XmlSink, value: CT_StrRef, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_f of [value['f']]) if (v_f !== undefined) s.text(String(v_f));
-  if (value['strCache'] !== undefined) writeCT_StrData(s, value['strCache'], ctx, 'strCache');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['f'] !== undefined) s.text(String(value['f']));
+  $q.flush(s, 0);
+  if (value['strCache'] !== undefined) writeCT_StrData(s, value['strCache'], ctx, 'strCache');
+  $q.flush(s, 1);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1707,9 +2358,12 @@ export function writeCT_StrRef(s: XmlSink, value: CT_StrRef, ctx: WriteContext, 
 export function writeCT_StrVal(s: XmlSink, value: CT_StrVal, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
   if (value['idx'] !== undefined) s.attr(null, 'idx', String(value['idx']));
-  for (const v_v of [value['v']]) if (v_v !== undefined) s.text(String(v_v));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['v'] !== undefined) s.text(String(value['v']));
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1724,61 +2378,98 @@ export function writeCT_Style(s: XmlSink, value: CT_Style, ctx: WriteContext, lo
 /** Write a `CT_Surface`; the caller supplies its element local name. */
 export function writeCT_Surface(s: XmlSink, value: CT_Surface, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['thickness'] !== undefined) writeCT_Thickness(s, value['thickness'], ctx, 'thickness');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['thickness'] !== undefined) writeCT_Thickness(s, value['thickness'], ctx, 'thickness');
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  if (value['pictureOptions'] !== undefined) writeCT_PictureOptions(s, value['pictureOptions'], ctx, 'pictureOptions');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Surface3DChart`; the caller supplies its element local name. */
 export function writeCT_Surface3DChart(s: XmlSink, value: CT_Surface3DChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['wireframe'] !== undefined) writeCT_Boolean(s, value['wireframe'], ctx, 'wireframe');
-  for (const v_ser of value['ser']) {
-    writeCT_SurfaceSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['bandFmts'] !== undefined) writeCT_BandFmts(s, value['bandFmts'], ctx, 'bandFmts');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['wireframe'] !== undefined) writeCT_Boolean(s, value['wireframe'], ctx, 'wireframe');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_SurfaceSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['bandFmts'] !== undefined) writeCT_BandFmts(s, value['bandFmts'], ctx, 'bandFmts');
+  $q.flush(s, 2);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 3, idx);
+  }
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SurfaceChart`; the caller supplies its element local name. */
 export function writeCT_SurfaceChart(s: XmlSink, value: CT_SurfaceChart, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['wireframe'] !== undefined) writeCT_Boolean(s, value['wireframe'], ctx, 'wireframe');
-  for (const v_ser of value['ser']) {
-    writeCT_SurfaceSer(s, v_ser, ctx, 'ser');
-  }
-  if (value['bandFmts'] !== undefined) writeCT_BandFmts(s, value['bandFmts'], ctx, 'bandFmts');
-  for (const v_axId of value['axId']) {
-    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
-  }
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['wireframe'] !== undefined) writeCT_Boolean(s, value['wireframe'], ctx, 'wireframe');
+  $q.flush(s, 0);
+  for (let idx = 0; idx < value['ser'].length; idx++) {
+    const v_ser = value['ser'][idx]!;
+    writeCT_SurfaceSer(s, v_ser, ctx, 'ser');
+    $q.flush(s, 1, idx);
+  }
+  $q.flush(s, 1);
+  if (value['bandFmts'] !== undefined) writeCT_BandFmts(s, value['bandFmts'], ctx, 'bandFmts');
+  $q.flush(s, 2);
+  for (let idx = 0; idx < value['axId'].length; idx++) {
+    const v_axId = value['axId'][idx]!;
+    writeCT_UnsignedInt(s, v_axId, ctx, 'axId');
+    $q.flush(s, 3, idx);
+  }
+  $q.flush(s, 3);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_SurfaceSer`; the caller supplies its element local name. */
 export function writeCT_SurfaceSer(s: XmlSink, value: CT_SurfaceSer, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
-  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
-  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
-  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idx'] !== undefined) writeCT_UnsignedInt(s, value['idx'], ctx, 'idx');
+  $q.flush(s, 0);
+  if (value['order'] !== undefined) writeCT_UnsignedInt(s, value['order'], ctx, 'order');
+  $q.flush(s, 1);
+  if (value['tx'] !== undefined) writeCT_SerTx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['cat'] !== undefined) writeCT_AxDataSource(s, value['cat'], ctx, 'cat');
+  $q.flush(s, 4);
+  if (value['val'] !== undefined) writeCT_NumDataSource(s, value['val'], ctx, 'val');
+  $q.flush(s, 5);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 6);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1825,48 +2516,78 @@ export function writeCT_TimeUnit(s: XmlSink, value: CT_TimeUnit, ctx: WriteConte
 /** Write a `CT_Title`; the caller supplies its element local name. */
 export function writeCT_Title(s: XmlSink, value: CT_Title, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['tx'] !== undefined) writeCT_Tx(s, value['tx'], ctx, 'tx');
-  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
-  if (value['overlay'] !== undefined) writeCT_Boolean(s, value['overlay'], ctx, 'overlay');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['tx'] !== undefined) writeCT_Tx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 0);
+  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
+  $q.flush(s, 1);
+  if (value['overlay'] !== undefined) writeCT_Boolean(s, value['overlay'], ctx, 'overlay');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 4);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Trendline`; the caller supplies its element local name. */
 export function writeCT_Trendline(s: XmlSink, value: CT_Trendline, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  for (const v_name of [value['name']]) if (v_name !== undefined) s.text(String(v_name));
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['trendlineType'] !== undefined) writeCT_TrendlineType(s, value['trendlineType'], ctx, 'trendlineType');
-  if (value['order'] !== undefined) writeCT_Order(s, value['order'], ctx, 'order');
-  if (value['period'] !== undefined) writeCT_Period(s, value['period'], ctx, 'period');
-  if (value['forward'] !== undefined) writeCT_Double(s, value['forward'], ctx, 'forward');
-  if (value['backward'] !== undefined) writeCT_Double(s, value['backward'], ctx, 'backward');
-  if (value['intercept'] !== undefined) writeCT_Double(s, value['intercept'], ctx, 'intercept');
-  if (value['dispRSqr'] !== undefined) writeCT_Boolean(s, value['dispRSqr'], ctx, 'dispRSqr');
-  if (value['dispEq'] !== undefined) writeCT_Boolean(s, value['dispEq'], ctx, 'dispEq');
-  if (value['trendlineLbl'] !== undefined) writeCT_TrendlineLbl(s, value['trendlineLbl'], ctx, 'trendlineLbl');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['name'] !== undefined) s.text(String(value['name']));
+  $q.flush(s, 0);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 1);
+  if (value['trendlineType'] !== undefined) writeCT_TrendlineType(s, value['trendlineType'], ctx, 'trendlineType');
+  $q.flush(s, 2);
+  if (value['order'] !== undefined) writeCT_Order(s, value['order'], ctx, 'order');
+  $q.flush(s, 3);
+  if (value['period'] !== undefined) writeCT_Period(s, value['period'], ctx, 'period');
+  $q.flush(s, 4);
+  if (value['forward'] !== undefined) writeCT_Double(s, value['forward'], ctx, 'forward');
+  $q.flush(s, 5);
+  if (value['backward'] !== undefined) writeCT_Double(s, value['backward'], ctx, 'backward');
+  $q.flush(s, 6);
+  if (value['intercept'] !== undefined) writeCT_Double(s, value['intercept'], ctx, 'intercept');
+  $q.flush(s, 7);
+  if (value['dispRSqr'] !== undefined) writeCT_Boolean(s, value['dispRSqr'], ctx, 'dispRSqr');
+  $q.flush(s, 8);
+  if (value['dispEq'] !== undefined) writeCT_Boolean(s, value['dispEq'], ctx, 'dispEq');
+  $q.flush(s, 9);
+  if (value['trendlineLbl'] !== undefined) writeCT_TrendlineLbl(s, value['trendlineLbl'], ctx, 'trendlineLbl');
+  $q.flush(s, 10);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 11);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_TrendlineLbl`; the caller supplies its element local name. */
 export function writeCT_TrendlineLbl(s: XmlSink, value: CT_TrendlineLbl, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
-  if (value['tx'] !== undefined) writeCT_Tx(s, value['tx'], ctx, 'tx');
-  if (value['numFmt'] !== undefined) writeCT_NumFmt(s, value['numFmt'], ctx, 'numFmt');
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['layout'] !== undefined) writeCT_Layout(s, value['layout'], ctx, 'layout');
+  $q.flush(s, 0);
+  if (value['tx'] !== undefined) writeCT_Tx(s, value['tx'], ctx, 'tx');
+  $q.flush(s, 1);
+  if (value['numFmt'] !== undefined) writeCT_NumFmt(s, value['numFmt'], ctx, 'numFmt');
+  $q.flush(s, 2);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 3);
+  if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 4);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 5);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1881,12 +2602,15 @@ export function writeCT_TrendlineType(s: XmlSink, value: CT_TrendlineType, ctx: 
 /** Write a `CT_Tx`; the caller supplies its element local name. */
 export function writeCT_Tx(s: XmlSink, value: CT_Tx, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'strRef') writeCT_StrRef(s, value['content'].value, ctx, 'strRef');
     if (value['content'].kind === 'rich') writeCT_TextBody(s, value['content'].value, ctx, 'rich');
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1901,66 +2625,106 @@ export function writeCT_UnsignedInt(s: XmlSink, value: CT_UnsignedInt, ctx: Writ
 /** Write a `CT_UpDownBar`; the caller supplies its element local name. */
 export function writeCT_UpDownBar(s: XmlSink, value: CT_UpDownBar, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_UpDownBars`; the caller supplies its element local name. */
 export function writeCT_UpDownBars(s: XmlSink, value: CT_UpDownBars, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
-  if (value['upBars'] !== undefined) writeCT_UpDownBar(s, value['upBars'], ctx, 'upBars');
-  if (value['downBars'] !== undefined) writeCT_UpDownBar(s, value['downBars'], ctx, 'downBars');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['gapWidth'] !== undefined) writeCT_GapAmount(s, value['gapWidth'], ctx, 'gapWidth');
+  $q.flush(s, 0);
+  if (value['upBars'] !== undefined) writeCT_UpDownBar(s, value['upBars'], ctx, 'upBars');
+  $q.flush(s, 1);
+  if (value['downBars'] !== undefined) writeCT_UpDownBar(s, value['downBars'], ctx, 'downBars');
+  $q.flush(s, 2);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 3);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_ValAx`; the caller supplies its element local name. */
 export function writeCT_ValAx(s: XmlSink, value: CT_ValAx, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['axId'] !== undefined) writeCT_UnsignedInt(s, value['axId'], ctx, 'axId');
+  $q.flush(s, 0);
   if (value['scaling'] !== undefined) writeCT_Scaling(s, value['scaling'], ctx, 'scaling');
+  $q.flush(s, 1);
   if (value['delete'] !== undefined) writeCT_Boolean(s, value['delete'], ctx, 'delete');
+  $q.flush(s, 2);
   if (value['axPos'] !== undefined) writeCT_AxPos(s, value['axPos'], ctx, 'axPos');
+  $q.flush(s, 3);
   if (value['majorGridlines'] !== undefined) writeCT_ChartLines(s, value['majorGridlines'], ctx, 'majorGridlines');
+  $q.flush(s, 4);
   if (value['minorGridlines'] !== undefined) writeCT_ChartLines(s, value['minorGridlines'], ctx, 'minorGridlines');
+  $q.flush(s, 5);
   if (value['title'] !== undefined) writeCT_Title(s, value['title'], ctx, 'title');
+  $q.flush(s, 6);
   if (value['numFmt'] !== undefined) writeCT_NumFmt(s, value['numFmt'], ctx, 'numFmt');
+  $q.flush(s, 7);
   if (value['majorTickMark'] !== undefined) writeCT_TickMark(s, value['majorTickMark'], ctx, 'majorTickMark');
+  $q.flush(s, 8);
   if (value['minorTickMark'] !== undefined) writeCT_TickMark(s, value['minorTickMark'], ctx, 'minorTickMark');
+  $q.flush(s, 9);
   if (value['tickLblPos'] !== undefined) writeCT_TickLblPos(s, value['tickLblPos'], ctx, 'tickLblPos');
+  $q.flush(s, 10);
   if (value['spPr'] !== undefined) writeCT_ShapeProperties(s, value['spPr'], ctx, 'spPr');
+  $q.flush(s, 11);
   if (value['txPr'] !== undefined) writeCT_TextBody(s, value['txPr'], ctx, 'txPr');
+  $q.flush(s, 12);
   if (value['crossAx'] !== undefined) writeCT_UnsignedInt(s, value['crossAx'], ctx, 'crossAx');
+  $q.flush(s, 13);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'crosses') writeCT_Crosses(s, value['content'].value, ctx, 'crosses');
     if (value['content'].kind === 'crossesAt') writeCT_Double(s, value['content'].value, ctx, 'crossesAt');
   }
+  $q.flush(s, 14);
   if (value['crossBetween'] !== undefined) writeCT_CrossBetween(s, value['crossBetween'], ctx, 'crossBetween');
+  $q.flush(s, 15);
   if (value['majorUnit'] !== undefined) writeCT_AxisUnit(s, value['majorUnit'], ctx, 'majorUnit');
+  $q.flush(s, 16);
   if (value['minorUnit'] !== undefined) writeCT_AxisUnit(s, value['minorUnit'], ctx, 'minorUnit');
+  $q.flush(s, 17);
   if (value['dispUnits'] !== undefined) writeCT_DispUnits(s, value['dispUnits'], ctx, 'dispUnits');
+  $q.flush(s, 18);
   if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 19);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_View3D`; the caller supplies its element local name. */
 export function writeCT_View3D(s: XmlSink, value: CT_View3D, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'dml-chart'), localName);
-  if (value['rotX'] !== undefined) writeCT_RotX(s, value['rotX'], ctx, 'rotX');
-  if (value['hPercent'] !== undefined) writeCT_HPercent(s, value['hPercent'], ctx, 'hPercent');
-  if (value['rotY'] !== undefined) writeCT_RotY(s, value['rotY'], ctx, 'rotY');
-  if (value['depthPercent'] !== undefined) writeCT_DepthPercent(s, value['depthPercent'], ctx, 'depthPercent');
-  if (value['rAngAx'] !== undefined) writeCT_Boolean(s, value['rAngAx'], ctx, 'rAngAx');
-  if (value['perspective'] !== undefined) writeCT_Perspective(s, value['perspective'], ctx, 'perspective');
-  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['rotX'] !== undefined) writeCT_RotX(s, value['rotX'], ctx, 'rotX');
+  $q.flush(s, 0);
+  if (value['hPercent'] !== undefined) writeCT_HPercent(s, value['hPercent'], ctx, 'hPercent');
+  $q.flush(s, 1);
+  if (value['rotY'] !== undefined) writeCT_RotY(s, value['rotY'], ctx, 'rotY');
+  $q.flush(s, 2);
+  if (value['depthPercent'] !== undefined) writeCT_DepthPercent(s, value['depthPercent'], ctx, 'depthPercent');
+  $q.flush(s, 3);
+  if (value['rAngAx'] !== undefined) writeCT_Boolean(s, value['rAngAx'], ctx, 'rAngAx');
+  $q.flush(s, 4);
+  if (value['perspective'] !== undefined) writeCT_Perspective(s, value['perspective'], ctx, 'perspective');
+  $q.flush(s, 5);
+  if (value['extLst'] !== undefined) writeCT_ExtensionList(s, value['extLst'], ctx, 'extLst');
+  $q.flush(s, 6);
+  $q.flushRemaining(s);
   s.endElement();
 }

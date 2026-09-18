@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type { CT_Array, CT_Empty, CT_Null, CT_Variant, CT_Vector, CT_Vstream } from './types.js';
 
 // XML writers. Element names are supplied by the owning particle.
@@ -18,6 +23,7 @@ export function writeCT_Array(s: XmlSink, value: CT_Array, ctx: WriteContext, lo
   if (value['lBounds'] !== undefined) s.attr(null, 'lBounds', String(value['lBounds']));
   if (value['uBounds'] !== undefined) s.attr(null, 'uBounds', String(value['uBounds']));
   if (value['baseType'] !== undefined) s.attr(null, 'baseType', String(value['baseType']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'variant') writeCT_Variant(s, v_content.value, ctx, 'variant');
     if (v_content.kind === 'i1') s.text(String(v_content.value));
@@ -38,7 +44,6 @@ export function writeCT_Array(s: XmlSink, value: CT_Array, ctx: WriteContext, lo
     if (v_content.kind === 'cy') s.text(String(v_content.value));
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -59,6 +64,9 @@ export function writeCT_Null(s: XmlSink, value: CT_Null, ctx: WriteContext, loca
 /** Write a `CT_Variant`; the caller supplies its element local name. */
 export function writeCT_Variant(s: XmlSink, value: CT_Variant, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'doc-props-vt'), localName);
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['content'] !== undefined) {
     if (value['content'].kind === 'variant') writeCT_Variant(s, value['content'].value, ctx, 'variant');
     if (value['content'].kind === 'vector') writeCT_Vector(s, value['content'].value, ctx, 'vector');
@@ -95,8 +103,8 @@ export function writeCT_Variant(s: XmlSink, value: CT_Variant, ctx: WriteContext
     if (value['content'].kind === 'vstream') writeCT_Vstream(s, value['content'].value, ctx, 'vstream');
     if (value['content'].kind === 'clsid') s.text(String(value['content'].value));
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -105,6 +113,7 @@ export function writeCT_Vector(s: XmlSink, value: CT_Vector, ctx: WriteContext, 
   s.startElement(uriFor(ctx, 'doc-props-vt'), localName);
   if (value['baseType'] !== undefined) s.attr(null, 'baseType', String(value['baseType']));
   if (value['size'] !== undefined) s.attr(null, 'size', String(value['size']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'variant') writeCT_Variant(s, v_content.value, ctx, 'variant');
     if (v_content.kind === 'i1') s.text(String(v_content.value));
@@ -128,7 +137,6 @@ export function writeCT_Vector(s: XmlSink, value: CT_Vector, ctx: WriteContext, 
     if (v_content.kind === 'clsid') s.text(String(v_content.value));
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -136,7 +144,7 @@ export function writeCT_Vector(s: XmlSink, value: CT_Vector, ctx: WriteContext, 
 export function writeCT_Vstream(s: XmlSink, value: CT_Vstream, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'doc-props-vt'), localName);
   if (value['version'] !== undefined) s.attr(null, 'version', String(value['version']));
-  s.text(String(value.$value));
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  s.text(String(value.$value));
   s.endElement();
 }

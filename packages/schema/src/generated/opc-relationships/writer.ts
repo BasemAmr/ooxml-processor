@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type { CT_Relationship, CT_Relationships } from './types.js';
 
 // XML writers. Element names are supplied by the owning particle.
@@ -19,18 +24,23 @@ export function writeCT_Relationship(s: XmlSink, value: CT_Relationship, ctx: Wr
   if (value['Target'] !== undefined) s.attr(null, 'Target', String(value['Target']));
   if (value['Type'] !== undefined) s.attr(null, 'Type', String(value['Type']));
   if (value['Id'] !== undefined) s.attr(null, 'Id', String(value['Id']));
-  s.text(String(value.$value));
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  s.text(String(value.$value));
   s.endElement();
 }
 
 /** Write a `CT_Relationships`; the caller supplies its element local name. */
 export function writeCT_Relationships(s: XmlSink, value: CT_Relationships, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-relationships'), localName);
-  for (const v_Relationship of value['Relationship']) {
-    writeCT_Relationship(s, v_Relationship, ctx, 'Relationship');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['Relationship'].length; idx++) {
+    const v_Relationship = value['Relationship'][idx]!;
+    writeCT_Relationship(s, v_Relationship, ctx, 'Relationship');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }

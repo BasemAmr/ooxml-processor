@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import {
   writeCT_Fill as vml_writeCT_Fill,
   writeCT_Shadow,
@@ -115,9 +120,12 @@ export function writeCT_Diagram(s: XmlSink, value: CT_Diagram, ctx: WriteContext
   if (value['dgmfontsize'] !== undefined) s.attr(null, 'dgmfontsize', String(value['dgmfontsize']));
   if (value['constrainbounds'] !== undefined) s.attr(null, 'constrainbounds', String(value['constrainbounds']));
   if (value['dgmbasetextscale'] !== undefined) s.attr(null, 'dgmbasetextscale', String(value['dgmbasetextscale']));
-  if (value['relationtable'] !== undefined) writeCT_RelationTable(s, value['relationtable'], ctx, 'relationtable');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['relationtable'] !== undefined) writeCT_RelationTable(s, value['relationtable'], ctx, 'relationtable');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -134,11 +142,14 @@ export function writeCT_Entry(s: XmlSink, value: CT_Entry, ctx: WriteContext, lo
 export function writeCT_EquationXml(s: XmlSink, value: CT_EquationXml, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml-office'), localName);
   if (value['contentType'] !== undefined) s.attr(null, 'contentType', String(value['contentType']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   for (const raw of value['any']) {
     s.raw(raw);
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -239,11 +250,16 @@ export function writeCT_OLEObject(s: XmlSink, value: CT_OLEObject, ctx: WriteCon
   if (value['ObjectID'] !== undefined) s.attr(null, 'ObjectID', String(value['ObjectID']));
   if (value['id'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'id', String(value['id']));
   if (value['UpdateMode'] !== undefined) s.attr(null, 'UpdateMode', String(value['UpdateMode']));
-  for (const v_LinkType of [value['LinkType']]) if (v_LinkType !== undefined) s.text(String(v_LinkType));
-  for (const v_LockedField of [value['LockedField']]) if (v_LockedField !== undefined) s.text(String(v_LockedField));
-  for (const v_FieldCodes of [value['FieldCodes']]) if (v_FieldCodes !== undefined) s.text(String(v_FieldCodes));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['LinkType'] !== undefined) s.text(String(value['LinkType']));
+  $q.flush(s, 0);
+  if (value['LockedField'] !== undefined) s.text(String(value['LockedField']));
+  $q.flush(s, 1);
+  if (value['FieldCodes'] !== undefined) s.text(String(value['FieldCodes']));
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -265,11 +281,16 @@ export function writeCT_R(s: XmlSink, value: CT_R, ctx: WriteContext, localName:
   if (value['type'] !== undefined) s.attr(null, 'type', String(value['type']));
   if (value['how'] !== undefined) s.attr(null, 'how', String(value['how']));
   if (value['idref'] !== undefined) s.attr(null, 'idref', String(value['idref']));
-  for (const v_proxy of value['proxy']) {
-    writeCT_Proxy(s, v_proxy, ctx, 'proxy');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['proxy'].length; idx++) {
+    const v_proxy = value['proxy'][idx]!;
+    writeCT_Proxy(s, v_proxy, ctx, 'proxy');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -277,11 +298,16 @@ export function writeCT_R(s: XmlSink, value: CT_R, ctx: WriteContext, localName:
 export function writeCT_RegroupTable(s: XmlSink, value: CT_RegroupTable, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml-office'), localName);
   if (value['ext'] !== undefined) s.attr(uriFor(ctx, 'vml'), 'ext', String(value['ext']));
-  for (const v_entry of value['entry']) {
-    writeCT_Entry(s, v_entry, ctx, 'entry');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['entry'].length; idx++) {
+    const v_entry = value['entry'][idx]!;
+    writeCT_Entry(s, v_entry, ctx, 'entry');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -300,11 +326,16 @@ export function writeCT_Relation(s: XmlSink, value: CT_Relation, ctx: WriteConte
 export function writeCT_RelationTable(s: XmlSink, value: CT_RelationTable, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml-office'), localName);
   if (value['ext'] !== undefined) s.attr(uriFor(ctx, 'vml'), 'ext', String(value['ext']));
-  for (const v_rel of value['rel']) {
-    writeCT_Relation(s, v_rel, ctx, 'rel');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['rel'].length; idx++) {
+    const v_rel = value['rel'][idx]!;
+    writeCT_Relation(s, v_rel, ctx, 'rel');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -312,11 +343,16 @@ export function writeCT_RelationTable(s: XmlSink, value: CT_RelationTable, ctx: 
 export function writeCT_Rules(s: XmlSink, value: CT_Rules, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml-office'), localName);
   if (value['ext'] !== undefined) s.attr(uriFor(ctx, 'vml'), 'ext', String(value['ext']));
-  for (const v_r of value['r']) {
-    writeCT_R(s, v_r, ctx, 'r');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['r'].length; idx++) {
+    const v_r = value['r'][idx]!;
+    writeCT_R(s, v_r, ctx, 'r');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -331,18 +367,30 @@ export function writeCT_ShapeDefaults(s: XmlSink, value: CT_ShapeDefaults, ctx: 
   if (value['strokeAttr'] !== undefined) s.attr(null, 'stroke', String(value['strokeAttr']));
   if (value['strokecolor'] !== undefined) s.attr(null, 'strokecolor', String(value['strokecolor']));
   if (value['allowincell'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'allowincell', String(value['allowincell']));
-  if (value['fill'] !== undefined) vml_writeCT_Fill(s, value['fill'], ctx, 'fill');
-  if (value['stroke'] !== undefined) writeCT_Stroke(s, value['stroke'], ctx, 'stroke');
-  if (value['textbox'] !== undefined) writeCT_Textbox(s, value['textbox'], ctx, 'textbox');
-  if (value['shadow'] !== undefined) writeCT_Shadow(s, value['shadow'], ctx, 'shadow');
-  if (value['skew'] !== undefined) writeCT_Skew(s, value['skew'], ctx, 'skew');
-  if (value['extrusion'] !== undefined) writeCT_Extrusion(s, value['extrusion'], ctx, 'extrusion');
-  if (value['callout'] !== undefined) writeCT_Callout(s, value['callout'], ctx, 'callout');
-  if (value['lock'] !== undefined) writeCT_Lock(s, value['lock'], ctx, 'lock');
-  if (value['colormru'] !== undefined) writeCT_ColorMru(s, value['colormru'], ctx, 'colormru');
-  if (value['colormenu'] !== undefined) writeCT_ColorMenu(s, value['colormenu'], ctx, 'colormenu');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fill'] !== undefined) vml_writeCT_Fill(s, value['fill'], ctx, 'fill');
+  $q.flush(s, 0);
+  if (value['stroke'] !== undefined) writeCT_Stroke(s, value['stroke'], ctx, 'stroke');
+  $q.flush(s, 1);
+  if (value['textbox'] !== undefined) writeCT_Textbox(s, value['textbox'], ctx, 'textbox');
+  $q.flush(s, 2);
+  if (value['shadow'] !== undefined) writeCT_Shadow(s, value['shadow'], ctx, 'shadow');
+  $q.flush(s, 3);
+  if (value['skew'] !== undefined) writeCT_Skew(s, value['skew'], ctx, 'skew');
+  $q.flush(s, 4);
+  if (value['extrusion'] !== undefined) writeCT_Extrusion(s, value['extrusion'], ctx, 'extrusion');
+  $q.flush(s, 5);
+  if (value['callout'] !== undefined) writeCT_Callout(s, value['callout'], ctx, 'callout');
+  $q.flush(s, 6);
+  if (value['lock'] !== undefined) writeCT_Lock(s, value['lock'], ctx, 'lock');
+  $q.flush(s, 7);
+  if (value['colormru'] !== undefined) writeCT_ColorMru(s, value['colormru'], ctx, 'colormru');
+  $q.flush(s, 8);
+  if (value['colormenu'] !== undefined) writeCT_ColorMenu(s, value['colormenu'], ctx, 'colormenu');
+  $q.flush(s, 9);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -350,11 +398,16 @@ export function writeCT_ShapeDefaults(s: XmlSink, value: CT_ShapeDefaults, ctx: 
 export function writeCT_ShapeLayout(s: XmlSink, value: CT_ShapeLayout, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml-office'), localName);
   if (value['ext'] !== undefined) s.attr(uriFor(ctx, 'vml'), 'ext', String(value['ext']));
-  if (value['idmap'] !== undefined) writeCT_IdMap(s, value['idmap'], ctx, 'idmap');
-  if (value['regrouptable'] !== undefined) writeCT_RegroupTable(s, value['regrouptable'], ctx, 'regrouptable');
-  if (value['rules'] !== undefined) writeCT_Rules(s, value['rules'], ctx, 'rules');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['idmap'] !== undefined) writeCT_IdMap(s, value['idmap'], ctx, 'idmap');
+  $q.flush(s, 0);
+  if (value['regrouptable'] !== undefined) writeCT_RegroupTable(s, value['regrouptable'], ctx, 'regrouptable');
+  $q.flush(s, 1);
+  if (value['rules'] !== undefined) writeCT_Rules(s, value['rules'], ctx, 'rules');
+  $q.flush(s, 2);
+  $q.flushRemaining(s);
   s.endElement();
 }
 

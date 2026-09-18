@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import { writeCT_ClientData } from '../vml-excel/writer.js';
 import {
   writeCT_Callout,
@@ -112,6 +117,7 @@ export function writeCT_Arc(s: XmlSink, value: CT_Arc, ctx: WriteContext, localN
   if (value['clip'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'clip', String(value['clip']));
   if (value['startAngle'] !== undefined) s.attr(null, 'startAngle', String(value['startAngle']));
   if (value['endAngle'] !== undefined) s.attr(null, 'endAngle', String(value['endAngle']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_shapeElements of value['shapeElements']) {
     if (v_shapeElements.kind === 'path') writeCT_Path(s, v_shapeElements.value, ctx, 'path');
     if (v_shapeElements.kind === 'formulas') writeCT_Formulas(s, v_shapeElements.value, ctx, 'formulas');
@@ -138,7 +144,6 @@ export function writeCT_Arc(s: XmlSink, value: CT_Arc, ctx: WriteContext, localN
     if (v_shapeElements.kind === 'textdata') writeCT_Rel(s, v_shapeElements.value, ctx, 'textdata');
     if (v_shapeElements.kind === '$raw') { s.raw(v_shapeElements.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -152,9 +157,12 @@ export function writeCT_Background(s: XmlSink, value: CT_Background, ctx: WriteC
   if (value['bwpure'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'bwpure', String(value['bwpure']));
   if (value['bwnormal'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'bwnormal', String(value['bwnormal']));
   if (value['targetscreensize'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'targetscreensize', String(value['targetscreensize']));
-  if (value['fill'] !== undefined) writeCT_Fill(s, value['fill'], ctx, 'fill');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fill'] !== undefined) writeCT_Fill(s, value['fill'], ctx, 'fill');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -218,6 +226,7 @@ export function writeCT_Curve(s: XmlSink, value: CT_Curve, ctx: WriteContext, lo
   if (value['control1'] !== undefined) s.attr(null, 'control1', String(value['control1']));
   if (value['control2'] !== undefined) s.attr(null, 'control2', String(value['control2']));
   if (value['to'] !== undefined) s.attr(null, 'to', String(value['to']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_shapeElements of value['shapeElements']) {
     if (v_shapeElements.kind === 'path') writeCT_Path(s, v_shapeElements.value, ctx, 'path');
     if (v_shapeElements.kind === 'formulas') writeCT_Formulas(s, v_shapeElements.value, ctx, 'formulas');
@@ -244,7 +253,6 @@ export function writeCT_Curve(s: XmlSink, value: CT_Curve, ctx: WriteContext, lo
     if (v_shapeElements.kind === 'textdata') writeCT_Rel(s, v_shapeElements.value, ctx, 'textdata');
     if (v_shapeElements.kind === '$raw') { s.raw(v_shapeElements.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -286,20 +294,28 @@ export function writeCT_Fill(s: XmlSink, value: CT_Fill, ctx: WriteContext, loca
   if (value['rotate'] !== undefined) s.attr(null, 'rotate', String(value['rotate']));
   if (value['id_relationships'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'id', String(value['id_relationships']));
   if (value['relid'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'relid', String(value['relid']));
-  if (value['fill'] !== undefined) vml_office_writeCT_Fill(s, value['fill'], ctx, 'fill');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['fill'] !== undefined) vml_office_writeCT_Fill(s, value['fill'], ctx, 'fill');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Formulas`; the caller supplies its element local name. */
 export function writeCT_Formulas(s: XmlSink, value: CT_Formulas, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml'), localName);
-  for (const v_f of value['f']) {
-    writeCT_F(s, v_f, ctx, 'f');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['f'].length; idx++) {
+    const v_f = value['f'][idx]!;
+    writeCT_F(s, v_f, ctx, 'f');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -345,6 +361,7 @@ export function writeCT_Group(s: XmlSink, value: CT_Group, ctx: WriteContext, lo
   if (value['editas'] !== undefined) s.attr(null, 'editas', String(value['editas']));
   if (value['tableproperties'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'tableproperties', String(value['tableproperties']));
   if (value['tablelimits'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'tablelimits', String(value['tablelimits']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'path') writeCT_Path(s, v_content.value, ctx, 'path');
     if (v_content.kind === 'formulas') writeCT_Formulas(s, v_content.value, ctx, 'formulas');
@@ -383,7 +400,6 @@ export function writeCT_Group(s: XmlSink, value: CT_Group, ctx: WriteContext, lo
     if (v_content.kind === 'diagram') writeCT_Diagram(s, v_content.value, ctx, 'diagram');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -406,11 +422,16 @@ export function writeCT_H(s: XmlSink, value: CT_H, ctx: WriteContext, localName:
 /** Write a `CT_Handles`; the caller supplies its element local name. */
 export function writeCT_Handles(s: XmlSink, value: CT_Handles, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'vml'), localName);
-  for (const v_h of value['h']) {
-    writeCT_H(s, v_h, ctx, 'h');
-  }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  for (let idx = 0; idx < value['h'].length; idx++) {
+    const v_h = value['h'][idx]!;
+    writeCT_H(s, v_h, ctx, 'h');
+    $q.flush(s, 0, idx);
+  }
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -480,6 +501,7 @@ export function writeCT_Image(s: XmlSink, value: CT_Image, ctx: WriteContext, lo
   if (value['gamma'] !== undefined) s.attr(null, 'gamma', String(value['gamma']));
   if (value['grayscale'] !== undefined) s.attr(null, 'grayscale', String(value['grayscale']));
   if (value['bilevel'] !== undefined) s.attr(null, 'bilevel', String(value['bilevel']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_shapeElements of value['shapeElements']) {
     if (v_shapeElements.kind === 'path') writeCT_Path(s, v_shapeElements.value, ctx, 'path');
     if (v_shapeElements.kind === 'formulas') writeCT_Formulas(s, v_shapeElements.value, ctx, 'formulas');
@@ -506,7 +528,6 @@ export function writeCT_Image(s: XmlSink, value: CT_Image, ctx: WriteContext, lo
     if (v_shapeElements.kind === 'textdata') writeCT_Rel(s, v_shapeElements.value, ctx, 'textdata');
     if (v_shapeElements.kind === '$raw') { s.raw(v_shapeElements.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -599,6 +620,7 @@ export function writeCT_Line(s: XmlSink, value: CT_Line, ctx: WriteContext, loca
   if (value['clip'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'clip', String(value['clip']));
   if (value['from'] !== undefined) s.attr(null, 'from', String(value['from']));
   if (value['to'] !== undefined) s.attr(null, 'to', String(value['to']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_shapeElements of value['shapeElements']) {
     if (v_shapeElements.kind === 'path') writeCT_Path(s, v_shapeElements.value, ctx, 'path');
     if (v_shapeElements.kind === 'formulas') writeCT_Formulas(s, v_shapeElements.value, ctx, 'formulas');
@@ -625,7 +647,6 @@ export function writeCT_Line(s: XmlSink, value: CT_Line, ctx: WriteContext, loca
     if (v_shapeElements.kind === 'textdata') writeCT_Rel(s, v_shapeElements.value, ctx, 'textdata');
     if (v_shapeElements.kind === '$raw') { s.raw(v_shapeElements.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -685,6 +706,7 @@ export function writeCT_Oval(s: XmlSink, value: CT_Oval, ctx: WriteContext, loca
   if (value['preferrelative'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'preferrelative', String(value['preferrelative']));
   if (value['cliptowrap'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'cliptowrap', String(value['cliptowrap']));
   if (value['clip'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'clip', String(value['clip']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'path') writeCT_Path(s, v_content.value, ctx, 'path');
     if (v_content.kind === 'formulas') writeCT_Formulas(s, v_content.value, ctx, 'formulas');
@@ -711,7 +733,6 @@ export function writeCT_Oval(s: XmlSink, value: CT_Oval, ctx: WriteContext, loca
     if (v_content.kind === 'textdata') writeCT_Rel(s, v_content.value, ctx, 'textdata');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -794,6 +815,7 @@ export function writeCT_PolyLine(s: XmlSink, value: CT_PolyLine, ctx: WriteConte
   if (value['cliptowrap'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'cliptowrap', String(value['cliptowrap']));
   if (value['clip'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'clip', String(value['clip']));
   if (value['points'] !== undefined) s.attr(null, 'points', String(value['points']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'path') writeCT_Path(s, v_content.value, ctx, 'path');
     if (v_content.kind === 'formulas') writeCT_Formulas(s, v_content.value, ctx, 'formulas');
@@ -821,7 +843,6 @@ export function writeCT_PolyLine(s: XmlSink, value: CT_PolyLine, ctx: WriteConte
     if (v_content.kind === 'ink') writeCT_Ink(s, v_content.value, ctx, 'ink');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -881,6 +902,7 @@ export function writeCT_Rect(s: XmlSink, value: CT_Rect, ctx: WriteContext, loca
   if (value['preferrelative'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'preferrelative', String(value['preferrelative']));
   if (value['cliptowrap'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'cliptowrap', String(value['cliptowrap']));
   if (value['clip'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'clip', String(value['clip']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'path') writeCT_Path(s, v_content.value, ctx, 'path');
     if (v_content.kind === 'formulas') writeCT_Formulas(s, v_content.value, ctx, 'formulas');
@@ -907,7 +929,6 @@ export function writeCT_Rect(s: XmlSink, value: CT_Rect, ctx: WriteContext, loca
     if (v_content.kind === 'textdata') writeCT_Rel(s, v_content.value, ctx, 'textdata');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -968,6 +989,7 @@ export function writeCT_RoundRect(s: XmlSink, value: CT_RoundRect, ctx: WriteCon
   if (value['cliptowrap'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'cliptowrap', String(value['cliptowrap']));
   if (value['clip'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'clip', String(value['clip']));
   if (value['arcsize'] !== undefined) s.attr(null, 'arcsize', String(value['arcsize']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'path') writeCT_Path(s, v_content.value, ctx, 'path');
     if (v_content.kind === 'formulas') writeCT_Formulas(s, v_content.value, ctx, 'formulas');
@@ -994,7 +1016,6 @@ export function writeCT_RoundRect(s: XmlSink, value: CT_RoundRect, ctx: WriteCon
     if (v_content.kind === 'textdata') writeCT_Rel(s, v_content.value, ctx, 'textdata');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -1077,6 +1098,7 @@ export function writeCT_Shape(s: XmlSink, value: CT_Shape, ctx: WriteContext, lo
   if (value['path'] !== undefined) s.attr(null, 'path', String(value['path']));
   if (value['gfxdata'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'gfxdata', String(value['gfxdata']));
   if (value['equationxml'] !== undefined) s.attr(null, 'equationxml', String(value['equationxml']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_content of value['content']) {
     if (v_content.kind === 'path') writeCT_Path(s, v_content.value, ctx, 'path');
     if (v_content.kind === 'formulas') writeCT_Formulas(s, v_content.value, ctx, 'formulas');
@@ -1106,7 +1128,6 @@ export function writeCT_Shape(s: XmlSink, value: CT_Shape, ctx: WriteContext, lo
     if (v_content.kind === 'equationxml') writeCT_EquationXml(s, v_content.value, ctx, 'equationxml');
     if (v_content.kind === '$raw') { s.raw(v_content.value); }
   }
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -1169,6 +1190,7 @@ export function writeCT_Shapetype(s: XmlSink, value: CT_Shapetype, ctx: WriteCon
   if (value['adj'] !== undefined) s.attr(null, 'adj', String(value['adj']));
   if (value['path'] !== undefined) s.attr(null, 'path', String(value['path']));
   if (value['master'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'master', String(value['master']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   for (const v_shapeElements of value['shapeElements']) {
     if (v_shapeElements.kind === 'path') writeCT_Path(s, v_shapeElements.value, ctx, 'path');
     if (v_shapeElements.kind === 'formulas') writeCT_Formulas(s, v_shapeElements.value, ctx, 'formulas');
@@ -1196,7 +1218,6 @@ export function writeCT_Shapetype(s: XmlSink, value: CT_Shapetype, ctx: WriteCon
     if (v_shapeElements.kind === '$raw') { s.raw(v_shapeElements.value); }
   }
   if (value['complex'] !== undefined) writeCT_Complex(s, value['complex'], ctx, 'complex');
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
   s.endElement();
 }
 
@@ -1232,13 +1253,20 @@ export function writeCT_Stroke(s: XmlSink, value: CT_Stroke, ctx: WriteContext, 
   if (value['id_relationships'] !== undefined) s.attr(uriFor(ctx, 'relationships'), 'id', String(value['id_relationships']));
   if (value['insetpen'] !== undefined) s.attr(null, 'insetpen', String(value['insetpen']));
   if (value['relid'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'relid', String(value['relid']));
-  if (value['left'] !== undefined) writeCT_StrokeChild(s, value['left'], ctx, 'left');
-  if (value['top'] !== undefined) writeCT_StrokeChild(s, value['top'], ctx, 'top');
-  if (value['right'] !== undefined) writeCT_StrokeChild(s, value['right'], ctx, 'right');
-  if (value['bottom'] !== undefined) writeCT_StrokeChild(s, value['bottom'], ctx, 'bottom');
-  if (value['column'] !== undefined) writeCT_StrokeChild(s, value['column'], ctx, 'column');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['left'] !== undefined) writeCT_StrokeChild(s, value['left'], ctx, 'left');
+  $q.flush(s, 0);
+  if (value['top'] !== undefined) writeCT_StrokeChild(s, value['top'], ctx, 'top');
+  $q.flush(s, 1);
+  if (value['right'] !== undefined) writeCT_StrokeChild(s, value['right'], ctx, 'right');
+  $q.flush(s, 2);
+  if (value['bottom'] !== undefined) writeCT_StrokeChild(s, value['bottom'], ctx, 'bottom');
+  $q.flush(s, 3);
+  if (value['column'] !== undefined) writeCT_StrokeChild(s, value['column'], ctx, 'column');
+  $q.flush(s, 4);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
@@ -1250,12 +1278,16 @@ export function writeCT_Textbox(s: XmlSink, value: CT_Textbox, ctx: WriteContext
   if (value['inset'] !== undefined) s.attr(null, 'inset', String(value['inset']));
   if (value['singleclick'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'singleclick', String(value['singleclick']));
   if (value['insetmode'] !== undefined) s.attr(uriFor(ctx, 'vml-office'), 'insetmode', String(value['insetmode']));
+  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
   if (value['txbxContent'] !== undefined) writeCT_TxbxContent(s, value['txbxContent'], ctx, 'txbxContent');
+  $q.flush(s, 0);
   for (const raw of value['any']) {
     s.raw(raw);
   }
-  for (const u of value.$unknown ?? []) s.raw(u.node);
-  for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }
 

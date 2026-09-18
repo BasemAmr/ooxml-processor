@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import type {
   CT_RelationshipReference,
   CT_RelationshipsGroupReference,
@@ -20,8 +25,8 @@ import type {
 export function writeCT_RelationshipReference(s: XmlSink, value: CT_RelationshipReference, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-digital-signature'), localName);
   if (value['SourceId'] !== undefined) s.attr(null, 'SourceId', String(value['SourceId']));
-  s.text(String(value.$value));
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  s.text(String(value.$value));
   s.endElement();
 }
 
@@ -29,17 +34,21 @@ export function writeCT_RelationshipReference(s: XmlSink, value: CT_Relationship
 export function writeCT_RelationshipsGroupReference(s: XmlSink, value: CT_RelationshipsGroupReference, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-digital-signature'), localName);
   if (value['SourceType'] !== undefined) s.attr(null, 'SourceType', String(value['SourceType']));
-  s.text(String(value.$value));
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  s.text(String(value.$value));
   s.endElement();
 }
 
 /** Write a `CT_SignatureTime`; the caller supplies its element local name. */
 export function writeCT_SignatureTime(s: XmlSink, value: CT_SignatureTime, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'opc-digital-signature'), localName);
-  for (const v_Format of [value['Format']]) if (v_Format !== undefined) s.text(String(v_Format));
-  for (const v_Value of [value['Value']]) if (v_Value !== undefined) s.text(String(v_Value));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['Format'] !== undefined) s.text(String(value['Format']));
+  $q.flush(s, 0);
+  if (value['Value'] !== undefined) s.text(String(value['Value']));
+  $q.flush(s, 1);
+  $q.flushRemaining(s);
   s.endElement();
 }

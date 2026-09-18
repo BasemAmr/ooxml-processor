@@ -7,7 +7,12 @@
  * so hand edits will be reverted by the next build.
  */
 
-import { type WriteContext, type XmlSink, uriFor } from '../../runtime/index.js';
+import {
+  PositionedRawQueue,
+  type WriteContext,
+  type XmlSink,
+  uriFor,
+} from '../../runtime/index.js';
 import { writeCT_Vector } from '../doc-props-vt/writer.js';
 import type { CT_DigSigBlob, CT_Properties, CT_VectorLpstr, CT_VectorVariant } from './types.js';
 
@@ -16,61 +21,99 @@ import type { CT_DigSigBlob, CT_Properties, CT_VectorLpstr, CT_VectorVariant } f
 /** Write a `CT_DigSigBlob`; the caller supplies its element local name. */
 export function writeCT_DigSigBlob(s: XmlSink, value: CT_DigSigBlob, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'doc-props-extended'), localName);
-  for (const v_blob of [value['blob']]) if (v_blob !== undefined) s.text(String(v_blob));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['blob'] !== undefined) s.text(String(value['blob']));
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_Properties`; the caller supplies its element local name. */
 export function writeCT_Properties(s: XmlSink, value: CT_Properties, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'doc-props-extended'), localName);
-  for (const v_Template of [value['Template']]) if (v_Template !== undefined) s.text(String(v_Template));
-  for (const v_Manager of [value['Manager']]) if (v_Manager !== undefined) s.text(String(v_Manager));
-  for (const v_Company of [value['Company']]) if (v_Company !== undefined) s.text(String(v_Company));
-  for (const v_Pages of [value['Pages']]) if (v_Pages !== undefined) s.text(String(v_Pages));
-  for (const v_Words of [value['Words']]) if (v_Words !== undefined) s.text(String(v_Words));
-  for (const v_Characters of [value['Characters']]) if (v_Characters !== undefined) s.text(String(v_Characters));
-  for (const v_PresentationFormat of [value['PresentationFormat']]) if (v_PresentationFormat !== undefined) s.text(String(v_PresentationFormat));
-  for (const v_Lines of [value['Lines']]) if (v_Lines !== undefined) s.text(String(v_Lines));
-  for (const v_Paragraphs of [value['Paragraphs']]) if (v_Paragraphs !== undefined) s.text(String(v_Paragraphs));
-  for (const v_Slides of [value['Slides']]) if (v_Slides !== undefined) s.text(String(v_Slides));
-  for (const v_Notes of [value['Notes']]) if (v_Notes !== undefined) s.text(String(v_Notes));
-  for (const v_TotalTime of [value['TotalTime']]) if (v_TotalTime !== undefined) s.text(String(v_TotalTime));
-  for (const v_HiddenSlides of [value['HiddenSlides']]) if (v_HiddenSlides !== undefined) s.text(String(v_HiddenSlides));
-  for (const v_MMClips of [value['MMClips']]) if (v_MMClips !== undefined) s.text(String(v_MMClips));
-  for (const v_ScaleCrop of [value['ScaleCrop']]) if (v_ScaleCrop !== undefined) s.text(String(v_ScaleCrop));
-  if (value['HeadingPairs'] !== undefined) writeCT_VectorVariant(s, value['HeadingPairs'], ctx, 'HeadingPairs');
-  if (value['TitlesOfParts'] !== undefined) writeCT_VectorLpstr(s, value['TitlesOfParts'], ctx, 'TitlesOfParts');
-  for (const v_LinksUpToDate of [value['LinksUpToDate']]) if (v_LinksUpToDate !== undefined) s.text(String(v_LinksUpToDate));
-  for (const v_CharactersWithSpaces of [value['CharactersWithSpaces']]) if (v_CharactersWithSpaces !== undefined) s.text(String(v_CharactersWithSpaces));
-  for (const v_SharedDoc of [value['SharedDoc']]) if (v_SharedDoc !== undefined) s.text(String(v_SharedDoc));
-  for (const v_HyperlinkBase of [value['HyperlinkBase']]) if (v_HyperlinkBase !== undefined) s.text(String(v_HyperlinkBase));
-  if (value['HLinks'] !== undefined) writeCT_VectorVariant(s, value['HLinks'], ctx, 'HLinks');
-  for (const v_HyperlinksChanged of [value['HyperlinksChanged']]) if (v_HyperlinksChanged !== undefined) s.text(String(v_HyperlinksChanged));
-  if (value['DigSig'] !== undefined) writeCT_DigSigBlob(s, value['DigSig'], ctx, 'DigSig');
-  for (const v_Application of [value['Application']]) if (v_Application !== undefined) s.text(String(v_Application));
-  for (const v_AppVersion of [value['AppVersion']]) if (v_AppVersion !== undefined) s.text(String(v_AppVersion));
-  for (const v_DocSecurity of [value['DocSecurity']]) if (v_DocSecurity !== undefined) s.text(String(v_DocSecurity));
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['Template'] !== undefined) s.text(String(value['Template']));
+  $q.flush(s, 0);
+  if (value['Manager'] !== undefined) s.text(String(value['Manager']));
+  $q.flush(s, 1);
+  if (value['Company'] !== undefined) s.text(String(value['Company']));
+  $q.flush(s, 2);
+  if (value['Pages'] !== undefined) s.text(String(value['Pages']));
+  $q.flush(s, 3);
+  if (value['Words'] !== undefined) s.text(String(value['Words']));
+  $q.flush(s, 4);
+  if (value['Characters'] !== undefined) s.text(String(value['Characters']));
+  $q.flush(s, 5);
+  if (value['PresentationFormat'] !== undefined) s.text(String(value['PresentationFormat']));
+  $q.flush(s, 6);
+  if (value['Lines'] !== undefined) s.text(String(value['Lines']));
+  $q.flush(s, 7);
+  if (value['Paragraphs'] !== undefined) s.text(String(value['Paragraphs']));
+  $q.flush(s, 8);
+  if (value['Slides'] !== undefined) s.text(String(value['Slides']));
+  $q.flush(s, 9);
+  if (value['Notes'] !== undefined) s.text(String(value['Notes']));
+  $q.flush(s, 10);
+  if (value['TotalTime'] !== undefined) s.text(String(value['TotalTime']));
+  $q.flush(s, 11);
+  if (value['HiddenSlides'] !== undefined) s.text(String(value['HiddenSlides']));
+  $q.flush(s, 12);
+  if (value['MMClips'] !== undefined) s.text(String(value['MMClips']));
+  $q.flush(s, 13);
+  if (value['ScaleCrop'] !== undefined) s.text(String(value['ScaleCrop']));
+  $q.flush(s, 14);
+  if (value['HeadingPairs'] !== undefined) writeCT_VectorVariant(s, value['HeadingPairs'], ctx, 'HeadingPairs');
+  $q.flush(s, 15);
+  if (value['TitlesOfParts'] !== undefined) writeCT_VectorLpstr(s, value['TitlesOfParts'], ctx, 'TitlesOfParts');
+  $q.flush(s, 16);
+  if (value['LinksUpToDate'] !== undefined) s.text(String(value['LinksUpToDate']));
+  $q.flush(s, 17);
+  if (value['CharactersWithSpaces'] !== undefined) s.text(String(value['CharactersWithSpaces']));
+  $q.flush(s, 18);
+  if (value['SharedDoc'] !== undefined) s.text(String(value['SharedDoc']));
+  $q.flush(s, 19);
+  if (value['HyperlinkBase'] !== undefined) s.text(String(value['HyperlinkBase']));
+  $q.flush(s, 20);
+  if (value['HLinks'] !== undefined) writeCT_VectorVariant(s, value['HLinks'], ctx, 'HLinks');
+  $q.flush(s, 21);
+  if (value['HyperlinksChanged'] !== undefined) s.text(String(value['HyperlinksChanged']));
+  $q.flush(s, 22);
+  if (value['DigSig'] !== undefined) writeCT_DigSigBlob(s, value['DigSig'], ctx, 'DigSig');
+  $q.flush(s, 23);
+  if (value['Application'] !== undefined) s.text(String(value['Application']));
+  $q.flush(s, 24);
+  if (value['AppVersion'] !== undefined) s.text(String(value['AppVersion']));
+  $q.flush(s, 25);
+  if (value['DocSecurity'] !== undefined) s.text(String(value['DocSecurity']));
+  $q.flush(s, 26);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_VectorLpstr`; the caller supplies its element local name. */
 export function writeCT_VectorLpstr(s: XmlSink, value: CT_VectorLpstr, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'doc-props-extended'), localName);
-  if (value['vector'] !== undefined) writeCT_Vector(s, value['vector'], ctx, 'vector');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['vector'] !== undefined) writeCT_Vector(s, value['vector'], ctx, 'vector');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
 
 /** Write a `CT_VectorVariant`; the caller supplies its element local name. */
 export function writeCT_VectorVariant(s: XmlSink, value: CT_VectorVariant, ctx: WriteContext, localName: string): void {
   s.startElement(uriFor(ctx, 'doc-props-extended'), localName);
-  if (value['vector'] !== undefined) writeCT_Vector(s, value['vector'], ctx, 'vector');
-  for (const u of value.$unknown ?? []) s.raw(u.node);
   for (const a of value.$unknownAttrs ?? []) s.attr(a.uri || null, a.localName, a.value);
+  const $q = new PositionedRawQueue(value.$unknown);
+  $q.flush(s, -1);
+  if (value['vector'] !== undefined) writeCT_Vector(s, value['vector'], ctx, 'vector');
+  $q.flush(s, 0);
+  $q.flushRemaining(s);
   s.endElement();
 }
