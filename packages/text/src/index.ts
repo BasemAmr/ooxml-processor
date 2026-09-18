@@ -44,3 +44,36 @@ export {
   deobfuscateFont,
   obfuscateFont,
 } from './odttf.js';
+
+// P4-07: UAX#9 Bidirectional Engine
+export type {
+  BidiClass,
+  BidiClassRange,
+  BracketPairInfo,
+  BidiOptions,
+  BidiVisualItem,
+  BidiResult,
+} from './bidi.js';
+export {
+  BIDI_CLASS_RANGES,
+  PAIRED_BRACKETS,
+  getBidiClass,
+  determineBaseLevel,
+  resolveBidi,
+  getBidiLevels,
+  reorderVisualRuns,
+} from './bidi.js';
+
+// P4-08: Grapheme and Word Segmentation
+export type { GraphemeSegment, WordSegment } from './segmenter.js';
+export {
+  segmentGraphemes,
+  segmentWords,
+  nextGraphemeBreak,
+  prevGraphemeBreak,
+  findWordAt,
+} from './segmenter.js';
+
+// P4-06: Sub-run Itemization
+export type { ItemizeOptions, SubRun, ParagraphRunInput } from './itemizer.js';
+export { itemizeText, itemizeParagraphRuns } from './itemizer.js';
