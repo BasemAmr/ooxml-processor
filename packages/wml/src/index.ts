@@ -75,3 +75,44 @@ export {
 // P3-13 settings.xml and compatibility flags
 export type { CompatSettingTriple, CompatSettings, LayoutSettings } from './settings.js';
 export { parseSettings, parseSettingsXml } from './settings.js';
+
+// P3-07 Toggle-property XOR
+export type { OnOffState } from './toggle.js';
+export {
+  TOGGLE_PROPERTIES,
+  NON_TOGGLE_ONOFF_PROPERTIES,
+  isToggleProperty,
+  toOnOffState,
+  toggleCombine,
+} from './toggle.js';
+
+// P3-08 Numbering-derived properties
+export type { NumberingTable, ResolvedNumbering } from './numbering.js';
+export { parseNumbering, parseNumberingXml, resolveNumbering } from './numbering.js';
+
+// P3-09 Table conditional formatting and w:cnfStyle
+export type { TableConditionMapping, CnfAttributes, TableCellPosition } from './table-style.js';
+export {
+  TABLE_CONDITION_MAPPINGS,
+  CNF_BIT_ORDER,
+  CONDITIONAL_PRECEDENCE,
+  parseCnfConditions,
+  deriveGeometryConditions,
+  resolveTableConditionalLayers,
+} from './table-style.js';
+
+// P3-06 Cascade order
+export type {
+  PropertyOrigin,
+  ResolvedProperties,
+  PropertyLayer,
+  ParagraphCascadeContext,
+  RunCascadeContext,
+  ParagraphMarkRunContext,
+} from './cascade.js';
+export {
+  resolveCascadeStack,
+  resolveParagraphProperties,
+  resolveRunProperties,
+  resolveParagraphMarkRunProperties,
+} from './cascade.js';
