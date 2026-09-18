@@ -333,7 +333,20 @@ class Normalizer {
         const wildcards: IrParticle[] = [];
         this.collectLeaves(p, elements, wildcards);
 
-        if (repeats && p.kind === 'sequence' && elements.length > 1) {
+        // Disambiguate tags when multiple alternatives share the same local name
+        // from different namespaces (e.g., w:r and m:r both map to tag 'r'). The
+        // discriminated union needs unique `kind` values, so suffix cross-namespace
+        // alternatives with their namespace token.
+        const tagCounts = new Map<string, number>();
+        for (const el of elements) tagCounts.set(el.tag, (tagCounts.get(el.tag) ?? 0) + 1);
+        const disambiguatedElements = elements.map((el) => {
+          if (tagCounts.get(el.tag)! > 1 && el.element.ns !== null) {
+            return { ...el, tag: `${el.tag}_${el.element.ns}` };
+          }
+          return el;
+        });
+
+        if (repeats && p.kind === 'sequence' && disambiguatedElements.length > 1) {
           // A repeating SEQUENCE of several distinct elements means
           // "a, b, a, b, …". Collapsing it to an interleaved union preserves
           // document order but drops the within-iteration ordering constraint.
@@ -343,8 +356,8 @@ class Normalizer {
             severity: 'warning',
             code: 'ambiguous-choice',
             message:
-              `A repeating xsd:sequence with ${elements.length} distinct child elements ` +
-              `(${elements.map((a) => a.tag).join(', ')}) was collapsed into a single ` +
+              `A repeating xsd:sequence with ${disambiguatedElements.length} distinct child elements ` +
+              `(${disambiguatedElements.map((a) => a.tag).join(', ')}) was collapsed into a single ` +
               `interleaved slot. Document order is preserved, but the schema's ` +
               `within-iteration ordering constraint is not enforced on write.`,
             source: p.source,
@@ -352,9 +365,9 @@ class Normalizer {
         }
 
         const slots: Slot[] = [];
-        const first = elements[0];
+        const first = disambiguatedElements[0];
 
-        if (elements.length === 1 && first) {
+        if (disambiguatedElements.length === 1 && first) {
           // A one-branch choice is not a union; emit a plain element slot.
           slots.push({
             kind: 'element',
@@ -365,12 +378,12 @@ class Normalizer {
             ...(first.doc !== undefined ? { doc: first.doc } : {}),
             source: first.source,
           });
-        } else if (elements.length > 1) {
+        } else if (disambiguatedElements.length > 1) {
           const origin = this.groupOrigin.get(p);
           slots.push({
             kind: 'choice',
             prop: naming.nameForChoice(origin),
-            alternatives: elements,
+            alternatives: disambiguatedElements,
             cardinality: { required: !repeats && p.min > 0, repeated: repeats },
             ...(origin !== undefined ? { origin } : {}),
             source: p.source,
@@ -435,12 +448,36 @@ class Normalizer {
       };
     }
 
+    // A schema sometimes names an attribute and a child element identically
+    // (`CT_Anchor/@simplePos` and `CT_Anchor/simplePos`). The object model
+    // cannot expose two properties with the same key, so suffix colliding
+    // attributes with `Attr`. Similarly, multiple attributes with the same
+    // local name from different namespaces (unqualified `id` and `r:id`)
+    // collide; suffix the qualified ones with `_<ns>`.
+    const slotProps = new Set(
+      content.kind === 'elements' ? content.slots.map((s) => s.prop) : [],
+    );
+    const deduped = dedupeAttributes(attributes);
+    const attrNameCounts = new Map<string, number>();
+    for (const a of deduped) attrNameCounts.set(a.name, (attrNameCounts.get(a.name) ?? 0) + 1);
+
+    const modelAttributes = deduped.map((a) => {
+      let prop = a.name;
+      // Multi-namespace collision: suffix qualified attributes with namespace
+      if (a.ns !== null && attrNameCounts.get(a.name)! > 1) {
+        prop = `${prop}_${a.ns}`;
+      }
+      // Slot collision: suffix with Attr
+      if (slotProps.has(prop)) prop = `${prop}Attr`;
+      return { ...toModelAttribute(a), prop };
+    });
+
     return {
       kind: 'complexType',
       name: ct.name,
       tsName: ct.name.name,
       content,
-      attributes: dedupeAttributes(attributes).map(toModelAttribute),
+      attributes: modelAttributes,
       baseChain,
       dialects: ct.dialects,
       ...(ct.doc !== undefined ? { doc: ct.doc } : {}),
@@ -523,9 +560,19 @@ class Normalizer {
           break;
         }
         const brand = UNIT_BRANDS[st.name.name];
-        repr = isNumericBase(st.base)
-          ? { kind: 'number', ...(brand !== undefined ? { brand } : {}), facets: st.facets }
-          : { kind: 'string', facets: st.facets };
+        // `base` is retained on the number repr because integral-vs-fractional
+        // is decided by the XSD primitive, not by the brand or the type name —
+        // see the field's doc in model.ts. The inline `kind === 'builtin'`
+        // check both narrows `st.base` for `.name` and guards the numeric set.
+        repr =
+          st.base.kind === 'builtin' && NUMERIC_BUILTINS.has(st.base.name)
+            ? {
+                kind: 'number',
+                ...(brand !== undefined ? { brand } : {}),
+                base: st.base.name,
+                facets: st.facets,
+              }
+            : { kind: 'string', facets: st.facets };
         break;
       }
     }
@@ -863,10 +910,6 @@ const NUMERIC_BUILTINS: ReadonlySet<string> = new Set([
   'xsd:positiveInteger',
   'xsd:nonNegativeInteger',
 ]);
-
-function isNumericBase(base: TypeRef): boolean {
-  return base.kind === 'builtin' && NUMERIC_BUILTINS.has(base.name);
-}
 
 /**
  * Simple types that carry a unit, mapped to the brand in `runtime/units.ts`.

@@ -177,8 +177,16 @@ export interface ModelComplexType {
 /** How a simple type is represented in TypeScript. */
 export type SimpleRepr =
   | { readonly kind: 'enum'; readonly values: readonly string[] }
-  /** A branded number — `Twip`, `Emu`, `HalfPoint`. See `runtime/units.ts`. */
-  | { readonly kind: 'number'; readonly brand?: string; readonly facets: Facets }
+  /**
+   * A branded number — `Twip`, `Emu`, `HalfPoint`. See `runtime/units.ts`.
+   * `base` is the XSD primitive the type restricts, and is what decides the
+   * parse codec: integral bases parse with `parseInteger`, `xsd:decimal` with
+   * `parseDecimal`, `xsd:double`/`xsd:float` with `parseDouble`. It is kept
+   * here precisely because nothing else discriminates correctly — the brand
+   * does not (`ST_Percentage` is integral, DrawingML coordinates are not), and
+   * the type name does not either.
+   */
+  | { readonly kind: 'number'; readonly brand?: string; readonly base: string; readonly facets: Facets }
   | { readonly kind: 'string'; readonly facets: Facets }
   /** `ST_OnOff`. Absent `val` means **true** — see `runtime/onoff.ts`. */
   | { readonly kind: 'boolean' }
@@ -206,6 +214,18 @@ export interface ModelRootElement {
 }
 
 export type ModelDefinition = ModelComplexType | ModelSimpleType | ModelRootElement;
+
+/**
+ * Namespaces referenced by the schemas but not defined in the schema set, whose
+ * members are all strings as far as the `.docx` path is concerned
+ * (`xml:space`, `xml:lang`, the Dublin Core elements in core properties).
+ *
+ * A type ref into one of these resolves to `string` in the generated code and
+ * to "no parser/validator to call" in the emitters. There is deliberately no
+ * silent fallback beyond that: anything outside this set and the schema set is
+ * an unresolved reference and fails the build loudly (B3).
+ */
+export const STRING_FALLBACK_NS: ReadonlySet<string> = new Set(['xml', 'dcterms', 'dc']);
 
 // ---------------------------------------------------------------------------
 // Coverage
