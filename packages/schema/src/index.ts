@@ -39,3 +39,9 @@ export { DEFAULT_PARSE_LIMITS, XmlParseError } from './runtime/xml.js';
 
 export { createCursor, createCursorOverRaw } from './runtime/cursor.js';
 export { createRawSink, createStringSink, XmlSinkError } from './runtime/sink.js';
+export { createReadContext } from './runtime/read.js';
+export { createWriteContext, uriFor } from './runtime/write.js';
+
+export * from './generated/wml/types.js';
+export * as wmlReader from './generated/wml/reader.js';
+export * as wmlWriter from './generated/wml/writer.js';
