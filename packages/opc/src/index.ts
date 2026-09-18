@@ -100,5 +100,23 @@ export type { Relationship, TargetMode } from './relationships.js';
 export { RelationshipTypes, MEDIA_RELATIONSHIP_TYPES } from './rel-types.js';
 export type { RelationshipTypeName } from './rel-types.js';
 
+export {
+  parseCoreProperties,
+  parseExtendedProperties,
+  parseCustomProperties,
+} from './properties.js';
+export type {
+  CoreProperties,
+  ExtendedProperties,
+  AppProperties,
+  CustomProperty,
+} from './properties.js';
+
 export { openPackage, savePackage, decodeXmlText, encodeXmlText } from './package.js';
-export type { OpcPackage, OpcPart, WordPartIndex } from './package.js';
+export type {
+  OpcPackage,
+  OpcPart,
+  WordPartIndex,
+  OpcSaveWarning,
+  SavePackageOptions,
+} from './package.js';

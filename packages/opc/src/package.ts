@@ -35,10 +35,19 @@ import {
   canonicalPartName,
   isRelationshipPartName,
   PACKAGE_ROOT,
+  relsPartNameFor,
   sourceOfRelsPart,
   type PartName,
   type RelationshipSource,
 } from './partname.js';
+import {
+  parseCoreProperties,
+  parseExtendedProperties,
+  parseCustomProperties,
+  type CoreProperties,
+  type ExtendedProperties,
+  type CustomProperty,
+} from './properties.js';
 import { RelationshipGraph, RelationshipSet, type Relationship } from './relationships.js';
 import { MEDIA_RELATIONSHIP_TYPES, RelationshipTypes } from './rel-types.js';
 import type { XmlSupport } from './xml-support.js';
@@ -153,6 +162,10 @@ export interface WordPartIndex {
   readonly footnotes: OpcPart | undefined;
   readonly endnotes: OpcPart | undefined;
   readonly comments: OpcPart | undefined;
+  readonly commentsExtended: OpcPart | undefined;
+  readonly people: OpcPart | undefined;
+  readonly signatureOrigin: OpcPart | undefined;
+  readonly signatures: readonly OpcPart[];
   readonly glossaryDocument: OpcPart | undefined;
   /** In relationship-declaration order. `w:headerReference/@r:id` selects among them. */
   readonly headers: readonly OpcPart[];
@@ -164,6 +177,20 @@ export interface WordPartIndex {
   readonly extendedProperties: OpcPart | undefined;
   readonly customProperties: OpcPart | undefined;
   readonly thumbnail: OpcPart | undefined;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Save warnings and options                                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface OpcSaveWarning {
+  readonly code: 'digital-signatures-stripped';
+  readonly message: string;
+  readonly strippedSignatures: readonly string[];
+}
+
+export interface SavePackageOptions {
+  readonly onWarning?: (warning: OpcSaveWarning) => void;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -180,6 +207,7 @@ export interface OpcPackage {
   /** Convenience alias for `wordParts.mainDocument`. */
   readonly mainDocument: OpcPart;
   readonly limits: OpcLimits;
+  readonly lastSaveWarnings: readonly OpcSaveWarning[];
 
   getPart(name: string): OpcPart | undefined;
   requirePart(name: string): OpcPart;
@@ -189,13 +217,19 @@ export interface OpcPackage {
   /** The single related part of a type, or `undefined`. Throws if there are several. */
   relatedPart(source: RelationshipSource, ...types: readonly string[]): OpcPart | undefined;
 
-  save(): Promise<Uint8Array>;
+  coreProperties(): CoreProperties | undefined;
+  extendedProperties(): ExtendedProperties | undefined;
+  appProperties(): ExtendedProperties | undefined;
+  customProperties(): readonly CustomProperty[] | undefined;
+
+  save(options?: SavePackageOptions): Promise<Uint8Array>;
 }
 
 class PackageImpl implements OpcPackage {
   readonly parts = new Map<string, Part>();
   readonly budget: DecompressionBudget = createBudget();
   #wordParts: WordPartIndex | undefined;
+  lastSaveWarnings: readonly OpcSaveWarning[] = [];
 
   constructor(
     readonly xml: XmlSupport,
@@ -206,6 +240,10 @@ class PackageImpl implements OpcPackage {
     readonly entries: readonly ZipEntry[],
     readonly archiveComment: Uint8Array,
   ) {}
+
+  invalidateWordParts(): void {
+    this.#wordParts = undefined;
+  }
 
   get packageRelationships(): RelationshipSet {
     return this.relationships.packageRelationships;
@@ -261,8 +299,30 @@ class PackageImpl implements OpcPackage {
     return this.getPart(relationship.targetPartName);
   }
 
-  async save(): Promise<Uint8Array> {
-    return savePackage(this);
+  coreProperties(): CoreProperties | undefined {
+    const part = this.wordParts.coreProperties;
+    if (part === undefined) return undefined;
+    return parseCoreProperties(part.text(), this.xml);
+  }
+
+  extendedProperties(): ExtendedProperties | undefined {
+    const part = this.wordParts.extendedProperties;
+    if (part === undefined) return undefined;
+    return parseExtendedProperties(part.text(), this.xml);
+  }
+
+  appProperties(): ExtendedProperties | undefined {
+    return this.extendedProperties();
+  }
+
+  customProperties(): readonly CustomProperty[] | undefined {
+    const part = this.wordParts.customProperties;
+    if (part === undefined) return undefined;
+    return parseCustomProperties(part.text(), this.xml);
+  }
+
+  async save(options?: SavePackageOptions): Promise<Uint8Array> {
+    return savePackage(this, options);
   }
 }
 
@@ -346,11 +406,34 @@ export async function openPackage(
  * `[Content_Types].xml` / `.rels` streams that were edited through the model,
  * are re-serialized and re-compressed.
  */
-export async function savePackage(pkg: OpcPackage): Promise<Uint8Array> {
+export async function savePackage(
+  pkg: OpcPackage,
+  options?: SavePackageOptions,
+): Promise<Uint8Array> {
   const impl = pkg as PackageImpl;
+  const partsToStrip = new Set<string>();
+
+  if (isPackageModified(impl)) {
+    const signatureNames = collectSignatureNamesForStripping(impl);
+    if (signatureNames.length > 0) {
+      stripSignatures(impl, partsToStrip, signatureNames, options);
+    }
+  }
+
   const writeEntries: ZipWriteEntry[] = [];
 
   for (const entry of impl.entries) {
+    if (entry.partName !== undefined) {
+      const canonical = canonicalPartName(entry.partName);
+      if (partsToStrip.has(canonical)) {
+        continue;
+      }
+    } else if (!entry.isDirectory && partsToStrip.size > 0) {
+      if (entry.name.toLowerCase().startsWith('_xmlsignatures/')) {
+        continue;
+      }
+    }
+
     const replacement = replacementBytesFor(impl, entry);
     writeEntries.push(
       replacement === undefined ? passThrough(entry) : recompress(entry, replacement),
@@ -358,6 +441,95 @@ export async function savePackage(pkg: OpcPackage): Promise<Uint8Array> {
   }
 
   return writeZip(writeEntries, impl.archiveComment);
+}
+
+function isPackageModified(pkg: PackageImpl): boolean {
+  for (const part of pkg.parts.values()) {
+    if (part.modified) return true;
+  }
+  if (pkg.contentTypes.dirty) return true;
+  for (const relSet of pkg.relationships.sets()) {
+    if (relSet.dirty) return true;
+  }
+  return false;
+}
+
+function collectSignatureNamesForStripping(pkg: PackageImpl): string[] {
+  const names = new Set<string>();
+  for (const part of pkg.wordParts.signatures) {
+    names.add(part.name);
+  }
+  const originRel = pkg.packageRelationships.singleByType(
+    ...RelationshipTypes.digitalSignatureOrigin,
+  );
+  if (originRel?.targetPartName) {
+    names.add(originRel.targetPartName);
+  }
+  for (const rel of pkg.packageRelationships.byType(...RelationshipTypes.digitalSignature)) {
+    if (rel.targetPartName) names.add(rel.targetPartName);
+  }
+  for (const part of pkg.parts.values()) {
+    const canonical = canonicalPartName(part.name);
+    if (canonical.startsWith('/_xmlsignatures/')) {
+      names.add(part.name);
+    }
+  }
+  return Array.from(names);
+}
+
+function stripSignatures(
+  pkg: PackageImpl,
+  partsToStrip: Set<string>,
+  signatureNames: readonly string[],
+  options?: SavePackageOptions,
+): void {
+  // 1. Remove package-level relationships for signatures
+  const relsToRemove = [
+    ...pkg.packageRelationships.byType(...RelationshipTypes.digitalSignatureOrigin),
+    ...pkg.packageRelationships.byType(...RelationshipTypes.digitalSignature),
+  ];
+  for (const rel of relsToRemove) {
+    pkg.packageRelationships.remove(rel.id);
+  }
+
+  // 2. Identify all parts to strip
+  for (const name of signatureNames) {
+    partsToStrip.add(canonicalPartName(name as PartName));
+    try {
+      const relsName = relsPartNameFor(name as PartName);
+      partsToStrip.add(canonicalPartName(relsName));
+    } catch {
+      // not a part that can have rels
+    }
+  }
+
+  for (const part of pkg.parts.values()) {
+    const canonical = canonicalPartName(part.name);
+    if (canonical.startsWith('/_xmlsignatures/')) {
+      partsToStrip.add(canonical);
+    }
+  }
+
+  // 3. Remove from parts map and content types
+  for (const canonical of partsToStrip) {
+    const part = pkg.parts.get(canonical);
+    if (part !== undefined) {
+      pkg.parts.delete(canonical);
+      pkg.contentTypes.removeOverride(part.name);
+    }
+  }
+
+  // 4. Invalidate cached wordParts index
+  pkg.invalidateWordParts();
+
+  // 5. Emit warning
+  const warning: OpcSaveWarning = {
+    code: 'digital-signatures-stripped',
+    message: `Package was modified; stripped ${signatureNames.length} digital signature part(s): ${signatureNames.join(', ')}`,
+    strippedSignatures: signatureNames,
+  };
+  pkg.lastSaveWarnings = [warning];
+  options?.onWarning?.(warning);
 }
 
 /**
@@ -461,6 +633,10 @@ function buildWordPartIndex(pkg: PackageImpl): WordPartIndex {
     footnotes: pkg.relatedPart(from, ...RelationshipTypes.footnotes),
     endnotes: pkg.relatedPart(from, ...RelationshipTypes.endnotes),
     comments: pkg.relatedPart(from, ...RelationshipTypes.comments),
+    commentsExtended: pkg.relatedPart(from, ...RelationshipTypes.commentsExtended),
+    people: pkg.relatedPart(from, ...RelationshipTypes.people),
+    signatureOrigin: pkg.relatedPart(PACKAGE_ROOT, ...RelationshipTypes.digitalSignatureOrigin),
+    signatures: collectSignatures(pkg),
     glossaryDocument: pkg.relatedPart(from, ...RelationshipTypes.glossaryDocument),
     headers: pkg.relatedParts(from, ...RelationshipTypes.header),
     footers: pkg.relatedParts(from, ...RelationshipTypes.footer),
@@ -471,6 +647,25 @@ function buildWordPartIndex(pkg: PackageImpl): WordPartIndex {
     customProperties: pkg.relatedPart(PACKAGE_ROOT, ...RelationshipTypes.customProperties),
     thumbnail: pkg.relatedPart(PACKAGE_ROOT, ...RelationshipTypes.thumbnail),
   };
+}
+
+function collectSignatures(pkg: PackageImpl): readonly OpcPart[] {
+  const origin = pkg.relatedPart(PACKAGE_ROOT, ...RelationshipTypes.digitalSignatureOrigin);
+  const fromRoot = pkg.relatedParts(PACKAGE_ROOT, ...RelationshipTypes.digitalSignature);
+  const fromOrigin =
+    origin !== undefined
+      ? pkg.relatedParts(origin.name, ...RelationshipTypes.digitalSignature)
+      : [];
+  const seen = new Set<string>();
+  const result: OpcPart[] = [];
+  for (const part of [...fromRoot, ...fromOrigin]) {
+    const key = canonicalPartName(part.name);
+    if (!seen.has(key)) {
+      seen.add(key);
+      result.push(part);
+    }
+  }
+  return result;
 }
 
 /**

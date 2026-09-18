@@ -278,6 +278,16 @@ export class ContentTypes {
     this.#reindex();
   }
 
+  /** Remove an Override declaration if present. Returns true if an override was removed. */
+  removeOverride(partName: PartName): boolean {
+    const existing = this.#overrides.get(canonicalPartName(partName));
+    if (existing === undefined) return false;
+    this.#declarations.splice(existing, 1);
+    this.#dirty = true;
+    this.#reindex();
+    return true;
+  }
+
   /**
    * Serialize in declaration order.
    *
