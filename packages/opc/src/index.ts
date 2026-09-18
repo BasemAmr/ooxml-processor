@@ -120,3 +120,6 @@ export type {
   OpcSaveWarning,
   SavePackageOptions,
 } from './package.js';
+
+export { assertPackageIdempotent, diagnosePackageDiff } from './idempotence.js';
+export type { AssertIdempotentOptions } from './idempotence.js';
