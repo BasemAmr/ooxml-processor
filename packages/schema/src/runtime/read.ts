@@ -32,7 +32,11 @@ export type ReadDiagnosticCode =
   | 'unexpected-element'
   /** An attribute the type does not declare. Captured verbatim. */
   | 'unexpected-attribute'
-  /** Lexically outside its declared type. Attribute preserved as unknown. */
+  /**
+   * Lexically outside its declared type. Attribute values are preserved as
+   * unknown attributes; simple-typed element text is preserved as the raw
+   * string (typed as the declared type, unvalidated).
+   */
   | 'invalid-value'
   /** `use="required"` and absent. */
   | 'missing-required'
@@ -82,6 +86,8 @@ export interface ReadContext {
   unexpectedElement(inType: string, localName: string, uri: string, cur: XmlCursor): void;
   unexpectedAttribute(inType: string, attr: XmlAttr, cur: XmlCursor): void;
   invalidValue(inType: string, attr: XmlAttr, expected: string, cur: XmlCursor): void;
+  /** Simple-typed element text outside its lexical space. Text preserved raw. */
+  invalidElementValue(inType: string, localName: string, expected: string, value: string, cur: XmlCursor): void;
   missingRequired(inType: string, attrName: string, cur: XmlCursor): void;
   unexpectedText(inType: string, cur: XmlCursor): void;
   unexpectedEof(inType: string, cur: XmlCursor): void;
@@ -131,6 +137,18 @@ class Context implements ReadContext {
       message:
         `${qualify(attr)}="${attr.value}" on ${inType} is not a valid ${expected}; ` +
         `the attribute is preserved verbatim but not interpreted`,
+      position: cur.position,
+      inType,
+    });
+  }
+
+  invalidElementValue(inType: string, localName: string, expected: string, value: string, cur: XmlCursor): void {
+    this.report({
+      severity: 'error',
+      code: 'invalid-value',
+      message:
+        `<${localName}> text "${value}" in ${inType} is not a valid ${expected}; ` +
+        `the text is preserved verbatim but not interpreted`,
       position: cur.position,
       inType,
     });

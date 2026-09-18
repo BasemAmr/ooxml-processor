@@ -34,6 +34,20 @@ export { DEFAULT_PARSE_LIMITS, XmlParseError } from './xml.js';
 /* --- Parsing -------------------------------------------------------------- */
 export { createCursor, createCursorOverRaw } from './cursor.js';
 
+/* --- Reading -------------------------------------------------------------- */
+export type { Dialect, NsUris, ReadContext, ReadDiagnostic, ReadDiagnosticCode } from './read.js';
+export {
+  createReadContext,
+  DIAGNOSTIC_CAP,
+  isIgnorableWhitespace,
+  requireStart,
+} from './read.js';
+export { readScalar } from './reader-scalar.js';
+
+/* --- Writing -------------------------------------------------------------- */
+export type { WriteContext } from './write.js';
+export { createWriteContext, uriFor } from './write.js';
+
 /* --- Serialization -------------------------------------------------------- */
 export type { StringSinkOptions } from './sink.js';
 export {
@@ -43,6 +57,19 @@ export {
   escapeText,
   XmlSinkError,
 } from './sink.js';
+
+/* --- Simple-type lexical codecs -------------------------------------------- */
+export {
+  collapse,
+  formatList,
+  formatNumber,
+  formatXsdBoolean,
+  parseDecimal,
+  parseDouble,
+  parseInteger,
+  parseList,
+  parseXsdBoolean,
+} from './lexical.js';
 
 /* --- Namespaces ----------------------------------------------------------- */
 export {
