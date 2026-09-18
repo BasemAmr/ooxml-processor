@@ -89,3 +89,43 @@ export {
   applyRunProperty,
   toggleRunProperty,
 } from './mutate/index.js';
+
+// P6-13: Incremental relayout driver
+export type {
+  OutflowState,
+  PageLayoutRecord,
+  RelayoutContext,
+  RepaintSet,
+} from './relayout.js';
+export {
+  computeOutflowState,
+  areOutflowsEqual,
+  relayout,
+} from './relayout.js';
+
+// P6-14: Repaint scheduler
+export type { PaintSchedulerDelegate } from './paint-scheduler.js';
+export {
+  PaintScheduler,
+  coalesceRects,
+} from './paint-scheduler.js';
+
+// P6-15: Clipboard integration
+export type {
+  ClipboardPolicy,
+  ClipboardPayload,
+  ParsedClipboardContent,
+} from './clipboard/index.js';
+export {
+  OOXML_MIME,
+  serializeClipboard,
+  deserializeClipboard,
+  sanitizeHtml,
+} from './clipboard/index.js';
+
+// P6-17: Latency instrumentation
+export type {
+  LatencySample,
+  LatencyStats,
+} from './perf/latency.js';
+export { LatencyTracker } from './perf/latency.js';
