@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  verify:
+    name: Verify (format, gen, typecheck, test, git-clean)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run verification gate
+        run: pnpm verify
+
+      - name: Verify generated tree is committed
+        run: |
+          if [ -n "$(git status --porcelain packages/schema/src/generated)" ]; then
+            echo "❌ Generated tree has uncommitted changes after 'pnpm gen'"
+            git status packages/schema/src/generated
+            git diff packages/schema/src/generated
+            exit 1
+          fi
+          echo "✅ Generated tree is clean"

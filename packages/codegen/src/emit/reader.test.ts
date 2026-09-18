@@ -93,7 +93,6 @@ describe('reader emitter', () => {
         isIgnorableWhitespace,
         requireStart,
       } from '../../runtime/index.js';
-      import { parseST_Jc, readCT_A, readCT_B, readCT_R } from './reader.js';
       import {
         type CT_A,
         type CT_B,
@@ -103,12 +102,6 @@ describe('reader emitter', () => {
         type ST_Jc,
         ST_Jc_VALUES,
       } from './types.js';
-
-      export function readScalar(cur: XmlCursor, ctx: ReadContext): string {
-        const ev = cur.current;
-        if (ev?.type === 'startElement') { cur.next(); const text = cur.current; if (text?.type === 'text') { cur.next(); } while (cur.current?.type !== 'endElement' && cur.current !== undefined) cur.next(); cur.next(); return text?.type === 'text' ? text.value : ''; }
-        return '';
-      }
 
       // Simple-type parsers. \`undefined\` means "outside the lexical space".
 
