@@ -74,10 +74,10 @@ counted, so the anchor survives an edit that deletes the slot it was anchored to
 
 `afterIndex` disambiguates *within* a repeating slot, which is the one case `afterSlot`
 alone cannot express: `<w:gridCol/><ext/><w:gridCol/>` would otherwise re-emit `ext` after
-both columns. `-1` means "before the slot's first item"; absent means "after the slot as a
-whole", which is the only available meaning for a non-repeating slot and the common case
-elsewhere. The cost is one optional number and about six lines in the generated writer —
-cheap enough that leaving a known repositioning bug in place was not defensible.
+both columns. Absent means "after the slot as a whole", which is the only available meaning
+for a non-repeating slot and the common case elsewhere. The cost is one optional number and
+about six lines in the generated writer — cheap enough that leaving a known repositioning
+bug in place was not defensible.
 
 **Known limit.** Unknown *elements* inside a `simpleContent` or `empty` type get no anchor,
 because such a type has no slots to anchor to. Both cases are schema-invalid input, and the
@@ -89,9 +89,17 @@ Every complex type carries `$unknownAttrs?: readonly XmlAttr[]`, in source order
 **Unconditionally** — including types the schema declares with no attributes at all. An
 extension attribute can land on any element (Word puts `w14:paraId` on `w:p`, and nothing
 says it could not have picked `w:hyperlink`), and gating the property on
-`attributes.length > 0` would silently drop those. Attribute order within an element is not
-semantically significant, but it *is* textually significant, and preserving it is what lets
-the round-trip differ assert byte-stability rather than a weaker equivalence.
+`attributes.length > 0` would silently drop those.
+
+Attribute *order* is normalized rather than preserved exactly: the writer emits the
+recognized attributes in schema order, then `$unknownAttrs` in their relative source order.
+So `<w:p mc:Ignorable="w14" w:rsidR="00A"/>` comes back as
+`<w:p w:rsidR="00A" mc:Ignorable="w14"/>`. This is the strongest honest guarantee, and it
+is the one the conformance gate actually asserts: **first save may reorder attributes;
+every save after that is byte-identical**, because the partition into known/unknown and the
+order within each half are both functions of the schema. Preserving original order exactly
+would mean an interleaving index on every unknown attribute, to defend a property the
+plan's equivalence relation already declines to require.
 
 ### 4. The `$` prefix is reserved
 
@@ -129,8 +137,9 @@ much larger correctness surface than the one it removes.
 - `RawNode` must retain namespace declarations, attribute order and prefix spellings — it
   does; see `packages/schema/src/runtime/xml.ts`. `PositionedRaw` and its writer-ordering
   helper live in `packages/schema/src/runtime/preserve.ts`.
-- The round-trip gate in `packages/conformance` can assert **byte-stability** for untouched
-  parts rather than a weaker semantic equivalence, which is a much sharper test.
+- The round-trip gate in `packages/conformance` asserts **idempotence after one pass**:
+  second-generation output is byte-identical to first-generation. Not byte-identity with
+  the input, which attribute-order normalization (above) and ZIP metadata both rule out.
 - `$raw` in a choice union means every consumer of that union must handle a `'$raw'` case.
   That is deliberate: layout and paint should render unknown content as a visible labelled
   placeholder rather than silently nothing, which is the same principle the coverage

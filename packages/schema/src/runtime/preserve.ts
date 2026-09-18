@@ -33,11 +33,13 @@ export interface PositionedRaw {
    * Index within a repeating slot's array, for content interleaved between
    * repetitions — `<w:gridCol/><ext/><w:gridCol/>` anchors at `afterIndex: 0`.
    *
-   * `-1` means "before the slot's first item". Absent means "after the slot as a
-   * whole", which is the only meaning available for a non-repeating slot and the
-   * common case everywhere else.
+   * Absent means "after the slot as a whole", which is the only meaning
+   * available for a non-repeating slot and the common case everywhere else.
+   * There is deliberately no "before the first item" value: that position is
+   * already expressible as `afterSlot` of the *previous* slot, and two
+   * encodings for one position is how a writer ends up with two behaviours.
    */
-  readonly afterIndex?: number;
+  readonly afterIndex?: number | undefined;
 
   readonly node: RawNode;
 }
