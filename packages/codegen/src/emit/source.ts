@@ -57,6 +57,9 @@ interface ImportedName {
   readonly typeOnly: boolean;
 }
 
+/** The owner recorded for names the module itself declares (see {@link SourceFile.reserveLocal}). */
+const OWN_MODULE = '';
+
 export class SourceFile {
   private readonly lines: string[] = [];
   private depth = 0;
@@ -70,6 +73,21 @@ export class SourceFile {
   constructor(private readonly banner: string) {}
 
   // -- imports --------------------------------------------------------------
+
+  /**
+   * Mark a name as declared by THIS module.
+   *
+   * Generated modules declare their own top-level functions — `parseST_Foo`,
+   * `readCT_Foo` — and two namespaces can define the same type name
+   * (`dml-main#ST_Percentage` and `shared-types#ST_Percentage`), where one
+   * legitimately imports the other's parser for a union member. Without this
+   * reservation the import would silently take the same local name as the
+   * local declaration and fail the generated module's compile (TS2440). Call
+   * before emitting bodies: imports are registered as the body is emitted.
+   */
+  reserveLocal(name: string): void {
+    if (!this.localNames.has(name)) this.localNames.set(name, OWN_MODULE);
+  }
 
   /**
    * Request `name` from `module`, returning the local identifier to use.

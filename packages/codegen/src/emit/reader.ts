@@ -41,6 +41,7 @@ import type {
   Slot,
 } from '../model.js';
 import { qnameKey } from '../ir.js';
+import { STRING_FALLBACK_NS } from '../model.js';
 import type { EmittedModule } from './types.js';
 import { generatedBanner, propertyKey, SourceFile, stringLiteral } from './source.js';
 
@@ -89,7 +90,16 @@ export function emitReader(set: ModelSet, ns: LogicalNs): EmittedModule {
     .filter((t) => t.name.ns === ns)
     .sort(byTsName);
 
-  emitScalarReader(ctx, file);
+  // This module declares one function per local type. Reserve those names
+  // BEFORE emitting bodies so a cross-namespace import of an identically named
+  // type's parser aliases instead of colliding (dml-main#ST_Percentage's union
+  // member shared-types#ST_Percentage is the live case).
+  for (const st of simpleTypes) file.reserveLocal(`parse${st.tsName}`);
+  for (const ct of complexTypes) file.reserveLocal(`read${ct.tsName}`);
+
+  // `readScalar` (the shared scalar-element reader) lives in the runtime and is
+  // imported on demand via `ctx.rt('readScalar')` — one implementation, not one
+  // per module.
 
   if (simpleTypes.length > 0) {
     file.comment('Simple-type parsers. `undefined` means "outside the lexical space".');
@@ -136,12 +146,26 @@ class ReaderContext {
     return this.moduleName(ref.ref, 'types', (d) => d.tsName, true);
   }
 
-  /** `parseST_Foo` for a simple type, or a runtime codec for a built-in. */
+  /**
+   * `parseST_Foo` for a simple type, or a runtime codec for a built-in.
+   *
+   * `undefined` means "parses as a plain string" — a string built-in or a
+   * foreign-namespace type (see {@link STRING_FALLBACK_NS}); the caller then
+   * uses the raw value and no parse can fail.
+   */
   parserFor(ref: TypeRef): string | undefined {
     if (ref.kind === 'builtin') {
       const codec = BUILTIN_PARSER[ref.name];
       if (codec === undefined) throw new Error(`No parser for XSD built-in ${ref.name}`);
       return codec === null ? undefined : this.rt(codec);
+    }
+    const key = qnameKey(ref.ref);
+    if (
+      !this.set.complexTypes.has(key) &&
+      !this.set.simpleTypes.has(key) &&
+      STRING_FALLBACK_NS.has(ref.ref.ns)
+    ) {
+      return undefined;
     }
     return this.moduleName(ref.ref, 'reader', (d) => `parse${d.tsName}`, false);
   }
@@ -152,12 +176,29 @@ class ReaderContext {
     return this.moduleName(ref.ref, 'reader', (d) => `read${d.tsName}`, false);
   }
 
+  /**
+   * Whether a named ref points at a complex type — i.e. whether a generated
+   * element *reader* exists for it. Everything else (built-ins and simple
+   * types) is scalar content: text read with `readScalar` and parsed with the
+   * type's own parser.
+   */
+  isComplex(ref: TypeRef): boolean {
+    return ref.kind === 'named' && this.set.complexTypes.has(qnameKey(ref.ref));
+  }
+
   /** The hoisted local holding one namespace's URI for this document's dialect. */
   nsLocal(ns: LogicalNs): string {
     return `NS_${ns.replace(/[^A-Za-z0-9]/g, '_')}`;
   }
 
-  /** The human-readable name a diagnostic reports. */
+  /**
+   * The human-readable name a diagnostic reports.
+   *
+   * A same-namespace reference to a *reader* function is local to the module
+   * being emitted — importing it from `./reader.js` would be a self-import and
+   * a TS2440. Only cross-namespace readers (and everything from `types.js`,
+   * which is a different module) go through `importName`.
+   */
   private moduleName(
     q: QName,
     module: 'types' | 'reader',
@@ -166,9 +207,10 @@ class ReaderContext {
   ): string {
     const key = qnameKey(q);
     const def = this.set.complexTypes.get(key) ?? this.set.simpleTypes.get(key);
-    if (!def && (q.ns === 'xml' || q.ns === 'dcterms' || q.ns === 'dc')) return 'string';
+    if (!def && STRING_FALLBACK_NS.has(q.ns)) return 'string';
     if (!def) throw new Error(`Unresolved type reference ${key}`);
     const name = pick(def);
+    if (q.ns === this.ns && module === 'reader') return name;
     const spec = q.ns === this.ns ? `./${module}.js` : `../${q.ns}/${module}.js`;
     return this.file.importName(spec, name, typeOnly);
   }
@@ -205,17 +247,6 @@ const BUILTIN_TS_FOR_LOCALS: Readonly<Record<string, string>> = {
   'xsd:double': 'number',
   'xsd:float': 'number',
 };
-
-function emitScalarReader(ctx: ReaderContext, file: SourceFile): void {
-  const cursor = ctx.rt('XmlCursor', true);
-  const read = ctx.rt('ReadContext', true);
-  file.block(`export function readScalar(cur: ${cursor}, ctx: ${read}): string {`, () => {
-    file.line("const ev = cur.current;");
-    file.line("if (ev?.type === 'startElement') { cur.next(); const text = cur.current; if (text?.type === 'text') { cur.next(); } while (cur.current?.type !== 'endElement' && cur.current !== undefined) cur.next(); cur.next(); return text?.type === 'text' ? text.value : ''; }");
-    file.line("return '';");
-  });
-  file.blank();
-}
 
 function byTsName(a: { tsName: string }, b: { tsName: string }): number {
   return a.tsName < b.tsName ? -1 : a.tsName > b.tsName ? 1 : 0;
@@ -293,24 +324,36 @@ function emitSimpleParser(st: ModelSimpleType, ctx: ReaderContext, file: SourceF
 /**
  * Which numeric codec a branded or plain number uses.
  *
- * Integral versus fractional is decided by the facets the normalizer kept rather
- * than by the brand: `ST_Percentage` is an integer in thousandths, `ST_Angle` an
+ * Integral versus fractional is decided by the XSD base primitive the type
+ * restricts — retained on the repr by normalize.ts — not by the brand or the
+ * type name: `ST_Percentage` is an integer in thousandths, `ST_Angle` an
  * integer in sixtythousandths, but `a:CT_Point3D` coordinates are decimals.
- * Guessing from the brand would get the DrawingML ones wrong.
+ * Guessing from the brand would get the DrawingML ones wrong, and guessing from
+ * the name is a regex that silently rots as schemas add types.
+ *
+ * The mapping matches `BUILTIN_PARSER` exactly; anything else here would be two
+ * sources of truth for the same decision.
  */
+const INTEGRAL_BASES: ReadonlySet<string> = new Set([
+  'xsd:int',
+  'xsd:integer',
+  'xsd:long',
+  'xsd:unsignedInt',
+  'xsd:unsignedLong',
+  'xsd:unsignedShort',
+  'xsd:byte',
+  'xsd:unsignedByte',
+  'xsd:positiveInteger',
+  'xsd:nonNegativeInteger',
+]);
+
 function numericCodec(st: ModelSimpleType): string {
   if (st.repr.kind !== 'number') {
     throw new Error(`numericCodec called for non-numeric simple type ${st.tsName}`);
   }
-
-  // The normalized IR currently retains range/length facets but not the XSD
-  // base primitive. Known OOXML integral measure types are all canonical
-  // decimal lexicals; the remaining numeric restrictions may use exponent
-  // notation, so route them through the broader double codec.
-  const integral = /(?:Integer|TwipsMeasure|Emu|HalfPoint|EighthPoint|Percentage|DecimalNumber|Unsigned|Positive|NonNegative|Long|Short|Byte|Int)$/i.test(
-    st.tsName,
-  );
-  return integral ? 'parseDecimal' : 'parseDouble';
+  if (INTEGRAL_BASES.has(st.repr.base)) return 'parseInteger';
+  if (st.repr.base === 'xsd:decimal') return 'parseDecimal';
+  return 'parseDouble';
 }
 
 // ---------------------------------------------------------------------------
@@ -340,15 +383,21 @@ function emitComplexReader(ct: ModelComplexType, ctx: ReaderContext, file: Sourc
       file.line(`const start = ${ctx.rt('requireStart')}(cur, ${name});`);
       emitAttributeLoop(ct, ctx, file, name);
 
+      // P1-02 defect 1: `$parsed` is only declared when a parser exists, so the
+      // return statement must not reference it unconditionally. A string base
+      // (the common case — `w:t` is simpleContent over xsd:string) parses as
+      // the raw text with nothing that can fail.
+      const scParser = ct.content.kind === 'simpleContent' ? ctx.parserFor(ct.content.valueType) : undefined;
+
       if (ct.content.kind === 'simpleContent') {
-        emitSimpleContentLoop(ct, ctx, file, name);
+        emitSimpleContentLoop(ct, ctx, file, name, scParser);
       } else if (slots.length === 0) {
         emitEmptyLoop(ctx, file, name);
       } else {
         emitChildLoop(ct, slots, rawSlots, { usesUnknown, tracksPosition }, ctx, file, name);
       }
 
-      emitReturn(ct, slots, usesUnknown, file);
+      emitReturn(ct, slots, usesUnknown, scParser, file);
     },
   );
 }
@@ -466,6 +515,7 @@ function emitSimpleContentLoop(
   ctx: ReaderContext,
   file: SourceFile,
   name: string,
+  parser: string | undefined,
 ): void {
   file.line('let $value = ￿;'.replace('￿', "''"));
   file.line('cur.next();');
@@ -481,11 +531,8 @@ function emitSimpleContentLoop(
     });
     file.line('cur.next();');
   });
-  if (ct.content.kind === 'simpleContent') {
-    const parser = ctx.parserFor(ct.content.valueType);
-    if (parser !== undefined) {
-      file.line(`const $parsed = ${parser}($value);`);
-    }
+  if (ct.content.kind === 'simpleContent' && parser !== undefined) {
+    file.line(`const $parsed = ${parser}($value);`);
   }
   file.blank();
 }
@@ -521,6 +568,15 @@ function emitChildLoop(
     file.line(`const ${ctx.nsLocal(ns)} = ctx.uris[${stringLiteral(ns)}];`);
   }
 
+  // A `##any` wildcard accepts every element, so the unrecognized-child tail
+  // below is unreachable for this type. Emitting it anyway produces dead code
+  // in which TypeScript drops `ev`'s `startElement` narrowing and fails the
+  // module's compile — and semantically, `##any` means every child belongs to
+  // the wildcard, so an "unexpected element" diagnostic would be wrong anyway.
+  const hasCatchAll = slots.some(
+    (s) => s.kind === 'wildcard' && s.namespaces.kind === 'any',
+  );
+
   file.line('cur.next();');
   file.block('for (;;) {', () => {
     file.line('const ev = cur.current;');
@@ -528,7 +584,7 @@ function emitChildLoop(
     file.line("if (ev.type === 'endElement') { cur.next(); break; }");
     file.block("if (ev.type === 'startElement') {", () => {
       for (const ns of namespaces) {
-        const cases = slotCases(slots, ns, ctx, flags);
+        const cases = slotCases(ct, slots, ns, ctx, flags);
         if (cases.length === 0) continue;
         file.block(`if (ev.uri === ${ctx.nsLocal(ns)}) {`, () => {
           file.block('switch (ev.localName) {', () => {
@@ -537,8 +593,10 @@ function emitChildLoop(
         });
       }
       emitWildcardDispatch(slots, flags, ctx, file);
-      file.line(`ctx.unexpectedElement(${name}, ev.localName, ev.uri, cur);`);
-      emitRawCapture(rawSlots, flags, file);
+      if (!hasCatchAll) {
+        file.line(`ctx.unexpectedElement(${name}, ev.localName, ev.uri, cur);`);
+        emitRawCapture(rawSlots, flags, file);
+      }
       file.line('continue;');
     });
     file.line(
@@ -579,22 +637,30 @@ function emitSlotDeclaration(
 
 /** One `case` per element this namespace contributes, across all slots. */
 function slotCases(
+  ct: ModelComplexType,
   slots: readonly Slot[],
   ns: LogicalNs,
   ctx: ReaderContext,
   flags: LoopFlags,
 ): ((file: SourceFile) => void)[] {
   const out: ((file: SourceFile) => void)[] = [];
+  const inType = stringLiteral(ct.tsName);
 
   slots.forEach((slot, i) => {
     const v = local(slot.prop);
     if (slot.kind === 'element' && slot.element.ns === ns) {
-      const read = slot.type.kind === 'builtin' ? ctx.rt('readScalar') : ctx.readerFor(slot.type);
+      const complex = ctx.isComplex(slot.type);
       out.push((file) =>
         file.block(`case ${stringLiteral(slot.element.name)}: {`, () => {
-          file.line(
-            slot.cardinality.repeated ? `${v}.push(${read}(cur, ctx));` : `${v} = ${read}(cur, ctx);`,
-          );
+          const assign = (expr: string): string =>
+            slot.cardinality.repeated ? `${v}.push(${expr});` : `${v} = ${expr};`;
+          if (complex) {
+            file.line(assign(`${ctx.readerFor(slot.type)}(cur, ctx)`));
+          } else {
+            emitScalarChild(ctx, file, inType, slot.element.name, slot.type, ctx.typeName(slot.type), (expr) =>
+              file.line(assign(expr)),
+            );
+          }
           emitPositionUpdate(file, flags, i, slot.cardinality.repeated ? v : undefined);
           file.line('continue;');
         }),
@@ -604,11 +670,19 @@ function slotCases(
     if (slot.kind === 'choice') {
       for (const alt of slot.alternatives) {
         if (alt.element.ns !== ns) continue;
-        const read = alt.type.kind === 'builtin' ? ctx.rt('readScalar') : ctx.readerFor(alt.type);
+        const complex = ctx.isComplex(alt.type);
         out.push((file) =>
           file.block(`case ${stringLiteral(alt.element.name)}: {`, () => {
-            const value = `{ kind: ${stringLiteral(alt.tag)}, value: ${read}(cur, ctx) }`;
-            file.line(slot.cardinality.repeated ? `${v}.push(${value});` : `${v} = ${value};`);
+            const wrap = (expr: string): string => `{ kind: ${stringLiteral(alt.tag)}, value: ${expr} }`;
+            const assign = (expr: string): string =>
+              slot.cardinality.repeated ? `${v}.push(${wrap(expr)});` : `${v} = ${wrap(expr)};`;
+            if (complex) {
+              file.line(assign(`${ctx.readerFor(alt.type)}(cur, ctx)`));
+            } else {
+              emitScalarChild(ctx, file, inType, alt.element.name, alt.type, ctx.typeName(alt.type), (expr) =>
+                file.line(assign(expr)),
+              );
+            }
             emitPositionUpdate(file, flags, i, slot.cardinality.repeated ? v : undefined);
             file.line('continue;');
           }),
@@ -618,6 +692,39 @@ function slotCases(
   });
 
   return out;
+}
+
+/**
+ * One scalar-typed child element: read the text, parse it, and on a lexical
+ * failure diagnose and preserve (B4: readers never throw on document content;
+ * A1: the raw text is kept, typed as the declared type and unvalidated, rather
+ * than dropped). String-ish types take the direct path — nothing can fail.
+ */
+function emitScalarChild(
+  ctx: ReaderContext,
+  file: SourceFile,
+  inType: string,
+  elemName: string,
+  ref: TypeRef,
+  tsType: string,
+  emitAssign: (expr: string) => void,
+): void {
+  const parser = ctx.parserFor(ref);
+  if (parser === undefined) {
+    emitAssign(`${ctx.rt('readScalar')}(cur, ctx)`);
+    return;
+  }
+  const readScalar = ctx.rt('readScalar');
+  file.line(`const $s = ${readScalar}(cur, ctx);`);
+  file.line(`const $pv = ${parser}($s);`);
+  file.line(
+    `if ($pv === undefined) ctx.invalidElementValue(${inType}, ${stringLiteral(elemName)}, ${stringLiteral(typeLabel(ref))}, $s, cur);`,
+  );
+  // On a lexical failure the raw text is PRESERVED (A1): the value slot holds
+  // the unparsed string, typed as the declared type. The cast must be on the
+  // union (`$pv ?? $s`), not on `$s` alone — `string as ST_Number` is a
+  // TS2352 in the generated module.
+  emitAssign(`($pv ?? $s) as ${tsType}`);
 }
 
 function emitPositionUpdate(
@@ -641,11 +748,20 @@ function emitWildcardDispatch(
     if (slot.kind !== 'wildcard') return;
     const v = local(slot.prop);
     const test = wildcardTest(slot.namespaces, ctx);
-    file.block(`if (${test}) {`, () => {
+    const body = (): void => {
       file.line(`${v}.push(cur.skipToRaw());`);
       emitPositionUpdate(file, flags, i, v);
       file.line('continue;');
-    });
+    };
+    // `##any` accepts every element, so there is no branch to take — and
+    // emitting `if (true) { … continue; }` would make TypeScript treat the
+    // statements after it as unreachable, resetting `ev`'s narrowing and
+    // failing the generated module's compile. Inline the body instead.
+    if (test === 'true') {
+      body();
+      return;
+    }
+    file.block(`if (${test}) {`, body);
   });
 }
 
@@ -707,10 +823,14 @@ function emitReturn(
   ct: ModelComplexType,
   slots: readonly Slot[],
   usesUnknown: boolean,
+  scParser: string | undefined,
   file: SourceFile,
 ): void {
   const fields: string[] = [];
-  if (ct.content.kind === 'simpleContent') fields.push('$value: $parsed ?? $value');
+  if (ct.content.kind === 'simpleContent') {
+    // Only reference `$parsed` when emitSimpleContentLoop declared it.
+    fields.push(scParser === undefined ? '$value: $value' : '$value: $parsed ?? $value');
+  }
   for (const slot of slots) fields.push(field(slot.prop));
   for (const a of ct.attributes) fields.push(field(a.prop));
   if (usesUnknown) fields.push('$unknown');

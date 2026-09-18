@@ -40,8 +40,13 @@ import { generatedBanner, propertyKey, SourceFile, stringLiteral } from './sourc
 /** Module specifier for the hand-authored runtime, from inside a generated module. */
 const RUNTIME = '../../runtime/index.js';
 
-/** XSD built-in → TypeScript. Anything not listed is a codegen bug, not an `any`. */
-const BUILTIN_TS: Readonly<Record<string, string>> = {
+/**
+ * XSD built-in → TypeScript. Anything not listed is a codegen bug, not an `any`.
+ *
+ * Exported because the validator emitter derives its `validBuiltin` sets from
+ * the same table — one source of truth for how a built-in maps to TypeScript.
+ */
+export const BUILTIN_TS: Readonly<Record<string, string>> = {
   'xsd:string': 'string',
   'xsd:boolean': 'boolean',
   'xsd:int': 'number',
@@ -95,6 +100,13 @@ export function emitTypes(set: ModelSet, ns: LogicalNs): EmittedModule {
     .filter((t) => t.name.ns === ns)
     .sort(byTsName);
   const simpleTypes = [...set.simpleTypes.values()].filter((t) => t.name.ns === ns).sort(byTsName);
+
+  // Reserve this module's own type names before emitting, so a cross-namespace
+  // reference to an identically named type (dml-main#ST_Percentage vs
+  // shared-types#ST_Percentage, one a union over the other) aliases the import
+  // instead of colliding with the local declaration (TS2440).
+  for (const st of simpleTypes) file.reserveLocal(st.tsName);
+  for (const ct of complexTypes) file.reserveLocal(ct.tsName);
 
   const ctx = new TypeContext(set, ns, file);
 
