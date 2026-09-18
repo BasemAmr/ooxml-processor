@@ -8,7 +8,7 @@ Decisions made autonomously (while the project owner was away) are marked
 | ------------------------------------------------ | ---------------------------------------------------------- | ------------------------- |
 | [0001](0001-repo-location-and-disk-budget.md)    | Repo on `D:`, pnpm store pinned alongside it               | Accepted ⚠ NEEDS REVIEW   |
 | [0002](0002-zip-library.md)                      | `fflate` for ZIP read/write                                | Accepted                  |
-| [0003](0003-document-model-representation.md)    | Model representation                                       | **Open — spike required** |
+| [0003](0003-document-model-representation.md)    | Model representation                                       | Accepted                  |
 | [0004](0004-text-shaper.md)                      | `harfbuzzjs` (WASM) for shaping                            | Accepted — owner-approved |
 | [0005](0005-worker-boundary.md)                  | Main thread for v1, serializable display list              | Accepted                  |
 | [0006](0006-xml-parsing-strategy.md)             | `saxes` streaming parser, one reader for both runtimes     | Accepted ⚠ NEEDS REVIEW   |
@@ -17,3 +17,4 @@ Decisions made autonomously (while the project owner was away) are marked
 | [0009](0009-unknown-content-preservation.md)     | Position-faithful capture of unrecognized content          | Accepted ⚠ NEEDS REVIEW   |
 | [0010](0010-required-is-a-validator-property.md) | `required` does not make a generated property non-optional | Accepted ⚠ NEEDS REVIEW   |
 | [0011](0011-digital-signatures-policy.md)        | Strip digital signatures on edited save (Policy B)         | Accepted ⚠ NEEDS REVIEW   |
+| [0012](0012-line-box-representation.md)          | Line Box representation: multi-segment lines               | Accepted                  |
