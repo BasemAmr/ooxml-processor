@@ -343,3 +343,6 @@ export function resolveParagraphMarkRunProperties(
 
   return resolveCascadeStack(layers);
 }
+
+export const resolveParaRPrProperties = resolveParagraphMarkRunProperties;
+export type ResolveParaRPrContext = ParagraphMarkRunContext;

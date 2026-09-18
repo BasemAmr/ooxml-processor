@@ -109,10 +109,20 @@ export type {
   ParagraphCascadeContext,
   RunCascadeContext,
   ParagraphMarkRunContext,
+  ResolveParaRPrContext,
 } from './cascade.js';
 export {
   resolveCascadeStack,
   resolveParagraphProperties,
   resolveRunProperties,
   resolveParagraphMarkRunProperties,
+  resolveParaRPrProperties,
 } from './cascade.js';
+
+// P3-11 Resolved-property cache
+export type { CacheStats, InvalidationGenerations } from './cache.js';
+export { hashDirectProps, buildCacheKey, ResolvedPropertyCache } from './cache.js';
+
+// P3-12 Property inspector
+export type { InspectedProperty, InspectionReport } from './inspector.js';
+export { inspectProperties } from './inspector.js';
