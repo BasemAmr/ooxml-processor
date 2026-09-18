@@ -57,3 +57,35 @@ export {
 // P6-16: Accessibility mirror
 export type { AccessibilityMirror } from './a11y/mirror.js';
 export { createAccessibilityMirror } from './a11y/mirror.js';
+
+// P6-10: Command model
+export type {
+  Effect,
+  DirtySet,
+  Command,
+  Transaction,
+  DocumentModel,
+} from './commands/command.js';
+export {
+  createEffect,
+  mergeEffects,
+  createDirtySet,
+  InsertTextCommand,
+  DeleteTextCommand,
+  ApplyPropertyCommand,
+  SplitParagraphCommand,
+  MergeParagraphCommand,
+} from './commands/command.js';
+
+// P6-11: Undo / Redo history
+export type { UndoHistory, UndoHistoryOptions } from './commands/history.js';
+export { createHistory } from './commands/history.js';
+
+// P6-12: Mutation API
+export {
+  insertText,
+  deleteRange,
+  splitParagraph,
+  applyRunProperty,
+  toggleRunProperty,
+} from './mutate/index.js';
