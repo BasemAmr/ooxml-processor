@@ -122,6 +122,9 @@ importers:
 
   packages/text:
     dependencies:
+      '@ooxml/schema':
+        specifier: workspace:*
+        version: link:../schema
       '@ooxml/wml':
         specifier: workspace:*
         version: link:../wml
