@@ -77,3 +77,66 @@ export {
 // P4-06: Sub-run Itemization
 export type { ItemizeOptions, SubRun, ParagraphRunInput } from './itemizer.js';
 export { itemizeText, itemizeParagraphRuns } from './itemizer.js';
+
+// P4-13: Font Metrics Reconciliation & OpenType Table Parsing
+export type {
+  FontMetricsStrategy,
+  HeadTableMetrics,
+  HheaTableMetrics,
+  Os2TableMetrics,
+  RawFontMetrics,
+  ReconciledFontMetrics,
+  MetricDimensions,
+  ScaledFontMetrics,
+} from './metrics.js';
+export {
+  OS2_FS_SELECTION_USE_TYPO_METRICS,
+  FONT_METRICS_STRATEGY,
+  parseSfntTableDirectory,
+  parseFontTables,
+  reconcileFontMetrics,
+  scaleFontMetrics,
+} from './metrics.js';
+
+// P4-14: Vertical Text and CJK East Asian Layout
+export type {
+  TextOrientation,
+  ST_TextVerticalType,
+  ResolvedEastAsianLayout,
+  BracketPair,
+  VerticalGlyphMetrics,
+  VheaTableMetrics,
+  VmtxTableMetrics,
+  RawVerticalFontMetrics,
+  ScaledVerticalMetrics,
+} from './cjk-vertical.js';
+export {
+  DEFAULT_EAST_ASIAN_LAYOUT,
+  isVerticalOrientation,
+  isEastAsianVertical,
+  isSidewaysOrientation,
+  textOrientationFromWml,
+  textOrientationFromDml,
+  parseEastAsianLayout,
+  getCombineBracketPairs,
+  formatCombineText,
+  getVerticalOpenTypeFeatures,
+  parseVerticalFontTables,
+  synthesizeVerticalMetrics,
+  resolveVerticalGlyphMetrics,
+  scaleVerticalMetrics,
+} from './cjk-vertical.js';
+
+// P4-05: FontFace Loading & FOUT Mitigation
+export type {
+  FontLoadStatus,
+  FontFaceDescriptors,
+  FontStateRecord,
+  FontLoadResult,
+  FontSettledEvent,
+  FontSettledListener,
+  FontSourceResolver,
+  FontFaceApiAdapter,
+  FontLoaderOptions,
+} from './font-loader.js';
+export { BrowserFontFaceAdapter, FontLoader } from './font-loader.js';
