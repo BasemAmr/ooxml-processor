@@ -8,6 +8,7 @@ import { emitReader } from './emit/reader.js';
 import { emitWriter } from './emit/writer.js';
 import { emitValidator } from './emit/validator.js';
 import { emitCoverage } from './emit/coverage.js';
+import { emitFixtures } from './emit/fixtures.js';
 import { emitNamespaces } from './emit/namespaces.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -45,6 +46,8 @@ for (const ns of [...namespaces].sort()) {
 const coverage = emitCoverage(model);
 await mkdir(outDir, { recursive: true });
 await writeFile(resolve(outDir, coverage.path), coverage.contents, 'utf8');
+const fixtures = emitFixtures(model);
+await writeFile(resolve(outDir, fixtures.path), fixtures.contents, 'utf8');
 
 // Emit the namespace binding table (P1-07)
 const namespacesModule = emitNamespaces();
