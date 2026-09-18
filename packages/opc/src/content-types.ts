@@ -152,8 +152,16 @@ export class ContentTypes {
         );
       }
       if (start.localName === 'Default') {
-        const extension = required(start.localName, 'Extension', attributeValue(start, 'Extension'));
-        const contentType = required(start.localName, 'ContentType', attributeValue(start, 'ContentType'));
+        const extension = required(
+          start.localName,
+          'Extension',
+          attributeValue(start, 'Extension'),
+        );
+        const contentType = required(
+          start.localName,
+          'ContentType',
+          attributeValue(start, 'ContentType'),
+        );
         declarations.push({
           kind: 'default',
           extension: checkExtension(extension),
@@ -164,7 +172,11 @@ export class ContentTypes {
       }
       if (start.localName === 'Override') {
         const partName = required(start.localName, 'PartName', attributeValue(start, 'PartName'));
-        const contentType = required(start.localName, 'ContentType', attributeValue(start, 'ContentType'));
+        const contentType = required(
+          start.localName,
+          'ContentType',
+          attributeValue(start, 'ContentType'),
+        );
         declarations.push({
           kind: 'override',
           // `CT_Override/@PartName` is declared `xs:anyURI`, which validates

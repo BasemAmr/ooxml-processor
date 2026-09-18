@@ -36,7 +36,7 @@ All three are worse than an optional property.
 the schema says about required-ness.** Repeating slots stay non-optional arrays, because an
 empty array is an honest representation of "none present".
 
-Required-ness is carried into the *validator* (`use="required"` and `minOccurs>=1` become
+Required-ness is carried into the _validator_ (`use="required"` and `minOccurs>=1` become
 checks) and into the coverage manifest, not into the type.
 
 The reader reports `missing-required` as an **error**-severity diagnostic in both cases, so
@@ -47,7 +47,7 @@ the decision made for it by a generator.
 ### Why `| undefined` and not a bare `?`
 
 `tsconfig.base.json` sets `exactOptionalPropertyTypes: true`. Under it, `{ jc: undefined }`
-is *not* assignable to `{ jc?: CT_Jc }` — the property must be omitted entirely. A generated
+is _not_ assignable to `{ jc?: CT_Jc }` — the property must be omitted entirely. A generated
 reader would have to accumulate into a mutable object and conditionally assign each of up to
 40 properties, instead of returning one object literal.
 

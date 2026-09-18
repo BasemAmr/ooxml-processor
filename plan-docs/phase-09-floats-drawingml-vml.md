@@ -28,31 +28,31 @@ as labelled placeholders. Do not start them in this phase.
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| **Floats and wrapping** ||||
-| P9-01 | Anchor model: inline vs anchored, position resolution | L | yes |
-| P9-02 | Exclusion region store | L | **yes** |
-| P9-03 | Wrap modes | M | no |
-| P9-04 | Polygon wrapping: `wrapPolygon` ∩ line band | L | no |
-| P9-05 | Line-segment integration into layout | L | **yes** |
-| P9-06 | Anchor ⇄ wrap fixpoint | L | **yes** |
-| P9-07 | `w:framePr` legacy text frames | M | no |
-| **DrawingML** ||||
-| P9-08 | Shape tree and the transform stack | L | no |
-| P9-09 | Guide/formula evaluator | L | no |
-| P9-10 | Preset geometry compiler | L | no |
-| P9-11 | `a:custGeom` → path | M | no |
-| P9-12 | Fills | L | no |
-| P9-13 | Lines (`a:ln`) | M | no |
-| P9-14 | Colour pipeline | M | **yes** |
-| P9-15 | Effects, with a cost budget | L | no |
-| P9-16 | `a:txBody` layout | L | no |
-| P9-17 | Images and `a:blip` | M | no |
-| **Legacy and fallback** ||||
-| P9-18 | VML rendering | L | no |
-| P9-19 | MCE preference: DrawingML over VML | S | no |
-| P9-20 | Chart and SmartArt placeholders | S | no |
+| ID                      | Title                                                 | Size | Escalate |
+| ----------------------- | ----------------------------------------------------- | ---- | -------- |
+| **Floats and wrapping** |                                                       |      |          |
+| P9-01                   | Anchor model: inline vs anchored, position resolution | L    | yes      |
+| P9-02                   | Exclusion region store                                | L    | **yes**  |
+| P9-03                   | Wrap modes                                            | M    | no       |
+| P9-04                   | Polygon wrapping: `wrapPolygon` ∩ line band           | L    | no       |
+| P9-05                   | Line-segment integration into layout                  | L    | **yes**  |
+| P9-06                   | Anchor ⇄ wrap fixpoint                                | L    | **yes**  |
+| P9-07                   | `w:framePr` legacy text frames                        | M    | no       |
+| **DrawingML**           |                                                       |      |          |
+| P9-08                   | Shape tree and the transform stack                    | L    | no       |
+| P9-09                   | Guide/formula evaluator                               | L    | no       |
+| P9-10                   | Preset geometry compiler                              | L    | no       |
+| P9-11                   | `a:custGeom` → path                                   | M    | no       |
+| P9-12                   | Fills                                                 | L    | no       |
+| P9-13                   | Lines (`a:ln`)                                        | M    | no       |
+| P9-14                   | Colour pipeline                                       | M    | **yes**  |
+| P9-15                   | Effects, with a cost budget                           | L    | no       |
+| P9-16                   | `a:txBody` layout                                     | L    | no       |
+| P9-17                   | Images and `a:blip`                                   | M    | no       |
+| **Legacy and fallback** |                                                       |      |          |
+| P9-18                   | VML rendering                                         | L    | no       |
+| P9-19                   | MCE preference: DrawingML over VML                    | S    | no       |
+| P9-20                   | Chart and SmartArt placeholders                       | S    | no       |
 
 ---
 
@@ -65,7 +65,7 @@ as labelled placeholders. Do not start them in this phase.
 **Goal.** Resolve every drawing's position to page coordinates.
 
 **Trap.** Treating `wp:anchor` as "absolutely positioned at `positionH/positionV` offsets". Position is
-expressed **relative to one of eight reference frames**, in either an *align* form or an *offset* form,
+expressed **relative to one of eight reference frames**, in either an _align_ form or an _offset_ form,
 and the two axes can use different frames. `relativeFrom="line"` and `"paragraph"` and `"character"`
 resolve against text that has not been laid out yet at the time the anchor is read — which is what
 creates the fixpoint in `P9-06`.
@@ -214,7 +214,7 @@ band excludes correctly.
 
 **Size** L · **Depends** P9-02, P5-01, P5-03 · **Escalate** **yes**
 
-**Goal.** Line layout consumes *segments*, not a single width.
+**Goal.** Line layout consumes _segments_, not a single width.
 
 **Trap.** This is a change to the **line box's core shape** (`P5-01`), not an addition to it. If Phase 5
 defines a line as having one `width`, retrofitting segments here means touching every consumer —
@@ -592,7 +592,7 @@ allocation counter over 100 shapes).
 
 **Trap.** Reusing the WML paragraph layout directly. Shape text uses **DrawingML** paragraph and run
 properties (`a:pPr`, `a:rPr`, `a:defRPr`, list levels `lvl1pPr`..`lvl9pPr` from the theme's
-`a:lstStyle`), not `w:pPr`/`w:rPr`. The *layout engine* is shared; the *property resolution* is not.
+`a:lstStyle`), not `w:pPr`/`w:rPr`. The _layout engine_ is shared; the _property resolution_ is not.
 
 **Design.**
 
@@ -712,6 +712,7 @@ a `Choice` requiring an unknown namespace falls through to `Fallback`.
 **Size** S · **Depends** P9-17 · **Escalate** no
 
 Charts and SmartArt are **deferred**, not skipped. They must:
+
 1. round-trip losslessly (already true via the generated readers/writers);
 2. render a labelled placeholder at the correct extent — not a blank (`G3`);
 3. appear in the coverage manifest as `modelled: true, laidOut: true, painted: 'placeholder'`.

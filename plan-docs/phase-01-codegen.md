@@ -33,8 +33,8 @@ packages/schema/src/generated/   does not exist
 .github/                         does not exist — there is no CI at all
 ```
 
-**The thing this phase must internalise.** Nothing in the repository compiles the emitters' *output*.
-`npx tsc -p packages/codegen` type-checks the code that *writes* strings; it cannot see inside the
+**The thing this phase must internalise.** Nothing in the repository compiles the emitters' _output_.
+`npx tsc -p packages/codegen` type-checks the code that _writes_ strings; it cannot see inside the
 strings. That gap is not hypothetical — it is currently hiding at least two distinct defects that
 would break every generated module on the first run (see `P1-02`). Closing it is worth more than any
 other single ticket here, which is why `P1-01` is only **S**: the errors `tsc` can already see are the
@@ -44,25 +44,25 @@ cheap half.
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| **Unblock the build** ||||
-| P1-01 | Fix the three `reader.ts` type errors | S | no |
-| P1-02 | Compile the generated output in CI | M | **yes** |
-| P1-03 | Reconcile `types.test.ts` with ADR 0010 | S | no |
-| P1-13 | Fix the two red `sink.ts` tests | S | no |
-| **The missing emitters** ||||
-| P1-04 | `emit/writer.ts` | L | **yes** |
-| P1-05 | `emit/validator.ts` | M | no |
-| P1-06 | `emit/coverage.ts` | S | no |
-| P1-07 | `emit/namespaces.ts` | S | no |
-| P1-08 | `cli.ts` and the `pnpm gen` entry point | M | no |
-| **Coverage of what cannot be generated** ||||
-| P1-09 | MCE tests | M | no |
-| P1-10 | Schema-derived synthetic fixtures | M | no |
-| **Closeout** ||||
-| P1-11 | Branded unit types audit — **ALREADY LANDED** | S | no |
-| P1-12 | Commit the working tree | S | no |
+| ID                                       | Title                                         | Size | Escalate |
+| ---------------------------------------- | --------------------------------------------- | ---- | -------- |
+| **Unblock the build**                    |                                               |      |          |
+| P1-01                                    | Fix the three `reader.ts` type errors         | S    | no       |
+| P1-02                                    | Compile the generated output in CI            | M    | **yes**  |
+| P1-03                                    | Reconcile `types.test.ts` with ADR 0010       | S    | no       |
+| P1-13                                    | Fix the two red `sink.ts` tests               | S    | no       |
+| **The missing emitters**                 |                                               |      |          |
+| P1-04                                    | `emit/writer.ts`                              | L    | **yes**  |
+| P1-05                                    | `emit/validator.ts`                           | M    | no       |
+| P1-06                                    | `emit/coverage.ts`                            | S    | no       |
+| P1-07                                    | `emit/namespaces.ts`                          | S    | no       |
+| P1-08                                    | `cli.ts` and the `pnpm gen` entry point       | M    | no       |
+| **Coverage of what cannot be generated** |                                               |      |          |
+| P1-09                                    | MCE tests                                     | M    | no       |
+| P1-10                                    | Schema-derived synthetic fixtures             | M    | no       |
+| **Closeout**                             |                                               |      |          |
+| P1-11                                    | Branded unit types audit — **ALREADY LANDED** | S    | no       |
+| P1-12                                    | Commit the working tree                       | S    | no       |
 
 ---
 
@@ -98,7 +98,7 @@ stops matching.
 
 The `TS2339` pair looks like a missing field on an interface. It is not.
 
-**Design — why `fractionDigits`/`totalDigits` must be *removed*, not added.**
+**Design — why `fractionDigits`/`totalDigits` must be _removed_, not added.**
 
 ```pseudo
 # MEASURED, 2026-09-17:
@@ -150,7 +150,7 @@ fn numericCodec(repr) -> string
 # parseInteger at all, even though BUILTIN_PARSER maps ten built-ins to it.
 ```
 
-Keep the existing doc comment's *reasoning* — it correctly says the choice must not be guessed from
+Keep the existing doc comment's _reasoning_ — it correctly says the choice must not be guessed from
 the brand, because `ST_Percentage` and `ST_Angle` are integers while `a:CT_Point3D` coordinates are
 decimals — but fix the sentence that claims the decision comes from facets. It does not.
 
@@ -167,7 +167,7 @@ unchanged (no new fields). A unit test asserts `numericCodec` picks `parseIntege
 `packages/schema/src/runtime/index.ts`, CI config
 
 **Goal.** A gate that type-checks `packages/schema/src/generated/**`, so that a defect in an emitted
-*string* fails a build instead of waiting for a consumer.
+_string_ fails a build instead of waiting for a consumer.
 
 **Trap.** Believing `npx tsc -p packages/codegen` covers this. It does not, and cannot. It checks the
 emitter; the emitter's product is `string`. Every template literal in `reader.ts` is, to the compiler,
@@ -215,7 +215,7 @@ visible to any command in the repository.
 ```
 
 Defect 2 is the more instructive one: it is not a subtle logic slip, it is eight missing lines in a
-barrel file, and it survived because *no file anywhere imports a generated module*. That is the class
+barrel file, and it survived because _no file anywhere imports a generated module_. That is the class
 of bug this gate closes, and the reason it is escalate-worthy — the failure mode is not a wrong
 render, it is discovering at Phase 3 that none of Phase 1's output was ever compiled.
 
@@ -291,7 +291,7 @@ change, correctly implemented in `types.ts` and not yet reflected in its test.
 attribute. ADR 0010 **deliberately reversed that**: required-ness no longer makes a property
 non-optional, it moves to the validator and to `missing-required` diagnostics. The emitter is right
 and the test is asserting a decision that has been overturned. Blindly running `-u`, or mechanically
-appending `| undefined` to all five expectations, would leave a test whose *name* documents the
+appending `| undefined` to all five expectations, would leave a test whose _name_ documents the
 opposite of the project's architecture — which is worse than no test, because the next reader believes
 it.
 
@@ -346,13 +346,13 @@ it is what `P1-04`'s writer will emit through, so this is a prerequisite, not a 
 ```
 
 **Trap.** Deciding the tests are wrong because the implementation is defensible. The first is
-arguable on the XML spec's terms — `>` is not *required* to be escaped in an attribute value — but
+arguable on the XML spec's terms — `>` is not _required_ to be escaped in an attribute value — but
 "arguable" is not the standard for `ROUND-TRIP` code. Escaping `>` is what every mainstream serializer
 does, it is what `A2` idempotence is cheapest to prove against, and a sink that escapes `>` in text
 but not in attributes has two rules where one will do. Decide it once, write it down, and make the
 code and the test agree.
 
-The second failure is not arguable. The sink is emitting a prefixed root *and* a default declaration
+The second failure is not arguable. The sink is emitting a prefixed root _and_ a default declaration
 for the same URI — `<ns:root xmlns:ns="urn:d" xmlns="urn:d">` — where the test asked for the default
 binding alone. Two bindings for one URI on one element is legal XML and a round-trip hazard: the
 second generation has to pick one, and whichever it picks differs from generation one.
@@ -453,13 +453,13 @@ round-trips with both branches. Emitting a `vml` type into a Strict context thro
 required-ness, for two reasons: a reader that must open defective documents cannot promise a required
 child is present, and under `exactOptionalPropertyTypes` the bare `?` would force the reader to
 accumulate into a mutable object instead of returning one object literal. Both reasons are about the
-*reader*. Neither says the constraint stops existing — it moves here.
+_reader_. Neither says the constraint stops existing — it moves here.
 
 **Trap.** Shipping it to the browser. This is dev/CI-only code over ~2,800 types; it must be
 tree-shaken out of production or it is dead weight in a bundle that Phase 11 has a size budget for.
 Second trap: duplicating the reader's `missing-required` diagnostic. The reader already emits
 `ctx.missingRequired(...)` per required attribute (`reader.ts`, `emitAttributeLoop`); the validator's
-job is the constraints the reader deliberately does *not* enforce.
+job is the constraints the reader deliberately does _not_ enforce.
 
 **Design.**
 
@@ -536,7 +536,7 @@ The count of `docxPath: true` entries is printed by `pnpm gen` and recorded in t
 **Goal.** Emit the Strict/Transitional alias table (`A4`) that every generated reader's `ctx.uris`
 lookup and every writer's URI resolution reads from.
 
-**Context.** The *input* table is landed and good: `packages/codegen/src/namespaces.ts` is the
+**Context.** The _input_ table is landed and good: `packages/codegen/src/namespaces.ts` is the
 hand-authored binding list (token ↔ prefix ↔ transitional URI ↔ strict URI) built from the
 `targetNamespace` of all 51 vendored schemas, and it already exports `NS_BY_TOKEN`, `NS_BY_URI`,
 `TRANSITIONAL_ONLY` and `DOCX_NAMESPACES`. Only the emitter is missing.
@@ -655,7 +655,7 @@ the surface that decides whether `A5` holds.
 
 **Trap.** Testing selection and forgetting preservation. `McResolver.selectAlternateContent` picking
 the right branch is the easy, visible half. The half that silently corrupts documents is what happens
-to the branches it did *not* pick. `A5` is unambiguous: choosing the DrawingML `mc:Choice` for
+to the branches it did _not_ pick. `A5` is unambiguous: choosing the DrawingML `mc:Choice` for
 rendering does not license dropping the VML `mc:Fallback` on save, and a document that loses its
 fallback is permanently downgraded for older Word — a corruption the user cannot see and we cannot
 detect after the fact.
@@ -788,7 +788,7 @@ Pct50        ST_TablePercent, ST_TablePercentMeasure
 
 No `Int32`, no `UInt32`, no width brands of any kind. The entries a previous attempt added for
 `ST_DecimalNumber` and `ST_UnsignedDecimalNumber` are gone, and the table carries a comment recording
-*why* they are gone, which is the part that stops them coming back: they are plain
+_why_ they are gone, which is the part that stops them coming back: they are plain
 `xsd:int`/`xsd:unsignedInt` with no unit attached, so a brand buys no safety — nothing can be confused
 with them — while forcing a cast at every arithmetic use. **Brands are for units, not for widths.**
 
@@ -814,8 +814,8 @@ files and 20 untracked paths, including the entire `packages/opc/src/` tree, the
 `packages/codegen/src/emit/reader.ts`, ADR 0010, and `plan-docs/` itself. That is several days of work
 living only on this disk.
 
-**Trap.** Committing it to make the tree clean. `00-conventions.md` item 6 says *never leave the tree
-in a knowingly-broken intermediate state overnight* — it does not say commit whatever is there. The
+**Trap.** Committing it to make the tree clean. `00-conventions.md` item 6 says _never leave the tree
+in a knowingly-broken intermediate state overnight_ — it does not say commit whatever is there. The
 tree is knowingly broken right now: three type errors and eight failing tests. Committing that state
 makes `HEAD` a point nobody can bisect through.
 

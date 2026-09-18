@@ -32,26 +32,26 @@ unit tests that use small documents.
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P8-01 | Section model and iteration | M | no |
-| P8-02 | Page geometry from `CT_SectPr` | S | no |
-| P8-03 | Headers and footers, with height feedback | L | yes |
-| P8-04 | Section break types and section start | M | no |
-| P8-05 | Columns: `w:cols`, balancing | L | no |
-| P8-06 | **The fixpoint driver** | XL | **yes** |
-| P8-07 | Page-fill algorithm | L | **yes** |
-| P8-08 | Keep constraints and backtracking | L | **yes** |
-| P8-09 | Footnotes | XL | **yes** |
-| P8-10 | Endnotes | M | no |
-| P8-11 | Page numbering | M | no |
-| P8-12 | Line numbering | S | no |
-| P8-13 | Vertical alignment (`w:vAlign`) | S | no |
-| P8-14 | Simple fields (`CT_SimpleField`) | S | no |
-| P8-15 | Complex field state machine | L | no |
-| P8-16 | Field instruction parser | M | no |
-| P8-17 | Field evaluators | L | no |
-| P8-18 | Field recalculation policy | M | **yes** |
+| ID    | Title                                     | Size | Escalate |
+| ----- | ----------------------------------------- | ---- | -------- |
+| P8-01 | Section model and iteration               | M    | no       |
+| P8-02 | Page geometry from `CT_SectPr`            | S    | no       |
+| P8-03 | Headers and footers, with height feedback | L    | yes      |
+| P8-04 | Section break types and section start     | M    | no       |
+| P8-05 | Columns: `w:cols`, balancing              | L    | no       |
+| P8-06 | **The fixpoint driver**                   | XL   | **yes**  |
+| P8-07 | Page-fill algorithm                       | L    | **yes**  |
+| P8-08 | Keep constraints and backtracking         | L    | **yes**  |
+| P8-09 | Footnotes                                 | XL   | **yes**  |
+| P8-10 | Endnotes                                  | M    | no       |
+| P8-11 | Page numbering                            | M    | no       |
+| P8-12 | Line numbering                            | S    | no       |
+| P8-13 | Vertical alignment (`w:vAlign`)           | S    | no       |
+| P8-14 | Simple fields (`CT_SimpleField`)          | S    | no       |
+| P8-15 | Complex field state machine               | L    | no       |
+| P8-16 | Field instruction parser                  | M    | no       |
+| P8-17 | Field evaluators                          | L    | no       |
+| P8-18 | Field recalculation policy                | M    | **yes**  |
 
 ---
 
@@ -65,7 +65,7 @@ unit tests that use small documents.
 paragraph of its section**, inside that paragraph's `w:pPr`. It is not a header, it is a terminator.
 The final section's `sectPr` is different again: it hangs directly off `w:body`, after all content.
 
-Reading `sectPr` as a section *opener* puts every section boundary one section off — every page size,
+Reading `sectPr` as a section _opener_ puts every section boundary one section off — every page size,
 every margin, every column count applies to the wrong range. The document still renders, which is why
 this survives casual testing.
 
@@ -133,7 +133,7 @@ area widths in twips; a `sectPr` whose `@orient` contradicts `@w`/`@h` uses `@w`
 into the body text area.
 
 **Trap.** Treating header height as a constant taken from `w:header` (the margin). It is not. The
-header's *content* can be taller than the header margin, and when it is, **it pushes the body text
+header's _content_ can be taller than the header margin, and when it is, **it pushes the body text
 area down**. That makes body height a function of header layout — which is a dependency that must be
 resolved before the page can be filled, and is the first place the fixpoint driver is needed.
 
@@ -224,7 +224,7 @@ mid-page.
 # calibrated on nothing, because no Word is available here (F6).
 ```
 
-**Trap.** Balancing is only applied to the *final* stretch of a section (before a `continuous` break or
+**Trap.** Balancing is only applied to the _final_ stretch of a section (before a `continuous` break or
 the section end), never to columns that are simply full. Balancing everything makes every multi-column
 page look wrong.
 
@@ -240,7 +240,7 @@ columns within one line-height of each other; the balance search is deterministi
 **Goal.** One reusable, bounded, deterministic convergence loop. Phase 9 reuses it for anchor⇄wrap.
 
 **Trap 1.** `while (changed) { recompute() }`. It does not terminate on an oscillating input — and
-oscillation is the *normal* case here, not a pathological one (the footnote cycle in P8-09 oscillates
+oscillation is the _normal_ case here, not a pathological one (the footnote cycle in P8-09 oscillates
 on ordinary documents).
 
 **Trap 2.** Comparing floating-point geometry for equality to detect convergence. Two layout passes
@@ -351,7 +351,7 @@ a page whose first block does not fit still emits that block rather than an empt
 
 **Goal.** `w:keepNext`, `w:keepLines`, `w:pageBreakBefore`, `w:widowControl`.
 
-**Trap.** Applying keeps greedily while filling. `keepNext` is only decidable *after* you know where
+**Trap.** Applying keeps greedily while filling. `keepNext` is only decidable _after_ you know where
 the next block lands, so it is inherently a backtracking constraint: placing block N may have to be
 undone because block N+1 did not fit.
 
@@ -382,7 +382,7 @@ fn applyKeepConstraints(page):
 ```
 
 **`keepLines`** prevents a paragraph splitting at all — move it whole. **`pageBreakBefore`** is
-unconditional and is applied *before* filling, not as a keep.
+unconditional and is applied _before_ filling, not as a keep.
 
 **Done when.** A heading with `keepNext` followed by an unsplittable table moves to the next page with
 it; a chain of 30 `keepNext` paragraphs that cannot fit on one page breaks the chain and reports a
@@ -574,17 +574,17 @@ with switches intact; an unknown switch survives round-trip.
 
 **Size** L · **Depends** P8-16, P8-11 · **Escalate** no
 
-| Field | Notes |
-|---|---|
-| `PAGE`, `NUMPAGES`, `SECTIONPAGES` | Read from pagination (P8-11). `FIXPOINT` — width changes can reflow. |
-| `REF`, `PAGEREF` | Resolve a bookmark (P3-03). `PAGEREF` is `FIXPOINT`. |
-| `SEQ` | Per-identifier counters in document order, with `\r` reset and `\c` repeat. |
-| `DATE`, `TIME`, `CREATEDATE`, `SAVEDATE` | Picture strings via `\@`. Date pictures are **not** `Intl.DateTimeFormat` patterns; write a converter. |
-| `STYLEREF` | Nearest paragraph of a given style, searching **backwards from the top of the current page** — so it depends on pagination. `FIXPOINT`. |
-| `HYPERLINK` | Result is display text; the target lives in the field. External targets are blocked by default (Phase 2 SSRF rule). |
-| `MERGEFIELD` | No data source in v1 — render the cached result or the field name. |
-| `TOC` | Collect headings by style or outline level, emit entries with `PAGEREF`. `FIXPOINT` — the TOC's own length shifts the pages it lists. |
-| `IF`, `=` (formula) | Needed because they nest around the above. Minimal evaluator. |
+| Field                                    | Notes                                                                                                                                   |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `PAGE`, `NUMPAGES`, `SECTIONPAGES`       | Read from pagination (P8-11). `FIXPOINT` — width changes can reflow.                                                                    |
+| `REF`, `PAGEREF`                         | Resolve a bookmark (P3-03). `PAGEREF` is `FIXPOINT`.                                                                                    |
+| `SEQ`                                    | Per-identifier counters in document order, with `\r` reset and `\c` repeat.                                                             |
+| `DATE`, `TIME`, `CREATEDATE`, `SAVEDATE` | Picture strings via `\@`. Date pictures are **not** `Intl.DateTimeFormat` patterns; write a converter.                                  |
+| `STYLEREF`                               | Nearest paragraph of a given style, searching **backwards from the top of the current page** — so it depends on pagination. `FIXPOINT`. |
+| `HYPERLINK`                              | Result is display text; the target lives in the field. External targets are blocked by default (Phase 2 SSRF rule).                     |
+| `MERGEFIELD`                             | No data source in v1 — render the cached result or the field name.                                                                      |
+| `TOC`                                    | Collect headings by style or outline level, emit entries with `PAGEREF`. `FIXPOINT` — the TOC's own length shifts the pages it lists.   |
+| `IF`, `=` (formula)                      | Needed because they nest around the above. Minimal evaluator.                                                                           |
 
 Unknown field types: render the **cached result** if present, otherwise the instruction text greyed —
 never blank (`G3`).

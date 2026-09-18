@@ -245,7 +245,10 @@ describe('complex types', () => {
       },
     ],
     complexTypes: [
-      ct('CT_P', { kind: 'elements', particle: seq([el('pPr', ref('CT_PPr'), 0, 1), gref('EG_PContent', 0, 'unbounded')]) }),
+      ct('CT_P', {
+        kind: 'elements',
+        particle: seq([el('pPr', ref('CT_PPr'), 0, 1), gref('EG_PContent', 0, 'unbounded')]),
+      }),
       ct('CT_PPr', { kind: 'empty' }),
       ct('CT_R', { kind: 'empty' }),
       ct('CT_Hyperlink', { kind: 'empty' }),
@@ -316,7 +319,14 @@ describe('complex types', () => {
       schema({
         complexTypes: [
           ct('CT_Text', { kind: 'simpleContent', base: str }, [
-            { kind: 'attribute', name: 'space', ns: 'xml', type: str, use: 'optional', source: SRC },
+            {
+              kind: 'attribute',
+              name: 'space',
+              ns: 'xml',
+              type: str,
+              use: 'optional',
+              source: SRC,
+            },
           ]),
         ],
       }),
@@ -409,20 +419,30 @@ describe('complex types', () => {
         complexTypes: [
           ct('CT_Drawing', {
             kind: 'elements',
-            particle: seq([el('inline', ref('CT_Inline', 'dml-wordprocessingDrawing'), 0, 'unbounded')]),
+            particle: seq([
+              el('inline', ref('CT_Inline', 'dml-wordprocessingDrawing'), 0, 'unbounded'),
+            ]),
           }),
           ct('CT_Inline', { kind: 'empty' }, [], 'dml-wordprocessingDrawing'),
         ],
       }),
     );
-    expect(out).toContain("import type { CT_Inline } from '../dml-wordprocessingDrawing/types.js';");
+    expect(out).toContain(
+      "import type { CT_Inline } from '../dml-wordprocessingDrawing/types.js';",
+    );
   });
 
   it('throws on an unresolved type reference rather than emitting `unknown`', () => {
     // A dangling ref is a loader bug. Letting it through would surface as a
     // type error thousands of lines away from the cause.
     expect(() =>
-      emit(schema({ complexTypes: [ct('CT_A', { kind: 'elements', particle: seq([el('x', ref('CT_Gone'))]) })] })),
+      emit(
+        schema({
+          complexTypes: [
+            ct('CT_A', { kind: 'elements', particle: seq([el('x', ref('CT_Gone'))]) }),
+          ],
+        }),
+      ),
     ).toThrow(/Unresolved type reference wml#CT_Gone/);
   });
 });
@@ -524,7 +544,14 @@ describe('golden', () => {
           particle: seq([el('sectPr', ref('CT_SectPr'), 0, 1)]),
         }),
         ct('CT_Jc', { kind: 'empty' }, [
-          { kind: 'attribute', name: 'val', ns: null, type: ref('ST_Jc'), use: 'required', source: SRC },
+          {
+            kind: 'attribute',
+            name: 'val',
+            ns: null,
+            type: ref('ST_Jc'),
+            use: 'required',
+            source: SRC,
+          },
         ]),
         ct('CT_SectPr', { kind: 'empty' }, [
           {

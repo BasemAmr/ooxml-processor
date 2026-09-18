@@ -40,7 +40,8 @@ export const XML_NAMESPACE: NamespaceUri = 'http://www.w3.org/XML/1998/namespace
 export const XMLNS_NAMESPACE: NamespaceUri = 'http://www.w3.org/2000/xmlns/';
 
 /** Markup Compatibility (ECMA-376 Part 3). Identical in both dialects. */
-export const MC_NAMESPACE: NamespaceUri = 'http://schemas.openxmlformats.org/markup-compatibility/2006';
+export const MC_NAMESPACE: NamespaceUri =
+  'http://schemas.openxmlformats.org/markup-compatibility/2006';
 
 /**
  * URI → the prefix Word conventionally uses for it.

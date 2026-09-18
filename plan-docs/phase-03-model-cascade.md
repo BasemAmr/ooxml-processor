@@ -13,7 +13,7 @@
 
 ## Why this phase ranks here
 
-It ranks seventh — below the layout and drawing phases — because almost nothing in it is *unspecified*.
+It ranks seventh — below the layout and drawing phases — because almost nothing in it is _unspecified_.
 The cascade order is written down, the toggle rule is written down, the conditional-formatting
 vocabulary is enumerated in the schema. There is no equivalent of Phase 7's autofit or Phase 9's
 anchor fixpoint, where the standard simply stops short and Word's behaviour has to be reverse-engineered.
@@ -40,21 +40,21 @@ nearly all of it. The rest is careful, enumerable work.
 
 Read out of `assets/schema/transitional/wml.xsd`. Each row is a trap that a plausible guess gets wrong.
 
-| Type | Finding |
-|---|---|
-| `CT_Style/w:pPr` | Type is **`CT_PPrGeneral`**, *not* `CT_PPr`. See `P3-04`. |
-| `CT_PPr` | `CT_PPrBase` + `rPr` + `sectPr` + `pPrChange` |
-| `CT_PPrGeneral` | `CT_PPrBase` + `pPrChange` — **no `rPr`, no `sectPr`** |
-| `CT_Style/w:tblPr` | Type is **`CT_TblPrBase`**, not `CT_TblPr` |
-| `ST_StyleType` | `paragraph` · `character` · `table` · `numbering` — **four values, and `numbering` is one of them** |
-| `CT_Style` attrs | `type` `styleId` `default` `customStyle` |
-| `CT_Style` children | `name` `aliases` `basedOn` `next` `link` `autoRedefine` `hidden` `uiPriority` `semiHidden` `unhideWhenUsed` `qFormat` `locked` `personal` `personalCompose` `personalReply` `rsid` `pPr` `rPr` `tblPr` `trPr` `tcPr` `tblStylePr` |
-| `CT_DocDefaults` | `rPrDefault` (`CT_RPrDefault`) · `pPrDefault` (`CT_PPrDefault`) — **two wrappers, not bare `rPr`/`pPr`** |
-| `ST_TblStyleOverrideType` | `wholeTable` `firstRow` `lastRow` `firstCol` `lastCol` `band1Vert` `band2Vert` `band1Horz` `band2Horz` `neCell` `nwCell` `seCell` `swCell` — **13 values** |
-| `CT_Cnf` attrs | `val` `firstRow` `lastRow` `firstColumn` `lastColumn` `oddVBand` `evenVBand` `oddHBand` `evenHBand` `firstRowFirstColumn` `firstRowLastColumn` `lastRowFirstColumn` `lastRowLastColumn` — **12 flags in a different vocabulary** |
-| `ST_Cnf` | `xsd:string`, `length = 12`, pattern `[01]*` |
-| `CT_LatentStyles` | `lsdException`\* + `defLockedState` `defUIPriority` `defSemiHidden` `defUnhideWhenUsed` `defQFormat` `count` |
-| `EG_RPrBase` toggles | `b` `bCs` `i` `iCs` `caps` `smallCaps` `strike` `dstrike` `outline` `shadow` `emboss` `imprint` `noProof` `snapToGrid` `vanish` `webHidden` `rtl` `cs` `specVanish` `oMath` are all `CT_OnOff` |
+| Type                      | Finding                                                                                                                                                                                                                           |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CT_Style/w:pPr`          | Type is **`CT_PPrGeneral`**, _not_ `CT_PPr`. See `P3-04`.                                                                                                                                                                         |
+| `CT_PPr`                  | `CT_PPrBase` + `rPr` + `sectPr` + `pPrChange`                                                                                                                                                                                     |
+| `CT_PPrGeneral`           | `CT_PPrBase` + `pPrChange` — **no `rPr`, no `sectPr`**                                                                                                                                                                            |
+| `CT_Style/w:tblPr`        | Type is **`CT_TblPrBase`**, not `CT_TblPr`                                                                                                                                                                                        |
+| `ST_StyleType`            | `paragraph` · `character` · `table` · `numbering` — **four values, and `numbering` is one of them**                                                                                                                               |
+| `CT_Style` attrs          | `type` `styleId` `default` `customStyle`                                                                                                                                                                                          |
+| `CT_Style` children       | `name` `aliases` `basedOn` `next` `link` `autoRedefine` `hidden` `uiPriority` `semiHidden` `unhideWhenUsed` `qFormat` `locked` `personal` `personalCompose` `personalReply` `rsid` `pPr` `rPr` `tblPr` `trPr` `tcPr` `tblStylePr` |
+| `CT_DocDefaults`          | `rPrDefault` (`CT_RPrDefault`) · `pPrDefault` (`CT_PPrDefault`) — **two wrappers, not bare `rPr`/`pPr`**                                                                                                                          |
+| `ST_TblStyleOverrideType` | `wholeTable` `firstRow` `lastRow` `firstCol` `lastCol` `band1Vert` `band2Vert` `band1Horz` `band2Horz` `neCell` `nwCell` `seCell` `swCell` — **13 values**                                                                        |
+| `CT_Cnf` attrs            | `val` `firstRow` `lastRow` `firstColumn` `lastColumn` `oddVBand` `evenVBand` `oddHBand` `evenHBand` `firstRowFirstColumn` `firstRowLastColumn` `lastRowFirstColumn` `lastRowLastColumn` — **12 flags in a different vocabulary**  |
+| `ST_Cnf`                  | `xsd:string`, `length = 12`, pattern `[01]*`                                                                                                                                                                                      |
+| `CT_LatentStyles`         | `lsdException`\* + `defLockedState` `defUIPriority` `defSemiHidden` `defUnhideWhenUsed` `defQFormat` `count`                                                                                                                      |
+| `EG_RPrBase` toggles      | `b` `bCs` `i` `iCs` `caps` `smallCaps` `strike` `dstrike` `outline` `shadow` `emboss` `imprint` `noProof` `snapToGrid` `vanish` `webHidden` `rtl` `cs` `specVanish` `oMath` are all `CT_OnOff`                                    |
 
 Three findings deserve calling out before the tickets, because each one invalidates an approach that
 looks obviously right:
@@ -72,29 +72,29 @@ is `firstRowFirstColumn`. There is no textual transformation between the two voc
 lookup table, and it must be written once, as data, in `P3-09`.
 
 **`w:cnfStyle` encodes the same twelve bits twice.** `ST_Cnf` is a fixed-length-12 binary string on
-`@val`, *and* there are twelve individually-named `ST_OnOff` attributes. Real files carry both. They
+`@val`, _and_ there are twelve individually-named `ST_OnOff` attributes. Real files carry both. They
 can disagree. `P3-09` has to pick a winner and record why.
 
 ---
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P3-00 | Resolve ADR 0003 — model representation spike | XL | **yes** |
-| P3-01 | Stable node identity | L | **yes** |
-| P3-02 | Text storage and the interval store | L | **yes** |
-| P3-03 | Range annotations | L | **yes** |
-| P3-04 | Style graph and `w:basedOn` cycle detection | M | no |
-| P3-05 | `w:docDefaults` | S | no |
-| P3-06 | Cascade order | L | **yes** |
-| P3-07 | Toggle-property XOR | M | **yes** |
-| P3-08 | Numbering-derived properties | M | no |
-| P3-09 | Table conditional formatting and `w:cnfStyle` | L | **yes** |
-| P3-10 | Theme resolution | M | no |
-| P3-11 | Resolved-property cache | M | no |
-| P3-12 | Property inspector | S | no |
-| P3-13 | `settings.xml` and compatibility flags | M | no |
+| ID    | Title                                         | Size | Escalate |
+| ----- | --------------------------------------------- | ---- | -------- |
+| P3-00 | Resolve ADR 0003 — model representation spike | XL   | **yes**  |
+| P3-01 | Stable node identity                          | L    | **yes**  |
+| P3-02 | Text storage and the interval store           | L    | **yes**  |
+| P3-03 | Range annotations                             | L    | **yes**  |
+| P3-04 | Style graph and `w:basedOn` cycle detection   | M    | no       |
+| P3-05 | `w:docDefaults`                               | S    | no       |
+| P3-06 | Cascade order                                 | L    | **yes**  |
+| P3-07 | Toggle-property XOR                           | M    | **yes**  |
+| P3-08 | Numbering-derived properties                  | M    | no       |
+| P3-09 | Table conditional formatting and `w:cnfStyle` | L    | **yes**  |
+| P3-10 | Theme resolution                              | M    | no       |
+| P3-11 | Resolved-property cache                       | M    | no       |
+| P3-12 | Property inspector                            | S    | no       |
+| P3-13 | `settings.xml` and compatibility flags        | M    | no       |
 
 `P3-00` blocks the entire phase. Nothing else starts until it closes.
 
@@ -135,7 +135,7 @@ Phase 1:
 #   - lines of code, honestly counted, for each candidate
 ```
 
-**The decision criterion is stated before the numbers are in.** Write it into the ADR *first*, so the
+**The decision criterion is stated before the numbers are in.** Write it into the ADR _first_, so the
 spike cannot be rationalised afterwards. Proposed: **round-trip fidelity is a gate, not a score** — any
 candidate that cannot serialize the fixture equivalently is eliminated regardless of speed. Among
 survivors, the 10,000-insert wall-clock is the primary metric, because that is the operation Phase 6
@@ -146,7 +146,7 @@ table + interval tree) is fastest to edit and hardest to serialize, because the 
 with its unknown extensions and its attribute order, has to be reconstructed from intervals. Candidate B
 (keep the parsed tree, edit in place) serializes trivially and copies too much. The temptation is to
 pick A for speed and discover that `P2`'s lossless round-trip guarantee — the thing the whole codegen
-approach was *for* — cannot be met. **Hence the gate.** If A cannot pass it, A loses, and the honest
+approach was _for_ — cannot be met. **Hence the gate.** If A cannot pass it, A loses, and the honest
 outcome is a hybrid: tree retained for serialization, text and intervals layered over it, with an
 explicit statement of which is authoritative for which question.
 
@@ -155,7 +155,7 @@ reversible only while `packages/wml` is empty. Every ticket after this one write
 chooses; Phase 6's undo log, Phase 5's dirty-paragraph propagation and Phase 11's determinism gate all
 encode assumptions from it.
 
-**Escalate when.** Any candidate fails the round-trip gate, *or* the fastest survivor is more than
+**Escalate when.** Any candidate fails the round-trip gate, _or_ the fastest survivor is more than
 about 5× slower than the fastest eliminated candidate on the insert benchmark. That combination means
 the requirements genuinely conflict and the resolution is an architecture question, not a benchmark
 question.
@@ -193,11 +193,11 @@ fn retire(id)                          # bumps generation; does NOT return id to
 
 **Trap — reuse.** A freelist that recycles `NodeId`s is the single most attractive optimisation here and
 it is a correctness bug. A retired id handed back out means a stale bookmark, a stale caret or a stale
-undo record silently re-targets a *different* node, and the resulting corruption is unattributable
+undo record silently re-targets a _different_ node, and the resulting corruption is unattributable
 because nothing is out of range and nothing throws. `u32` at one id per node gives four billion ids; a
 document that exhausts them has other problems. **No freelist.**
 
-**Trap — identity is not position.** `NodeId` says *which* node; it says nothing about where it is, and
+**Trap — identity is not position.** `NodeId` says _which_ node; it says nothing about where it is, and
 it must not be ordered. If callers can compare ids to determine document order, they will, and the
 first time a node is moved (drag-drop, cut-paste, `P10-10`'s move-revision) every such comparison is
 silently wrong. Document order is a separate query against the tree, and it is `P3-02`'s job.
@@ -290,7 +290,7 @@ Annotation = {
 
 **Trap — the markers are content, and they round-trip.** These elements occupy positions in the run
 sequence. Lifting them into a side structure is right for querying and wrong for serialization: on save
-they must be written **back into the same positions**, and where two markers sit at the *same* position
+they must be written **back into the same positions**, and where two markers sit at the _same_ position
 their relative order must be preserved, because Word's own output has a consistent order there and
 changing it produces a spurious diff on every save. Hence `sourceOrder`: the original document order
 among coincident markers, carried through untouched. This is a `ROUND-TRIP` obligation and `P11-04`
@@ -299,8 +299,8 @@ tests it.
 **Trap — unmatched and crossed markers are real.** Files in the wild contain a `bookmarkStart` with no
 `bookmarkEnd`, an end with no start, and pairs whose end precedes their start. The reader must not
 throw, must not drop the orphan (it round-trips), and must not let it corrupt the interval store. The
-policy: an unmatched start is an annotation extending to end-of-document for *query* purposes but
-retains its orphan status for *serialization*; an unmatched end is retained positionally and ignored for
+policy: an unmatched start is an annotation extending to end-of-document for _query_ purposes but
+retains its orphan status for _serialization_; an unmatched end is retained positionally and ignored for
 query; a crossed pair is normalised for query and preserved as-authored for write. Each case emits a
 diagnostic, capped by `DIAGNOSTIC_CAP`.
 
@@ -441,19 +441,19 @@ fn resolve(levels: PropertyBag[]) -> Resolved
     return out
 ```
 
-**Trap — root-first, not leaf-first.** A style chain resolves from the *most distant* ancestor down to
+**Trap — root-first, not leaf-first.** A style chain resolves from the _most distant_ ancestor down to
 the style itself, so the style's own properties win over what it is based on. `P3-04`'s `chain()`
 returns self-first and must therefore be **reversed** before feeding this loop. Getting this backwards
 inverts every inherited property in the document and still renders.
 
-**Trap — the two numbering levels are not adjacent.** The numbering *style*'s `pPr` sits **below** the
-paragraph style chain; the numbering *level*'s `ind`/`jc` sit **above** it. They are separate entries at
+**Trap — the two numbering levels are not adjacent.** The numbering _style_'s `pPr` sits **below** the
+paragraph style chain; the numbering _level_'s `ind`/`jc` sit **above** it. They are separate entries at
 positions 3 and 5, not one combined step. Collapsing them makes indented list styles resolve wrong —
 which looks like a small indent error, not like a cascade bug.
 
-**Trap — "absent" is not "false".** A property absent from a level means *inherit*, and a property
-present with `w:val="0"` means *explicitly off*. These are different, and `ST_OnOff`'s rule that an
-absent `@val` on a *present* element means **true** makes the confusion easy: `<w:b/>` is on,
+**Trap — "absent" is not "false".** A property absent from a level means _inherit_, and a property
+present with `w:val="0"` means _explicitly off_. These are different, and `ST_OnOff`'s rule that an
+absent `@val` on a _present_ element means **true** makes the confusion easy: `<w:b/>` is on,
 `<w:b w:val="0"/>` is off, and no `<w:b>` at all is inherit. The property bag must distinguish
 `absent` from `present-and-false`, which means it cannot be a plain object of booleans. Use the three
 runtime `ST_OnOff` parsers from Phase 1 — `parseOnOff`, `parseOnOffOr`, `parseOnOffAttr` — and do not
@@ -509,7 +509,7 @@ it came from and that it is not derivable from the XSD.
 
 **Trap — direct formatting toggles too.** The instinct is that direct `w:rPr` should be authoritative.
 It is not: direct formatting is just the topmost level and XORs like any other. A user who selects text
-in a Heading style and presses Ctrl+B gets *not bold*, and that is correct behaviour that matches Word.
+in a Heading style and presses Ctrl+B gets _not bold_, and that is correct behaviour that matches Word.
 
 **Trap — `bCs` and `iCs` are independent toggles.** They are the complex-script counterparts and have
 their own inheritance. A run can be bold in Latin and not bold in Arabic. Do not alias them to `b`/`i`.
@@ -520,7 +520,7 @@ edit.
 
 **Done when.** The fourteen-member set is one named constant carrying `SPEC-GAP` and provenance; the six
 non-toggling `CT_OnOff` members are explicitly listed as non-toggles in the same place; style-bold plus
-direct-bold resolves to *not bold* in a fixture; `bCs` and `iCs` resolve independently of `b` and `i`.
+direct-bold resolves to _not bold_ in a fixture; `bCs` and `iCs` resolve independently of `b` and `i`.
 
 ---
 
@@ -528,7 +528,7 @@ direct-bold resolves to *not bold* in a fixture; `bCs` and `iCs` resolve indepen
 
 **Size** M · **Depends** P3-04, P3-06 · **Escalate** no
 
-The cascade's two numbering inputs. This ticket resolves *which* numbering definition and level apply to
+The cascade's two numbering inputs. This ticket resolves _which_ numbering definition and level apply to
 a paragraph and what properties they contribute. It does **not** compute list counters — that is
 `P10-01`, which is a stateful fold over the whole document and belongs in Phase 10.
 
@@ -560,7 +560,7 @@ sentinel that removes numbering inherited from a style. A paragraph in a numbere
 `<w:numPr><w:numId w:val="0"/></w:numPr>` is unnumbered.
 
 **Trap — `numStyleLink` and `styleLink` point in opposite directions.** An `abstractNum` with
-`w:styleLink` *is* the definition behind a numbering style; one with `w:numStyleLink` *defers* to the
+`w:styleLink` _is_ the definition behind a numbering style; one with `w:numStyleLink` _defers_ to the
 numbering style named. Following the wrong one gives an infinite loop or the wrong indents. Resolve
 `numStyleLink` by indirection through the style table, with the same cycle guard as `P3-04`.
 
@@ -584,24 +584,24 @@ conditions — and each cell may additionally carry `w:cnfStyle` naming which co
 **The two vocabularies.** `ST_TblStyleOverrideType` and `CT_Cnf` name the same twelve conditions
 differently. This table is the deliverable; it is data, written once:
 
-| `ST_TblStyleOverrideType` | `CT_Cnf` attribute | `ST_Cnf` bit |
-|---|---|---|
-| `firstRow` | `firstRow` | 0 |
-| `lastRow` | `lastRow` | 1 |
-| `firstCol` | **`firstColumn`** | 2 |
-| `lastCol` | **`lastColumn`** | 3 |
-| `band1Vert` | **`oddVBand`** | 4 |
-| `band2Vert` | **`evenVBand`** | 5 |
-| `band1Horz` | **`oddHBand`** | 6 |
-| `band2Horz` | **`evenHBand`** | 7 |
-| `neCell` | **`firstRowLastColumn`** | 8 |
-| `nwCell` | **`firstRowFirstColumn`** | 9 |
-| `seCell` | **`lastRowLastColumn`** | 10 |
-| `swCell` | **`lastRowFirstColumn`** | 11 |
-| `wholeTable` | *(no bit — always applies)* | — |
+| `ST_TblStyleOverrideType` | `CT_Cnf` attribute          | `ST_Cnf` bit |
+| ------------------------- | --------------------------- | ------------ |
+| `firstRow`                | `firstRow`                  | 0            |
+| `lastRow`                 | `lastRow`                   | 1            |
+| `firstCol`                | **`firstColumn`**           | 2            |
+| `lastCol`                 | **`lastColumn`**            | 3            |
+| `band1Vert`               | **`oddVBand`**              | 4            |
+| `band2Vert`               | **`evenVBand`**             | 5            |
+| `band1Horz`               | **`oddHBand`**              | 6            |
+| `band2Horz`               | **`evenHBand`**             | 7            |
+| `neCell`                  | **`firstRowLastColumn`**    | 8            |
+| `nwCell`                  | **`firstRowFirstColumn`**   | 9            |
+| `seCell`                  | **`lastRowLastColumn`**     | 10           |
+| `swCell`                  | **`lastRowFirstColumn`**    | 11           |
+| `wholeTable`              | _(no bit — always applies)_ | —            |
 
 **The bit order is `SPEC-GAP`.** `ST_Cnf` is `xsd:string` with `length="12"` and pattern `[01]*`; the
-schema fixes the *length* and the *alphabet* but says nothing about which position means which
+schema fixes the _length_ and the _alphabet_ but says nothing about which position means which
 condition. The order above follows the attribute declaration order in `CT_Cnf`, which is a reasonable
 inference and not a normative one. Record it as `SPEC-GAP` + `UNVERIFIABLE-HERE`, in one constant, with
 a comment saying exactly that — so when a document contradicts it, one line changes.
@@ -624,12 +624,12 @@ a comment saying exactly that — so when a document contradicts it, one line ch
 ```
 
 **Trap — `w:cnfStyle` and computed position can disagree.** The cell's own `w:cnfStyle` is the producer's
-statement of which conditions apply; the table geometry also implies conditions (this *is* the first
+statement of which conditions apply; the table geometry also implies conditions (this _is_ the first
 row). They can conflict, and both are present in real files. **`w:cnfStyle` wins** — it is explicit and
 it is what round-trips. Compute position only where `cnfStyle` is absent.
 
 **Trap — `@val` and the named attributes can disagree.** `CT_Cnf` carries both the twelve-bit string and
-twelve named flags. Pick one as authoritative, state it, and preserve *both* verbatim for write-back
+twelve named flags. Pick one as authoritative, state it, and preserve _both_ verbatim for write-back
 regardless of which was read. Proposed: **named attributes win where present**, falling back to `@val`,
 because they are unambiguous and do not depend on the unverified bit order above.
 
@@ -720,7 +720,7 @@ Invalidation:
 ```
 
 **Trap — the cache key must not be the `NodeId`.** Keying by node gives one entry per run and no reuse;
-a document where ten thousand runs share one style should have one entry. Key by the *inputs*, not by
+a document where ten thousand runs share one style should have one entry. Key by the _inputs_, not by
 the consumer.
 
 **Trap — table structure changes move conditions.** Inserting a row changes which cells are `lastRow`,
@@ -784,7 +784,7 @@ LayoutSettings = {
 observed-behaviour divergences hide (`SPEC-GAP` throughout). Most are unimplementable without the
 behaviour they name. The policy: **model all of them, implement none by default, and record each one
 that a later phase decides to honour** in the coverage manifest as a distinct entry. A `compat` flag
-silently ignored is acceptable; a `compat` flag silently *half*-honoured is not.
+silently ignored is acceptable; a `compat` flag silently _half_-honoured is not.
 
 **Trap — `w:compatSetting` is the modern form.** Newer flags are name/uri/val triples rather than
 elements, including the ones that matter most for line breaking. Read both forms.

@@ -206,7 +206,8 @@ export const emuToInches = (v: Emu): number => v / EMU_PER_INCH;
 export const mmToTwip = (v: number): Twip =>
   twip(roundHalfAwayFromZero((v / MM_PER_INCH) * TWIP_PER_INCH));
 export const twipToMm = (v: Twip): number => (v / TWIP_PER_INCH) * MM_PER_INCH;
-export const mmToEmu = (v: number): Emu => emu(roundHalfAwayFromZero((v / MM_PER_INCH) * EMU_PER_INCH));
+export const mmToEmu = (v: number): Emu =>
+  emu(roundHalfAwayFromZero((v / MM_PER_INCH) * EMU_PER_INCH));
 export const emuToMm = (v: Emu): number => (v / EMU_PER_INCH) * MM_PER_INCH;
 
 /* ------------------------------------------------------------------------- */

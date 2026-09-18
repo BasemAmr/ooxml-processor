@@ -45,12 +45,14 @@ describe('escaping', () => {
     // w:t content carries real tab characters; a tab is not a markup character
     // and XML 1.0 does not normalize it inside element content.
     expect(escapeText('before\tafter')).toBe('before\tafter');
-    expect(write((s) => {
-      s.startElement(W, 't');
-      s.attr(XML_NAMESPACE, 'space', 'preserve');
-      s.text('  a\tb  ');
-      s.endElement();
-    })).toContain('>  a\tb  <');
+    expect(
+      write((s) => {
+        s.startElement(W, 't');
+        s.attr(XML_NAMESPACE, 'space', 'preserve');
+        s.text('  a\tb  ');
+        s.endElement();
+      }),
+    ).toContain('>  a\tb  <');
   });
 
   it('escapes a carriage return in text', () => {
@@ -62,7 +64,7 @@ describe('escaping', () => {
 
   it('escapes exactly what an attribute value requires', () => {
     expect(escapeAttributeValue('a & b < c > d "q" \'s\'')).toBe(
-      'a &amp; b &lt; c &gt; d &quot;q&quot; \'s\'',
+      "a &amp; b &lt; c &gt; d &quot;q&quot; 's'",
     );
   });
 
@@ -88,19 +90,23 @@ describe('escaping', () => {
 
 describe('element output', () => {
   it('writes a childless element self-closed, as Word does', () => {
-    expect(write((s) => {
-      s.startElement(W, 'b');
-      s.endElement();
-    })).toBe(`<w:b xmlns:w="${W}"/>`);
+    expect(
+      write((s) => {
+        s.startElement(W, 'b');
+        s.endElement();
+      }),
+    ).toBe(`<w:b xmlns:w="${W}"/>`);
   });
 
   it('writes attributes in the order they are added', () => {
-    expect(write((s) => {
-      s.startElement(W, 'p');
-      s.attr(W, 'rsidR', '00A1');
-      s.attr(null, 'plain', 'x');
-      s.endElement();
-    })).toBe(`<w:p xmlns:w="${W}" w:rsidR="00A1" plain="x"/>`);
+    expect(
+      write((s) => {
+        s.startElement(W, 'p');
+        s.attr(W, 'rsidR', '00A1');
+        s.attr(null, 'plain', 'x');
+        s.endElement();
+      }),
+    ).toBe(`<w:p xmlns:w="${W}" w:rsidR="00A1" plain="x"/>`);
   });
 
   it('writes an XML declaration on request, with Word CRLF', () => {
@@ -111,7 +117,9 @@ describe('element output', () => {
       },
       { xmlDeclaration: true },
     );
-    expect(out.startsWith('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\r\n')).toBe(true);
+    expect(out.startsWith('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\r\n')).toBe(
+      true,
+    );
   });
 
   it('is idempotent', () => {
@@ -356,11 +364,13 @@ describe('ordering and well-formedness guards', () => {
 
 describe('CDATA', () => {
   it('writes a CDATA section', () => {
-    expect(write((s) => {
-      s.startElement(W, 't');
-      s.cdata('<not markup>');
-      s.endElement();
-    })).toContain('<![CDATA[<not markup>]]>');
+    expect(
+      write((s) => {
+        s.startElement(W, 't');
+        s.cdata('<not markup>');
+        s.endElement();
+      }),
+    ).toContain('<![CDATA[<not markup>]]>');
   });
 
   it('splits a section that contains the terminator', () => {

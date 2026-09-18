@@ -36,12 +36,7 @@ export { createCursor, createCursorOverRaw } from './cursor.js';
 
 /* --- Reading -------------------------------------------------------------- */
 export type { Dialect, NsUris, ReadContext, ReadDiagnostic, ReadDiagnosticCode } from './read.js';
-export {
-  createReadContext,
-  DIAGNOSTIC_CAP,
-  isIgnorableWhitespace,
-  requireStart,
-} from './read.js';
+export { createReadContext, DIAGNOSTIC_CAP, isIgnorableWhitespace, requireStart } from './read.js';
 export { readScalar } from './reader-scalar.js';
 
 /* --- Writing -------------------------------------------------------------- */
@@ -197,14 +192,7 @@ export {
 
 /* --- Markup Compatibility (ECMA-376 Part 3) ------------------------------- */
 export type { McAction, McDecision, McErrorCode, McSelection } from './mce.js';
-export {
-  isAlternateContent,
-  MC_NAMES,
-  McContext,
-  McError,
-  McResolver,
-  QNameSet,
-} from './mce.js';
+export { isAlternateContent, MC_NAMES, McContext, McError, McResolver, QNameSet } from './mce.js';
 
 /* --- Unknown-content preservation ----------------------------------------- */
 export type { PositionedRaw } from './preserve.js';

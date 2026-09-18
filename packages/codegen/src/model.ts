@@ -186,7 +186,12 @@ export type SimpleRepr =
    * does not (`ST_Percentage` is integral, DrawingML coordinates are not), and
    * the type name does not either.
    */
-  | { readonly kind: 'number'; readonly brand?: string; readonly base: string; readonly facets: Facets }
+  | {
+      readonly kind: 'number';
+      readonly brand?: string;
+      readonly base: string;
+      readonly facets: Facets;
+    }
   | { readonly kind: 'string'; readonly facets: Facets }
   /** `ST_OnOff`. Absent `val` means **true** — see `runtime/onoff.ts`. */
   | { readonly kind: 'boolean' }

@@ -32,36 +32,36 @@ none of it is a fixpoint and none of it is a new data structure.
 Read out of `assets/schema/transitional/wml.xsd` rather than from memory. Where these differ from
 common assumption, the difference is the trap.
 
-| Type | Values |
-|---|---|
-| `ST_TblWidth` | `nil` · `pct` · `dxa` · `auto` |
-| `CT_TblWidth/@w` | **`ST_MeasurementOrPercent`** — a union, not an integer. See `P7-03`. |
-| `ST_TblLayoutType` | `fixed` · `autofit` |
-| `ST_Merge` | `continue` · `restart` |
-| `ST_HeightRule` | `auto` · **`exact`** · `atLeast` — note `exact`, **not** `exactly` |
+| Type               | Values                                                                                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ST_TblWidth`      | `nil` · `pct` · `dxa` · `auto`                                                                                                                          |
+| `CT_TblWidth/@w`   | **`ST_MeasurementOrPercent`** — a union, not an integer. See `P7-03`.                                                                                   |
+| `ST_TblLayoutType` | `fixed` · `autofit`                                                                                                                                     |
+| `ST_Merge`         | `continue` · `restart`                                                                                                                                  |
+| `ST_HeightRule`    | `auto` · **`exact`** · `atLeast` — note `exact`, **not** `exactly`                                                                                      |
 | `ST_TextDirection` | `tb` · `rl` · `lr` · `tbV` · `rlV` · `lrV` · `btLr` · `lrTb` · `lrTbV` · `tbLrV` · `tbRl` · `tbRlV` — **12 values, two overlapping naming generations** |
 
 ---
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P7-01 | Grid model | L | **yes** |
-| P7-02 | Vertical merge | M | no |
-| P7-03 | Width resolution | M | no |
-| P7-04 | Autofit: min/max content widths and distribution | L | **yes** |
-| P7-05 | Fixed layout | S | no |
-| P7-06 | Margins, cell spacing, table indent | M | no |
-| P7-07 | Border conflict resolution | L | **yes** |
-| P7-08 | Row height rules | S | no |
-| P7-09 | Nested tables | M | no |
-| P7-10 | Row splitting across pages | L | **yes** |
-| P7-11 | Cell text direction | M | no |
-| P7-12 | Floating tables | M | no |
-| P7-13 | Conditional formatting application | M | no |
-| P7-14 | Cell content layout | M | no |
-| P7-15 | Table painting | M | no |
+| ID    | Title                                            | Size | Escalate |
+| ----- | ------------------------------------------------ | ---- | -------- |
+| P7-01 | Grid model                                       | L    | **yes**  |
+| P7-02 | Vertical merge                                   | M    | no       |
+| P7-03 | Width resolution                                 | M    | no       |
+| P7-04 | Autofit: min/max content widths and distribution | L    | **yes**  |
+| P7-05 | Fixed layout                                     | S    | no       |
+| P7-06 | Margins, cell spacing, table indent              | M    | no       |
+| P7-07 | Border conflict resolution                       | L    | **yes**  |
+| P7-08 | Row height rules                                 | S    | no       |
+| P7-09 | Nested tables                                    | M    | no       |
+| P7-10 | Row splitting across pages                       | L    | **yes**  |
+| P7-11 | Cell text direction                              | M    | no       |
+| P7-12 | Floating tables                                  | M    | no       |
+| P7-13 | Conditional formatting application               | M    | no       |
+| P7-14 | Cell content layout                              | M    | no       |
+| P7-15 | Table painting                                   | M    | no       |
 
 ---
 
@@ -77,7 +77,7 @@ actual cell spans — a row whose `w:gridSpan` values sum to 7 in a 6-column gri
 that indexes cells by the declared grid produces off-by-one column assignments on exactly the
 documents people complain about, and produces them silently.
 
-Second trap: `w:gridBefore`/`w:gridAfter` are *skipped grid columns*, not cells. A row with
+Second trap: `w:gridBefore`/`w:gridAfter` are _skipped grid columns_, not cells. A row with
 `gridBefore=2` starts at grid column 2 with no cell objects occupying 0 and 1. Iterating cells and
 assuming cell index == grid index is wrong the first time a row is indented.
 
@@ -468,7 +468,7 @@ layout gives text that wraps at the wrong points.
 Second, the two naming generations overlap in meaning (`lr` and `lrTb` describe the same flow; `tb`
 and `tbRl` likewise). Build one normalisation table from all 12 tokens to a `(flowAxis, glyphRotation)`
 pair and switch on that, never on the raw token — a switch on raw tokens will be missing cases and
-`noFallthroughCasesInSwitch` will not catch a missing *value*, only a missing `break`.
+`noFallthroughCasesInSwitch` will not catch a missing _value_, only a missing `break`.
 
 **Done when.** All 12 tokens normalise; line breaking uses the rotated extent (asserted by a cell that
 wraps differently in `tbRl` than `lr` at the same size); glyph rotation matches the normalised pair.

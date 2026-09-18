@@ -126,7 +126,8 @@ export function buildRawZip(specs: readonly RawEntrySpec[], options?: RawZipOpti
   for (const spec of specs) {
     const method = spec.method ?? METHOD_STORE;
     const compressed =
-      spec.compressedOverride ?? (method === METHOD_DEFLATE ? deflateSync(spec.data, { level: 6 }) : spec.data);
+      spec.compressedOverride ??
+      (method === METHOD_DEFLATE ? deflateSync(spec.data, { level: 6 }) : spec.data);
     const crc = spec.crcOverride ?? crc32(spec.data);
     const uncompressedSize = spec.uncompressedSizeOverride ?? spec.data.length;
 
@@ -158,7 +159,11 @@ export function buildRawZip(specs: readonly RawEntrySpec[], options?: RawZipOpti
       saturateSizes ? 0xffffffff : spec.dataDescriptor === true ? 0 : declaredCompressed,
       true,
     );
-    view.setUint32(22, saturateSizes ? 0xffffffff : spec.dataDescriptor === true ? 0 : uncompressedSize, true);
+    view.setUint32(
+      22,
+      saturateSizes ? 0xffffffff : spec.dataDescriptor === true ? 0 : uncompressedSize,
+      true,
+    );
     view.setUint16(26, spec.nameBytes.length, true);
     view.setUint16(28, localExtra.length, true);
 
@@ -186,7 +191,8 @@ export function buildRawZip(specs: readonly RawEntrySpec[], options?: RawZipOpti
     const saturateOffset = spec.zip64?.offset === true;
 
     const zip64Values: number[] = [];
-    if (saturateSizes) zip64Values.push(uncompressedSizes[i] as number, compressedSizes[i] as number);
+    if (saturateSizes)
+      zip64Values.push(uncompressedSizes[i] as number, compressedSizes[i] as number);
     if (saturateOffset) zip64Values.push(localOffsets[i] as number);
     const zip64Central =
       zip64Values.length > 0 && spec.omitZip64Extra !== true ? zip64Extra(zip64Values) : EMPTY;

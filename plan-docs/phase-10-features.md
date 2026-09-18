@@ -17,7 +17,7 @@ Two tickets break that pattern and carry the phase's risk:
 
 - **`P10-01` (numbering) is a stateful fold over the entire document.** Every other resolution in this
   project is local — give it a node and its context and it answers. List numbering is not: the value of
-  a counter at paragraph *n* depends on every numbered paragraph before it, across sections, tables and
+  a counter at paragraph _n_ depends on every numbered paragraph before it, across sections, tables and
   text boxes. It is the only place where a local edit can change output arbitrarily far away.
 - **`P10-12` (OMML math) is a phase inside a phase.** It is a complete nested-box layout engine — 19
   distinct mathematical object types, each with its own geometry — and it needs font metrics this
@@ -32,17 +32,17 @@ Everything else here is enumerable work against a schema that says what it means
 
 Read out of `assets/schema/transitional/wml.xsd` and `shared-math.xsd`.
 
-| Type | Finding |
-|---|---|
-| `ST_NumberFormat` | **63 values.** Includes `bullet`, `none` and `custom` as *values* — see `P10-02`. |
-| `ST_LevelSuffix` | `tab` · `space` · `nothing` — three values, default `tab` |
-| `CT_Lvl` children | `start` `numFmt` `lvlRestart` `pStyle` `isLgl` `suff` `lvlText` `lvlPicBulletId` `legacy` `lvlJc` `pPr` `rPr` |
-| `CT_Lvl` attrs | `ilvl` `tplc` `tentative` |
-| `CT_Lvl/w:pPr` | Type **`CT_PPrGeneral`** — consistent with `P3-04`; no `rPr`, no `sectPr` |
-| `CT_Lvl/w:lvlJc` | Type `CT_Jc` — takes any of `ST_Jc`'s **12** values, not just left/center/right |
-| `ST_FldCharType` | `begin` · `separate` · `end` — **three**, and `separate` is optional in practice |
-| `CT_SdtPr` control kinds | `equation` `comboBox` `date` `docPartObj` `docPartList` `dropDownList` `picture` `richText` `text` `citation` `group` `bibliography` — **12; there is no checkbox** |
-| `CT_SdtPr` other | `rPr` `alias` `tag` `id` `lock` `placeholder` `temporary` `showingPlcHdr` `dataBinding` `label` `tabIndex` |
+| Type                      | Finding                                                                                                                                                                            |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ST_NumberFormat`         | **63 values.** Includes `bullet`, `none` and `custom` as _values_ — see `P10-02`.                                                                                                  |
+| `ST_LevelSuffix`          | `tab` · `space` · `nothing` — three values, default `tab`                                                                                                                          |
+| `CT_Lvl` children         | `start` `numFmt` `lvlRestart` `pStyle` `isLgl` `suff` `lvlText` `lvlPicBulletId` `legacy` `lvlJc` `pPr` `rPr`                                                                      |
+| `CT_Lvl` attrs            | `ilvl` `tplc` `tentative`                                                                                                                                                          |
+| `CT_Lvl/w:pPr`            | Type **`CT_PPrGeneral`** — consistent with `P3-04`; no `rPr`, no `sectPr`                                                                                                          |
+| `CT_Lvl/w:lvlJc`          | Type `CT_Jc` — takes any of `ST_Jc`'s **12** values, not just left/center/right                                                                                                    |
+| `ST_FldCharType`          | `begin` · `separate` · `end` — **three**, and `separate` is optional in practice                                                                                                   |
+| `CT_SdtPr` control kinds  | `equation` `comboBox` `date` `docPartObj` `docPartList` `dropDownList` `picture` `richText` `text` `citation` `group` `bibliography` — **12; there is no checkbox**                |
+| `CT_SdtPr` other          | `rPr` `alias` `tag` `id` `lock` `placeholder` `temporary` `showingPlcHdr` `dataBinding` `label` `tabIndex`                                                                         |
 | `shared-math.xsd` objects | `acc` `bar` `box` `borderBox` `d` `eqArr` `f` `func` `groupChr` `limLow` `limUpp` `m` `nary` `phant` `rad` `sPre` `sSub` `sSubSup` `sSup` — **19**, plus `r`, `oMath`, `oMathPara` |
 
 Three of those rows change the shape of the code:
@@ -64,22 +64,22 @@ in modern documents is one the schema does not define.
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P10-01 | Numbering — the document fold | L | **yes** |
-| P10-02 | Number formats — all 63 | M | no |
-| P10-03 | Bullets and symbol fonts | S | no |
-| P10-04 | Hyperlinks and bookmarks | M | no |
-| P10-05 | Cross-references | M | no |
-| P10-06 | Table of contents | M | no |
-| P10-07 | Footnote and endnote content | M | no |
-| P10-08 | Comments | M | no |
-| P10-09 | Revision markup display | M | no |
-| P10-10 | Accept / reject revisions | L | **yes** |
-| P10-11 | Content controls (SDT) | M | no |
-| P10-12 | OMML math | XL | **yes** |
-| P10-13 | Art borders | S | no |
-| P10-14 | Page decoration and watermarks | S | no |
+| ID     | Title                          | Size | Escalate |
+| ------ | ------------------------------ | ---- | -------- |
+| P10-01 | Numbering — the document fold  | L    | **yes**  |
+| P10-02 | Number formats — all 63        | M    | no       |
+| P10-03 | Bullets and symbol fonts       | S    | no       |
+| P10-04 | Hyperlinks and bookmarks       | M    | no       |
+| P10-05 | Cross-references               | M    | no       |
+| P10-06 | Table of contents              | M    | no       |
+| P10-07 | Footnote and endnote content   | M    | no       |
+| P10-08 | Comments                       | M    | no       |
+| P10-09 | Revision markup display        | M    | no       |
+| P10-10 | Accept / reject revisions      | L    | **yes**  |
+| P10-11 | Content controls (SDT)         | M    | no       |
+| P10-12 | OMML math                      | XL   | **yes**  |
+| P10-13 | Art borders                    | S    | no       |
+| P10-14 | Page decoration and watermarks | S    | no       |
 
 ---
 
@@ -87,7 +87,7 @@ in modern documents is one the schema does not define.
 
 **Size** L · **Depends** P3-08 (which definition and level apply), P8-06 (fixpoint driver) · **Escalate** **yes**
 
-`P3-08` answered *which* `CT_Lvl` applies to a paragraph. This ticket computes *what number it shows*,
+`P3-08` answered _which_ `CT_Lvl` applies to a paragraph. This ticket computes _what number it shows_,
 and that is a different kind of problem: a left fold over every numbered paragraph in the document, in
 document order, carrying nine counters per numbering instance.
 
@@ -125,18 +125,18 @@ fn renderLvlText(template, counters, lvl, ilvl) -> string
 ```
 
 **Trap — `lvlRestart` semantics are three-way.** Absent means "restart when any higher level advances."
-`0` means "never restart." A positive value *n* means "restart when level *n-1* or higher advances."
+`0` means "never restart." A positive value _n_ means "restart when level _n-1_ or higher advances."
 Treating absent as `0`, or `0` as absent, gives lists that either never restart or always restart, and
 both look plausible on a short document.
 
 **Trap — `startOverride` is once, not always.** `w:lvlOverride/w:startOverride` sets the counter for the
-*first* use of that level after the override, not on every restart. Modelling it as "the start value"
+_first_ use of that level after the override, not on every restart. Modelling it as "the start value"
 makes a restarted list resume at the override instead of at `w:start`.
 
-**Trap — `w:isLgl` changes the format of *other* levels.** When a level has `isLgl`, every `%n`
+**Trap — `w:isLgl` changes the format of _other_ levels.** When a level has `isLgl`, every `%n`
 placeholder in its `lvlText` renders as **decimal**, regardless of the referenced level's own `numFmt`.
 A legal-numbering level referencing an `upperRoman` parent shows `1.1`, not `I.1`. The flag lives on the
-*referencing* level and affects the *referenced* levels' rendering — which is why `renderLvlText` takes
+_referencing_ level and affects the _referenced_ levels' rendering — which is why `renderLvlText` takes
 `lvl` as well as the counters.
 
 **Trap — document order is not tree order for this purpose.** Numbered paragraphs inside table cells
@@ -147,7 +147,7 @@ list in a header restart the body's list.
 
 **Trap — this is where incremental relayout gets expensive.** Inserting a numbered paragraph changes
 every subsequent label in that instance. The fold must be resumable from a checkpoint rather than rerun
-from the document head on every keystroke — checkpoint `CounterState` every *k* numbered paragraphs and
+from the document head on every keystroke — checkpoint `CounterState` every _k_ numbered paragraphs and
 restart the fold from the last checkpoint before the edit.
 
 **Trap — `@w:tentative`.** Levels marked tentative were created speculatively by the producer and are
@@ -227,7 +227,7 @@ in the coverage manifest.
 using the level's own `rPr` font, not the paragraph's.
 
 **Trap — the Symbol font's private-use mapping.** Bullet characters are stored as codepoints in
-`U+F000`–`U+F0FF` (the private use area) *or* as the ASCII codepoint with a symbol font applied,
+`U+F000`–`U+F0FF` (the private use area) _or_ as the ASCII codepoint with a symbol font applied,
 depending on the producer. Both appear. Normalise by masking `U+F000` when the resolved font is a symbol
 font, and leave other codepoints alone.
 
@@ -251,7 +251,7 @@ bookmark), `@w:tgtFrame`, `@w:tooltip` and `@w:docLocation`. Bookmarks are alrea
 this ticket makes them navigable and clickable.
 
 **Trap — external targets are blocked by default.** Phase 2's SSRF boundary means `@r:id` resolves to a
-relationship whose target is *not* fetched. Clicking is a user-initiated navigation and is allowed;
+relationship whose target is _not_ fetched. Clicking is a user-initiated navigation and is allowed;
 prefetching, previewing or resolving redirects is not.
 
 **Trap — `@r:id` and `@w:anchor` can both be present.** The anchor then names a fragment within the
@@ -365,7 +365,7 @@ fixpoint; custom marks (`@w:customMarkFollows`) suppress automatic numbering.
 `P3-03`'s; this ticket owns the content, the anchor and the display.
 
 **Trap — three elements, one comment.** `w:commentRangeStart`, `w:commentRangeEnd` and
-`w:commentReference` are separate, and the *reference* — not the range end — is what carries the run
+`w:commentReference` are separate, and the _reference_ — not the range end — is what carries the run
 properties and the "Comment Reference" style. All three can be orphaned independently.
 
 **Trap — comment replies are not in ECMA-376.** Threading is a `w15:commentsEx` extension outside this
@@ -402,7 +402,7 @@ Display only — accepting and rejecting is `P10-10`.
 handles only `w:t` renders deleted content as absent, which looks like correct rendering of accepted
 changes and is not.
 
-**Trap — `*Change` elements carry the OLD value.** `w:rPrChange` contains the run properties *before*
+**Trap — `*Change` elements carry the OLD value.** `w:rPrChange` contains the run properties _before_
 the change; the current properties are the surrounding `w:rPr`. Reading the change element as the
 current state inverts every tracked formatting change.
 
@@ -482,7 +482,7 @@ with a distinct wrapper type.
 
 **Trap — there is no checkbox in ECMA-376.** Word's checkbox is `w14:checkbox`, outside this asset set.
 The reader must handle an SDT whose control kind is an unknown element: preserve it verbatim, render the
-content normally, and record it in the coverage manifest as an unknown control. This is the *common*
+content normally, and record it in the coverage manifest as an unknown control. This is the _common_
 case in modern documents, not an edge case.
 
 **Trap — `w:showingPlcHdr` means the content is placeholder text**, not user data. It is styled
@@ -533,7 +533,7 @@ MathBox = { width, ascent, descent, axisOffset, italicCorrection, children }
 this project reads: `AxisHeight`, `FractionNumeratorShiftUp`, `SuperscriptShiftUp`,
 `StackTopDisplayStyleShiftUp`, the glyph-variant and glyph-assembly tables for stretchy delimiters and
 radicals, and italic correction per glyph. **`harfbuzzjs` exposes some of this and not all of it.**
-Determine what is reachable *before* committing to the ticket; if the assembly tables are not reachable,
+Determine what is reachable _before_ committing to the ticket; if the assembly tables are not reachable,
 stretchy delimiters cannot be built correctly and that is a scope decision, not an implementation detail.
 
 **Trap — display vs inline changes the geometry, not just the spacing.** `oMathPara` is display style:

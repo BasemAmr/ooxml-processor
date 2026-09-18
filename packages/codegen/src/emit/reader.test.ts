@@ -19,13 +19,27 @@ const ref = (name: string, ns = 'wml'): TypeRef => ({ kind: 'named', ref: q(name
 const str: TypeRef = { kind: 'builtin', name: 'xsd:string' };
 
 const el = (name: string, type: TypeRef, min = 1, max: Occurs = 1): IrParticle => ({
-  kind: 'element', name, ns: 'wml', type, min, max, source: SRC,
+  kind: 'element',
+  name,
+  ns: 'wml',
+  type,
+  min,
+  max,
+  source: SRC,
 });
 const seq = (items: IrParticle[], min = 1, max: Occurs = 1): IrParticle => ({
-  kind: 'sequence', items, min, max, source: SRC,
+  kind: 'sequence',
+  items,
+  min,
+  max,
+  source: SRC,
 });
 const choice = (items: IrParticle[], min = 1, max: Occurs = 1): IrParticle => ({
-  kind: 'choice', items, min, max, source: SRC,
+  kind: 'choice',
+  items,
+  min,
+  max,
+  source: SRC,
 });
 
 function schema(parts: {
@@ -47,33 +61,63 @@ function schema(parts: {
 }
 
 const empty = (name: string): IrComplexType => ({
-  kind: 'complexType', name: q(name), content: { kind: 'empty' }, attributes: [],
-  dialects: ['transitional'], source: SRC,
+  kind: 'complexType',
+  name: q(name),
+  content: { kind: 'empty' },
+  attributes: [],
+  dialects: ['transitional'],
+  source: SRC,
 });
 
 const emit = (ir: IrSchemaSet): string => emitReader(normalize(ir), 'wml').contents;
 
 describe('reader emitter', () => {
   it('emits simple parsers, attribute diagnostics, ordered choices, and raw preservation', () => {
-    const out = emit(schema({
-      simpleTypes: [{
-        kind: 'enum', name: q('ST_Jc'), base: str,
-        values: [{ value: 'start', source: SRC }, { value: 'center', source: SRC }],
-        dialects: ['transitional'], source: SRC,
-      }],
-      complexTypes: [
-        {
-          kind: 'complexType', name: q('CT_Host'),
-          content: { kind: 'elements', particle: seq([
-            el('r', ref('CT_R'), 0, 'unbounded'),
-            choice([el('a', ref('CT_A')), el('b', ref('CT_B'))], 0, 'unbounded'),
-          ]) },
-          attributes: [{ kind: 'attribute', name: 'val', ns: null, type: ref('ST_Jc'), use: 'required', source: SRC }],
-          dialects: ['transitional'], source: SRC,
-        },
-        empty('CT_R'), empty('CT_A'), empty('CT_B'),
-      ],
-    }));
+    const out = emit(
+      schema({
+        simpleTypes: [
+          {
+            kind: 'enum',
+            name: q('ST_Jc'),
+            base: str,
+            values: [
+              { value: 'start', source: SRC },
+              { value: 'center', source: SRC },
+            ],
+            dialects: ['transitional'],
+            source: SRC,
+          },
+        ],
+        complexTypes: [
+          {
+            kind: 'complexType',
+            name: q('CT_Host'),
+            content: {
+              kind: 'elements',
+              particle: seq([
+                el('r', ref('CT_R'), 0, 'unbounded'),
+                choice([el('a', ref('CT_A')), el('b', ref('CT_B'))], 0, 'unbounded'),
+              ]),
+            },
+            attributes: [
+              {
+                kind: 'attribute',
+                name: 'val',
+                ns: null,
+                type: ref('ST_Jc'),
+                use: 'required',
+                source: SRC,
+              },
+            ],
+            dialects: ['transitional'],
+            source: SRC,
+          },
+          empty('CT_R'),
+          empty('CT_A'),
+          empty('CT_B'),
+        ],
+      }),
+    );
 
     expect(out).toMatchInlineSnapshot(`
       "/**

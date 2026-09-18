@@ -28,10 +28,10 @@ A reader that drops these produces a file Word will open but which has silently 
 content. That failure is worse than refusing to open the file, because it is invisible
 until someone notices their shape is gone.
 
-So unknown content must be captured *and repositioned exactly* on write. Capturing it is
+So unknown content must be captured _and repositioned exactly_ on write. Capturing it is
 the easy half; `XmlCursor.skipToRaw()` already returns a verbatim `RawNode`. The hard half
-is position: a flat `unknown: RawNode[]` bag on each type records *what* was dropped but
-not *where* it was, and re-emitting it at the end of the element is a different document.
+is position: a flat `unknown: RawNode[]` bag on each type records _what_ was dropped but
+not _where_ it was, and re-emitting it at the end of the element is a different document.
 
 ## Decision
 
@@ -55,7 +55,7 @@ run's children — are all repeating choices.
 
 ### 2. Fixed slots get a positioned escape hatch
 
-For content that is *not* inside a repeating region — an unknown element between `w:tblPr`
+For content that is _not_ inside a repeating region — an unknown element between `w:tblPr`
 and `w:tblGrid`, say — the type carries:
 
 ```ts
@@ -72,14 +72,14 @@ change with document content. `-1` means "before the first slot". The writer emi
 `i`, then flushes every `$unknown` entry with `afterSlot === i`. Absent slots are still
 counted, so the anchor survives an edit that deletes the slot it was anchored to.
 
-`afterIndex` disambiguates *within* a repeating slot, which is the one case `afterSlot`
+`afterIndex` disambiguates _within_ a repeating slot, which is the one case `afterSlot`
 alone cannot express: `<w:gridCol/><ext/><w:gridCol/>` would otherwise re-emit `ext` after
 both columns. Absent means "after the slot as a whole", which is the only available meaning
 for a non-repeating slot and the common case elsewhere. The cost is one optional number and
 about six lines in the generated writer — cheap enough that leaving a known repositioning
 bug in place was not defensible.
 
-**Known limit.** Unknown *elements* inside a `simpleContent` or `empty` type get no anchor,
+**Known limit.** Unknown _elements_ inside a `simpleContent` or `empty` type get no anchor,
 because such a type has no slots to anchor to. Both cases are schema-invalid input, and the
 reader reports a diagnostic rather than dropping them silently.
 
@@ -91,7 +91,7 @@ extension attribute can land on any element (Word puts `w14:paraId` on `w:p`, an
 says it could not have picked `w:hyperlink`), and gating the property on
 `attributes.length > 0` would silently drop those.
 
-Attribute *order* is normalized rather than preserved exactly: the writer emits the
+Attribute _order_ is normalized rather than preserved exactly: the writer emits the
 recognized attributes in schema order, then `$unknownAttrs` in their relative source order.
 So `<w:p mc:Ignorable="w14" w:rsidR="00A"/>` comes back as
 `<w:p w:rsidR="00A" mc:Ignorable="w14"/>`. This is the strongest honest guarantee, and it
@@ -112,7 +112,7 @@ from the standard and which are ours.
 
 **A flat `unknown: RawNode[]` per type, re-emitted at the end.** This is what the approved
 plan sketched. It is simpler, and it is wrong: it reorders content. For `CT_Picture`, whose
-children are *entirely* wildcard, it happens to work; for anything with a mixed
+children are _entirely_ wildcard, it happens to work; for anything with a mixed
 known/unknown child list it produces a document that differs from the input in a way the
 round-trip gate would catch — and if the gate did not catch it, Word would render it
 differently.
@@ -144,7 +144,7 @@ much larger correctness surface than the one it removes.
   That is deliberate: layout and paint should render unknown content as a visible labelled
   placeholder rather than silently nothing, which is the same principle the coverage
   manifest encodes.
-- MCE processing happens *before* the generated readers see events
+- MCE processing happens _before_ the generated readers see events
   (`packages/schema/src/runtime/mce.ts`), so `mc:AlternateContent` is resolved to its
   selected branch and only genuinely unrecognized content reaches `$raw`. The discarded
   branch is preserved by the MCE layer, not by this mechanism.

@@ -321,7 +321,8 @@ function emitChoiceUnion(
 ): void {
   const name = choiceUnionName(ct, slot);
   const alternatives = slot.alternatives.map(
-    (alt) => `| { readonly kind: ${stringLiteral(alt.tag)}; readonly value: ${ctx.tsType(alt.type)} }`,
+    (alt) =>
+      `| { readonly kind: ${stringLiteral(alt.tag)}; readonly value: ${ctx.tsType(alt.type)} }`,
   );
 
   // A repeating choice is where unknown children keep their position — see

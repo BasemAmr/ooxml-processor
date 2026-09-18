@@ -20,8 +20,8 @@ Three things concentrate the risk, and all three are decisions rather than volum
    file has to justify that, not merely record it, because the fallback (`measureText`) is faster and
    is silently wrong for a large fraction of the world's documents.
 
-It ranks sixth rather than higher because the algorithms themselves are *specified elsewhere and
-specified well*: UAX#9 is a normative algorithm with a reference implementation and a conformance test
+It ranks sixth rather than higher because the algorithms themselves are _specified elsewhere and
+specified well_: UAX#9 is a normative algorithm with a reference implementation and a conformance test
 suite, UAX#14 likewise, and HarfBuzz is the reference shaper. Unlike Phases 6–9, the hard parts here
 have right answers that can be looked up rather than designed.
 
@@ -31,12 +31,12 @@ have right answers that can be looked up rather than designed.
 
 Read out of `assets/schema/transitional/wml.xsd`.
 
-| Type | Finding |
-|---|---|
-| `ST_Hint` | **`default` · `eastAsia` only — there is no `cs` value.** See `P4-01`. |
-| `CT_Fonts` attributes | `hint` `ascii` `hAnsi` `eastAsia` `cs` `asciiTheme` `hAnsiTheme` `eastAsiaTheme` **`cstheme`** |
-| `CT_EastAsianLayout` | `id` `combine` `combineBrackets` `vert` `vertCompress` |
-| `CT_Font` children | `altName` `panose1` `charset` `family` `notTrueType` `pitch` `sig` `embedRegular` `embedBold` `embedItalic` `embedBoldItalic`; attribute `name` |
+| Type                  | Finding                                                                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ST_Hint`             | **`default` · `eastAsia` only — there is no `cs` value.** See `P4-01`.                                                                          |
+| `CT_Fonts` attributes | `hint` `ascii` `hAnsi` `eastAsia` `cs` `asciiTheme` `hAnsiTheme` `eastAsiaTheme` **`cstheme`**                                                  |
+| `CT_EastAsianLayout`  | `id` `combine` `combineBrackets` `vert` `vertCompress`                                                                                          |
+| `CT_Font` children    | `altName` `panose1` `charset` `family` `notTrueType` `pitch` `sig` `embedRegular` `embedBold` `embedItalic` `embedBoldItalic`; attribute `name` |
 
 Two traps visible in that table alone. **`cstheme` is lowercase** where the other three theme
 attributes are `*Theme` — a generated reader gets this right, hand-written property resolution gets it
@@ -48,22 +48,22 @@ semantics of the other two as well.
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P4-01 | `w:rFonts` resolution and `w:hint` | L | **yes** |
-| P4-02 | Per-character script selection | M | no |
-| P4-03 | `fontTable.xml` and PANOSE substitution | M | no |
-| P4-04 | Embedded font de-obfuscation (ODTTF) | S | no |
-| P4-05 | `FontFace` loading and FOUT mitigation | M | no |
-| P4-06 | Itemization | L | no |
-| P4-07 | UAX#9 bidi | L | **yes** |
-| P4-08 | Segmentation | M | no |
-| P4-09 | harfbuzzjs integration | L | no |
-| P4-10 | The `measureText` fast path | M | **yes** |
-| P4-11 | The measurement cache | L | **yes** |
-| P4-12 | Shaped-run representation | L | **yes** |
-| P4-13 | Font metrics | M | no |
-| P4-14 | Vertical text and CJK metrics | M | no |
+| ID    | Title                                   | Size | Escalate |
+| ----- | --------------------------------------- | ---- | -------- |
+| P4-01 | `w:rFonts` resolution and `w:hint`      | L    | **yes**  |
+| P4-02 | Per-character script selection          | M    | no       |
+| P4-03 | `fontTable.xml` and PANOSE substitution | M    | no       |
+| P4-04 | Embedded font de-obfuscation (ODTTF)    | S    | no       |
+| P4-05 | `FontFace` loading and FOUT mitigation  | M    | no       |
+| P4-06 | Itemization                             | L    | no       |
+| P4-07 | UAX#9 bidi                              | L    | **yes**  |
+| P4-08 | Segmentation                            | M    | no       |
+| P4-09 | harfbuzzjs integration                  | L    | no       |
+| P4-10 | The `measureText` fast path             | M    | **yes**  |
+| P4-11 | The measurement cache                   | L    | **yes**  |
+| P4-12 | Shaped-run representation               | L    | **yes**  |
+| P4-13 | Font metrics                            | M    | no       |
+| P4-14 | Vertical text and CJK metrics           | M    | no       |
 
 ---
 
@@ -243,7 +243,7 @@ feature set) — the unit the shaper accepts.
 **Trap.** Itemizing by script alone. Two adjacent characters of the same script can still need
 different sub-runs because they resolve to different faces or sit at different bidi levels. And
 itemizing too finely destroys shaping: a ligature or a mark attachment that spans an itemization
-boundary cannot form. Boundaries must be the *minimum* set that the shaper requires.
+boundary cannot form. Boundaries must be the _minimum_ set that the shaper requires.
 
 **Done when.** A run mixing scripts, sizes and bidi levels itemizes into the minimum correct set; a
 ligature that spans no boundary still forms; itemization is stable (the same input yields the same

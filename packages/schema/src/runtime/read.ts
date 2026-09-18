@@ -87,7 +87,13 @@ export interface ReadContext {
   unexpectedAttribute(inType: string, attr: XmlAttr, cur: XmlCursor): void;
   invalidValue(inType: string, attr: XmlAttr, expected: string, cur: XmlCursor): void;
   /** Simple-typed element text outside its lexical space. Text preserved raw. */
-  invalidElementValue(inType: string, localName: string, expected: string, value: string, cur: XmlCursor): void;
+  invalidElementValue(
+    inType: string,
+    localName: string,
+    expected: string,
+    value: string,
+    cur: XmlCursor,
+  ): void;
   missingRequired(inType: string, attrName: string, cur: XmlCursor): void;
   unexpectedText(inType: string, cur: XmlCursor): void;
   unexpectedEof(inType: string, cur: XmlCursor): void;
@@ -142,7 +148,13 @@ class Context implements ReadContext {
     });
   }
 
-  invalidElementValue(inType: string, localName: string, expected: string, value: string, cur: XmlCursor): void {
+  invalidElementValue(
+    inType: string,
+    localName: string,
+    expected: string,
+    value: string,
+    cur: XmlCursor,
+  ): void {
     this.report({
       severity: 'error',
       code: 'invalid-value',

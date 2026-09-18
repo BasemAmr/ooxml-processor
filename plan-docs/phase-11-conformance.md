@@ -2,8 +2,8 @@
 
 > **Difficulty rank 9 of 11 — the easiest phase to plan, and the one most likely to be skipped.**
 >
-> **Depends on** every prior phase. Several tickets here are *started* in Phase 1 (`P11-01`, `P11-10`)
-> and merely *finished* here — a coverage manifest that first appears in Phase 11 has nothing to
+> **Depends on** every prior phase. Several tickets here are _started_ in Phase 1 (`P11-01`, `P11-10`)
+> and merely _finished_ here — a coverage manifest that first appears in Phase 11 has nothing to
 > measure.
 >
 > **Owns** `packages/conformance/` and `apps/demo/`.
@@ -20,13 +20,13 @@ environment at all** (`F6`, `F1`). A phase whose gates are all deferred is a pha
 happened.
 
 So the framing for this phase is inverted relative to the others. The risk is not that a ticket is hard.
-The risk is that a ticket is *quietly downgraded* — a threshold lowered to make CI green, a gate marked
+The risk is that a ticket is _quietly downgraded_ — a threshold lowered to make CI green, a gate marked
 advisory and never re-enabled, a corpus that turns out to be four files. Every ticket below therefore
-states what its failure looks like as a *process* failure, not as a bug.
+states what its failure looks like as a _process_ failure, not as a bug.
 
 **`F6` binds this entire phase.** No output of this project may describe the editor as
 "Word-compatible" until `P11-05` and `P11-06` have actually run somewhere they can run. Until then the
-honest phrase is *"unverified — no Word/LibreOffice available in this environment."*
+honest phrase is _"unverified — no Word/LibreOffice available in this environment."_
 
 ---
 
@@ -34,30 +34,30 @@ honest phrase is *"unverified — no Word/LibreOffice available in this environm
 
 Restated from `01-invariants.md` because this is the phase where each one is finally released:
 
-| Invariant | Effect here |
-|---|---|
-| `F1` | ~11 GB free on `D:`. Playwright browsers (~1 GB) may be downloaded **in this phase and not before**. LibreOffice must still not be installed locally. |
-| `F3` | `onlyBuiltDependencies: [esbuild]` may finally be widened to admit Playwright — this phase, not earlier. |
-| `F6` | No Word and no LibreOffice on this machine. `P11-06` is authored here and **runs only in CI**. |
-| `G3` | Unimplemented features degrade visibly. `P11-01` is what makes that auditable. |
+| Invariant | Effect here                                                                                                                                           |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `F1`      | ~11 GB free on `D:`. Playwright browsers (~1 GB) may be downloaded **in this phase and not before**. LibreOffice must still not be installed locally. |
+| `F3`      | `onlyBuiltDependencies: [esbuild]` may finally be widened to admit Playwright — this phase, not earlier.                                              |
+| `F6`      | No Word and no LibreOffice on this machine. `P11-06` is authored here and **runs only in CI**.                                                        |
+| `G3`      | Unimplemented features degrade visibly. `P11-01` is what makes that auditable.                                                                        |
 
 ---
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P11-01 | Coverage manifest and thresholds | M | no |
-| P11-02 | Corpus strategy and licensing | L | **yes** |
-| P11-03 | The equivalence relation | L | **yes** |
-| P11-04 | Round-trip runner | M | no |
-| P11-05 | Layout golden runner | M | no |
-| P11-06 | Visual regression | L | no |
-| P11-07 | Performance gates | M | no |
-| P11-08 | Parser fuzzing | M | no |
-| P11-09 | Malformed-package corpus | M | no |
-| P11-10 | Determinism gate | S | no |
-| P11-11 | Demo app | M | no |
+| ID     | Title                            | Size | Escalate |
+| ------ | -------------------------------- | ---- | -------- |
+| P11-01 | Coverage manifest and thresholds | M    | no       |
+| P11-02 | Corpus strategy and licensing    | L    | **yes**  |
+| P11-03 | The equivalence relation         | L    | **yes**  |
+| P11-04 | Round-trip runner                | M    | no       |
+| P11-05 | Layout golden runner             | M    | no       |
+| P11-06 | Visual regression                | L    | no       |
+| P11-07 | Performance gates                | M    | no       |
+| P11-08 | Parser fuzzing                   | M    | no       |
+| P11-09 | Malformed-package corpus         | M    | no       |
+| P11-10 | Determinism gate                 | S    | no       |
+| P11-11 | Demo app                         | M    | no       |
 
 ---
 
@@ -80,7 +80,7 @@ The manifest exists from Phase 1: one entry per named type, with four states —
 # every regression a visible diff rather than a silent CI edit.
 ```
 
-**Trap — the states must be set by *evidence*, not by hand.** A `painted` flag a developer ticks is a
+**Trap — the states must be set by _evidence_, not by hand.** A `painted` flag a developer ticks is a
 lie waiting to happen. Each state is set by instrumentation: `modelled` by codegen, `roundTripped` by
 `P11-04` observing the type in a corpus document, `laidOut` and `painted` by the layout and paint code
 recording which type dispatches they actually executed during the corpus run.
@@ -152,7 +152,7 @@ construction method recorded; a personal-data policy is stated and applied.
 
 **Byte-identity is not achievable** — ZIP metadata, attribute ordering and namespace prefix choice all
 legitimately differ. So "lossless round-trip", the claim the entire codegen approach exists to support,
-means *equivalence under an explicitly-defined relation*. This ticket defines that relation. It is the
+means _equivalence under an explicitly-defined relation_. This ticket defines that relation. It is the
 most consequential ticket in the phase, because every other round-trip assertion is only as strong as
 this definition.
 
@@ -189,7 +189,7 @@ relation. The reader may interpret both; the writer must emit what arrived. This
 source, target and type still resolves identically. Comparing ids directly produces false failures;
 comparing resolved graphs is the correct test and is more work.
 
-**Trap — the relation must be *asymmetric* about idempotence.** Generation 1 output may differ from the
+**Trap — the relation must be _asymmetric_ about idempotence.** Generation 1 output may differ from the
 original under the permitted-difference list. Generation 2 output must be **byte-identical** to
 generation 1. These are two different assertions and `P11-04` runs both.
 
@@ -267,7 +267,7 @@ Render each corpus page to PNG and compare perceptually against a reference.
 
 **`F1` and `F6` bind: LibreOffice must not be installed on this machine, and there is no Word here.
 This ticket is authored here and runs only in CI.** That is not a reason to defer writing it — it is a
-reason to write it such that it *can* run elsewhere without further design work.
+reason to write it such that it _can_ run elsewhere without further design work.
 
 ```pseudo
 # Reference source, in preference order:
@@ -327,7 +327,7 @@ gate.
 **Trap — perf gates are the first thing disabled when they go red.** Make them fail the build, and make
 re-baselining require the same explicit commit as `P11-01`'s ratchets.
 
-**Trap — measure keystroke-to-*pixel*, not keystroke-to-model.** The model update is microseconds; the
+**Trap — measure keystroke-to-_pixel_, not keystroke-to-model.** The model update is microseconds; the
 relayout, repaint and compositor round-trip are the cost. Instrument at the frame, not at the handler.
 
 **Done when.** All three budgets are CI assertions with throttling set explicitly; latency is reported at
@@ -397,7 +397,7 @@ per security boundary Phase 2 established, each asserting a specific typed error
 #   relationship to a non-existent part         -> dangling-relationship
 ```
 
-**Trap — assert the *specific* error, not "it threw."** A test that accepts any exception passes when
+**Trap — assert the _specific_ error, not "it threw."** A test that accepts any exception passes when
 the zip-bomb guard is removed and a null dereference takes its place. Each fixture names its error code.
 
 **Trap — these fixtures are malicious files in the repo.** Some will trip virus scanners and CI security
@@ -405,7 +405,7 @@ tooling. Store them as generated-on-demand recipes, or clearly quarantined with 
 they are.
 
 **Trap — `entity-rejected` covers three distinct attacks.** DOCTYPE rejection is the single boundary for
-all of them, which is correct and must be *stated*, or a later reader "improves" the parser by allowing
+all of them, which is correct and must be _stated_, or a later reader "improves" the parser by allowing
 harmless DOCTYPEs.
 
 **Done when.** Every boundary has a fixture asserting a named error code; no fixture passes on a generic
@@ -427,8 +427,8 @@ Two assertions, both of which exist from Phase 1 and are merely formalised here.
       structuredClone(displayList) succeeds and round-trips
 ```
 
-**Trap — the second gate protects a decision, not a behaviour.** D4 chose main-thread-for-v1 *on the
-condition* that the display list stays serializable so a worker boundary can be introduced later without
+**Trap — the second gate protects a decision, not a behaviour.** D4 chose main-thread-for-v1 _on the
+condition_ that the display list stays serializable so a worker boundary can be introduced later without
 a rewrite. Nothing in normal development enforces that; one closure or one `Map` of functions in the
 display list quietly forecloses the option. `P5-13` states this and this ticket enforces it.
 
@@ -464,7 +464,7 @@ non-developer can evaluate.
 ```
 
 **Trap — the two steps that matter cannot be run here.** Both Word-comparison steps are `F6`-blocked.
-The demo must therefore surface everything it *can* self-report: the coverage manifest for the open
+The demo must therefore surface everything it _can_ self-report: the coverage manifest for the open
 document, a diagnostics panel, and a visible indicator wherever a placeholder was rendered (`G3`).
 
 **Trap — the demo is where `G3` is finally visible or not.** A placeholder that is a blank rectangle is

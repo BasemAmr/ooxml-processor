@@ -83,7 +83,14 @@
 
 import { createCursorOverRaw } from './cursor.js';
 import { MC_NAMESPACE, XML_NAMESPACE } from './namespaces.js';
-import type { NamespaceUri, RawChild, RawNode, XmlAttr, XmlCursor, XmlStartElement } from './xml.js';
+import type {
+  NamespaceUri,
+  RawChild,
+  RawNode,
+  XmlAttr,
+  XmlCursor,
+  XmlStartElement,
+} from './xml.js';
 
 export { MC_NAMESPACE };
 
@@ -583,10 +590,7 @@ export class McResolver {
       }
       if (child.localName === MC_NAMES.choice) {
         if (fallback !== undefined) {
-          throw new McError(
-            'mc:Choice may not follow mc:Fallback',
-            'malformed-alternate-content',
-          );
+          throw new McError('mc:Choice may not follow mc:Fallback', 'malformed-alternate-content');
         }
         const requires = requiresAttribute(child);
         if (requires === undefined) {
@@ -772,10 +776,7 @@ function resolvePrefixList(
  * matches nothing. Undeclared prefixes are dropped: these three attributes are
  * advisory, and an entry we cannot resolve cannot match anything either way.
  */
-function resolveQNameList(
-  value: string,
-  prefixes: ReadonlyMap<string, NamespaceUri>,
-): QNameSet {
+function resolveQNameList(value: string, prefixes: ReadonlyMap<string, NamespaceUri>): QNameSet {
   const entries: { uri: NamespaceUri; localName: string }[] = [];
   for (const token of splitList(value)) {
     const colon = token.indexOf(':');

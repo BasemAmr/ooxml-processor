@@ -1,7 +1,7 @@
 # Invariants — inherited by every ticket
 
 Violating any of these fails a ticket even if the feature works. They are ordered by how expensive the
-violation is to detect, not by importance — the ones at the top fail *silently*.
+violation is to detect, not by importance — the ones at the top fail _silently_.
 
 ---
 
@@ -11,7 +11,7 @@ violation is to detect, not by importance — the ones at the top fail *silently
 (`$unknown` / `$unknownAttrs` / `RawNode`), or reported as a diagnostic. There is no fourth option.
 
 **A2 — The guarantee is idempotence after one pass, not byte-identity.** `gen2 === gen3`. The first
-save may canonicalize; every save after that is byte-identical. Byte-identity with the *input* is not
+save may canonicalize; every save after that is byte-identical. Byte-identity with the _input_ is not
 achievable — ZIP metadata varies, and splitting known from unknown attributes necessarily reorders
 them. Never claim more than idempotence, in code comments, commit messages or reports.
 
@@ -39,16 +39,16 @@ previous slot, and two encodings for one position gives a writer two behaviours.
 
 **B1 — `ST_OnOff`: an absent `val` on a present WML element means TRUE.** Lexical space is
 `1|0|true|false|on|off` — note `on`/`off`, which `xsd:boolean` does not accept. This is normative
-*prose*, not schema: `CT_OnOff/@val` has no XSD `default`.
+_prose_, not schema: `CT_OnOff/@val` has no XSD `default`.
 
 It is **not a property of the type**. DrawingML's `CT_Boolean` uses the same `s:ST_OnOff` with
 `default="0"`, where absent means FALSE. Hence three runtime functions:
 
-| Function | Rule |
-|---|---|
-| `parseOnOff(v)` | WML rule — absent ⇒ true |
-| `parseOnOffOr(v, whenAbsent)` | Everywhere else — default supplied by the schema |
-| `parseOnOffAttr(v)` | Literal, no default applied — what the reader uses, so the writer can leave `<w:b/>` as `<w:b/>` |
+| Function                      | Rule                                                                                             |
+| ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| `parseOnOff(v)`               | WML rule — absent ⇒ true                                                                         |
+| `parseOnOffOr(v, whenAbsent)` | Everywhere else — default supplied by the schema                                                 |
+| `parseOnOffAttr(v)`           | Literal, no default applied — what the reader uses, so the writer can leave `<w:b/>` as `<w:b/>` |
 
 They look redundant. **They are not. Never merge them.** Merging inverts booleans across one family or
 the other, in every document.
@@ -65,7 +65,7 @@ unknown type rather than degrading to `any`. Never add a fallback that produces 
 type is an invisible hole in a 2,800-type model that nothing downstream can detect.
 
 **B4 — Readers never throw on document content.** Only cursor errors (malformed XML, tripped parse
-limits) and caller misuse escape. Everything a *document* can do wrong produces a diagnostic and a
+limits) and caller misuse escape. Everything a _document_ can do wrong produces a diagnostic and a
 preserved value. An editor that refuses a file because one attribute in one paragraph is malformed is
 useless; one that half-opens and silently discards the rest is worse than useless.
 
@@ -73,8 +73,8 @@ useless; one that half-opens and silently discards the rest is worse than useles
 crafted with a million bad attributes must not make us allocate a million objects.
 
 **B6 — Slot order is schema order, and the writer replays it.** Every complex type's element content
-is an ordered `Slot[]`. The governing rule of `toSlots()`: *a compositor that can repeat collapses into
-a single slot; a non-repeating sequence/all is transparent.*
+is an ordered `Slot[]`. The governing rule of `toSlots()`: _a compositor that can repeat collapses into
+a single slot; a non-repeating sequence/all is transparent._
 
 **B7 — The flattening precondition holds and is asserted at build time.** Flattening a repeating
 `xsd:choice` into one array of a discriminated union is sound only because no choice branch is a
@@ -138,13 +138,13 @@ without touching a single generated reader. Do not add random access.
 
 Recorded in `docs/xsd-feature-survey.md`. If you doubt one, re-measure it; do not guess.
 
-| Fact | Value | Consequence |
-|---|---|---|
-| `mixed="true"` types on the `.docx` path | **ZERO** | No mixed-content machinery anywhere. Text in WML is always `simpleContent`. Adding "just in case" handling is dead code in the hottest loop in the reader. |
-| `xsd:choice` total / with sequence / multi-element | 154 / 1 / **0** | See B7 |
-| `xsd:any` wildcard sites on the `.docx` path | 8 | Small enough to handle explicitly |
-| Attributes with a schema `default` | 1,236 | See A3 |
-| Preset shape geometries | 187 | Phase 9 |
+| Fact                                               | Value           | Consequence                                                                                                                                                |
+| -------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mixed="true"` types on the `.docx` path           | **ZERO**        | No mixed-content machinery anywhere. Text in WML is always `simpleContent`. Adding "just in case" handling is dead code in the hottest loop in the reader. |
+| `xsd:choice` total / with sequence / multi-element | 154 / 1 / **0** | See B7                                                                                                                                                     |
+| `xsd:any` wildcard sites on the `.docx` path       | 8               | Small enough to handle explicitly                                                                                                                          |
+| Attributes with a schema `default`                 | 1,236           | See A3                                                                                                                                                     |
+| Preset shape geometries                            | 187             | Phase 9                                                                                                                                                    |
 
 ---
 

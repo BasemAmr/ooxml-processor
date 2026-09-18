@@ -311,11 +311,7 @@ export interface IrAttributeGroup {
 }
 
 export type IrDefinition =
-  | IrComplexType
-  | IrSimpleType
-  | IrGlobalElement
-  | IrGroup
-  | IrAttributeGroup;
+  IrComplexType | IrSimpleType | IrGlobalElement | IrGroup | IrAttributeGroup;
 
 // ---------------------------------------------------------------------------
 // The loaded schema set

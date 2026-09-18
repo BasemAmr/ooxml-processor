@@ -117,9 +117,7 @@ function simpleType(set: IrSchemaSet, key: string): IrSimpleType {
   return present(set.simpleTypes.get(key), `simpleType ${key}`);
 }
 
-function elementsContent(
-  content: IrContent,
-): Extract<IrContent, { readonly kind: 'elements' }> {
+function elementsContent(content: IrContent): Extract<IrContent, { readonly kind: 'elements' }> {
   if (content.kind !== 'elements') throw new Error(`expected element content, got ${content.kind}`);
   return content;
 }
@@ -812,9 +810,9 @@ ${body}
     const dir = await writeFixture({
       transitional: { 'wml.xsd': schema(WML_TRANSITIONAL, body) },
     });
-    await expect(
-      loadSchemaSet({ assetsDir: dir, dialects: ['transitional'] }),
-    ).rejects.toThrow(/xsd:gYearMonth/);
+    await expect(loadSchemaSet({ assetsDir: dir, dialects: ['transitional'] })).rejects.toThrow(
+      /xsd:gYearMonth/,
+    );
   });
 
   it('resolves prefixes through the document, not through a fixed table', async () => {
@@ -964,10 +962,7 @@ describe('dialect unification', () => {
       strict: { 'wml.xsd': schema(WML_STRICT, strictBody) },
     });
     const set = await loadSchemaSet({ assetsDir: dir });
-    const message = present(
-      codes(set.diagnostics, 'dialect-divergence')[0],
-      'divergence',
-    ).message;
+    const message = present(codes(set.diagnostics, 'dialect-divergence')[0], 'divergence').message;
     expect(message).toContain('values: transitional has 2, strict has 1');
     expect(message).toContain('transitional-only "end"');
   });

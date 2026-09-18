@@ -312,7 +312,8 @@ class FakeCursor implements XmlCursor {
         sink = parent.children;
         continue;
       }
-      if (event.type === 'text') sink.push({ kind: 'text', value: event.value, cdata: event.cdata });
+      if (event.type === 'text')
+        sink.push({ kind: 'text', value: event.value, cdata: event.cdata });
       else if (event.type === 'comment') sink.push({ kind: 'comment', value: event.value });
       else sink.push({ kind: 'pi', target: event.target, data: event.data });
     }
@@ -421,7 +422,8 @@ class FakeStringSink implements XmlSink {
   #writeRaw(node: RawNode): void {
     this.startElement(node.uri, node.localName);
     for (const [prefix, uri] of node.nsDeclarations) this.declareNamespace(prefix, uri);
-    for (const attr of node.attrs) this.attr(attr.uri === '' ? null : attr.uri, attr.localName, attr.value);
+    for (const attr of node.attrs)
+      this.attr(attr.uri === '' ? null : attr.uri, attr.localName, attr.value);
     for (const child of node.children) {
       // `RawChild` discriminates on the *presence* of `kind`: a nested element is
       // a bare `RawNode` with no tag of its own.
@@ -452,12 +454,14 @@ class FakeStringSink implements XmlSink {
 
     this.#out += `<${open.qname}`;
     for (const declaration of open.nsDeclarations) {
-      this.#out += declaration.prefix === ''
-        ? ` xmlns="${escapeAttr(declaration.uri)}"`
-        : ` xmlns:${declaration.prefix}="${escapeAttr(declaration.uri)}"`;
+      this.#out +=
+        declaration.prefix === ''
+          ? ` xmlns="${escapeAttr(declaration.uri)}"`
+          : ` xmlns:${declaration.prefix}="${escapeAttr(declaration.uri)}"`;
     }
     for (const attr of open.attrs) {
-      const attrPrefix = attr.uri === null || attr.uri === '' ? '' : this.#prefixFor(open, attr.uri, true);
+      const attrPrefix =
+        attr.uri === null || attr.uri === '' ? '' : this.#prefixFor(open, attr.uri, true);
       const name = attrPrefix === '' ? attr.localName : `${attrPrefix}:${attr.localName}`;
       this.#out += ` ${name}="${escapeAttr(attr.value)}"`;
     }

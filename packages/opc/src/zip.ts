@@ -288,7 +288,10 @@ function findEndOfCentralDirectory(bytes: Uint8Array, view: DataView): EndOfCent
   }
 
   const commentLength = view.getUint16(eocdOffset + 20, true);
-  const comment = bytes.slice(eocdOffset + EOCD_FIXED_SIZE, eocdOffset + EOCD_FIXED_SIZE + commentLength);
+  const comment = bytes.slice(
+    eocdOffset + EOCD_FIXED_SIZE,
+    eocdOffset + EOCD_FIXED_SIZE + commentLength,
+  );
 
   let entryCount = view.getUint16(eocdOffset + 10, true);
   let centralDirectorySize = view.getUint32(eocdOffset + 12, true);
@@ -363,7 +366,10 @@ function readCentralHeader(
 ): { readonly entry: ZipEntry; readonly nextOffset: number } {
   requireBytes(bytes, offset, CENTRAL_HEADER_FIXED_SIZE, 'central directory header');
   if (view.getUint32(offset, true) !== SIG_CENTRAL_HEADER) {
-    throw new OpcZipError('bad-signature', `Expected a central directory header at offset ${offset}`);
+    throw new OpcZipError(
+      'bad-signature',
+      `Expected a central directory header at offset ${offset}`,
+    );
   }
 
   const versionMadeBy = view.getUint16(offset + 4, true);
@@ -388,7 +394,10 @@ function readCentralHeader(
   requireBytes(bytes, offset, total, 'central directory entry');
 
   const nameBytes = bytes.slice(variableStart, variableStart + nameLength);
-  const rawCentralExtra = bytes.slice(variableStart + nameLength, variableStart + nameLength + extraLength);
+  const rawCentralExtra = bytes.slice(
+    variableStart + nameLength,
+    variableStart + nameLength + extraLength,
+  );
   const comment = bytes.slice(
     variableStart + nameLength + extraLength,
     variableStart + nameLength + extraLength + commentLength,
@@ -422,7 +431,11 @@ function readCentralHeader(
   diskStart = zip64.diskStart;
 
   if (diskStart !== 0) {
-    throw new OpcZipError('multi-disk', 'Entry lives on a different disk of a spanned archive', name);
+    throw new OpcZipError(
+      'multi-disk',
+      'Entry lives on a different disk of a spanned archive',
+      name,
+    );
   }
   if (method !== METHOD_STORE && method !== METHOD_DEFLATE) {
     throw new OpcZipError(
@@ -547,7 +560,10 @@ function readZip64Extra(extra: Uint8Array, base: Zip64Fields): Zip64Fields {
   const record = findExtraField(extra, ZIP64_EXTRA_HEADER_ID);
   if (record === undefined) {
     if (base.uncompressedSize === U32_MAX || base.compressedSize === U32_MAX) {
-      throw new OpcZipError('zip64-invalid', 'Entry declares ZIP64 sizes but carries no ZIP64 extra field');
+      throw new OpcZipError(
+        'zip64-invalid',
+        'Entry declares ZIP64 sizes but carries no ZIP64 extra field',
+      );
     }
     return result;
   }
@@ -556,7 +572,10 @@ function readZip64Extra(extra: Uint8Array, base: Zip64Fields): Zip64Fields {
   let cursor = 0;
   const take = (): number => {
     if (cursor + 8 > record.byteLength) {
-      throw new OpcZipError('zip64-invalid', 'ZIP64 extra field is shorter than its saturated fields require');
+      throw new OpcZipError(
+        'zip64-invalid',
+        'ZIP64 extra field is shorter than its saturated fields require',
+      );
     }
     const value = readUint64(view, cursor);
     cursor += 8;
@@ -795,7 +814,9 @@ export function decompressEntry(
     }
   } catch (error) {
     if (error instanceof OpcLimitError) throw error;
-    throw new OpcZipError('inflate-failed', 'DEFLATE stream is malformed', entry.name, { cause: error });
+    throw new OpcZipError('inflate-failed', 'DEFLATE stream is malformed', entry.name, {
+      cause: error,
+    });
   }
 
   return finish(entry, chunks, produced, crc, budget);
@@ -808,7 +829,12 @@ function materializeStored(
 ): Uint8Array {
   const size = entry.compressedData.length;
   if (size > limits.maxEntryUncompressedBytes) {
-    throw new OpcLimitError('maxEntryUncompressedBytes', limits.maxEntryUncompressedBytes, size, entry.name);
+    throw new OpcLimitError(
+      'maxEntryUncompressedBytes',
+      limits.maxEntryUncompressedBytes,
+      size,
+      entry.name,
+    );
   }
   if (budget.totalUncompressedBytes + size > limits.maxTotalUncompressedBytes) {
     throw new OpcLimitError(
@@ -840,7 +866,11 @@ function finish(
     );
   }
   if (crc32Final(crc) !== entry.crc32) {
-    throw new OpcZipError('crc-mismatch', 'Entry failed its CRC-32 check; the archive is corrupt', entry.name);
+    throw new OpcZipError(
+      'crc-mismatch',
+      'Entry failed its CRC-32 check; the archive is corrupt',
+      entry.name,
+    );
   }
 
   budget.totalUncompressedBytes += produced;
@@ -884,7 +914,10 @@ export interface ZipWriteEntry {
   readonly externalAttributes: number;
 }
 
-export function writeZip(entries: readonly ZipWriteEntry[], archiveComment?: Uint8Array): Uint8Array {
+export function writeZip(
+  entries: readonly ZipWriteEntry[],
+  archiveComment?: Uint8Array,
+): Uint8Array {
   const writer = new ByteWriter();
   const localOffsets: number[] = [];
 
@@ -984,7 +1017,8 @@ function writeEndOfCentralDirectory(
   centralOffset: number,
   archiveComment: Uint8Array | undefined,
 ): void {
-  const needsZip64 = entryCount > U16_MAX || centralSize > U32_MAX - 1 || centralOffset > U32_MAX - 1;
+  const needsZip64 =
+    entryCount > U16_MAX || centralSize > U32_MAX - 1 || centralOffset > U32_MAX - 1;
 
   if (needsZip64) {
     const zip64Start = writer.length;

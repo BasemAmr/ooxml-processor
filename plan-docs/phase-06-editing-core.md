@@ -20,7 +20,7 @@ Four independently hard problems that must all agree with each other:
 2. **Canvas has no accessibility tree.** A parallel ARIA/DOM mirror is mandatory, not a nicety. A
    canvas editor without one is unusable by a screen reader and legally unshippable in most contexts.
 3. **Bidi breaks the assumption that a text offset has one screen position.** At a soft wrap and at a
-   direction boundary, one document offset has *two* valid caret positions. Affinity is not an
+   direction boundary, one document offset has _two_ valid caret positions. Affinity is not an
    optimisation — without it, clicking at the end of a wrapped line puts the caret on the wrong line.
 4. **Real-time means incremental.** A full relayout on every keystroke is 200ms on a 100-page document.
    The budget is 16ms at p95, keystroke to pixel.
@@ -32,25 +32,25 @@ affects hit-testing affects selection geometry affects what the relayout must re
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P6-01 | Position model: `DocPos`, `LayoutPos`, affinity | L | **yes** |
-| P6-02 | Position mapping: document ⇄ layout, both directions | L | yes |
-| P6-03 | Hit-testing: screen point → caret | M | no |
-| P6-04 | Caret geometry and rendering, including bidi | M | no |
-| P6-05 | Selection model | M | no |
-| P6-06 | Selection geometry: range → paint rectangles | M | no |
-| P6-07 | Keyboard navigation: logical vs visual, word, line, document | L | no |
-| P6-08 | Input proxy: the hidden DOM element | M | no |
-| P6-09 | IME composition lifecycle | L | no |
-| P6-10 | Command model: command + inverse | L | **yes** |
-| P6-11 | Undo/redo stack, coalescing, selection restore | M | no |
-| P6-12 | Mutation API — the only way the model changes | M | no |
-| P6-13 | Incremental relayout driver | XL | **yes** |
-| P6-14 | Repaint scheduling and dirty rects | M | no |
-| P6-15 | Clipboard: copy, cut, paste | L | no |
-| P6-16 | Accessibility mirror | L | no |
-| P6-17 | Latency instrumentation | S | no |
+| ID    | Title                                                        | Size | Escalate |
+| ----- | ------------------------------------------------------------ | ---- | -------- |
+| P6-01 | Position model: `DocPos`, `LayoutPos`, affinity              | L    | **yes**  |
+| P6-02 | Position mapping: document ⇄ layout, both directions         | L    | yes      |
+| P6-03 | Hit-testing: screen point → caret                            | M    | no       |
+| P6-04 | Caret geometry and rendering, including bidi                 | M    | no       |
+| P6-05 | Selection model                                              | M    | no       |
+| P6-06 | Selection geometry: range → paint rectangles                 | M    | no       |
+| P6-07 | Keyboard navigation: logical vs visual, word, line, document | L    | no       |
+| P6-08 | Input proxy: the hidden DOM element                          | M    | no       |
+| P6-09 | IME composition lifecycle                                    | L    | no       |
+| P6-10 | Command model: command + inverse                             | L    | **yes**  |
+| P6-11 | Undo/redo stack, coalescing, selection restore               | M    | no       |
+| P6-12 | Mutation API — the only way the model changes                | M    | no       |
+| P6-13 | Incremental relayout driver                                  | XL   | **yes**  |
+| P6-14 | Repaint scheduling and dirty rects                           | M    | no       |
+| P6-15 | Clipboard: copy, cut, paste                                  | L    | no       |
+| P6-16 | Accessibility mirror                                         | L    | no       |
+| P6-17 | Latency instrumentation                                      | S    | no       |
 
 ---
 
@@ -120,7 +120,7 @@ Caret = {
 
 - `DocPos` survives edits elsewhere in the document. Only an edit that deletes the node itself
   invalidates it, and that must be detectable (`isValid(pos)`), not silently wrong.
-- `LayoutPos` is invalidated by *any* relayout that touches its page. It is never stored across a
+- `LayoutPos` is invalidated by _any_ relayout that touches its page. It is never stored across a
   frame boundary — it is derived, used, discarded.
 - Selection and range annotations store `DocPos`. Never `LayoutPos`.
 
@@ -172,7 +172,7 @@ fn toDocument(lp) -> Caret
 ```
 
 **Round-trip property to test explicitly.** `toDocument(toLayout(c)) == c` for every caret in a
-fixture paragraph, *including* both affinities at each soft wrap. This property is where affinity bugs
+fixture paragraph, _including_ both affinities at each soft wrap. This property is where affinity bugs
 surface; nothing else catches them.
 
 **Done when.** Both functions exist; the round-trip property test passes over a fixture containing a
@@ -187,12 +187,12 @@ is returned (not thrown) for a virtualized page.
 
 **Goal.** Click and drag map to a caret, including in RTL text, inside table cells, and in the margin.
 
-**Trap.** Searching clusters in *logical* order. Hit-testing is a geometric question and must walk
+**Trap.** Searching clusters in _logical_ order. Hit-testing is a geometric question and must walk
 **visual** order. In `abc‏מילה‎def` the cluster whose visual x-range contains the point is not found by
 scanning logical indices.
 
 Second trap: the midpoint rule. "Left half of the cluster ⇒ before it" is correct only for LTR. For an
-RTL cluster the left half is *after* it. Getting this backwards puts the caret one character off in
+RTL cluster the left half is _after_ it. Getting this backwards puts the caret one character off in
 every Arabic and Hebrew document, which is the kind of bug that never gets reported by the people who
 would notice.
 
@@ -218,6 +218,7 @@ fn hitTest(point) -> Caret
 ```
 
 **Extra rules.**
+
 - Click past the end of a line's text ⇒ caret at line end with `UPSTREAM` affinity (so it renders on
   the line that was clicked, not the next one).
 - Click inside a table cell resolves to that cell's content; clicks on cell borders resolve to the
@@ -226,7 +227,7 @@ fn hitTest(point) -> Caret
   paragraph.
 
 **Done when.** A test grid of points over a fixture containing LTR, RTL, and mixed lines maps to the
-expected carets; clicking the right half of an RTL cluster yields the *earlier* logical offset;
+expected carets; clicking the right half of an RTL cluster yields the _earlier_ logical offset;
 clicking 200px past the end of a wrapped line yields `UPSTREAM` affinity.
 
 ---
@@ -278,7 +279,7 @@ caret sits on the correct side of an RTL cluster; blinking does not invalidate a
 to handle.
 
 **Trap.** Assuming a selection is `{anchor, focus}` over a linear document. Table rectangular selection
-(drag across cells) is not expressible that way — it selects a *grid region*, and the cells in it are
+(drag across cells) is not expressible that way — it selects a _grid region_, and the cells in it are
 not contiguous in document order.
 
 **Design.**
@@ -301,7 +302,7 @@ Selection =
 ```
 
 **Behavioural differences that must not be flattened away.** Deleting a `range` that spans cells
-removes cell *content* and merges the paragraph structure; deleting a `tableRect` clears the cells but
+removes cell _content_ and merges the paragraph structure; deleting a `tableRect` clears the cells but
 preserves the grid. Word does this and users depend on it.
 
 **Done when.** The four shapes exist; normalization is idempotent (`normalize(normalize(s)) == normalize(s)`,
@@ -363,7 +364,7 @@ through a short line permanently loses the horizontal position. `preferredX` is 
 vertical move and cleared by any horizontal move or edit. Every editor that skips this has the same
 bug report filed against it.
 
-**Trap 2 — Home/End at a soft wrap.** They act on the *visual line*, not the paragraph. At a wrap
+**Trap 2 — Home/End at a soft wrap.** They act on the _visual line_, not the paragraph. At a wrap
 point, Home must produce `DOWNSTREAM` affinity and End `UPSTREAM`, or the caret jumps to the adjacent
 line.
 
@@ -447,9 +448,10 @@ page to scroll to it on focus.
 ```
 
 **Rules that are not obvious.**
+
 - Never call `preventDefault()` on a key that could start a composition. Doing so kills IME on some
   platforms with no error.
-- The proxy's `value` is kept empty *except* during composition. Anything left in it gets re-read by
+- The proxy's `value` is kept empty _except_ during composition. Anything left in it gets re-read by
   screen readers and re-sent on some Android keyboards.
 - Focus management: clicking the canvas must focus the proxy without scrolling the page
   (`focus({ preventScroll: true })`).
@@ -471,7 +473,7 @@ visible in the document, underlined, and the candidate window positioned at the 
 undo stack, not in the round-trip model, replaced wholesale on every `compositionupdate`. If each
 update lands in the undo stack, one Japanese word becomes fifteen undo steps.
 
-**Trap 2 — the one that wastes a day.** Writing to the proxy's `value` or moving its selection *during*
+**Trap 2 — the one that wastes a day.** Writing to the proxy's `value` or moving its selection _during_
 composition aborts the composition on most IMEs, silently. During composition the proxy is
 read-only from our side.
 
@@ -529,7 +531,7 @@ as `UNVERIFIABLE-HERE` for automation).
 **Goal.** Every model mutation is a command with an exact inverse, so undo is replay rather than
 snapshot restore.
 
-**Trap.** Inverses that are *approximately* right. `insertText`'s inverse is `deleteRange` — but if the
+**Trap.** Inverses that are _approximately_ right. `insertText`'s inverse is `deleteRange` — but if the
 insert split a run, merged formatting, or renumbered a list, the naive delete does not restore the
 prior state. An inverse must be captured from the **actual effect**, not derived from the intent.
 
@@ -565,6 +567,7 @@ Transaction = {
 ```
 
 **Design rules — these are what make a future collaborative layer possible.**
+
 - Commands address positions by `NodeId`, never by absolute offset. An offset-addressed log cannot be
   rebased against a concurrent edit.
 - `apply` is deterministic given the same model state. No `Date.now()`, no random ids generated inside
@@ -591,7 +594,7 @@ comparison); a bookmark spanning an edited range is restored exactly by undo.
 **Goal.** Ctrl+Z / Ctrl+Y with the granularity users expect.
 
 **Trap.** Coalescing by time alone. A 500ms window merges a paste into the preceding typing run. Merge
-on `mergeKey` *and* adjacency *and* time — all three.
+on `mergeKey` _and_ adjacency _and_ time — all three.
 
 **Design.**
 
@@ -649,6 +652,7 @@ insertTable(pos, rows, cols)       insertBreak(pos, kind)     insertDrawing(pos,
 ```
 
 **Semantics that are easy to get wrong.**
+
 - `insertText` inherits `rPr` from the character **before** the insertion point, except at the start
   of a paragraph where it inherits from the character after. Word does this; users notice immediately
   when it is wrong.
@@ -676,7 +680,7 @@ editor real-time; without it everything else is a demo.
 of 100 it is ~200ms and the editor feels broken.
 
 **Trap 2 — the subtle one.** Early-stopping on "the paragraph's height did not change". Not sufficient:
-the paragraph's *break positions* can change while its height does not (text reflows between lines but
+the paragraph's _break positions_ can change while its height does not (text reflows between lines but
 the count is the same), which changes where the next page starts. The stop condition must compare the
 **outflow state**, not the height.
 
@@ -730,11 +734,11 @@ fn relayout(dirty) -> RepaintSet
 **Why the resync condition is `endState` equality.** Pagination is a fold: `endState = fill(startState)`.
 If a page produces the same end state it produced before, every subsequent page is a pure function of
 unchanged input, so it is unchanged. That is the whole argument, and it is why `endState` must capture
-*everything* carried forward — pending floats, footnote continuation, column position, keep-with-next
+_everything_ carried forward — pending floats, footnote continuation, column position, keep-with-next
 backlog. An incomplete `endState` makes the early stop unsound in a way that shows as rare,
 irreproducible stale pages.
 
-**Interaction with the Phase 8 fixpoint.** Stage 2 is the *outer* loop; `fillPage` may itself iterate
+**Interaction with the Phase 8 fixpoint.** Stage 2 is the _outer_ loop; `fillPage` may itself iterate
 to a fixpoint internally (footnotes). The two must not be merged — the outer loop is incremental and
 must terminate by resynchronisation; the inner one terminates by convergence with a hard cap.
 
@@ -826,7 +830,7 @@ containing `<script>` and `onerror=` inserts text only and executes nothing.
 
 **Goal.** A screen reader can read the document, follow the caret, and hear selection changes.
 
-**Trap.** Treating this as a late polish item. A canvas has *no* accessible content — to assistive
+**Trap.** Treating this as a late polish item. A canvas has _no_ accessible content — to assistive
 technology the editor is a blank image. Retrofitting the mirror after the editor is built means
 re-deriving structure that layout already knew and threw away. Build it alongside, not after.
 
@@ -882,7 +886,7 @@ table mirrors as a `role="table"` with correct row/column counts.
 ```
 
 **Done when.** A dev overlay shows live p50/p95 for a typing burst; the four-stage breakdown makes it
-possible to say *which* stage blew the budget, which is the only reason to build this now rather than
+possible to say _which_ stage blew the budget, which is the only reason to build this now rather than
 in Phase 11.
 
 ---

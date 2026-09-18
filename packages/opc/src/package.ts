@@ -352,7 +352,9 @@ export async function savePackage(pkg: OpcPackage): Promise<Uint8Array> {
 
   for (const entry of impl.entries) {
     const replacement = replacementBytesFor(impl, entry);
-    writeEntries.push(replacement === undefined ? passThrough(entry) : recompress(entry, replacement));
+    writeEntries.push(
+      replacement === undefined ? passThrough(entry) : recompress(entry, replacement),
+    );
   }
 
   return writeZip(writeEntries, impl.archiveComment);
@@ -420,7 +422,9 @@ function recompress(entry: ZipEntry, data: Uint8Array): ZipWriteEntry {
 /* -------------------------------------------------------------------------- */
 
 function buildWordPartIndex(pkg: PackageImpl): WordPartIndex {
-  const mainRelationship = pkg.packageRelationships.singleByType(...RelationshipTypes.officeDocument);
+  const mainRelationship = pkg.packageRelationships.singleByType(
+    ...RelationshipTypes.officeDocument,
+  );
   if (mainRelationship === undefined) {
     throw new OpcPackageError(
       'missing-main-document',

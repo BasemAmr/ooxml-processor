@@ -25,12 +25,12 @@ specific output — never "works correctly".
 Sizes describe **design risk**, not typing volume. A 600-line mechanical emitter is S. A 40-line
 fixpoint driver is L.
 
-| Size | Meaning |
-|---|---|
-| **S** | The approach is obvious. Failure is loud (a type error, a red test). One sitting. |
-| **M** | The approach is known but has ordering or edge-case subtlety. Needs its own tests. |
-| **L** | The approach must be chosen before it can be implemented. Get the data shape reviewed first. |
-| **XL** | Contains a decision that constrains later phases. Must produce an ADR. Always **Escalate**. |
+| Size   | Meaning                                                                                      |
+| ------ | -------------------------------------------------------------------------------------------- |
+| **S**  | The approach is obvious. Failure is loud (a type error, a red test). One sitting.            |
+| **M**  | The approach is known but has ordering or edge-case subtlety. Needs its own tests.           |
+| **L**  | The approach must be chosen before it can be implemented. Get the data shape reviewed first. |
+| **XL** | Contains a decision that constrains later phases. Must produce an ADR. Always **Escalate**.  |
 
 ## Escalate
 
@@ -53,13 +53,13 @@ This codebase is deliberately built so most mistakes are loud. Those are the che
 
 ## Labels used in ticket text
 
-| Label | Meaning |
-|---|---|
-| `SPEC-GAP` | The standard does not settle this. The implementation is a calibrated approximation and the code must say so in a comment. |
+| Label               | Meaning                                                                                                                                                              |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SPEC-GAP`          | The standard does not settle this. The implementation is a calibrated approximation and the code must say so in a comment.                                           |
 | `UNVERIFIABLE-HERE` | Correctness depends on comparing against Word or LibreOffice, neither of which exists on this machine (ADR 0007). Ship it, mark it unverified, never claim fidelity. |
-| `FIXPOINT` | Participates in an iterative convergence loop. Must be idempotent and must not allocate identity per iteration. |
-| `HOT-PATH` | Runs per glyph, per line, or per frame. Allocation and megamorphic dispatch matter here. |
-| `ROUND-TRIP` | Touches what gets written back to the file. A bug here corrupts documents silently. |
+| `FIXPOINT`          | Participates in an iterative convergence loop. Must be idempotent and must not allocate identity per iteration.                                                      |
+| `HOT-PATH`          | Runs per glyph, per line, or per frame. Allocation and megamorphic dispatch matter here.                                                                             |
+| `ROUND-TRIP`        | Touches what gets written back to the file. A bug here corrupts documents silently.                                                                                  |
 
 ## Estimation is deliberately absent
 

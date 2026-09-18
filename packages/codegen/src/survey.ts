@@ -475,7 +475,9 @@ export function formatSurvey(survey: SurveyResult): string {
     );
   }
   lines.push('');
-  lines.push(`xsd:any sites on the .docx path: ${survey.wildcards.filter((w) => w.docxPath).length}`);
+  lines.push(
+    `xsd:any sites on the .docx path: ${survey.wildcards.filter((w) => w.docxPath).length}`,
+  );
   for (const site of survey.wildcards.filter((w) => w.docxPath)) {
     lines.push(
       `  ${site.context.padEnd(26)} ${site.source.file}:${site.source.line}` +

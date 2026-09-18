@@ -231,7 +231,12 @@ export class RelationshipSet {
         );
       }
 
-      const id = requiredAttribute(start.localName, 'Id', attributeValue(start, 'Id'), relsPartName);
+      const id = requiredAttribute(
+        start.localName,
+        'Id',
+        attributeValue(start, 'Id'),
+        relsPartName,
+      );
       if (!isNcName(id)) {
         throw new OpcRelationshipError(
           'invalid-id',
@@ -250,7 +255,12 @@ export class RelationshipSet {
       }
       seen.add(id);
 
-      const type = requiredAttribute(start.localName, 'Type', attributeValue(start, 'Type'), relsPartName);
+      const type = requiredAttribute(
+        start.localName,
+        'Type',
+        attributeValue(start, 'Type'),
+        relsPartName,
+      );
       const target = requiredAttribute(
         start.localName,
         'Target',

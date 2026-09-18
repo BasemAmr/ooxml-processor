@@ -19,13 +19,7 @@
 
 /** Discriminates the error classes below without `instanceof`, which is fragile across bundles. */
 export type OpcErrorKind =
-  | 'part-name'
-  | 'zip'
-  | 'limit'
-  | 'encrypted'
-  | 'content-type'
-  | 'relationship'
-  | 'package';
+  'part-name' | 'zip' | 'limit' | 'encrypted' | 'content-type' | 'relationship' | 'package';
 
 /**
  * Base class. Abstract so that every throw site has to pick a specific kind;
@@ -152,7 +146,12 @@ export class OpcZipError extends OpcError {
     readonly entryName?: string,
     options?: { readonly cause?: unknown },
   ) {
-    super(entryName === undefined ? message : `${message} (entry ${JSON.stringify(truncate(entryName))})`, options);
+    super(
+      entryName === undefined
+        ? message
+        : `${message} (entry ${JSON.stringify(truncate(entryName))})`,
+      options,
+    );
   }
 }
 

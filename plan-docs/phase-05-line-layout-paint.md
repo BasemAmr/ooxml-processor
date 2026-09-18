@@ -29,16 +29,16 @@ is concentrated in two tickets, not spread across the phase.
 Read out of `assets/schema/transitional/wml.xsd`. Where these differ from the obvious assumption, the
 difference is the trap.
 
-| Type | Values |
-|---|---|
-| `ST_Jc` | `start` · `center` · `end` · `both` · `mediumKashida` · `distribute` · `numTab` · `highKashida` · `lowKashida` · `thaiDistribute` · `left` · `right` — **12 values**, including three Kashida forms and `numTab` |
-| `ST_LineSpacingRule` | `auto` · **`exact`** · `atLeast` — note `exact`, **not** `exactly` |
-| `ST_TabJc` | `clear` · `start` · `center` · `end` · `decimal` · `bar` · `num` · `left` · `right` |
-| `ST_TabTlc` | `none` · `dot` · `hyphen` · `underscore` · `heavy` · `middleDot` |
-| `ST_Underline` | **18 values** — `single` `words` `double` `thick` `dotted` `dottedHeavy` `dash` `dashedHeavy` `dashLong` `dashLongHeavy` `dotDash` `dashDotHeavy` `dotDotDash` `dashDotDotHeavy` `wave` `wavyHeavy` `wavyDouble` `none` |
-| `ST_Em` | `none` · `dot` · `comma` · `circle` · `underDot` |
-| `ST_TextEffect` | `blinkBackground` · `lights` · `antsBlack` · `antsRed` · `shimmer` · `sparkle` · `none` |
-| `ST_TextAlignment` | `top` · `center` · `baseline` · `bottom` · `auto` |
+| Type                 | Values                                                                                                                                                                                                                  |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ST_Jc`              | `start` · `center` · `end` · `both` · `mediumKashida` · `distribute` · `numTab` · `highKashida` · `lowKashida` · `thaiDistribute` · `left` · `right` — **12 values**, including three Kashida forms and `numTab`        |
+| `ST_LineSpacingRule` | `auto` · **`exact`** · `atLeast` — note `exact`, **not** `exactly`                                                                                                                                                      |
+| `ST_TabJc`           | `clear` · `start` · `center` · `end` · `decimal` · `bar` · `num` · `left` · `right`                                                                                                                                     |
+| `ST_TabTlc`          | `none` · `dot` · `hyphen` · `underscore` · `heavy` · `middleDot`                                                                                                                                                        |
+| `ST_Underline`       | **18 values** — `single` `words` `double` `thick` `dotted` `dottedHeavy` `dash` `dashedHeavy` `dashLong` `dashLongHeavy` `dotDash` `dashDotHeavy` `dotDotDash` `dashDotDotHeavy` `wave` `wavyHeavy` `wavyDouble` `none` |
+| `ST_Em`              | `none` · `dot` · `comma` · `circle` · `underDot`                                                                                                                                                                        |
+| `ST_TextEffect`      | `blinkBackground` · `lights` · `antsBlack` · `antsRed` · `shimmer` · `sparkle` · `none`                                                                                                                                 |
+| `ST_TextAlignment`   | `top` · `center` · `baseline` · `bottom` · `auto`                                                                                                                                                                       |
 
 Note the `ST_Underline` asymmetry: the light/heavy pairs are **not** named consistently —
 `dotted`/`dottedHeavy` but `dash`/`dashedHeavy`, and `dotDash`/`dashDotHeavy`,
@@ -49,26 +49,26 @@ four of the eighteen.
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| P5-01 | The line box | XL | **yes** |
-| P5-02 | Inline item stream | M | no |
-| P5-03 | Greedy line breaking | L | **yes** |
-| P5-04 | Break opportunities: UAX#14 and kinsoku | M | no |
-| P5-05 | Indentation | S | no |
-| P5-06 | Tab stops | M | no |
-| P5-07 | Justification | L | no |
-| P5-08 | Paragraph spacing | M | no |
-| P5-09 | Baseline computation | M | no |
-| P5-10 | Character-level metrics | S | no |
-| P5-11 | Hyphenation | M | no |
-| P5-12 | Drop caps | S | no |
-| P5-13 | Display list | L | **yes** |
-| P5-14 | Glyph-run batching | M | no |
-| P5-15 | Page bitmap cache | M | no |
-| P5-16 | devicePixelRatio, zoom, virtualization | M | no |
-| P5-17 | Layout-golden serialization format | M | **yes** |
-| P5-18 | Text decoration painting | M | no |
+| ID    | Title                                   | Size | Escalate |
+| ----- | --------------------------------------- | ---- | -------- |
+| P5-01 | The line box                            | XL   | **yes**  |
+| P5-02 | Inline item stream                      | M    | no       |
+| P5-03 | Greedy line breaking                    | L    | **yes**  |
+| P5-04 | Break opportunities: UAX#14 and kinsoku | M    | no       |
+| P5-05 | Indentation                             | S    | no       |
+| P5-06 | Tab stops                               | M    | no       |
+| P5-07 | Justification                           | L    | no       |
+| P5-08 | Paragraph spacing                       | M    | no       |
+| P5-09 | Baseline computation                    | M    | no       |
+| P5-10 | Character-level metrics                 | S    | no       |
+| P5-11 | Hyphenation                             | M    | no       |
+| P5-12 | Drop caps                               | S    | no       |
+| P5-13 | Display list                            | L    | **yes**  |
+| P5-14 | Glyph-run batching                      | M    | no       |
+| P5-15 | Page bitmap cache                       | M    | no       |
+| P5-16 | devicePixelRatio, zoom, virtualization  | M    | no       |
+| P5-17 | Layout-golden serialization format      | M    | **yes**  |
+| P5-18 | Text decoration painting                | M    | no       |
 
 ---
 
@@ -78,7 +78,7 @@ four of the eighteen.
 
 **Goal.** The data structure everything downstream reads. Must produce an ADR.
 
-**Trap — segments.** Defining a line as having *one* width. It is the obvious shape, it is correct for
+**Trap — segments.** Defining a line as having _one_ width. It is the obvious shape, it is correct for
 every document without floats, and it is wrong. `P9-05` requires a line beside a float to occupy the
 free space **between** exclusions, which can be two or more disjoint x-intervals. Retrofitting that
 means touching justification, tab stops, hit-testing, selection geometry and caret placement — every
@@ -264,10 +264,10 @@ precedence; `hanging` produces a first line to the left of the body indent.
 (`ST_TabTlc`).
 
 **Trap — segments.** A tab advances to a position, but with floats the line is segmented (`P5-01`) and
-a tab stop may fall inside an *excluded* interval. Advancing to it puts text under the float. The rule:
+a tab stop may fall inside an _excluded_ interval. Advancing to it puts text under the float. The rule:
 a tab that lands in an exclusion advances to the **start of the next segment** instead.
 
-**Trap — clear.** `ST_TabJc` includes `clear`, which *removes* an inherited tab stop rather than
+**Trap — clear.** `ST_TabJc` includes `clear`, which _removes_ an inherited tab stop rather than
 defining one. A `clear` entry treated as a stop puts a tab stop at position 0.
 
 ```pseudo
@@ -295,7 +295,7 @@ leaders paint with the tab's own run properties.
 **Size** L · **Depends** P5-03, P5-01 · **Escalate** no
 
 `ST_Jc` has **12 values**, and three of them are Arabic Kashida forms (`lowKashida`, `mediumKashida`,
-`highKashida`) that justify by *elongating* connected letters rather than by widening spaces. An
+`highKashida`) that justify by _elongating_ connected letters rather than by widening spaces. An
 implementation that maps everything except `both` and `distribute` onto `start` silently renders Arabic
 documents unjustified.
 
@@ -531,7 +531,7 @@ one zoom level change line breaks, so the document reflows as you zoom.
 
 `devicePixelRatio` scales the backing store; fractional dPR (1.25, 1.5) needs explicit rounding rules
 so glyphs do not shimmer. Virtualization: only pages within a window of the viewport are laid out and
-painted; `P8-11`'s page numbering requires knowing the *count* of pages, which needs pagination of the
+painted; `P8-11`'s page numbering requires knowing the _count_ of pages, which needs pagination of the
 whole document even when only a few pages are painted — state that distinction.
 
 **Done when.** Changing zoom causes zero relayout (asserted by a counter) and identical line breaks; a
@@ -547,7 +547,7 @@ whole document even when only a few pages are painted — state that distinction
 
 **Trap.** Treating this as a test-harness detail. It is the mechanism by which every later layout
 regression becomes visible in a pull request (verification gate 4). Pixel diffs are slow, environment-
-sensitive and unreviewable; a golden that serializes *positions* is fast, deterministic and readable.
+sensitive and unreviewable; a golden that serializes _positions_ is fast, deterministic and readable.
 If the format is not stable and diffable, layout regressions become invisible and stay invisible.
 
 ```pseudo
@@ -582,7 +582,7 @@ version dependence (asserted by generating on two font configurations).
 
 **Trap.** `ST_Underline`'s 18 values are **not** consistently named. The light/heavy pairs are
 `dotted`/`dottedHeavy`, `dash`/`dashedHeavy`, `dotDash`/`dashDotHeavy`,
-`dotDotDash`/`dashDotDotHeavy` — note that three of those four *reverse the component order* in the
+`dotDotDash`/`dashDotDotHeavy` — note that three of those four _reverse the component order_ in the
 heavy form. A mapping generated by appending `"Heavy"`, or by a regex over the base name, is wrong for
 four values and right for fourteen, which is exactly the ratio that survives review.
 

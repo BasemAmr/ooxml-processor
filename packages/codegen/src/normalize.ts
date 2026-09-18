@@ -454,9 +454,7 @@ class Normalizer {
     // attributes with `Attr`. Similarly, multiple attributes with the same
     // local name from different namespaces (unqualified `id` and `r:id`)
     // collide; suffix the qualified ones with `_<ns>`.
-    const slotProps = new Set(
-      content.kind === 'elements' ? content.slots.map((s) => s.prop) : [],
-    );
+    const slotProps = new Set(content.kind === 'elements' ? content.slots.map((s) => s.prop) : []);
     const deduped = dedupeAttributes(attributes);
     const attrNameCounts = new Map<string, number>();
     for (const a of deduped) attrNameCounts.set(a.name, (attrNameCounts.get(a.name) ?? 0) + 1);

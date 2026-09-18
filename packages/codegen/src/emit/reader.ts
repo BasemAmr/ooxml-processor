@@ -387,7 +387,8 @@ function emitComplexReader(ct: ModelComplexType, ctx: ReaderContext, file: Sourc
       // return statement must not reference it unconditionally. A string base
       // (the common case — `w:t` is simpleContent over xsd:string) parses as
       // the raw text with nothing that can fail.
-      const scParser = ct.content.kind === 'simpleContent' ? ctx.parserFor(ct.content.valueType) : undefined;
+      const scParser =
+        ct.content.kind === 'simpleContent' ? ctx.parserFor(ct.content.valueType) : undefined;
 
       if (ct.content.kind === 'simpleContent') {
         emitSimpleContentLoop(ct, ctx, file, name, scParser);
@@ -430,7 +431,9 @@ function emitAttributeLoop(
   }
 
   file.block('for (const a of start.attrs) {', () => {
-    const order = [...byNs.keys()].sort((x, y) => (x === null ? -1 : y === null ? 1 : x < y ? -1 : 1));
+    const order = [...byNs.keys()].sort((x, y) =>
+      x === null ? -1 : y === null ? 1 : x < y ? -1 : 1,
+    );
     for (const ns of order) {
       const test = ns === null ? `a.uri === ''` : `a.uri === ${ctx.nsLocal(ns)}_A`;
       file.block(`if (${test}) {`, () => {
@@ -469,10 +472,14 @@ function emitAttributeCase(
   const key = stringLiteral(a.name);
   if (parser === undefined) {
     // A string type: every lexical form is valid, so there is nothing to fail.
-    file.block(`case ${key}:`, () => {
-      file.line(`${local(a.prop)} = a.value as ${ctx.typeName(a.type)};`);
-      file.line('continue;');
-    }, '');
+    file.block(
+      `case ${key}:`,
+      () => {
+        file.line(`${local(a.prop)} = a.value as ${ctx.typeName(a.type)};`);
+        file.line('continue;');
+      },
+      '',
+    );
     return;
   }
   file.block(`case ${key}: {`, () => {
@@ -573,9 +580,7 @@ function emitChildLoop(
   // in which TypeScript drops `ev`'s `startElement` narrowing and fails the
   // module's compile — and semantically, `##any` means every child belongs to
   // the wildcard, so an "unexpected element" diagnostic would be wrong anyway.
-  const hasCatchAll = slots.some(
-    (s) => s.kind === 'wildcard' && s.namespaces.kind === 'any',
-  );
+  const hasCatchAll = slots.some((s) => s.kind === 'wildcard' && s.namespaces.kind === 'any');
 
   file.line('cur.next();');
   file.block('for (;;) {', () => {
@@ -625,7 +630,9 @@ function emitSlotDeclaration(
     case 'choice': {
       const union = ctx.file.importName('./types.js', choiceUnionName(ct, slot), true);
       file.line(
-        slot.cardinality.repeated ? `const ${v}: ${union}[] = [];` : `let ${v}: ${union} | undefined;`,
+        slot.cardinality.repeated
+          ? `const ${v}: ${union}[] = [];`
+          : `let ${v}: ${union} | undefined;`,
       );
       return;
     }
@@ -657,8 +664,14 @@ function slotCases(
           if (complex) {
             file.line(assign(`${ctx.readerFor(slot.type)}(cur, ctx)`));
           } else {
-            emitScalarChild(ctx, file, inType, slot.element.name, slot.type, ctx.typeName(slot.type), (expr) =>
-              file.line(assign(expr)),
+            emitScalarChild(
+              ctx,
+              file,
+              inType,
+              slot.element.name,
+              slot.type,
+              ctx.typeName(slot.type),
+              (expr) => file.line(assign(expr)),
             );
           }
           emitPositionUpdate(file, flags, i, slot.cardinality.repeated ? v : undefined);
@@ -673,14 +686,21 @@ function slotCases(
         const complex = ctx.isComplex(alt.type);
         out.push((file) =>
           file.block(`case ${stringLiteral(alt.element.name)}: {`, () => {
-            const wrap = (expr: string): string => `{ kind: ${stringLiteral(alt.tag)}, value: ${expr} }`;
+            const wrap = (expr: string): string =>
+              `{ kind: ${stringLiteral(alt.tag)}, value: ${expr} }`;
             const assign = (expr: string): string =>
               slot.cardinality.repeated ? `${v}.push(${wrap(expr)});` : `${v} = ${wrap(expr)};`;
             if (complex) {
               file.line(assign(`${ctx.readerFor(alt.type)}(cur, ctx)`));
             } else {
-              emitScalarChild(ctx, file, inType, alt.element.name, alt.type, ctx.typeName(alt.type), (expr) =>
-                file.line(assign(expr)),
+              emitScalarChild(
+                ctx,
+                file,
+                inType,
+                alt.element.name,
+                alt.type,
+                ctx.typeName(alt.type),
+                (expr) => file.line(assign(expr)),
               );
             }
             emitPositionUpdate(file, flags, i, slot.cardinality.repeated ? v : undefined);
@@ -735,7 +755,9 @@ function emitPositionUpdate(
 ): void {
   if (!flags.tracksPosition) return;
   file.line(`$slot = ${slotIndex};`);
-  file.line(repeatedVar === undefined ? '$index = undefined;' : `$index = ${repeatedVar}.length - 1;`);
+  file.line(
+    repeatedVar === undefined ? '$index = undefined;' : `$index = ${repeatedVar}.length - 1;`,
+  );
 }
 
 function emitWildcardDispatch(
@@ -774,9 +796,7 @@ function wildcardTest(c: NsConstraint, ctx: ReaderContext): string {
     case 'other':
       return `ev.uri !== ctx.uris[${stringLiteral(c.excluding)}]`;
     case 'list':
-      return c.namespaces
-        .map((n) => `ev.uri === ctx.uris[${stringLiteral(n)}]`)
-        .join(' || ');
+      return c.namespaces.map((n) => `ev.uri === ctx.uris[${stringLiteral(n)}]`).join(' || ');
   }
 }
 
@@ -836,9 +856,13 @@ function emitReturn(
   if (usesUnknown) fields.push('$unknown');
   fields.push('$unknownAttrs');
 
-  file.block('return {', () => {
-    for (const f of fields) file.line(`${f},`);
-  }, '};');
+  file.block(
+    'return {',
+    () => {
+      for (const f of fields) file.line(`${f},`);
+    },
+    '};',
+  );
 }
 
 /** `pPr` → `pPr`, but `default` → `default_` and `some-name` → `some_name`. */
@@ -855,12 +879,58 @@ function field(prop: string): string {
 }
 
 const RESERVED_LOCALS = new Set([
-  'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default',
-  'delete', 'do', 'else', 'enum', 'export', 'extends', 'false', 'finally', 'for',
-  'function', 'if', 'import', 'in', 'instanceof', 'new', 'null', 'return', 'super',
-  'switch', 'this', 'throw', 'true', 'try', 'typeof', 'var', 'void', 'while',
-  'with', 'implements', 'interface', 'let', 'package', 'private', 'protected',
-  'public', 'static', 'yield', 'await', 'start', 'cur', 'ctx', 'ev', 'a', 'v',
+  'break',
+  'case',
+  'catch',
+  'class',
+  'const',
+  'continue',
+  'debugger',
+  'default',
+  'delete',
+  'do',
+  'else',
+  'enum',
+  'export',
+  'extends',
+  'false',
+  'finally',
+  'for',
+  'function',
+  'if',
+  'import',
+  'in',
+  'instanceof',
+  'new',
+  'null',
+  'return',
+  'super',
+  'switch',
+  'this',
+  'throw',
+  'true',
+  'try',
+  'typeof',
+  'var',
+  'void',
+  'while',
+  'with',
+  'implements',
+  'interface',
+  'let',
+  'package',
+  'private',
+  'protected',
+  'public',
+  'static',
+  'yield',
+  'await',
+  'start',
+  'cur',
+  'ctx',
+  'ev',
+  'a',
+  'v',
 ]);
 
 function collectNamespaces(slots: readonly Slot[]): Set<LogicalNs> {

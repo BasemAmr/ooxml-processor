@@ -441,12 +441,7 @@ describe('createCursorOverRaw', () => {
     const events: XmlEvent[] = [];
     for (let ev = replayed.current; ev !== undefined; ev = replayed.next()) events.push(ev);
 
-    expect(events.map((e) => e.type)).toEqual([
-      'startElement',
-      'text',
-      'comment',
-      'endElement',
-    ]);
+    expect(events.map((e) => e.type)).toEqual(['startElement', 'text', 'comment', 'endElement']);
     const start = events[0];
     if (start?.type !== 'startElement') throw new Error('unreachable');
     expect(start.uri).toBe('urn:w');

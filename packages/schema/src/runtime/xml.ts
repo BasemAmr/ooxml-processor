@@ -70,11 +70,7 @@ export interface XmlComment {
 }
 
 export type XmlEvent =
-  | XmlStartElement
-  | XmlEndElement
-  | XmlText
-  | XmlProcessingInstruction
-  | XmlComment;
+  XmlStartElement | XmlEndElement | XmlText | XmlProcessingInstruction | XmlComment;
 
 /**
  * A pull-based cursor over a document.

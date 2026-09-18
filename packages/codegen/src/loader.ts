@@ -581,7 +581,10 @@ class SchemaCompiler {
   private requireAttr(node: XsdNode, name: string, scope: SchemaScope): string {
     const value = node.attrs.get(name);
     if (value === undefined) {
-      throw new XsdLoadError(`<xsd:${node.local}> is missing the required "${name}"`, this.src(node, scope));
+      throw new XsdLoadError(
+        `<xsd:${node.local}> is missing the required "${name}"`,
+        this.src(node, scope),
+      );
     }
     return value;
   }
@@ -776,11 +779,7 @@ class SchemaCompiler {
     if (extension === undefined) {
       throw new XsdLoadError('<xsd:simpleContent> has no <xsd:extension>', this.src(node, scope));
     }
-    const base = this.resolveTypeRef(
-      this.requireAttr(extension, 'base', scope),
-      extension,
-      scope,
-    );
+    const base = this.resolveTypeRef(this.requireAttr(extension, 'base', scope), extension, scope);
     this.collectAttributeMembers(extension, scope, path, attributes);
     return { kind: 'simpleContent', base };
   }
@@ -894,10 +893,7 @@ class SchemaCompiler {
       case 'group': {
         const ref = node.attrs.get('ref');
         if (ref === undefined) {
-          throw new XsdLoadError(
-            '<xsd:group> inside a content model must carry ref=',
-            source,
-          );
+          throw new XsdLoadError('<xsd:group> inside a content model must carry ref=', source);
         }
         return {
           kind: 'groupRef',
@@ -975,7 +971,9 @@ class SchemaCompiler {
 
     const name = this.requireAttr(node, 'name', scope);
     this.guardRetired(node, scope);
-    const qualified = (node.attrs.get('form') ?? (scope.elementFormQualified ? 'qualified' : 'unqualified')) === 'qualified';
+    const qualified =
+      (node.attrs.get('form') ?? (scope.elementFormQualified ? 'qualified' : 'unqualified')) ===
+      'qualified';
     if (!qualified) {
       throw new XsdLoadError(
         `Local element "${name}" would be namespace-unqualified, which IrElementParticle ` +
@@ -1258,7 +1256,10 @@ class SchemaCompiler {
     // `ST_TextRotation_Anon` / `ST_TextRotation_Anon2` stable.
     for (const child of schemaChildren(node)) {
       if (child.local !== 'simpleType') {
-        throw new XsdLoadError(`Unhandled <xsd:${child.local}> inside <xsd:union>`, this.src(child, scope));
+        throw new XsdLoadError(
+          `Unhandled <xsd:${child.local}> inside <xsd:union>`,
+          this.src(child, scope),
+        );
       }
       members.push({ kind: 'named', ref: this.declareSimpleType(child, scope, path) });
     }
@@ -1624,12 +1625,7 @@ function describe(value: StructuralValue): string {
  * are spelled out (`content.particle.items[3].name`) and values are quoted
  * rather than diffed as JSON blobs.
  */
-function diffStructural(
-  a: StructuralValue,
-  b: StructuralValue,
-  path: string,
-  out: string[],
-): void {
+function diffStructural(a: StructuralValue, b: StructuralValue, path: string, out: string[]): void {
   if (out.length >= MAX_DIFFS_PER_DEFINITION) return;
   const where = path === '' ? 'value' : path;
 

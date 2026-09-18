@@ -223,7 +223,11 @@ class FeedCursor implements XmlCursor {
   private requireStart(caller: string): XmlEvent & { type: 'startElement' } {
     const ev = this.current;
     if (ev === undefined) {
-      throw new XmlParseError(`${caller}() called at end of document`, this.position, 'unexpected-eof');
+      throw new XmlParseError(
+        `${caller}() called at end of document`,
+        this.position,
+        'unexpected-eof',
+      );
     }
     if (ev.type !== 'startElement') {
       // A caller bug, not a document problem: the reader asked to consume a
@@ -245,7 +249,10 @@ class FeedCursor implements XmlCursor {
  * from this call, not from the first `next()`. That is deliberate: a reader
  * should not get half a document before finding out the tail is corrupt.
  */
-export function createCursor(xml: string, limits: XmlParseLimits = DEFAULT_PARSE_LIMITS): XmlCursor {
+export function createCursor(
+  xml: string,
+  limits: XmlParseLimits = DEFAULT_PARSE_LIMITS,
+): XmlCursor {
   return new FeedCursor(new ArrayFeed(parseAll(xml, limits)));
 }
 

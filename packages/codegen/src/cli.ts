@@ -17,7 +17,12 @@ const outDir = process.argv[3] ?? resolve(root, 'packages/schema/src/generated')
 const ir = await loadSchemaSet({ assetsDir });
 const model = normalize(ir);
 if (model.diagnostics.some((d) => d.severity === 'error')) {
-  throw new Error(model.diagnostics.filter((d) => d.severity === 'error').map((d) => d.message).join('\n'));
+  throw new Error(
+    model.diagnostics
+      .filter((d) => d.severity === 'error')
+      .map((d) => d.message)
+      .join('\n'),
+  );
 }
 
 await rm(outDir, { recursive: true, force: true });
@@ -25,7 +30,12 @@ const namespaces = new Set<string>();
 for (const t of model.complexTypes.values()) namespaces.add(t.name.ns);
 for (const t of model.simpleTypes.values()) namespaces.add(t.name.ns);
 for (const ns of [...namespaces].sort()) {
-  for (const module of [emitTypes(model, ns), emitReader(model, ns), emitWriter(model, ns), emitValidator(model, ns)]) {
+  for (const module of [
+    emitTypes(model, ns),
+    emitReader(model, ns),
+    emitWriter(model, ns),
+    emitValidator(model, ns),
+  ]) {
     const target = resolve(outDir, module.path);
     await mkdir(dirname(target), { recursive: true });
     await writeFile(target, module.contents, 'utf8');

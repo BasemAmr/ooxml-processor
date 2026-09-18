@@ -43,7 +43,9 @@ export function createWriteContext(dialect: Dialect, uris: NsUris): WriteContext
 export function uriFor(ctx: WriteContext, token: string): NamespaceUri {
   const uri = ctx.uris[token];
   if (uri === undefined) {
-    throw new Error(`WriteContext has no URI for namespace token '${token}' (dialect: ${ctx.dialect})`);
+    throw new Error(
+      `WriteContext has no URI for namespace token '${token}' (dialect: ${ctx.dialect})`,
+    );
   }
   return uri;
 }

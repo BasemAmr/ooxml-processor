@@ -84,7 +84,11 @@ const anyOf = (namespaces: string[], min = 0, max: Occurs = 'unbounded'): IrPart
   source: SRC,
 });
 
-const attr = (name: string, type: TypeRef = str, use: IrAttribute['use'] = 'optional'): IrAttribute => ({
+const attr = (
+  name: string,
+  type: TypeRef = str,
+  use: IrAttribute['use'] = 'optional',
+): IrAttribute => ({
   kind: 'attribute',
   name,
   ns: null,
@@ -115,8 +119,13 @@ const ct = (
   source: SRC,
 });
 
-const elements = (particle: IrParticle | undefined, extendsBase?: QName): IrComplexType['content'] =>
-  extendsBase ? { kind: 'elements', extends: extendsBase, particle } : { kind: 'elements', particle };
+const elements = (
+  particle: IrParticle | undefined,
+  extendsBase?: QName,
+): IrComplexType['content'] =>
+  extendsBase
+    ? { kind: 'elements', extends: extendsBase, particle }
+    : { kind: 'elements', particle };
 
 const root = (name: string, type: TypeRef, ns = 'wml'): IrGlobalElement => ({
   kind: 'globalElement',
@@ -166,14 +175,29 @@ describe('group expansion and choice flattening', () => {
    */
   const paragraphish = schema({
     groups: [
-      group('EG_RunLevelElts', choice([el('proofErr', ref('CT_ProofErr')), el('permStart', ref('CT_Perm'))])),
+      group(
+        'EG_RunLevelElts',
+        choice([el('proofErr', ref('CT_ProofErr')), el('permStart', ref('CT_Perm'))]),
+      ),
       group(
         'EG_ContentRunContent',
-        choice([el('r', ref('CT_R')), el('hyperlink', ref('CT_Hyperlink')), gref('EG_RunLevelElts')]),
+        choice([
+          el('r', ref('CT_R')),
+          el('hyperlink', ref('CT_Hyperlink')),
+          gref('EG_RunLevelElts'),
+        ]),
       ),
-      group('EG_PContent', choice([gref('EG_ContentRunContent'), el('fldSimple', ref('CT_SimpleField'))])),
+      group(
+        'EG_PContent',
+        choice([gref('EG_ContentRunContent'), el('fldSimple', ref('CT_SimpleField'))]),
+      ),
     ],
-    complexTypes: [ct('CT_P', elements(seq([el('pPr', ref('CT_PPr'), 0, 1), gref('EG_PContent', 0, 'unbounded')])))],
+    complexTypes: [
+      ct(
+        'CT_P',
+        elements(seq([el('pPr', ref('CT_PPr'), 0, 1), gref('EG_PContent', 0, 'unbounded')])),
+      ),
+    ],
   });
 
   it('collapses a nested repeating group into one interleaved choice slot', () => {
@@ -226,7 +250,10 @@ describe('group expansion and choice flattening', () => {
     const set = normalize(
       schema({
         complexTypes: [
-          ct('CT_Seq', elements(seq([el('a', ref('CT_A')), el('b', ref('CT_B'), 0, 1), el('c', ref('CT_C'))]))),
+          ct(
+            'CT_Seq',
+            elements(seq([el('a', ref('CT_A')), el('b', ref('CT_B'), 0, 1), el('c', ref('CT_C'))])),
+          ),
         ],
       }),
     );
@@ -240,7 +267,12 @@ describe('group expansion and choice flattening', () => {
     // the model gets weaker and the build must say so rather than accept it.
     const set = normalize(
       schema({
-        complexTypes: [ct('CT_Pairs', elements(seq([el('a', ref('CT_A')), el('b', ref('CT_B'))], 0, 'unbounded')))],
+        complexTypes: [
+          ct(
+            'CT_Pairs',
+            elements(seq([el('a', ref('CT_A')), el('b', ref('CT_B'))], 0, 'unbounded')),
+          ),
+        ],
       }),
     );
     const warning = set.diagnostics.find((d) => d.code === 'ambiguous-choice');
@@ -257,7 +289,9 @@ describe('extension chains', () => {
     complexTypes: [
       ct('CT_Base', elements(seq([el('x', ref('CT_X'))])), [attr('baseAttr')]),
       ct('CT_Mid', elements(seq([el('y', ref('CT_Y'))]), q('CT_Base')), [attr('midAttr')]),
-      ct('CT_Leaf', elements(seq([el('z', ref('CT_Z'))]), q('CT_Mid')), [attr('leafAttr', str, 'required')]),
+      ct('CT_Leaf', elements(seq([el('z', ref('CT_Z'))]), q('CT_Mid')), [
+        attr('leafAttr', str, 'required'),
+      ]),
     ],
   });
 
@@ -330,11 +364,16 @@ describe('attribute groups', () => {
       schema({
         attributeGroups: [inner, outer],
         complexTypes: [
-          ct('CT_Uses', { kind: 'empty' }, [{ kind: 'attributeGroupRef', ref: q('AG_Outer'), source: SRC }]),
+          ct('CT_Uses', { kind: 'empty' }, [
+            { kind: 'attributeGroupRef', ref: q('AG_Outer'), source: SRC },
+          ]),
         ],
       }),
     );
-    expect(set.complexTypes.get(qnameKey(q('CT_Uses')))?.attributes.map((a) => a.name)).toEqual(['o', 'i']);
+    expect(set.complexTypes.get(qnameKey(q('CT_Uses')))?.attributes.map((a) => a.name)).toEqual([
+      'o',
+      'i',
+    ]);
   });
 });
 
@@ -353,7 +392,9 @@ describe('content kinds', () => {
   });
 
   it('models an attributes-only type as empty content', () => {
-    const set = normalize(schema({ complexTypes: [ct('CT_Flag', { kind: 'empty' }, [attr('val')])] }));
+    const set = normalize(
+      schema({ complexTypes: [ct('CT_Flag', { kind: 'empty' }, [attr('val')])] }),
+    );
     expect(set.complexTypes.get(qnameKey(q('CT_Flag')))?.content.kind).toBe('empty');
   });
 
@@ -422,7 +463,9 @@ describe('simple types', () => {
     // Absent means true. A generated string parser would get that wrong at
     // every one of the hundreds of sites that use it.
     const set = normalize(schema({ simpleTypes: [st('ST_OnOff', 'restriction', str)] }));
-    expect(set.simpleTypes.get(qnameKey(q('ST_OnOff', 'shared-types')))?.repr).toEqual({ kind: 'boolean' });
+    expect(set.simpleTypes.get(qnameKey(q('ST_OnOff', 'shared-types')))?.repr).toEqual({
+      kind: 'boolean',
+    });
   });
 
   it('brands unit-carrying numeric types', () => {
@@ -473,7 +516,10 @@ describe('simple types', () => {
 
 describe('coverage', () => {
   const reachability = schema({
-    globalElements: [root('document', ref('CT_Document')), root('worksheet', ref('CT_Worksheet', 'sml'), 'sml')],
+    globalElements: [
+      root('document', ref('CT_Document')),
+      root('worksheet', ref('CT_Worksheet', 'sml'), 'sml'),
+    ],
     complexTypes: [
       ct('CT_Document', elements(seq([el('body', ref('CT_Body'))]))),
       ct('CT_Body', elements(seq([el('p', ref('CT_P'))]))),
@@ -567,7 +613,9 @@ describe('cycles', () => {
 
   it('reports an unresolved group reference', () => {
     const set = normalize(schema({ complexTypes: [ct('CT_X', elements(gref('EG_Missing')))] }));
-    expect(set.diagnostics.find((d) => d.code === 'unresolved-ref')?.message).toContain('EG_Missing');
+    expect(set.diagnostics.find((d) => d.code === 'unresolved-ref')?.message).toContain(
+      'EG_Missing',
+    );
   });
 });
 
@@ -588,7 +636,10 @@ describe('assertFlattenable', () => {
     // discriminated union cannot express that, so flattening would be unsound.
     const ir = schema({
       complexTypes: [
-        ct('CT_Bad', elements(choice([seq([el('a', str), el('b', str)]), el('c', str)], 0, 'unbounded'))),
+        ct(
+          'CT_Bad',
+          elements(choice([seq([el('a', str), el('b', str)]), el('c', str)], 0, 'unbounded')),
+        ),
       ],
     });
     const violations = assertFlattenable(ir);
@@ -608,7 +659,9 @@ describe('assertFlattenable', () => {
   it('does not flag a branch that is a nested choice', () => {
     // A nested choice still yields exactly one element per selection.
     const ir = schema({
-      complexTypes: [ct('CT_Ok', elements(choice([choice([el('a', str), el('b', str)]), el('c', str)])))],
+      complexTypes: [
+        ct('CT_Ok', elements(choice([choice([el('a', str), el('b', str)]), el('c', str)]))),
+      ],
     });
     expect(assertFlattenable(ir)).toEqual([]);
   });

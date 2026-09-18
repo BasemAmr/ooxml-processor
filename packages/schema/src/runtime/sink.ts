@@ -80,7 +80,8 @@ const INVALID_XML_CHAR = new RegExp(`[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFF
 const ANY_SURROGATE = /[\uD800-\uDFFF]/;
 const UNPAIRED_SURROGATE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
 
-const NAME_START = 'A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
+const NAME_START =
+  'A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
 const NAME_REST = `${NAME_START}0-9\\-.\\u00B7\\u0300-\\u036F\\u203F-\\u2040`;
 /**
  * XML NCName, i.e. a `Name` with no colon. Element and attribute local names
@@ -473,7 +474,9 @@ class BaseSink implements XmlSink {
     const frame = this.requireOpenTag('declareNamespace');
     if (prefix !== '') requireNCName(prefix, 'namespace prefix');
     if (IMPLICIT_BINDINGS.has(prefix) && IMPLICIT_BINDINGS.get(prefix) !== uri) {
-      throw new XmlSinkError(`the prefix ${JSON.stringify(prefix)} is reserved and cannot be rebound`);
+      throw new XmlSinkError(
+        `the prefix ${JSON.stringify(prefix)} is reserved and cannot be rebound`,
+      );
     }
     const existing = frame.declarations.get(prefix);
     if (existing === uri) return;
@@ -574,9 +577,7 @@ class BaseSink implements XmlSink {
       startTagOpen: true,
     };
     if (this.stack.length === 0 && this.rootClosed) {
-      throw new XmlSinkError(
-        `cannot replay <${node.localName}> as a second root element`,
-      );
+      throw new XmlSinkError(`cannot replay <${node.localName}> as a second root element`);
     }
     this.stack.push(frame);
 
@@ -637,7 +638,10 @@ class BaseSink implements XmlSink {
    * declaration of a prefix wins, and a prefix declared to a different URI
    * nearer the cursor hides an outer binding of the same prefix.
    */
-  private lookupPrefix(prefix: string, extra?: ReadonlyArray<[string, NamespaceUri]>): NamespaceUri | undefined {
+  private lookupPrefix(
+    prefix: string,
+    extra?: ReadonlyArray<[string, NamespaceUri]>,
+  ): NamespaceUri | undefined {
     if (extra !== undefined) {
       for (let i = extra.length - 1; i >= 0; i--) {
         const entry = extra[i];
@@ -725,7 +729,9 @@ class BaseSink implements XmlSink {
     // `declareNamespace('', uri)` spelling and avoids inventing `ns:` on the
     // document root.
     const prefix =
-      this.stack.length === 1 && this.prefixHints?.[uri] === undefined && conventionalPrefix(uri) === undefined
+      this.stack.length === 1 &&
+      this.prefixHints?.[uri] === undefined &&
+      conventionalPrefix(uri) === undefined
         ? ''
         : this.allocatePrefix(uri);
     this.declarePending(prefix, uri);

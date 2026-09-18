@@ -43,13 +43,13 @@ could consume them — and no file imports it. Someone built the test scaffoldin
 build the tests.
 
 That is why most tickets here are marked **ALREADY LANDED** and yet none of them is free. Per
-`00-conventions.md` item 2, a ticket is not done until *the ticket added tests for its own behaviour*.
+`00-conventions.md` item 2, a ticket is not done until _the ticket added tests for its own behaviour_.
 An ALREADY-LANDED ticket in this phase therefore means: **the implementation is complete and correct on
 reading, and the remaining work is characterisation tests that pin the behaviour it already has.** Do
 not rewrite these modules. Read them, write tests that assert what they currently do, and only then
 change anything a test proves wrong.
 
-**And the risk profile is not as flat as the rank suggests.** Ranking eleventh is about *design*
+**And the risk profile is not as flat as the rank suggests.** Ranking eleventh is about _design_
 difficulty. This layer is the attack surface: it is the only code in the project that touches
 untrusted bytes before any schema has been consulted. A zip bomb, a path traversal, or an SSRF through
 an external relationship are all Phase 2 failures, and none of them is loud. `P2-09` carries
@@ -59,23 +59,23 @@ an external relationship are all Phase 2 failures, and none of them is loud. `P2
 
 ## Ticket index
 
-| ID | Title | Size | Escalate |
-|---|---|---|---|
-| **Establish the baseline** ||||
-| P2-01 | Audit and characterise what landed | M | no |
-| **Container and naming** ||||
-| P2-02 | ZIP reader and writer — **ALREADY LANDED** | M | no |
-| P2-03 | `[Content_Types].xml` resolution — **ALREADY LANDED** | S | no |
-| P2-04 | Part-name grammar — **ALREADY LANDED** | M | no |
-| **The relationship graph** ||||
-| P2-05 | Relationship parsing and resolution — **ALREADY LANDED** | M | no |
-| P2-06 | Word part discovery — **ALREADY LANDED**, two gaps | S | no |
-| P2-07 | Core, app and custom properties | S | no |
-| P2-08 | Digital signature parts | S | no |
-| **Guarantees** ||||
-| P2-09 | Security limits | M | **yes** |
-| P2-10 | Unknown-part passthrough — **ALREADY LANDED** | S | no |
-| P2-11 | Package round-trip idempotence | M | no |
+| ID                         | Title                                                    | Size | Escalate |
+| -------------------------- | -------------------------------------------------------- | ---- | -------- |
+| **Establish the baseline** |                                                          |      |          |
+| P2-01                      | Audit and characterise what landed                       | M    | no       |
+| **Container and naming**   |                                                          |      |          |
+| P2-02                      | ZIP reader and writer — **ALREADY LANDED**               | M    | no       |
+| P2-03                      | `[Content_Types].xml` resolution — **ALREADY LANDED**    | S    | no       |
+| P2-04                      | Part-name grammar — **ALREADY LANDED**                   | M    | no       |
+| **The relationship graph** |                                                          |      |          |
+| P2-05                      | Relationship parsing and resolution — **ALREADY LANDED** | M    | no       |
+| P2-06                      | Word part discovery — **ALREADY LANDED**, two gaps       | S    | no       |
+| P2-07                      | Core, app and custom properties                          | S    | no       |
+| P2-08                      | Digital signature parts                                  | S    | no       |
+| **Guarantees**             |                                                          |      |          |
+| P2-09                      | Security limits                                          | M    | **yes**  |
+| P2-10                      | Unknown-part passthrough — **ALREADY LANDED**            | S    | no       |
+| P2-11                      | Package round-trip idempotence                           | M    | no       |
 
 ---
 
@@ -88,7 +88,7 @@ an external relationship are all Phase 2 failures, and none of them is loud. `P2
 **Goal.** Every module in `packages/opc/src/` has a test file that pins its current behaviour, so that
 the other ten tickets can be closed by reading a green suite instead of by reading the source.
 
-**Trap.** Writing tests that assert what the code *should* do, discovering they fail, and then fixing
+**Trap.** Writing tests that assert what the code _should_ do, discovering they fail, and then fixing
 the code — in one undifferentiated change. When that lands, nobody can tell which failures were real
 defects and which were the test's opinion. **Characterise first: write the test to match the current
 behaviour, get it green, commit.** Then, in a separate change, fix the behaviours the specification
@@ -161,7 +161,7 @@ by the library. `npx tsc -p packages/opc --noEmit` is clean. **There is no `zip.
 
 **Why the decision was made, so it is not undone.** `fflate`'s own `unzip` gives up the two things
 this layer needs most: entry order (it hands back a name-keyed object, and `[Content_Types].xml` must
-stay first for Word), and the ability to enforce a decompression cap *while* inflating rather than
+stay first for Word), and the ability to enforce a decompression cap _while_ inflating rather than
 after. Rolling the central directory is ~300 lines and buys both. That is worth re-reading before
 anyone proposes replacing it with a one-liner.
 
@@ -183,7 +183,7 @@ the malformed ones, and the fixture builder already supports them:
 **Done when (verification only).** `packages/opc/src/zip.test.ts` exists, imports
 `testing/zip-fixtures.ts`, and covers each malformed case above with an asserted outcome — either a
 successful read or a specific typed error from `errors.ts`, never a generic throw. A round-trip test
-asserts entry order is preserved across open→save. The decompression cap is asserted to fire *during*
+asserts entry order is preserved across open→save. The decompression cap is asserted to fire _during_
 inflation, proven by a fixture whose declared uncompressed size is under the cap and whose actual
 output exceeds it.
 
@@ -260,7 +260,7 @@ distinguishes `TargetMode="Internal"` from `"External"`, and carries a documente
 header comment. **No test file.**
 
 **Trap.** Resolving a relative target against the package root instead of against the folder of the
-part that *owns* the `_rels` file. The two agree for package-level relationships and disagree for every
+part that _owns_ the `_rels` file. The two agree for package-level relationships and disagree for every
 part-level one, so a root-relative implementation opens a normal document perfectly and then fails on
 images:
 
@@ -334,7 +334,7 @@ Strict-dialect fixture indexes identically to its Transitional twin.
 
 **Size** S · **Depends** P2-05 · **Escalate** no · **Owns** `packages/opc/src/package.ts`
 
-**PARTIALLY LANDED** — the three property parts are *discovered*: `rel-types.ts` carries the
+**PARTIALLY LANDED** — the three property parts are _discovered_: `rel-types.ts` carries the
 `core-properties`, `extended-properties` and `custom-properties` relationship types, and the
 relationship walk reaches them, so they exist as `OpcPart`s and round-trip as opaque bytes. **Nothing
 parses them.** There is no typed accessor for a title, an author, or a custom property.
@@ -382,7 +382,7 @@ does something defined instead of something accidental.
 
 **Trap.** Preserving signature parts and considering the job done. A digital signature signs a digest
 of specific parts; **any** edit to a signed part invalidates it. Carrying the signature through
-faithfully produces a file that Word opens with a red "invalid signature" banner — which is *worse*
+faithfully produces a file that Word opens with a red "invalid signature" banner — which is _worse_
 than a file with no signature, because it tells the user the document was tampered with. We cannot
 re-sign (no private key, and we should never want one).
 
@@ -481,7 +481,7 @@ worst-case document rather than picked because it is a round number.
 
 **Done when.** `limits.test.ts` exercises **every** cap in the table above with a fixture that trips it
 and asserts the specific error type, the part name in the message, and that no partial result was
-returned. A 42-byte fixture that inflates past the cap is rejected *during* inflation, demonstrated by
+returned. A 42-byte fixture that inflates past the cap is rejected _during_ inflation, demonstrated by
 peak allocation staying bounded. A DOCTYPE in `[Content_Types].xml` and in a `.rels` part both raise
 `entity-rejected` through the OPC layer. A test asserts no network access from any code path in
 `packages/opc`. Every default in `limits.ts` has a comment giving its rationale and the largest value

@@ -121,7 +121,7 @@ function buildPcharTable(): Uint8Array {
   mark('abcdefghijklmnopqrstuvwxyz');
   mark('0123456789');
   // unreserved
-  mark("-._~");
+  mark('-._~');
   // sub-delims
   mark("!$&'()*+,;=");
   // explicitly permitted in a path segment
@@ -131,7 +131,9 @@ function buildPcharTable(): Uint8Array {
 
 function isHexDigit(code: number): boolean {
   return (
-    (code >= 0x30 && code <= 0x39) || (code >= 0x41 && code <= 0x46) || (code >= 0x61 && code <= 0x66)
+    (code >= 0x30 && code <= 0x39) ||
+    (code >= 0x41 && code <= 0x46) ||
+    (code >= 0x61 && code <= 0x66)
   );
 }
 
@@ -174,7 +176,11 @@ export function validatePartName(name: string, options?: PartNameOptions): PartN
   }
   if (name.length === 1) {
     // "/" alone: zero segments. M1.3 requires at least one.
-    throw new OpcPartNameError('empty-segment', name, 'Part name must contain at least one segment');
+    throw new OpcPartNameError(
+      'empty-segment',
+      name,
+      'Part name must contain at least one segment',
+    );
   }
   if (name.endsWith('/')) {
     throw new OpcPartNameError('trailing-slash', name, 'Part name must not end with "/"');
@@ -202,7 +208,11 @@ export function isValidPartName(name: string, options?: PartNameOptions): boolea
 
 function validateSegment(segment: string, fullName: string): void {
   if (segment.length === 0) {
-    throw new OpcPartNameError('empty-segment', fullName, 'Part name must not contain an empty segment');
+    throw new OpcPartNameError(
+      'empty-segment',
+      fullName,
+      'Part name must not contain an empty segment',
+    );
   }
 
   // Decoded form is built alongside so the dot-segment test below sees through
@@ -475,7 +485,11 @@ export function resolveRelative(
           'Relationship target resolves to a folder, not a part',
         );
       }
-      throw new OpcPartNameError('empty-segment', target, 'Relationship target contains an empty segment');
+      throw new OpcPartNameError(
+        'empty-segment',
+        target,
+        'Relationship target contains an empty segment',
+      );
     }
     if (segment === '.') continue;
     if (segment === '..') {
@@ -507,7 +521,11 @@ export function resolveRelative(
   }
 
   if (stack.length === 0) {
-    throw new OpcPartNameError('empty-segment', target, 'Relationship target resolves to the package root');
+    throw new OpcPartNameError(
+      'empty-segment',
+      target,
+      'Relationship target resolves to the package root',
+    );
   }
 
   return validatePartName(`/${stack.join('/')}`, options);

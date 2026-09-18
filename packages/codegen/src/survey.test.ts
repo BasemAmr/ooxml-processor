@@ -125,7 +125,9 @@ describe('surveySchemas on a hand-written schema', () => {
 
   it('reports mixed content without throwing, because it genuinely occurs', async () => {
     const dir = await writeFixture({
-      'wml.xsd': schema('  <xsd:complexType name="CT_X" mixed="true"><xsd:sequence/></xsd:complexType>'),
+      'wml.xsd': schema(
+        '  <xsd:complexType name="CT_X" mixed="true"><xsd:sequence/></xsd:complexType>',
+      ),
     });
     const survey = await surveySchemas(dir);
     expect(survey.retired).toEqual([]);
@@ -274,9 +276,7 @@ describe('the vendored ECMA-376 schemas', () => {
     // The document records only the SpreadsheetML occurrence. OPC's CT_Keywords
     // is real, is on the `.docx` path, and the IR cannot represent it — the
     // loader raises a `mixed-content` warning for it.
-    expect(
-      survey.mixed.map((m) => `${m.context} ${m.source.file}`).sort(),
-    ).toEqual([
+    expect(survey.mixed.map((m) => `${m.context} ${m.source.file}`).sort()).toEqual([
       'CT_Keywords opc/opc-coreProperties.xsd',
       'CT_Schema strict/sml.xsd',
       'CT_Schema transitional/sml.xsd',
@@ -289,21 +289,22 @@ describe('the vendored ECMA-376 schemas', () => {
     // The document's table lists 8 rows, but it collapses the paired
     // vml + office wildcards in wml.xsd into one row each and omits dml-chart's
     // CT_Extension. These are the actual sites.
-    expect(docx.filter((w) => w.source.file.startsWith('transitional/')).map((w) => w.context))
-      .toEqual([
-        'CT_Extension',
-        'CT_OfficeArtExtension',
-        'CT_GraphicalObjectData',
-        'CT_Textbox',
-        'CT_EquationXml',
-        'CT_Background',
-        'CT_Background',
-        'CT_Object',
-        'CT_Object',
-        'CT_Picture',
-        'CT_Picture',
-        'CT_ShapeDefaults',
-      ]);
+    expect(
+      docx.filter((w) => w.source.file.startsWith('transitional/')).map((w) => w.context),
+    ).toEqual([
+      'CT_Extension',
+      'CT_OfficeArtExtension',
+      'CT_GraphicalObjectData',
+      'CT_Textbox',
+      'CT_EquationXml',
+      'CT_Background',
+      'CT_Background',
+      'CT_Object',
+      'CT_Object',
+      'CT_Picture',
+      'CT_Picture',
+      'CT_ShapeDefaults',
+    ]);
     // The DrawingML extensibility point, where charts, diagrams and pictures
     // plug in. Its `strict` is the reason the survey calls it out.
     const graphic = present(
