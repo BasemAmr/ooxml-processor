@@ -28,5 +28,11 @@ autoInstallPeers: false
 # Postinstall scripts are blocked by default in pnpm 10+. Only esbuild needs
 # one (it links the platform binary for vitest/vite). Everything else stays
 # blocked; in particular nothing is permitted to download browser binaries.
+# pnpm 11 also reads the `allowBuilds` map (the boolean form of the
+# `onlyBuiltDependencies` list above); the placeholder it auto-writes until the
+# decision is recorded is a parse-stop for `pnpm run`. Do not widen either
+# entry before Phase 11 (F3).
 onlyBuiltDependencies:
   - esbuild
+allowBuilds:
+  esbuild: true
