@@ -1,1 +1,14 @@
-export {};
+export * from './geometry/guides.js';
+export * from './geometry/transform.js';
+export * from './geometry/path.js';
+export * from './geometry/presets.js';
+export * from './color.js';
+export * from './fills.js';
+export * from './lines.js';
+export * from './effects.js';
+export * from './text-body.js';
+export * from './images.js';
+export * from './vml.js';
+export * from './vml-shapes.js';
+export * from './mce.js';
+export * from './placeholders.js';

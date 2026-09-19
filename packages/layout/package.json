@@ -20,6 +20,7 @@
     "clean": "tsc --build --clean"
   },
   "dependencies": {
+    "@ooxml/schema": "workspace:*",
     "@ooxml/wml": "workspace:*",
     "@ooxml/text": "workspace:*"
   }

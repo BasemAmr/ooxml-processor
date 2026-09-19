@@ -89,6 +89,9 @@ importers:
 
   packages/layout:
     dependencies:
+      '@ooxml/schema':
+        specifier: workspace:*
+        version: link:../schema
       '@ooxml/text':
         specifier: workspace:*
         version: link:../text

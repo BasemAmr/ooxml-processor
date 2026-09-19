@@ -90,6 +90,35 @@ export {
 export type { NumberingTable, ResolvedNumbering } from './numbering.js';
 export { parseNumbering, parseNumberingXml, resolveNumbering } from './numbering.js';
 
+export * from './fields/index.js';
+export type {
+  NumberingDiagnostic,
+  NumberingLevelLike,
+  NumberingParagraphLike,
+  NumberingFoldOptions,
+  NumberingFoldResult,
+} from './numbering-layout.js';
+export {
+  formatNumber,
+  renderLevelText,
+  foldNumbering,
+  normalizeBulletCodePoint,
+} from './numbering-layout.js';
+export type {
+  BookmarkRange,
+  HyperlinkTarget,
+  RevisionLike,
+  ContentControlLike,
+} from './features.js';
+export {
+  resolveHyperlink,
+  resolveBookmark,
+  displayRevisions,
+  applyRevisions,
+  contentControlText,
+  isUnsupportedContentControlKind,
+} from './features.js';
+
 // P3-09 Table conditional formatting and w:cnfStyle
 export type { TableConditionMapping, CnfAttributes, TableCellPosition } from './table-style.js';
 export {
