@@ -11,7 +11,7 @@ describe('DrawingML text body layout', () => {
           rIns: 95250,
           bIns: 95250,
           anchor: 'ctr',
-          textAutofit: { kind: 'normAutofit', value: { fontScale: 50000 } },
+          textAutofit: { kind: 'normAutofit', value: { fontScale: '50000' } },
         },
         p: [{ textRun: [{ kind: 'r', value: { t: 'hello' } }] }],
       },

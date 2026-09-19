@@ -1,5 +1,9 @@
 import { dmlMainTypes } from '@ooxml/schema';
 type CT_LineProperties = dmlMainTypes.CT_LineProperties;
+/** Parsed schema values are lexical strings; numeric values remain useful for programmatic callers and fixtures. */
+type LinePropertiesLike = Omit<CT_LineProperties, 'w'> & {
+  readonly w?: string | number | undefined;
+};
 
 export interface StrokePlan {
   readonly width: number;
@@ -34,8 +38,14 @@ const PRESET_DASH: Readonly<Record<string, readonly number[]>> = Object.freeze({
   smDashDot: [2, 1, 1, 1],
 });
 
-const n = (x: unknown, fallback = 0): number =>
-  typeof x === 'number' && Number.isFinite(x) ? x : fallback;
+const n = (x: unknown, fallback = 0): number => {
+  if (typeof x === 'number' && Number.isFinite(x)) return x;
+  if (typeof x === 'string' && x.trim() !== '') {
+    const parsed = Number(x);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return fallback;
+};
 
 export function dashArray(value: unknown, width: number): readonly number[] {
   if (!value || typeof value !== 'object') return [];
@@ -86,7 +96,7 @@ function compoundStrokes(
   }
 }
 
-export function lineStrokePlan(line: CT_LineProperties, color?: string): StrokePlan {
+export function lineStrokePlan(line: LinePropertiesLike, color?: string): StrokePlan {
   const width = n(line.w, 9525) / 9525;
   const cap = line.cap === 'rnd' ? 'round' : line.cap === 'sq' ? 'square' : 'butt';
   const join =

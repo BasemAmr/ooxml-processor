@@ -1,0 +1,47 @@
+OOXML editor progress checkpoint
+Updated: 2026-09-19
+
+Done and committed
+- Phases 1-6 baseline preserved.
+- Phase 7 tables: grid reconciliation, merges, widths/autofit, borders, row rules, nesting, splits, directions, floating/conditional/content/painting helpers.
+- Phase 8 pagination/fields: sections, geometry, headers/footers, breaks, columns, fixpoint, page fill/keeps, footnotes/endnotes, numbering, line numbers, vertical alignment, fields.
+- Phase 9 floats/DrawingML/VML: anchors/exclusions/wrap/polygon/segments/fixpoint/framePr, 187 preset geometry generation, custom paths, fills/lines/effects/text bodies/images, color, VML, MCE, placeholders.
+- Commit: 39c33da feat: implement tables pagination and DrawingML phases
+- Verification at checkpoint: full TypeScript build clean; focused Phase 7-9 tests 80 passed; full prior suite 982 passed.
+- Phase 10 implementation complete in the working tree: numbering fold/formats/bullets, links and
+  references/TOC, notes/comments/revisions/content controls, OMML fallback, art borders, decoration.
+- Phase 11 implementation complete in the working tree: coverage ratchets, package equivalence,
+  round-trip/golden/visual/perf/fuzz/malformed/determinism interfaces and status documentation.
+- Verification after Phases 10-11: `npx tsc --build --force` passed; focused tests 24 passed; full suite
+  118 files / 1037 tests passed; `pnpm gen` passed with generated schema clean; changed-file Prettier check passed.
+
+In progress
+- Demo P11-11 intentionally postponed by request; no demo files are included in this batch.
+- Root: OMML P10-12a audit and deterministic bottom-up fallback box layout; ADR 0017 added.
+
+Not done / known limits
+- Demo app P11-11 postponed by request.
+- Word/LibreOffice comparison is unverified - no Word/LibreOffice available in this environment.
+- Exact OpenType MATH constants/glyph assemblies are unavailable; OMML fallback records a diagnostic.
+- Generated preset file is deterministic but is not Prettier-formatted by the emitter.
+- Repository-wide `pnpm format:check` still reports 34 pre-existing files outside this batch; all changed
+  source/docs files pass a targeted Prettier check.
+
+Heartbeat lines below are automated. Update the manual sections when phase status changes.
+Heartbeat process started: PID=7644
+Heartbeat: 2026-09-19 05:28:29 +03:00 | commit=39c33da | dirty-files=9
+Heartbeat: 2026-09-19 05:35:29 +03:00 | commit=39c33da | dirty-files=14
+Heartbeat: 2026-09-19 05:42:30 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 05:49:30 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 05:56:30 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:03:30 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:10:31 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:17:31 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:24:31 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:31:31 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:38:32 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:45:32 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:52:32 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 06:59:32 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 07:06:33 +03:00 | commit=39c33da | dirty-files=21
+Heartbeat: 2026-09-19 07:13:33 +03:00 | commit=39c33da | dirty-files=21

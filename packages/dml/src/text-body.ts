@@ -32,7 +32,11 @@ export interface TextBodyOptions {
 const emu = (v: unknown, fallback: number): number =>
   typeof v === 'number' && Number.isFinite(v) ? v / 9525 : fallback;
 const pct = (v: unknown, fallback: number): number =>
-  typeof v === 'number' && Number.isFinite(v) ? v / 100000 : fallback;
+  typeof v === 'number' && Number.isFinite(v)
+    ? v / 100000
+    : typeof v === 'string' && v.trim() !== '' && Number.isFinite(Number(v))
+      ? Number(v) / 100000
+      : fallback;
 const textOf = (p: dmlMainTypes.CT_TextParagraph): string =>
   p.textRun
     .map((r) =>

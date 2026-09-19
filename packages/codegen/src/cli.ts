@@ -57,7 +57,7 @@ await writeFile(resolve(outDir, namespacesModule.path), namespacesModule.content
 // Preset geometries are static DrawingML data, so they share the build-time
 // determinism gate instead of parsing a 2 MB XML document in the browser.
 const geometryModule = emitPresetGeometries(
-  await readFile(resolve(root, 'assets/schema/geometries/presetShapeDefinitions.xml'), 'utf8'),
+  await readFile(resolve(assetsDir, 'geometries/presetShapeDefinitions.xml'), 'utf8'),
 );
 const geometryTarget = resolve(root, 'packages/dml/src', geometryModule.path);
 await mkdir(dirname(geometryTarget), { recursive: true });

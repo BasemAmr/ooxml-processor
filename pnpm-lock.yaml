@@ -116,6 +116,9 @@ importers:
       '@ooxml/layout':
         specifier: workspace:*
         version: link:../layout
+      '@ooxml/schema':
+        specifier: workspace:*
+        version: link:../schema
       '@ooxml/text':
         specifier: workspace:*
         version: link:../text

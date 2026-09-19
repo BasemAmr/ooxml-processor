@@ -16,6 +16,7 @@ export * from './pagination/endnotes';
 export * from './floats/exclusions';
 export * from './floats/polygon';
 export * from './floats/anchor';
+export * from './math/index.js';
 export * from './floats/line-segments.js';
 export * from './floats/anchor-fixpoint.js';
 export * from './floats/frame-pr.js';
