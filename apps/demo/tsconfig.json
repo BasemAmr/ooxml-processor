@@ -1,15 +1,21 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "probes/**/*.ts"],
   "references": [
-    {
-      "path": "../../packages/editor"
-    }
+    { "path": "../../packages/opc" },
+    { "path": "../../packages/schema" },
+    { "path": "../../packages/wml" },
+    { "path": "../../packages/dml" },
+    { "path": "../../packages/text" },
+    { "path": "../../packages/layout" },
+    { "path": "../../packages/paint" },
+    { "path": "../../packages/editor" },
+    { "path": "../../packages/conformance" }
   ]
 }
