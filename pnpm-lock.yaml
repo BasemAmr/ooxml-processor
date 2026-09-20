@@ -26,9 +26,33 @@ importers:
 
   apps/demo:
     dependencies:
+      '@ooxml/conformance':
+        specifier: workspace:*
+        version: link:../../packages/conformance
+      '@ooxml/dml':
+        specifier: workspace:*
+        version: link:../../packages/dml
       '@ooxml/editor':
         specifier: workspace:*
         version: link:../../packages/editor
+      '@ooxml/layout':
+        specifier: workspace:*
+        version: link:../../packages/layout
+      '@ooxml/opc':
+        specifier: workspace:*
+        version: link:../../packages/opc
+      '@ooxml/paint':
+        specifier: workspace:*
+        version: link:../../packages/paint
+      '@ooxml/schema':
+        specifier: workspace:*
+        version: link:../../packages/schema
+      '@ooxml/text':
+        specifier: workspace:*
+        version: link:../../packages/text
+      '@ooxml/wml':
+        specifier: workspace:*
+        version: link:../../packages/wml
 
   packages/codegen:
     dependencies:

@@ -13,14 +13,23 @@
       "default": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "tsc --build",
+    "dev": "vite --host 127.0.0.1",
+    "build:web": "vite build",
+    "test:run": "vitest run",
     "clean": "tsc --build --clean"
   },
   "dependencies": {
-    "@ooxml/editor": "workspace:*"
+    "@ooxml/conformance": "workspace:*",
+    "@ooxml/dml": "workspace:*",
+    "@ooxml/editor": "workspace:*",
+    "@ooxml/layout": "workspace:*",
+    "@ooxml/opc": "workspace:*",
+    "@ooxml/paint": "workspace:*",
+    "@ooxml/schema": "workspace:*",
+    "@ooxml/text": "workspace:*",
+    "@ooxml/wml": "workspace:*"
   }
 }

@@ -1,0 +1,2610 @@
+============================================================
+SECTION 2 — PACKAGE PUBLIC-SURFACE INVENTORY
+============================================================
+
+This section details the authoritative public API surface of each monorepo package based strictly on `packages/<pkg>/package.json` exports definitions and `packages/<pkg>/src/index.ts` entry points.
+
+---
+
+### 2.1 Package `@ooxml/opc`
+- **Package JSON entry**: `packages/opc/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/opc/src/index.ts` lines 1–117.
+- **Documented limitations**:
+  - Encrypted packages (`EncryptedPackage` OLE compound files) are deliberately rejected with `OpcEncryptedPackageError` (ADR 0002, `packages/opc/src/errors.ts` lines 212–234).
+  - Decompression caps enforced mid-stream; archives exceeding ratio (`200:1`) or size budgets throw `OpcLimitError` (`packages/opc/src/limits.ts` lines 79–125).
+  - External relationship targets (`TargetMode="External"`) are blocked from network dereferencing (SSRF boundary, `packages/opc/src/relationships.ts` lines 9–31).
+  - Digital signatures stripped on save if package is modified (ADR 0011, `packages/opc/src/package.ts` lines 270–370).
+- **Internal unexported modules (`[INDIRECT]`)**:
+  - `packages/opc/src/testing/fake-xml.ts` (test-only, not for runtime use).
+  - `packages/opc/src/testing/zip-fixtures.ts` (test-only archive builder).
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `openPackage` | function | `packages/opc/src/package.ts:241` | `(bytes: Uint8Array, xml: XmlSupport, opts?: Partial<OpcLimits>) => Promise<OpcPackage>` |
+| `savePackage` | function | `packages/opc/src/package.ts:275` | `(pkg: OpcPackage, options?: SavePackageOptions) => Promise<Uint8Array>` |
+| `decodeXmlText` | function | `packages/opc/src/package.ts:420` | `(bytes: Uint8Array, subject: string) => string` |
+| `encodeXmlText` | function | `packages/opc/src/package.ts:446` | `(text: string) => Uint8Array` |
+| `ContentTypes` | class | `packages/opc/src/content-types.ts:74` | `parse(xml, support): ContentTypes; contentTypeFor(partName): string; setDefault/setOverride(...)` |
+| `RelationshipSet` | class | `packages/opc/src/relationships.ts:114`| `parse(xml, source, support): RelationshipSet; byType(...): Relationship[]; byId(id): Relationship` |
+| `RelationshipGraph`| class | `packages/opc/src/relationships.ts:314`| `relationshipsOf(source): RelationshipSet; targetPartName(source, id): PartName` |
+| `RelationshipTypes`| object | `packages/opc/src/rel-types.ts:41` | `Readonly<Record<string, readonly [string, string] \| readonly [string]>>` |
+| `parseCoreProperties`| function | `packages/opc/src/properties.ts:39` | `(xml: string, support: XmlSupport) => CoreProperties` |
+| `parseExtendedProperties`| function | `packages/opc/src/properties.ts:145` | `(xml: string, support: XmlSupport) => ExtendedProperties` |
+| `parseCustomProperties`| function | `packages/opc/src/properties.ts:243` | `(xml: string, support: XmlSupport) => readonly CustomProperty[]` |
+| `validatePartName` | function | `packages/opc/src/partname.ts:147` | `(name: string, options?: PartNameOptions) => PartName` |
+| `resolveRelative` | function | `packages/opc/src/partname.ts:316` | `(source: RelationshipSource, target: string, options?: PartNameOptions) => PartName` |
+| `relsPartNameFor` | function | `packages/opc/src/partname.ts:484` | `(source: RelationshipSource, options?: PartNameOptions) => PartName` |
+| `sourceOfRelsPart` | function | `packages/opc/src/partname.ts:503` | `(relsPartName: PartName) => RelationshipSource` |
+| `DEFAULT_OPC_LIMITS`| object | `packages/opc/src/limits.ts:112` | `OpcLimits` |
+| `readZip` | function | `packages/opc/src/zip.ts:98` | `(bytes: Uint8Array, limits: OpcLimits) => ZipArchive` |
+| `writeZip` | function | `packages/opc/src/zip.ts:517` | `(entries: readonly ZipWriteEntry[], comment?: Uint8Array) => Uint8Array` |
+| `decompressEntry` | function | `packages/opc/src/zip.ts:430` | `(entry: ZipEntry, limits: OpcLimits, budget: DecompressionBudget) => Uint8Array` |
+| `assertPackageIdempotent` | function | `packages/opc/src/idempotence.ts:116` | `(bytes: Uint8Array, xml: XmlSupport, options?: AssertIdempotentOptions) => Promise<{ gen2, gen3 }>` |
+
+---
+
+### 2.2 Package `@ooxml/schema`
+- **Package JSON entry**: `packages/schema/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/schema/src/index.ts` lines 1–49.
+- **Documented limitations**:
+  - Only `wml` and `dml-main` generated types/readers/writers are exported at package root (`packages/schema/src/index.ts` lines 42–49). Other 25 namespaces (`dml-wordprocessingDrawing`, `vml`, `math`, `doc-props-*`, etc.) are generated in `src/generated/*` but NOT exposed via root index.ts.
+  - DOCTYPE declarations in XML are rejected unconditionally (`entity-rejected`, `packages/schema/src/runtime/cursor.ts` lines 341–347).
+  - XML parsing enforces max depth (256), max attributes (4096), and text size caps (`packages/schema/src/runtime/xml.ts` lines 150–162).
+- **Internal unexported modules (`[INDIRECT]`)**:
+  - `packages/schema/src/generated/dml-wordprocessingDrawing/{types,reader,writer}.ts` (`CT_Anchor`, `CT_Inline`, `CT_WrapSquare`, etc.).
+  - `packages/schema/src/generated/vml/{types,reader,writer}.ts`.
+  - `packages/schema/src/generated/vml-word/{types,reader,writer}.ts` (`CT_Wrap`).
+  - `packages/schema/src/generated/math/{types,reader,writer}.ts` (`CT_OMath`, `CT_OMathPara`).
+  - `packages/schema/src/generated/namespaces.ts` (emitted token map).
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `runtime` | namespace | `packages/schema/src/index.ts:18` | All hand-authored runtime helpers (`twip`, `emu`, `parseOnOff`, `PositionedRawQueue`, etc.) |
+| `createCursor` | function | `packages/schema/src/runtime/cursor.ts:251` | `(xml: string, limits?: XmlParseLimits) => XmlCursor` |
+| `createCursorOverRaw` | function | `packages/schema/src/runtime/cursor.ts:265` | `(content: RawNode \| readonly RawChild[]) => XmlCursor` |
+| `createStringSink` | function | `packages/schema/src/runtime/sink.ts:544` | `(options?: StringSinkOptions) => { sink: XmlSink, toString(): string }` |
+| `createRawSink` | function | `packages/schema/src/runtime/sink.ts:553` | `() => { sink: XmlSink, toNode(): RawNode \| undefined }` |
+| `createReadContext`| function | `packages/schema/src/runtime/read.ts:167` | `(dialect: Dialect, uris: NsUris) => ReadContext` |
+| `createWriteContext`| function| `packages/schema/src/runtime/write.ts:21` | `(dialect: Dialect, uris: NsUris) => WriteContext` |
+| `uriFor` | function | `packages/schema/src/runtime/write.ts:36` | `(ctx: WriteContext, token: string) => NamespaceUri` |
+| `wmlReader` | namespace | `packages/schema/src/index.ts:44` | Generated readers for WordprocessingML (`readCT_Document`, `readCT_P`, etc.) |
+| `wmlWriter` | namespace | `packages/schema/src/index.ts:45` | Generated writers for WordprocessingML (`writeCT_Document`, `writeCT_P`, etc.) |
+| `dmlMainTypes` | namespace | `packages/schema/src/index.ts:47` | Generated types for DrawingML main (`CT_Shape`, `CT_TextBody`, etc.) |
+| `dmlMainReader` | namespace | `packages/schema/src/index.ts:48` | Generated readers for DrawingML main |
+| `dmlMainWriter` | namespace | `packages/schema/src/index.ts:49` | Generated writers for DrawingML main |
+| `CT_Document`, `CT_Body`, `CT_P`, `CT_R`, `CT_Text`, etc. | types | `packages/schema/src/index.ts:43` | Re-exported generated TypeScript interfaces for WML |
+
+---
+
+### 2.3 Package `@ooxml/wml`
+- **Package JSON entry**: `packages/wml/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/wml/src/index.ts` lines 1–178.
+- **Documented limitations**:
+  - `DocumentModel` interface required by `@ooxml/editor` is NOT implemented in `src/`; Candidate C was verified in `spike/candidate-c.ts` as a prototype spike only (ADR 0003).
+  - Auto-hyphenation dictionary lookup is not bundled; manual and non-breaking hyphens supported (`packages/wml/src/features.ts` / `plan-docs/01-invariants.md` §G2).
+- **Internal unexported modules (`[INDIRECT]`)**:
+  - `packages/wml/spike/candidate-c.ts` (prototype implementation of mutable tree, not exported in `src/index.ts`).
+  - `packages/wml/spike/fixture.ts` (synthetic document generator).
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `IdTable` | class | `packages/wml/src/id.ts:49` | `mint(kind: NodeKind): NodeId; isLive(id): boolean; retire(id): void; kindOf(id): NodeKind; generationOf(id): number` |
+| `createDocPos` / `docPosEquals` | function | `packages/wml/src/pos.ts:25, 34` | `createDocPos(node: NodeId, offset: number): DocPos; docPosEquals(a, b): boolean` |
+| `PositionMapper` / `createPositionMapper` | class / fn | `packages/wml/src/pos.ts:68, 206` | `toAbs(p: DocPos): AbsPos; toDoc(abs: AbsPos): DocPos; updateLength(id, len): void` |
+| `IntervalStore` | class | `packages/wml/src/interval.ts:162` | `insert(from, to, payload, fromGrav?, toGrav?): IntervalId; stab(at): Interval<T>[]; overlapping(...); shift(at, delta): void` |
+| `AnnotationStore` | class | `packages/wml/src/annotations.ts:65` | `recordMarker(marker); finalize(endPos?); get(kind, id); getAll(opts?); getUserBookmarks(); deleteRange(node, s, e)` |
+| `extractParagraphAnnotations` / `injectParagraphAnnotations` | function | `packages/wml/src/annotations.ts:401, 442`| `extractParagraphAnnotations(p, id, store): CT_P; injectParagraphAnnotations(p, id, store): CT_P` |
+| `StyleTable` / `parseStyles` / `parseStylesXml` | class / fn | `packages/wml/src/styles.ts:98, 255, 313` | `chain(styleId): readonly Style[]; parseStylesXml(xml: string): StyleTable` |
+| `BUILTIN_DOC_DEFAULTS` / `resolveDocDefaults` | object / fn| `packages/wml/src/defaults.ts:58, 126` | `resolveDocDefaults(ctDocDefaults?: CT_DocDefaults): DocDefaults` |
+| `parseTheme` / `parseThemeXml` | function | `packages/wml/src/theme.ts:139, 178` | `parseThemeXml(xml: string): Theme` |
+| `resolveThemeFont` / `resolveSchemeColor` | function | `packages/wml/src/theme.ts:192, 260` | `resolveThemeFont(slot, scheme?, script?): string; resolveSchemeColor(token, scheme?, map?): string` |
+| `parseSettings` / `parseSettingsXml` | function | `packages/wml/src/settings.ts:175, 219`| `parseSettingsXml(xml: string): LayoutSettings` |
+| `isToggleProperty` / `toggleCombine` | function | `packages/wml/src/toggle.ts:51, 69` | `isToggleProperty(name): boolean; toggleCombine(inh, dir): OnOffState` |
+| `parseNumbering` / `parseNumberingXml` / `resolveNumbering` | function | `packages/wml/src/numbering.ts:39, 60, 75`| `resolveNumbering(numPr, table, styleTable?): ResolvedNumbering \| undefined` |
+| `foldNumbering` / `formatNumber` / `renderLevelText` | function | `packages/wml/src/numbering-layout.ts:251, 107, 241`| `foldNumbering(paras, opts?): NumberingFoldResult; formatNumber(val, fmt?, custom?): string` |
+| `resolveCascadeStack` | function | `packages/wml/src/cascade.ts:51` | `(layers: readonly PropertyLayer[]) => ResolvedProperties` |
+| `resolveParagraphProperties` | function | `packages/wml/src/cascade.ts:133` | `(ctx: ParagraphCascadeContext) => ResolvedProperties` |
+| `resolveRunProperties` | function | `packages/wml/src/cascade.ts:189` | `(ctx: RunCascadeContext) => ResolvedProperties` |
+| `resolveParaRPrProperties` | function | `packages/wml/src/cascade.ts:241` | `(ctx: ParagraphMarkRunContext) => ResolvedProperties` |
+| `ResolvedPropertyCache` | class | `packages/wml/src/cache.ts:55` | `get(k); set(k, v); invalidateStyles(); invalidateTheme(); invalidateNumbering(); invalidateTable(id)` |
+| `inspectProperties` | function | `packages/wml/src/inspector.ts:40` | `(resolved: ResolvedProperties) => InspectionReport` |
+| `parseFieldInstruction` / `evaluateSimpleField` | function | `packages/wml/src/fields/parser.ts:19; evaluate.ts:77` | `parseFieldInstruction(raw): FieldInstruction; evaluateSimpleField(fld, ctx?, recalc?): FieldValue` |
+| `hyperlinkNavigation` / `resolveBookmark` | function | `packages/wml/src/features.ts:51, 74` | `hyperlinkNavigation(input): HyperlinkNavigation; resolveBookmark(name, bms): BookmarkRange` |
+| `applyRevisionBatch` / `revisionEdits` | function | `packages/wml/src/features.ts:140, 114`| `applyRevisionBatch(revs, decision): readonly RevisionEdit[]` |
+| `resolveCrossReference` / `parseTocSwitches` | function | `packages/wml/src/features.ts:153, 194`| `resolveCrossReference(instr, ctx?): string; parseTocSwitches(instr): TocOptions` |
+| `sdtPolicy` / `contentControlText` | function | `packages/wml/src/features.ts:251, 345`| `sdtPolicy(lock, dataBound?): SdtPolicy; contentControlText(ctl): string` |
+
+---
+
+### 2.4 Package `@ooxml/dml`
+- **Package JSON entry**: `packages/dml/package.json` lines 9–14 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/dml/src/index.ts` lines 1–15.
+- **Documented limitations**:
+  - DrawingML Chart (`dml-chart`) and SmartArt (`dml-diagram`) render as labelled placeholders (G3, `packages/dml/src/placeholders.ts` lines 27–47).
+  - EMF/WMF vectors cannot be decoded directly by HTML `<canvas>`; labelled placeholders emitted with alt text (`packages/dml/src/images.ts` lines 44–47).
+  - Preset geometries table generated at build-time in `packages/dml/src/generated/presets.ts`.
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `evaluateFormula` / `evaluateGuides` | function | `packages/dml/src/geometry/guides.ts:42, 93` | `evaluateGuides(guides: readonly GeometryGuide[], ctx: GuideContext): Record<string, number>` |
+| `shapeTransform` / `groupTransform` | function | `packages/dml/src/geometry/transform.ts:40, 56` | `shapeTransform(ext, rot?, flipH?, flipV?): Matrix; groupTransform(group): Matrix` |
+| `buildGeometryPaths` | function | `packages/dml/src/geometry/path.ts:156` | `(def: GeometryDefinition, ext: GeometryExtent, adjs?: Record<string, number>) => readonly BuiltGeometryPath[]` |
+| `buildPresetGeometry` / `PRESET_GEOMETRIES` | fn / obj | `packages/dml/src/geometry/presets.ts:18, 7` | `buildPresetGeometry(name: string, ext: GeometryExtent, adjs?): readonly BuiltGeometryPath[] \| undefined` |
+| `applyColorTransforms` / `resolveSchemeColor` | function | `packages/dml/src/color.ts:27, 72` | `applyColorTransforms(base: Rgba, t?: ColorTransforms): Rgba; resolveSchemeColor(...)` |
+| `createFillStyle` / `resolveDmlColor` | function | `packages/dml/src/fills.ts:114, 29` | `createFillStyle(fill, rect, ctx, resolver?): FillStyle \| undefined` |
+| `lineStrokePlan` / `shortenLineForArrows` | function | `packages/dml/src/lines.ts:88, 122` | `lineStrokePlan(line: LinePropertiesLike, color?): StrokePlan; shortenLineForArrows(...)` |
+| `planEffect` / `effectPlans` / `createEffectBudget` | function | `packages/dml/src/effects.ts:63, 99, 39` | `planEffect(kind, val, bounds, budget): EffectPlan \| undefined; effectPlans(...)` |
+| `layoutTextBody` / `textBodyInsets` | function | `packages/dml/src/text-body.ts:62, 137` | `layoutTextBody(body: CT_TextBody, rect: TextBodyRect, opts?): TextBodyLayout` |
+| `resolveBlipImage` / `imageSource` | function | `packages/dml/src/images.ts:37, 50` | `resolveBlipImage(blip, parts): ImageResolution; imageSource(blipFill, parts, w, h): ImageSource` |
+| `describeVmlShape` / `findVmlShapes` | function | `packages/dml/src/vml-shapes.ts:15, 41` | `describeVmlShape(node: RawNode): VmlShapeDescription; findVmlShapes(node: RawNode)` |
+| `selectMceBranch` | function | `packages/dml/src/mce.ts:24` | `(node: RawNode, supported: ReadonlySet<string>) => MceSelection` |
+| `createDeferredGraphicPlaceholder` | function | `packages/dml/src/placeholders.ts:27` | `(kind: DeferredGraphicKind, extent: GraphicExtent) => DeferredGraphicPlaceholder` |
+
+---
+
+### 2.5 Package `@ooxml/text`
+- **Package JSON entry**: `packages/text/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/text/src/index.ts` lines 1–168.
+- **Documented limitations**:
+  - Web shaper uses `FallbackTextShaper` when WASM HarfBuzz binary is not provided or fails to instantiate (ADR 0004, `packages/text/src/shaper.ts` lines 500–515).
+  - Font metrics use `FONT_METRICS_STRATEGY = 'win-metrics-zero-gap'` per SPEC-GAP for unverified Windows GDI compatibility (`packages/text/src/metrics.ts` lines 43–46).
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `getFontSlotForCodepoint` | function | `packages/text/src/script.ts:192` | `(cp: number, hint?: ST_Hint, options?: ScriptSlotOptions) => FontSlot` |
+| `fontForChar` | function | `packages/text/src/rfonts.ts:57` | `(charOrCp, rFonts?, scheme?, lang?, options?): string` |
+| `substituteFont` / `panoseDistance` | function | `packages/text/src/fonts.ts:245, 149` | `substituteFont(req, fontTable?, avail?): SubstitutionResult; panoseDistance(p1, p2): number` |
+| `deobfuscateFont` / `parseFontKeyGuid` | function | `packages/text/src/odttf.ts:109, 50` | `deobfuscateFont(data: Uint8Array, fontKey: string): Uint8Array` |
+| `resolveBidi` / `getBidiLevels` | function | `packages/text/src/bidi.ts:311, 461` | `resolveBidi(text: string, options?: BidiOptions): BidiResult; getBidiLevels(text, opts?): number[]` |
+| `segmentGraphemes` / `segmentWords` | function | `packages/text/src/segmenter.ts:74, 95` | `segmentGraphemes(text, lang?): GraphemeSegment[]; segmentWords(text, lang?): WordSegment[]` |
+| `nextGraphemeBreak` / `prevGraphemeBreak` | function | `packages/text/src/segmenter.ts:115, 131`| `nextGraphemeBreak(t, off, lang?): number; prevGraphemeBreak(t, off, lang?): number` |
+| `findWordAt` | function | `packages/text/src/segmenter.ts:147` | `(text: string, offset: number, lang?: string) => WordSegment \| undefined` |
+| `itemizeText` / `itemizeParagraphRuns` | function | `packages/text/src/itemizer.ts:140, 261`| `itemizeText(text, opts?, levels?, offset?): SubRun[]; itemizeParagraphRuns(runs, baseLvl?): SubRun[]` |
+| `parseFontTables` / `reconcileFontMetrics` | function | `packages/text/src/metrics.ts:153, 219` | `parseFontTables(buf): RawFontMetrics; reconcileFontMetrics(raw, strat?): ReconciledFontMetrics` |
+| `scaleFontMetrics` | function | `packages/text/src/metrics.ts:303` | `(input, fontSizeHalfPoints, strategy?): ScaledFontMetrics` |
+| `textOrientationFromWml` / `textOrientationFromDml` | function | `packages/text/src/cjk-vertical.ts:63, 90` | `(dir?: string) => TextOrientation` |
+| `FontLoader` | class | `packages/text/src/font-loader.ts:121` | `loadFont(family, desc?): Promise<FontLoadResult>; getEffectiveFont(family): string; trackParagraphFont(...)` |
+| `createPackedShapedRun` / `PackedShapedRun` | fn / class | `packages/text/src/shaped-run.ts:251, 88` | `createPackedShapedRun(params): ShapedRun; slice(s, e): ShapedRun; clusterAtSourceOffset(off): number` |
+| `createTextShaper` / `FallbackTextShaper` | fn / class | `packages/text/src/shaper.ts:508, 252` | `createTextShaper(hbApi?): TextShaper; shape(subRun, face, feats?): ShapedRun` |
+| `isFastPathEligible` / `measureFastPath` | function | `packages/text/src/fast-path.ts:89, 178` | `isFastPathEligible(run, opts?): boolean; measureFastPath(run, face?, opts?): ShapedRun` |
+| `MeasurementCache` | class | `packages/text/src/cache.ts:208` | `getL1(face, sz, feat, txt): ShapedRun; putL1(...); invalidateFace(id); invalidateText(id)` |
+| `TextEngine` | class | `packages/text/src/text-engine.ts:98` | `shapeRun(text, opts?): ShapedSubRunResult[]; shapeParagraph(runs, baseLvl?): ParagraphShapingResult` |
+
+---
+
+### 2.6 Package `@ooxml/layout`
+- **Package JSON entry**: `packages/layout/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/layout/src/index.ts` lines 1–23.
+- **Documented limitations**:
+  - `breakParagraph` and `LineBreakContext` from `src/line/breaker.ts` are NOT in `src/index.ts` (`[INDIRECT]`).
+  - Table autofit is a linear interpolation approximation marked `SPEC-GAP` (ADR 0016 / `packages/layout/src/table/index.ts` lines 150–165).
+  - OMML math layout fallback engine does not read OpenType MATH constants (`math-math-table-unavailable` diagnostic, ADR 0017, `packages/layout/src/math/index.ts` lines 61–74).
+- **Internal unexported modules (`[INDIRECT]`)**:
+  - `packages/layout/src/line/breaker.ts` (`breakParagraph`, `LineBreakContext`).
+  - `packages/layout/src/line/stream.ts` (`buildInlineStream`, `InlineItem`).
+  - `packages/layout/src/line/baseline.ts` (`computeLineBaseline`, `alignRunInLine`).
+  - `packages/layout/src/line/breaks.ts` (`findBreakOpportunities`).
+  - `packages/layout/src/line/indent.ts` (`resolveIndentation`).
+  - `packages/layout/src/line/justify.ts` (`resolveJustification`).
+  - `packages/layout/src/line/spacing.ts` (`resolveParagraphSpacing`, `applyLineSpacingRule`).
+  - `packages/layout/src/line/tabs.ts` (`resolveTabStops`, `calculateNextTab`).
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `clusterAtSourceOffset` / `hitTestLine` | function | `packages/layout/src/line/linebox.ts:98, 142` | `clusterAtSourceOffset(line, srcNode, off): ClusterMappingResult; hitTestLine(line, x): HitTestResult` |
+| `serializeLayoutGolden` | function | `packages/layout/src/golden.ts:13` | `(lines: readonly Line[]) => string` |
+| `buildGrid` / `cellsOf` / `tableRows` | function | `packages/layout/src/table/grid.ts:57, 63, 76` | `buildGrid(tbl: CT_Tbl): Grid; cellsOf(row, grid): readonly CellGridPosition[]` |
+| `resolveWidth` / `resolveVMerge` | function | `packages/layout/src/table/index.ts:31, 62` | `resolveWidth(w, containerW): ResolvedWidth; resolveVMerge(rows, grid): { spans, diagnostics }` |
+| `autofitColumns` / `fixedColumns` | function | `packages/layout/src/table/index.ts:153, 203` | `autofitColumns(colCount, cells, opts): readonly number[]; fixedColumns(grid, cells): readonly number[]` |
+| `resolveCellMargins` / `tableIndent` | function | `packages/layout/src/table/index.ts:223, 237` | `resolveCellMargins(cell, tbl?, style?): CellMargins; tableIndent(tbl?, containerW?, bidi?): ...` |
+| `resolveBorder` / `borderAt` | function | `packages/layout/src/table/index.ts:275, 292` | `resolveBorder(candidates, spacing?): ResolvedBorder; borderAt(tbl?, cell?, edge?, spacing?): CT_Border` |
+| `resolveRowHeight` / `rowFragmentable` | function | `packages/layout/src/table/index.ts:312, 332` | `resolveRowHeight(row, contentH): RowHeight; rowFragmentable(row, ...): RowFragmentable` |
+| `tableConditions` / `applyConditionalFormatting` | function | `packages/layout/src/table/index.ts:383, 417` | `tableConditions(pos, look?): TableCondition[]; applyConditionalFormatting(...)` |
+| `fixpoint` | function | `packages/layout/src/fixpoint.ts:23` | `<S>(initial: S, step: (s: S) => S, key: (s: S) => string, opts?: FixpointOptions) => FixpointResult<S>` |
+| `enumerateSections` | function | `packages/layout/src/pagination/sections.ts:13` | `(body: CT_Body) => readonly SectionModel[]` |
+| `pageGeometry` / `textArea` | function | `packages/layout/src/pagination/geometry.ts:47, 67` | `pageGeometry(sectPr?, opts?): PageGeometry; textArea(geom, pgNum?, hdrH?, ftrH?): TextArea` |
+| `fillPage` / `applyKeepConstraints` | function | `packages/layout/src/pagination/page-fill.ts:50, 108` | `fillPage(start: PageState, opts: PageFillOptions): { content: PageContent, endState: PageState }` |
+| `paginateWithFootnotes` | function | `packages/layout/src/pagination/footnotes.ts:21` | `<T>(initReserve, fill, layoutFootnotes, maxIters?): FootnotePage<T>` |
+| `resolveColumns` / `balanceColumnHeights` | function | `packages/layout/src/pagination/columns.ts:8, 30` | `resolveColumns(cols?, area): readonly ColumnBox[]; balanceColumnHeights(heights, count): readonly number[]` |
+| `formatPageNumber` / `pageNumberFor` | function | `packages/layout/src/pagination/numbering.ts:33, 50` | `formatPageNumber(val, fmt?): string; pageNumberFor(pgInSect, start?, fmt?, chap?, sep?): string` |
+| `resolveSectionBreak` / `sectionBreakType` | function | `packages/layout/src/pagination/breaks.ts:12, 33` | `resolveSectionBreak(curPg, curCol, colCount, type): BreakResult` |
+| `lineNumberFor` | function | `packages/layout/src/pagination/line-numbers.ts:10` | `(lineIndex, opts?, ctx?, suppressed?): number \| undefined` |
+| `verticalOffsets` | function | `packages/layout/src/pagination/vertical-align.ts:4` | `(alignment: VerticalAlignment, available: number, content: readonly number[]) => readonly number[]` |
+| `resolveHeaderFooter` | function | `packages/layout/src/pagination/headers.ts:27` | `(section: CT_SectPr, kind: HeaderFooterKind, opts?: HeaderFooterOptions): HeaderFooterSelection` |
+| `placeEndnotes` / `restartNumber` | function | `packages/layout/src/pagination/endnotes.ts:10, 18` | `placeEndnotes(items, pos, firstNum?): EndnotePlacement<T>; restartNumber(...)` |
+| `ExclusionStore` | class | `packages/layout/src/floats/exclusions.ts:52` | `add(rect: FloatRect); availableSegments(y, h, container): AvailableSegment[]; rebuild(rects)` |
+| `scaleWrapPolygon` / `polygonIntervalsForBand` | function | `packages/layout/src/floats/polygon.ts:7, 15` | `polygonIntervalsForBand(pts, yTop, yBottom, through?): Array<[number, number]>` |
+| `resolveAnchor` | function | `packages/layout/src/floats/anchor.ts:114` | `(spec: AnchorSpec, context: AnchorContext) => FloatRect` |
+| `resolveAnchorsWithWrapFixpoint` | function | `packages/layout/src/floats/anchor-fixpoint.ts:38` | `(inputs: readonly AnchorInput[], opts?: AnchorFixpointOptions) => AnchorFixpointResult` |
+| `groupFramedParagraphs` / `resolveFramePosition` | function | `packages/layout/src/floats/frame-pr.ts:34, 68` | `groupFramedParagraphs(paras): FramedParagraph[][]; resolveFramePosition(frame, container)` |
+| `layoutLineAcrossSegments` / `justifySegments` | function | `packages/layout/src/floats/line-segments.ts:35, 96` | `layoutLineAcrossSegments(y, h, items, exclusions, container, opts?): SegmentedLine<T>` |
+| `layoutMath` / `auditMathTable` | function | `packages/layout/src/math/index.ts:119, 58` | `layoutMath(node: MathNode, opts?: MathLayoutOptions): MathBox; auditMathTable(): MathTableAudit` |
+
+---
+
+### 2.7 Package `@ooxml/paint`
+- **Package JSON entry**: `packages/paint/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/paint/src/index.ts` lines 1–6.
+- **Documented limitations**:
+  - DisplayList enforces serializability (`structuredClone` compatibility, no DOM nodes, no callbacks, ADR 0005, `packages/paint/src/displaylist.ts` lines 145–150).
+  - Main thread Canvas 2D painting for v1 (`CanvasPainter`, `packages/paint/src/painter.ts` lines 38–110).
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `DisplayList` | class | `packages/paint/src/displaylist.ts:90` | `pushGlyphRun(...); pushRect(...); pushLine(...); pushImage(...); pushClip(...); pushTransform(...); clone()` |
+| `batchDisplayList` | function | `packages/paint/src/batcher.ts:25` | `(list: DisplayList) => { items: BatchedDisplayItem[], stats: BatchStats }` |
+| `PageBitmapCache` | class | `packages/paint/src/page-cache.ts:18` | `get(key: PageCacheKey): ImageBitmap \| HTMLCanvasElement; set(k, b); invalidatePage(idx); clear()` |
+| `ViewportManager` | class | `packages/paint/src/viewport.ts:14` | `getVisiblePages(scrollTop, vpHeight, overscan?): VirtualizationState; roundForDPR(val, dpr): number` |
+| `CanvasPainter` | class | `packages/paint/src/painter.ts:38` | `paint(list: DisplayList): void` |
+| `paintFilledRect` / `paintLine` / `paintImagePlaceholder` | function | `packages/paint/src/shapes/renderer.ts:25, 33, 62` | `paintFilledRect(ctx, rect, fill); paintLine(ctx, line, x1, y1, x2, y2, color?); paintImagePlaceholder(...)` |
+| `createFillStyle` / `lineStrokePlan` / `planEffect` | function | `packages/paint/src/shapes/fills.ts; lines.ts; effects.ts` | Re-exported from `@ooxml/dml` |
+
+---
+
+### 2.8 Package `@ooxml/editor`
+- **Package JSON entry**: `packages/editor/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/editor/src/index.ts` lines 1–105.
+- **Documented limitations**:
+  - Single-user architecture; commands carry `NodeId` structural positions for future OT/CRDT rebasing (`packages/editor/src/commands/command.ts` lines 18–33, ADR 0013).
+  - Single caret rendered at bidi boundaries per ADR 0014 (`packages/editor/src/caret.ts` lines 7–45).
+  - Default clipboard paste policy is `mergeFormatting` (ADR 0015, `packages/editor/src/clipboard/index.ts` lines 61–105).
+  - `DocumentModel` is an interface defined in `packages/editor/src/commands/command.ts` (lines 35–43) that must be implemented by the host application or an adapter.
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `createCaret` / `caretEquals` / `isValid` | function | `packages/editor/src/position/types.ts:60, 71, 84` | `createCaret(pos: DocPos, affinity?, preferredX?): Caret; caretEquals(a, b): boolean; isValid(c, table): boolean` |
+| `toLayout` / `toDocument` | function | `packages/editor/src/position/map.ts:66, 178` | `toLayout(caret: Caret, index: LayoutIndex): MappingResult; toDocument(lp: LayoutPos, index: LayoutIndex): Caret` |
+| `hitTest` / `hitTestWord` / `hitTestParagraph` | function | `packages/editor/src/hit-test.ts:33, 114, 151` | `hitTest(pt, index): Caret; hitTestWord(pt, index, txtProvider?); hitTestParagraph(...)` |
+| `caretRect` | function | `packages/editor/src/caret.ts:7` | `(caret: Caret, index: LayoutIndex) => Rect \| null` |
+| `startBlink` / `stopBlink` / `suspendBlink` / `resumeBlink` | function | `packages/editor/src/caret.ts:50, 59, 66, 71` | `startBlink(toggleCb): CaretBlinkState; stopBlink(s); suspendBlink(s); resumeBlink(s, toggleCb)` |
+| `createCollapsed` / `createRange` / `createTableRect` | function | `packages/editor/src/selection/model.ts:11, 15, 19` | `createCollapsed(caret): Selection; createRange(anchor, focus, aff?): Selection; createTableRect(...)` |
+| `normalizeSelection` / `selectionEquals` / `selectionContains` | function | `packages/editor/src/selection/model.ts:23, 72, 102`| `normalizeSelection(s): Selection; selectionEquals(a, b): boolean; selectionContains(s, pos): boolean` |
+| `selectionRects` | function | `packages/editor/src/selection/geometry.ts:5` | `(sel: Selection, index: LayoutIndex) => Rect[]` |
+| `moveHorizontal` / `moveVertical` / `moveByWord` | function | `packages/editor/src/navigation/index.ts:13, 18, 41`| `moveHorizontal(c, dir, text, policy?): Caret; moveVertical(c, dir, idx): Caret; moveByWord(...)` |
+| `moveToLineEdge` / `moveToDocumentEdge` / `extendSelection` | function | `packages/editor/src/navigation/index.ts:58, 81, 95`| `moveToLineEdge(c, edge, idx): Caret; moveToDocumentEdge(e, idx): Caret; extendSelection(...)` |
+| `InputProxy` | class | `packages/editor/src/input/proxy.ts:17` | `positionAt(rect); focus(); hasFocus(): boolean; isComposing: boolean; dispose()` |
+| `createCompositionState` / `onCompositionStart` / `onCompositionUpdate` / `onCompositionEnd` | function | `packages/editor/src/input/ime.ts:12, 23, 34, 43` | `createCompositionState(): CompositionState; onCompositionStart(...); onCompositionEnd(...)` |
+| `createAccessibilityMirror` | function | `packages/editor/src/a11y/mirror.ts:15` | `() => AccessibilityMirror { attach(el), update(dirty, texts, range?), syncCaret(c), detach() }` |
+| `InsertTextCommand` / `DeleteTextCommand` / `ApplyPropertyCommand` / `SplitParagraphCommand` | classes | `packages/editor/src/commands/command.ts:68, 105, 142, 179` | `Command` implementations with `apply(model): Effect` and `invert(effect): Command` |
+| `createHistory` | function | `packages/editor/src/commands/history.ts:22` | `(options?: UndoHistoryOptions) => UndoHistory { push(tx), undo(model), redo(model), canUndo(), canRedo() }` |
+| `insertText` / `deleteRange` / `splitParagraph` / `applyRunProperty` / `toggleRunProperty` | function | `packages/editor/src/mutate/index.ts:16, 39, 114, 137, 172` | `insertText(m, pos, txt, sel): Transaction; deleteRange(m, sel, dir?); applyRunProperty(...); toggleRunProperty(...)` |
+| `relayout` / `computeOutflowState` / `areOutflowsEqual` | function | `packages/editor/src/relayout.ts:59, 15, 45` | `relayout(dirty: DirtySet, ctx: RelayoutContext): RepaintSet; computeOutflowState(lines): OutflowState` |
+| `PaintScheduler` / `coalesceRects` | class / fn | `packages/editor/src/paint-scheduler.ts:47, 9` | `PaintScheduler: scheduleRepaint(rects); scheduleOverlayOnly(); flush(); dispose()` |
+| `serializeClipboard` / `deserializeClipboard` / `sanitizeHtml` | function | `packages/editor/src/clipboard/index.ts:19, 74, 50` | `serializeClipboard(m, sel): ClipboardPayload; deserializeClipboard(d, policy?); sanitizeHtml(html)` |
+| `LatencyTracker` | class | `packages/editor/src/perf/latency.ts:25` | `record(t0, t1, t2, t3); getStats(): LatencyStats; meetsBudget(ms?): boolean` |
+
+---
+
+### 2.9 Package `@ooxml/codegen`
+- **Package JSON entry**: `packages/codegen/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/codegen/src/index.ts` line 1 (`export {};`).
+- **Build-time only constraint**: `"private": true, "description": "Build-time XSD to TypeScript generator. Never shipped to the browser."` (README.md, packages/codegen/package.json).
+- **Public demo consumption**: None. Build-time only tooling.
+
+---
+
+### 2.10 Package `@ooxml/conformance`
+- **Package JSON entry**: `packages/conformance/package.json` lines 10–15 (`exports: { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } }`).
+- **Source entry point**: `packages/conformance/src/index.ts` lines 1–402.
+- **Documented limitations**:
+  - Headless LibreOffice and Microsoft Word visual regression comparison gates are unverified in this environment (ADR 0007 / `packages/conformance/STATUS.md`).
+  - Browser performance benchmarking requires Playwright browser installation (ADR 0001, Invariant F1).
+
+| Exported Symbol | Type | Source Location | Compact Signature |
+| :--- | :--- | :--- | :--- |
+| `CoverageTracker` / `buildCoverageReport` | class / fn | `packages/conformance/src/index.ts:24, 42` | `record(name, state: CoverageState); report(): CoverageReport; buildCoverageReport(entries)` |
+| `assertCoverageThresholds` | function | `packages/conformance/src/index.ts:63` | `(report: CoverageReport, baselineOrOpts?: CoverageThresholdOptions) => void` |
+| `equivalentParts` / `equivalentPackages` / `canonicalXml` | function | `packages/conformance/src/index.ts:140, 154, 169` | `equivalentParts(exp, act): PackageDiff[]; equivalentPackages(exp, act); canonicalXml(xml): string` |
+| `runRoundTrip` | function | `packages/conformance/src/index.ts:223` | `<T>(docs, open, save, equiv, opts?): Promise<void>` |
+| `runLayoutGolden` / `serializeGolden` | function | `packages/conformance/src/index.ts:281, 269` | `runLayoutGolden(lines, expected?, opts?): GoldenResult; serializeGolden(lines): string` |
+| `compareVisualRgba` | function | `packages/conformance/src/index.ts:303` | `(act, exp, opts: VisualDiffOptions) => VisualDiffReport` |
+| `assertPerformance` / `percentile` | function | `packages/conformance/src/index.ts:341, 332` | `assertPerformance(sample, budgets): PerformanceReport; percentile(vals, p): number` |
+| `runFuzz` / `fuzz` | function | `packages/conformance/src/index.ts:365, 359` | `runFuzz<T>(seeds, opts: FuzzOptions<T>): FuzzResult[]` |
+| `assertDisplayListSerializable` | function | `packages/conformance/src/index.ts:402` | `<T>(displayList: T) => T` |
+| `MALFORMED_PACKAGE_RECIPES` | array | `packages/conformance/src/index.ts:388` | `readonly MalformedPackageRecipe[]` |
+
+============================================================
+SECTION 3 — FEASIBILITY MATRIX BY TOOL SET
+============================================================
+
+Readiness flags: `[READY]` | `[DIRECT-PARTIAL]` | `[PIPELINE]` | `[INDIRECT]` | `[STUB]` | `[PLACEHOLDER]` | `[DOCUMENTED-LIMITATION]` | `[MISSING]` | `[UNKNOWN]`.
+Strategies: `ADAPTER` | `PIPELINE` | `DEMO-LOCAL IMPLEMENTATION` | `FALLBACK` | `DEFER`.
+
+### Tool Set 1: File and Package I/O (TS1)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Open `.docx` archive | `[READY]` | Direct | `packages/opc/src/package.ts` -> `openPackage` | `bytes -> openPackage(bytes, fakeXmlSupport) -> OpcPackage` | None | ADR 0002, 0006 | S | No |
+| Save `.docx` archive | `[READY]` | Direct | `packages/opc/src/package.ts` -> `savePackage` | `OpcPackage -> savePackage(pkg) -> Uint8Array` | None | Invariant A2, A4 | S | No |
+| Create blank `.docx` | `[PIPELINE]` | PIPELINE | `packages/opc/src/content-types.ts` -> `ContentTypes.empty()`, `packages/opc/src/package.ts` -> `savePackage` | `ContentTypes.empty() -> init package rels -> minimal document.xml -> savePackage` | No single function creates blank document from scratch | Invariant A1 | S | No |
+| Make a copy / Rename | `[PIPELINE]` | PIPELINE | `packages/opc/src/package.ts` -> `savePackage`, `openPackage` | `pkg.save() -> Uint8Array copy -> openPackage -> assign new name` | Pure container clone / memory copy | Invariant A2 | S | No |
+| Document properties | `[READY]` | Direct | `packages/opc/src/package.ts` -> `coreProperties`, `extendedProperties`, `customProperties` | `pkg.coreProperties(), pkg.extendedProperties(), pkg.customProperties()` | Read-only; mutation of custom properties deferred to Phase 10 | Invariant A1 | S | No |
+| Export / Download | `[DEMO-LOCAL IMPLEMENTATION]` | DEMO-LOCAL IMPLEMENTATION | `packages/opc/src/package.ts` -> `savePackage` | `pkg.save() -> Blob -> URL.createObjectURL -> HTMLAnchorElement download` | Browser DOM Blob download anchor logic belongs in demo app | Rule R1 | S | No |
+| Security limits guard | `[READY]` | Direct | `packages/opc/src/limits.ts` -> `DEFAULT_OPC_LIMITS`, `resolveLimits` | `openPackage(bytes, support, DEFAULT_OPC_LIMITS)` | None | Invariant F1, P2-09 | S | No |
+| Password-protected `.docx` rejection | `[READY]` | Direct | `packages/opc/src/errors.ts` -> `OpcEncryptedPackageError` | `openPackage -> catch OpcEncryptedPackageError -> show alert` | Clean rejection with UI banner | ADR 0002 | S | No |
+| Digital signatures policy | `[READY]` | Direct | `packages/opc/src/package.ts` -> `OpcSaveWarning`, `savePackage` | `pkg.save({ onWarning: logWarning })` | Signatures stripped on edit; preserved on unedited | ADR 0011 | S | No |
+
+---
+
+### Tool Set 2: Document Model, Styles, Theme, Settings, Fields, Annotations (TS2)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Document AST root parse | `[READY]` | Direct | `packages/schema/src/index.ts` -> `wmlReader.readCT_Document` | `pkg.mainDocument.cursor() -> wmlReader.readCT_Document(cur, ctx) -> CT_Document` | None | ADR 0003, Invariant B6 | S | No |
+| Document AST serialize | `[READY]` | Direct | `packages/schema/src/index.ts` -> `wmlWriter.writeCT_Document` | `wmlWriter.writeCT_Document(sink, doc, ctx, 'document')` | None | Invariant A2, B6 | S | No |
+| `DocumentModel` binding | `[DIRECT-PARTIAL]` | ADAPTER | `packages/editor/src/commands/command.ts` -> `DocumentModel`, `packages/wml/src/id.ts` -> `IdTable` | `apps/demo/src/adapters/document-model.ts implements DocumentModel` | `DocumentModel` is an interface in `@ooxml/editor`; demo must wrap `CT_Document` + `IdTable` | ADR 0003 | M | Yes (Wave 2) |
+| Styles table & cascade | `[READY]` | Direct | `packages/wml/src/styles.ts` -> `parseStylesXml`, `packages/wml/src/cascade.ts` -> `resolveParagraphProperties` | `pkg.wordParts.styles.text() -> parseStylesXml -> StyleTable -> resolveParagraphProperties` | None | P3-04, P3-06 | S | No |
+| Doc defaults resolution | `[READY]` | Direct | `packages/wml/src/defaults.ts` -> `resolveDocDefaults` | `parseDocDefaults(styles.docDefaults) -> resolveDocDefaults` | None | P3-05 | S | No |
+| Theme fonts and colors | `[READY]` | Direct | `packages/wml/src/theme.ts` -> `parseThemeXml`, `resolveThemeFont`, `resolveSchemeColor` | `pkg.wordParts.theme.text() -> parseThemeXml -> Theme` | None | P3-10 | S | No |
+| Toggle-property XOR | `[READY]` | Direct | `packages/wml/src/toggle.ts` -> `toggleCombine`, `isToggleProperty` | `toggleCombine(inherited, direct)` | None | P3-07 | S | No |
+| Numbering definitions | `[READY]` | Direct | `packages/wml/src/numbering.ts` -> `parseNumberingXml`, `resolveNumbering` | `pkg.wordParts.numbering.text() -> parseNumberingXml -> resolveNumbering` | None | P3-08 | S | No |
+| Range annotations store | `[READY]` | Direct | `packages/wml/src/annotations.ts` -> `AnnotationStore`, `extractParagraphAnnotations`, `injectParagraphAnnotations` | `extractParagraphAnnotations(p, id, store) -> ... -> injectParagraphAnnotations` | None | P3-03 | S | No |
+| Settings & compat flags | `[READY]` | Direct | `packages/wml/src/settings.ts` -> `parseSettingsXml` | `pkg.wordParts.settings.text() -> parseSettingsXml -> LayoutSettings` | None | P3-13 | S | No |
+| Resolved-property cache | `[READY]` | Direct | `packages/wml/src/cache.ts` -> `ResolvedPropertyCache`, `buildCacheKey` | `cache.get(key) ?? cache.set(key, resolveParagraphProperties(...))` | None | P3-11 | S | No |
+| Property inspector | `[READY]` | Direct | `packages/wml/src/inspector.ts` -> `inspectProperties` | `inspectProperties(resolvedProps).toString()` | None | P3-12 | S | No |
+| Simple & complex fields | `[READY]` | Direct | `packages/wml/src/fields/index.ts` -> `evaluateSimpleField`, `parseComplexFields` | `parseComplexFields(p.runs); evaluateSimpleField(fld, ctx)` | None | P8-14..P8-18 | S | No |
+
+---
+
+### Tool Set 3: Text, Fonts, and Bidi (TS3)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Font slot classification | `[READY]` | Direct | `packages/text/src/script.ts` -> `getFontSlotForCodepoint` | `getFontSlotForCodepoint(cp, rFonts.hint, opts)` | None | P4-02 | S | No |
+| Font family resolution | `[READY]` | Direct | `packages/text/src/rfonts.ts` -> `fontForChar` | `fontForChar(cp, rFonts, theme, lang, opts)` | None | P4-01 | S | No |
+| Font substitution ladder | `[READY]` | Direct | `packages/text/src/fonts.ts` -> `substituteFont` | `substituteFont(requested, fontTable, availableList)` | None | P4-03 | S | No |
+| Embedded font (ODTTF) | `[READY]` | Direct | `packages/text/src/odttf.ts` -> `deobfuscateFont` | `pkg.requirePart(fontPart).bytes() -> deobfuscateFont(bytes, fontKey) -> TrueType bytes` | None | P4-04 | S | No |
+| UAX#9 Bidi engine | `[READY]` | Direct | `packages/text/src/bidi.ts` -> `resolveBidi`, `getBidiLevels` | `resolveBidi(paraText, { baseLevel }) -> BidiResult` | None | P4-07 | S | No |
+| Grapheme/word segmentation | `[READY]` | Direct | `packages/text/src/segmenter.ts` -> `segmentGraphemes`, `segmentWords`, `findWordAt` | `segmentGraphemes(text, lang); findWordAt(text, off, lang)` | None | P4-08 | S | No |
+| Text itemization | `[READY]` | Direct | `packages/text/src/itemizer.ts` -> `itemizeParagraphRuns` | `itemizeParagraphRuns(runs, baseLevel) -> SubRun[]` | None | P4-06 | S | No |
+| Multi-script TextEngine | `[READY]` | Direct | `packages/text/src/text-engine.ts` -> `TextEngine` | `engine.shapeParagraph(runs, baseLevel) -> ParagraphShapingResult` | None | ADR 0004 | S | No |
+| HarfBuzz WASM shaper | `[DIRECT-PARTIAL]` | FALLBACK | `packages/text/src/shaper.ts` -> `createTextShaper`, `FallbackTextShaper`, `HarfBuzzTextShaper` | `createTextShaper(wasmApi?) -> TextShaper.shape(subRun, face)` | In browser, loads `harfbuzzjs` WASM if bytes present; falls back to `FallbackTextShaper` | ADR 0004 | M | No |
+| `measureText` fast path | `[READY]` | Direct | `packages/text/src/fast-path.ts` -> `isFastPathEligible`, `measureFastPath` | `if (isFastPathEligible(subRun)) measureFastPath(subRun, face)` | None | P4-10 | S | No |
+| PackedShapedRun storage | `[READY]` | Direct | `packages/text/src/shaped-run.ts` -> `PackedShapedRun`, `createPackedShapedRun` | `run.clusterAtSourceOffset(off); run.slice(start, end)` | None | P4-12 | S | No |
+| Measurement cache | `[READY]` | Direct | `packages/text/src/cache.ts` -> `MeasurementCache` | `cache.getL1(...); cache.putL1(...); cache.invalidateFace(...)` | None | P4-11 | S | No |
+| Vertical CJK text metrics | `[READY]` | Direct | `packages/text/src/cjk-vertical.ts` -> `parseEastAsianLayout`, `getVerticalOpenTypeFeatures` | `parseEastAsianLayout(tcPr.eastAsianLayout) -> getVerticalOpenTypeFeatures` | None | P4-14 | S | No |
+
+---
+
+### Tool Set 4: Layout and Pagination (TS4)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Line breaking algorithm | `[INDIRECT]` | DEMO-LOCAL IMPLEMENTATION | `packages/layout/src/line/breaker.ts` -> `breakParagraph` (unexported) | `apps/demo/src/adapters/line-breaker.ts` calls `shapeParagraph` + `layoutLineAcrossSegments` | `breakParagraph` is internal to `@ooxml/layout` and not exported in `packages/layout/src/index.ts` | Rule R1 | M | Yes (Wave 4) |
+| Line box data structure | `[READY]` | Direct | `packages/layout/src/line/linebox.ts` -> `Line`, `Segment`, `GlyphRun`, `hitTestLine` | Line structure populated by line breaker and consumed by editor/painter | None | ADR 0012, P5-01 | S | No |
+| Table grid & cell spans | `[READY]` | Direct | `packages/layout/src/table/index.ts` -> `buildGrid`, `cellsOf`, `resolveVMerge` | `buildGrid(tbl) -> cellsOf(row, grid) -> resolveVMerge(rows, grid)` | None | P7-01, P7-02 | S | No |
+| Table column autofit | `[READY]` | Direct | `packages/layout/src/table/index.ts` -> `autofitColumns`, `fixedColumns` | `autofitColumns(colCount, cells, opts)` | Spec-gap linear interpolation approximation | P7-04, Invariant G2 | S | No |
+| Table borders & shading | `[READY]` | Direct | `packages/layout/src/table/index.ts` -> `resolveBorder`, `borderAt`, `tablePaintOrder` | `borderAt(tblBorders, tcBorders, edge) -> ResolvedBorder` | None | P7-07, P7-15 | S | No |
+| Page-fill & pagination | `[READY]` | Direct | `packages/layout/src/pagination/page-fill.ts` -> `fillPage`, `applyKeepConstraints` | `fillPage(startState, options) -> { content, endState }` | None | P8-07, P8-08 | S | No |
+| Page geometry & margins | `[READY]` | Direct | `packages/layout/src/pagination/geometry.ts` -> `pageGeometry`, `textArea` | `pageGeometry(sectPr, opts) -> textArea(geom, pgNum)` | None | P8-02 | S | No |
+| Section iteration & breaks | `[READY]` | Direct | `packages/layout/src/pagination/sections.ts` -> `enumerateSections`, `breaks.ts` -> `resolveSectionBreak` | `enumerateSections(doc.body) -> resolveSectionBreak(...)` | None | P8-01, P8-04 | S | No |
+| Headers & footers resolution | `[READY]` | Direct | `packages/layout/src/pagination/headers.ts` -> `resolveHeaderFooter` | `resolveHeaderFooter(sectPr, 'header', opts)` | None | P8-03 | S | No |
+| Footnotes pagination fixpoint | `[READY]` | Direct | `packages/layout/src/pagination/footnotes.ts` -> `paginateWithFootnotes` | `paginateWithFootnotes(initReserve, fillFn, layoutFn)` | None | ADR 0016, P8-09 | S | No |
+| Multi-column layout | `[READY]` | Direct | `packages/layout/src/pagination/columns.ts` -> `resolveColumns`, `balanceColumnHeights` | `resolveColumns(cols, area) -> balanceColumnHeights(heights, count)` | None | P8-05 | S | No |
+| Float exclusions | `[READY]` | Direct | `packages/layout/src/floats/exclusions.ts` -> `ExclusionStore`, `floats/anchor.ts` -> `resolveAnchor` | `resolveAnchor(spec, ctx) -> store.add(rect) -> store.availableSegments(y, h, c)` | None | P9-01, P9-02 | S | No |
+| Line segments around floats | `[READY]` | Direct | `packages/layout/src/floats/line-segments.ts` -> `layoutLineAcrossSegments`, `justifySegments` | `layoutLineAcrossSegments(y, h, items, store, c, opts)` | None | P9-05 | S | No |
+| OMML math layout fallback | `[READY]` | Direct | `packages/layout/src/math/index.ts` -> `layoutMath`, `auditMathTable` | `layoutMath(node, { fontSize: 16 }) -> MathBox` | Fallback box model; MATH tables unavailable | ADR 0017, P10-12 | S | No |
+
+---
+
+### Tool Set 5: Paint and Viewport (TS5)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Serializable DisplayList | `[READY]` | Direct | `packages/paint/src/displaylist.ts` -> `DisplayList` | `dl = new DisplayList(); dl.pushGlyphRun(...); dl.clone()` | None | ADR 0005, P5-13 | S | No |
+| Glyph-run state batcher | `[READY]` | Direct | `packages/paint/src/batcher.ts` -> `batchDisplayList` | `batchDisplayList(dl) -> { items, stats }` | None | P5-14 | S | No |
+| Canvas 2D Painter | `[READY]` | Direct | `packages/paint/src/painter.ts` -> `CanvasPainter` | `painter = new CanvasPainter(ctx); painter.paint(dl)` | None | P5-13, P5-14 | S | No |
+| Page bitmap cache | `[READY]` | Direct | `packages/paint/src/page-cache.ts` -> `PageBitmapCache` | `cache.get(key) ?? (render to offscreen -> cache.set(key, bmp))` | Caret/selection overlays NOT cached | P5-15 | S | No |
+| Viewport virtualization | `[READY]` | Direct | `packages/paint/src/viewport.ts` -> `ViewportManager` | `vp.getVisiblePages(scrollTop, height) -> { first, last }` | None | P5-16 | S | No |
+| Text decorations | `[READY]` | Direct | `packages/paint/src/decorations.ts` -> `paintDecorations` | `paintDecorations(dl, style, x, y, w, h, ascent, isWs)` | 18 underline styles, strike, highlight, shadow | P5-18 | S | No |
+| Shape & image rendering | `[READY]` | Direct | `packages/paint/src/shapes/renderer.ts` -> `paintFilledRect`, `paintLine`, `paintImagePlaceholder` | `paintFilledRect(ctx, rect, fill); paintLine(...)` | None | P9-12, P9-13 | S | No |
+
+---
+
+### Tool Set 6: Editor Core (TS6)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Caret coordinate & affinity | `[READY]` | Direct | `packages/editor/src/position/types.ts` -> `createCaret`, `Caret`, `Affinity` | `createCaret({ node, offset }, 'downstream')` | None | ADR 0013, ADR 0014 | S | No |
+| Position mapping | `[READY]` | Direct | `packages/editor/src/position/map.ts` -> `toLayout`, `toDocument` | `toLayout(caret, index) -> LayoutPos; toDocument(lp, index) -> Caret` | None | P6-02 | S | No |
+| Hit-testing (click/drag) | `[READY]` | Direct | `packages/editor/src/hit-test.ts` -> `hitTest`, `hitTestWord`, `hitTestParagraph` | `hitTest({ x, y }, index) -> Caret` | None | P6-03 | S | No |
+| Caret rect & blinker | `[READY]` | Direct | `packages/editor/src/caret.ts` -> `caretRect`, `startBlink`, `stopBlink` | `caretRect(caret, index) -> Rect; startBlink(toggleCb)` | None | P6-04 | S | No |
+| Selection model | `[READY]` | Direct | `packages/editor/src/selection/model.ts` -> `createCollapsed`, `createRange`, `createTableRect` | `createRange(anchor, focus, aff) -> Selection` | None | P6-05 | S | No |
+| Selection geometry | `[READY]` | Direct | `packages/editor/src/selection/geometry.ts` -> `selectionRects` | `selectionRects(sel, index) -> Rect[]` | Discontiguous highlights in bidi text | P6-06 | S | No |
+| Keyboard navigation | `[READY]` | Direct | `packages/editor/src/navigation/index.ts` -> `moveHorizontal`, `moveVertical`, `moveByWord` | `moveHorizontal(caret, 'right', text)` | None | P6-07 | S | No |
+| Input proxy element | `[READY]` | Direct | `packages/editor/src/input/proxy.ts` -> `InputProxy` | `proxy = new InputProxy(opts); proxy.positionAt(rect)` | Hidden textarea captures keys/IME without scroll | P6-08 | S | No |
+| IME composition | `[READY]` | Direct | `packages/editor/src/input/ime.ts` -> `onCompositionStart`, `onCompositionUpdate`, `onCompositionEnd` | `onCompositionUpdate(s, text) -> provisional text` | Single undo step on commit | P6-09 | S | No |
+| Command model & inverses | `[READY]` | Direct | `packages/editor/src/commands/command.ts` -> `InsertTextCommand`, `DeleteTextCommand`, etc. | `cmd.apply(model) -> Effect; cmd.invert(effect) -> InverseCmd` | None | P6-10 | S | No |
+| Undo / redo history | `[READY]` | Direct | `packages/editor/src/commands/history.ts` -> `createHistory` | `history.push(tx); history.undo(model); history.redo(model)` | Coalescing by time & key | P6-11 | S | No |
+| Model mutation API | `[READY]` | Direct | `packages/editor/src/mutate/index.ts` -> `insertText`, `deleteRange`, `splitParagraph`, `applyRunProperty` | `insertText(model, pos, text, sel) -> Transaction` | Mutates model and creates transaction | P6-12 | S | No |
+| Incremental relayout | `[READY]` | Direct | `packages/editor/src/relayout.ts` -> `relayout`, `computeOutflowState` | `relayout(dirtySet, relayoutContext) -> RepaintSet` | Requires demo to implement `RelayoutContext` | P6-13 | M | Yes (Wave 4) |
+| Repaint scheduler | `[READY]` | Direct | `packages/editor/src/paint-scheduler.ts` -> `PaintScheduler`, `coalesceRects` | `scheduler.scheduleRepaint(rects); scheduler.scheduleOverlayOnly()` | None | P6-14 | S | No |
+| Clipboard & sanitization | `[READY]` | Direct | `packages/editor/src/clipboard/index.ts` -> `serializeClipboard`, `deserializeClipboard`, `sanitizeHtml` | `serializeClipboard(model, sel); deserializeClipboard(dt, policy)` | Multi-mime transfer + XSS sanitization | ADR 0015, P6-15 | S | No |
+| Accessibility mirror | `[READY]` | Direct | `packages/editor/src/a11y/mirror.ts` -> `createAccessibilityMirror` | `mirror.attach(container); mirror.update(dirty, texts); mirror.syncCaret(c)` | Hidden DOM role="document" tree | P6-16 | S | No |
+| Latency telemetry | `[READY]` | Direct | `packages/editor/src/perf/latency.ts` -> `LatencyTracker` | `tracker.record(t0, t1, t2, t3); tracker.meetsBudget(16)` | Ring-buffer p50/p95/p99 tracker | P6-17 | S | No |
+
+---
+
+### Tool Set 7: Insertion Features (TS7)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Insert Image (inline/float) | `[PIPELINE]` | PIPELINE | `packages/wml/src/id.ts` -> `IdTable`, `packages/schema/src/index.ts` -> `wmlWriter`, `packages/dml/src/images.ts` -> `imageSource` | `pkg.createPart(...) -> add relationship -> insertNode(drawing) -> relayout` | Demo must handle relationship minting and image byte registration | Invariant A1, P9-01 | M | No |
+| Insert Table | `[PIPELINE]` | PIPELINE | `packages/layout/src/table/index.ts` -> `buildGrid`, `packages/editor/src/mutate/index.ts` -> `insertText` | `mint node IDs -> construct CT_Tbl AST -> insert into body -> relayout` | Demo helper creates well-formed `CT_Tbl` with rows and cells | P7-01 | M | No |
+| Table cell split / merge | `[PIPELINE]` | PIPELINE | `packages/layout/src/table/index.ts` -> `resolveVMerge`, `buildGrid` | `mutate cell tcPr.vMerge / gridSpan -> invalidateTable -> relayout` | Cell merge/split requires AST property updates on `tcPr` | P7-02 | M | No |
+| Insert Shapes (DML presets) | `[PIPELINE]` | PIPELINE | `packages/dml/src/geometry/presets.ts` -> `PRESET_GEOMETRIES`, `buildPresetGeometry` | `select preset -> construct CT_Shape -> wrap in drawing -> insertNode` | Demo maps preset selection to DrawingML AST structure | P9-10 | M | No |
+| Insert Charts | `[PLACEHOLDER]` | FALLBACK | `packages/dml/src/placeholders.ts` -> `createDeferredGraphicPlaceholder` | `createDeferredGraphicPlaceholder('chart', extent) -> render placeholder` | Charts deferred; renders labelled placeholder per G3 | Invariant G3, P9-20 | S | No |
+| Insert SmartArt | `[PLACEHOLDER]` | FALLBACK | `packages/dml/src/placeholders.ts` -> `createDeferredGraphicPlaceholder` | `createDeferredGraphicPlaceholder('smartArt', extent) -> render placeholder` | SmartArt deferred; renders labelled placeholder per G3 | Invariant G3, P9-20 | S | No |
+| Insert Equation (OMML) | `[READY]` | Direct | `packages/layout/src/math/index.ts` -> `layoutMath`, `MathNode` | `layoutMath(ommlNode, opts) -> MathBox -> paint` | Fallback box model layout per ADR 0017 | ADR 0017, P10-12 | S | No |
+| Insert Breaks (page/sect/col)| `[READY]` | Direct | `packages/layout/src/pagination/breaks.ts` -> `resolveSectionBreak`, `packages/editor/src/commands/command.ts` | `insertNode(breakNode) -> relayout` | Handled via break characters or section properties | P8-04 | S | No |
+| Headers & Footers | `[PIPELINE]` | PIPELINE | `packages/layout/src/pagination/headers.ts` -> `resolveHeaderFooter`, `packages/opc/src/package.ts` | `pkg.createPart('word/header1.xml') -> add rel -> link in sectPr` | Multi-part relationship wiring in OPC package | P8-03 | M | No |
+| Page Number Fields | `[READY]` | Direct | `packages/wml/src/fields/index.ts` -> `evaluateSimpleField`, `packages/layout/src/pagination/numbering.ts` | `parseFieldInstruction('PAGE') -> evaluateSimpleField(...)` | None | P8-11, P8-14 | S | No |
+| Watermark (Header Shape) | `[PIPELINE]` | PIPELINE | `packages/wml/src/features.ts` -> `resolvePageDecoration`, `packages/dml/src/geometry/transform.ts` | `create shape in header with behindDoc=true -> render in header` | Watermark is an anchored shape inside header part | P10-14 | S | No |
+| Table of Contents (TOC) | `[READY]` | Direct | `packages/wml/src/features.ts` -> `parseTocSwitches`, `renderTocEntries` | `parseTocSwitches(instr) -> collect headings -> renderTocEntries` | None | P10-06 | S | No |
+| Footnotes & Endnotes | `[PIPELINE]` | PIPELINE | `packages/layout/src/pagination/footnotes.ts` -> `paginateWithFootnotes`, `packages/wml/src/features.ts` -> `filterRenderableNotes` | `mint noteId -> add to footnotes.xml -> insert reference run in doc` | Demo wires footnote part storage and reference mark insertion | P8-09, P10-07 | M | No |
+| Bookmarks & Hyperlinks | `[READY]` | Direct | `packages/wml/src/annotations.ts` -> `AnnotationStore`, `features.ts` -> `hyperlinkNavigation` | `store.add({ kind: 'bookmark', name, from, to })` | None | P3-03, P10-04 | S | No |
+| Comments | `[PIPELINE]` | PIPELINE | `packages/wml/src/annotations.ts` -> `AnnotationStore`, `features.ts` -> `resolveComment` | `store.recordMarker(commentRange) -> add comment to comments.xml` | Demo manages `word/comments.xml` part entries | P10-08 | M | No |
+
+---
+
+### Tool Set 8: Formatting Features (TS8)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Text direction (RTL / LTR) | `[READY]` | Direct | `packages/wml/src/toggle.ts` -> `isToggleProperty`, `packages/text/src/bidi.ts` -> `resolveBidi` | `applyRunProperty(m, sel, 'rtl', true)` or paragraph `bidi` | None | P3-07, P4-07 | S | No |
+| Character styles & formatting | `[READY]` | Direct | `packages/editor/src/mutate/index.ts` -> `applyRunProperty`, `toggleRunProperty` | `toggleRunProperty(model, sel, 'b'); applyRunProperty(model, sel, 'sz', 28)` | None | P6-12 | S | No |
+| Paragraph styles (Headings) | `[READY]` | Direct | `packages/wml/src/styles.ts` -> `StyleTable`, `packages/editor/src/commands/command.ts` -> `ApplyPropertyCommand` | `cmd = new ApplyPropertyCommand(paraId, 'pStyle', 'Heading1')` | None | P3-04, P3-06 | S | No |
+| Text alignment & justification | `[READY]` | Direct | `packages/editor/src/commands/command.ts` -> `ApplyPropertyCommand`, `packages/layout/src/table/index.ts` -> `resolveJustification` (internal) | `new ApplyPropertyCommand(paraId, 'jc', 'center')` | None | P5-07 | S | No |
+| Indentation (left, hanging) | `[READY]` | Direct | `packages/editor/src/commands/command.ts` -> `ApplyPropertyCommand` | `new ApplyPropertyCommand(paraId, 'ind', { left: 720, hanging: 360 })` | None | P5-05 | S | No |
+| Line spacing & paragraph spacing | `[READY]` | Direct | `packages/editor/src/commands/command.ts` -> `ApplyPropertyCommand` | `new ApplyPropertyCommand(paraId, 'spacing', { before: 120, after: 120, line: 240, lineRule: 'auto' })` | None | P5-08 | S | No |
+| Paragraph keep options | `[READY]` | Direct | `packages/editor/src/commands/command.ts` -> `ApplyPropertyCommand`, `packages/layout/src/pagination/page-fill.ts` -> `applyKeepConstraints` | `new ApplyPropertyCommand(paraId, 'keepNext', true)` | None | P8-08 | S | No |
+| Multi-column setup | `[READY]` | Direct | `packages/layout/src/pagination/columns.ts` -> `resolveColumns`, `packages/schema/src/index.ts` -> `wmlWriter` | update `sectPr.cols` -> `resolveColumns` | None | P8-05 | S | No |
+| Bullets & Multilevel lists | `[READY]` | Direct | `packages/wml/src/numbering-layout.ts` -> `foldNumbering`, `packages/wml/src/numbering.ts` -> `resolveNumbering` | `applyRunProperty(paraId, 'numPr', { numId: 1, ilvl: 0 }) -> foldNumbering` | None | P3-08, P10-01 | S | No |
+| Page setup (size, margins, orient) | `[READY]` | Direct | `packages/layout/src/pagination/geometry.ts` -> `pageGeometry`, `textArea` | update `sectPr.pgSz` / `pgMar` -> `pageGeometry(sectPr)` | None | P8-02 | S | No |
+| Pageless mode | `[DEMO-LOCAL IMPLEMENTATION]` | DEMO-LOCAL IMPLEMENTATION | `packages/paint/src/viewport.ts` -> `ViewportManager` | Demo sets single continuous page height without page-break gaps | Presentation layout mode inside demo UI | Rule R1 | S | No |
+| Clear formatting / Paint format | `[PIPELINE]` | PIPELINE | `packages/wml/src/cascade.ts` -> `resolveRunProperties`, `packages/editor/src/mutate/index.ts` -> `applyRunProperty` | copy resolved properties -> apply to target selection; or strip direct rPr/pPr | None | P3-06, P6-12 | S | No |
+| Font selector with web fonts | `[READY]` | Direct | `packages/text/src/font-loader.ts` -> `FontLoader`, `fonts.ts` -> `METRIC_COMPATIBLE_FONTS` | `loader.loadFont('Amiri') -> loader.getEffectiveFont('Amiri')` | None | P4-05 | S | No |
+
+---
+
+### Tool Set 9: Tools Menu and AI Tool Layer (TS9)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Spelling & grammar | `[MISSING]` | DEMO-LOCAL IMPLEMENTATION | None in packages | `apps/demo/src/providers/spellcheck.ts (pluggable interface + mock)` | No spellcheck dictionaries bundled in repo | Rule R1 | S | No |
+| Word & character count | `[PIPELINE]` | PIPELINE | `packages/text/src/segmenter.ts` -> `segmentWords`, `packages/editor/src/commands/command.ts` -> `DocumentModel` | `model.getText(node) -> segmentWords(text) -> sum word counts` | Compose text extractor with Intl.Segmenter word counts | P4-08 | S | No |
+| Review suggested edits | `[READY]` | Direct | `packages/wml/src/features.ts` -> `displayRevisions`, `applyRevisionBatch`, `revisionEdits` | `applyRevisionBatch(revisions, 'accept')` | Accept / reject tracked changes | P10-09, P10-10 | S | No |
+| Compare documents | `[MISSING]` | DEMO-LOCAL IMPLEMENTATION | None in packages | `apps/demo/src/providers/compare.ts (provider interface + diff mock)` | Full document diff engine is external tool | Rule R1 | M | No |
+| Citations & bibliography | `[READY]` | Direct | `packages/schema/src/index.ts` -> raw custom XML or `wmlReader.readCT_Document` | `insertField('CITATION ...') -> update bibliography` | Uses field instruction and raw XML parts | P8-17 | S | No |
+| Line numbers display | `[READY]` | Direct | `packages/layout/src/pagination/line-numbers.ts` -> `lineNumberFor` | `lineNumberFor(lineIdx, options, ctx)` | None | P8-12 | S | No |
+| Translation / Voice typing | `[MISSING]` | DEMO-LOCAL IMPLEMENTATION | None in packages | `apps/demo/src/providers/translation.ts` & `voice.ts` (interfaces + Web Speech API mock) | External service integrations | Rule R1 | S | No |
+| AI Tool: undo / redo | `[READY]` | Direct | `packages/editor/src/commands/history.ts` -> `createHistory` | `history.undo(model); history.redo(model)` | None | P6-11 | S | No |
+| AI Tool: select_range | `[READY]` | Direct | `packages/editor/src/selection/model.ts` -> `createRange` | `sel = createRange(anchor, focus)` | None | P6-05 | S | No |
+| AI Tool: cut / copy / paste | `[READY]` | Direct | `packages/editor/src/clipboard/index.ts` -> `serializeClipboard`, `deserializeClipboard` | `serializeClipboard(m, s); deserializeClipboard(d)` | None | P6-15 | S | No |
+| AI Tool: find_replace | `[PIPELINE]` | PIPELINE | `packages/editor/src/mutate/index.ts` -> `deleteRange`, `insertText`, `DocumentModel` | `scan text -> find matches -> deleteRange -> insertText` | Demo pipeline coordinates search and replace edits | P6-12 | S | No |
+| AI Tool: insert_image | `[PIPELINE]` | PIPELINE | `packages/dml/src/images.ts` -> `imageSource`, `packages/opc/src/package.ts` | `pkg.createPart(...) -> insert drawing AST -> relayout` | None | P9-17 | M | No |
+| AI Tool: insert_table | `[PIPELINE]` | PIPELINE | `packages/layout/src/table/index.ts` -> `buildGrid`, `packages/editor/src/commands/command.ts` | `mint node IDs -> construct table AST -> insertNode -> relayout` | None | P7-01 | M | No |
+| AI Tool: insert_equation | `[READY]` | Direct | `packages/layout/src/math/index.ts` -> `layoutMath` | `layoutMath(node, opts) -> MathBox` | Fallback box model per ADR 0017 | ADR 0017 | S | No |
+| AI Tool: insert_toc | `[READY]` | Direct | `packages/wml/src/features.ts` -> `renderTocEntries` | `parseTocSwitches -> renderTocEntries` | None | P10-06 | S | No |
+| AI Tool: formatting tools | `[READY]` | Direct | `packages/editor/src/mutate/index.ts` -> `applyRunProperty`, `toggleRunProperty` | `applyRunProperty(model, sel, prop, val)` | None | P6-12 | S | No |
+| AI Tool: media & generation | `[MISSING]` | DEMO-LOCAL IMPLEMENTATION | None in packages | `apps/demo/src/providers/media-generation.ts (interface + mock)` | Image generation requires external API | Rule R1 | S | No |
+
+---
+
+### Tool Set 10: UI Shell, App Wiring, and `apps/demo` (TS10)
+
+| Feature | Readiness | Strategy | Package Symbols | Call Chain | Gap Description | ADR / Invariant | Effort | Can Block? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| HTML5 `<canvas>` multi-page view | `[READY]` | Direct | `packages/paint/src/painter.ts` -> `CanvasPainter`, `packages/paint/src/viewport.ts` -> `ViewportManager` | `vp.getVisiblePages(...) -> for page in visible: painter.paint(dl)` | None | ADR 0005 | S | No |
+| English & Arabic UI Shell | `[DEMO-LOCAL IMPLEMENTATION]` | DEMO-LOCAL IMPLEMENTATION | None in packages | `apps/demo/src/ui/shell.ts` with `dir="rtl"` / `dir="ltr"` toggle | UI layout and menu bars live in demo | Rule R1 | M | No |
+| Top menus (File, Edit, View, etc.) | `[DEMO-LOCAL IMPLEMENTATION]` | DEMO-LOCAL IMPLEMENTATION | `@ooxml/editor` public commands & mutations | UI menu actions dispatch to editor/model commands | Menu components live in demo | Rule R1 | M | No |
+| Horizontal & Vertical Rulers | `[DEMO-LOCAL IMPLEMENTATION]` | DEMO-LOCAL IMPLEMENTATION | `packages/layout/src/pagination/geometry.ts` -> `PageGeometry`, `wml/src/cascade.ts` -> `resolveParagraphProperties` | Reads margins & indents in twips -> paints ruler markers on canvas | Ruler UI widget in demo | Rule R1 | S | No |
+| Status bar & Word Count | `[PIPELINE]` | PIPELINE | `packages/text/src/segmenter.ts` -> `segmentWords`, `packages/editor/src/perf/latency.ts` -> `LatencyTracker` | Calculate words/page/latency stats -> display in status bar | UI widget in demo | Rule R1 | S | No |
+| Non-printing characters overlay | `[DEMO-LOCAL IMPLEMENTATION]` | DEMO-LOCAL IMPLEMENTATION | `packages/layout/src/line/linebox.ts` -> `Line` | Iterate lines -> draw `¶` at paragraph end, `·` at spaces, `→` at tabs | Overlay paint function in demo | Rule R1 | S | No |
+| Headings outline sidebar | `[PIPELINE]` | PIPELINE | `packages/editor/src/commands/command.ts` -> `DocumentModel`, `packages/wml/src/styles.ts` | Scan paragraphs -> check outlineLvl or Heading style -> list in sidebar | Sidebar UI widget in demo | Rule R1 | S | No |
+| Gemini AI Assistant panel | `[DEMO-LOCAL IMPLEMENTATION]` | DEMO-LOCAL IMPLEMENTATION | `apps/demo/src/tool-layer/*` | AI Assistant panel dispatches user prompts to AI Tool Layer | Chat panel UI widget in demo | Rule R1 | M | No |
+
+============================================================
+SECTION 4 — GAP AND FLAG REGISTERS
+============================================================
+
+### 4.1 READY Register
+- `TS1-01`: Open `.docx` archive (`openPackage`, `packages/opc/src/package.ts:241`). Tested in `packages/opc/src/package.test.ts`.
+- `TS1-02`: Save `.docx` archive (`savePackage`, `packages/opc/src/package.ts:275`). Tested in `packages/opc/src/package.test.ts`.
+- `TS1-03`: Document metadata properties (`coreProperties`, `extendedProperties`, `customProperties`, `packages/opc/src/package.ts:205–222`). Tested in `packages/opc/src/package.test.ts`.
+- `TS1-04`: Security limits guard (`DEFAULT_OPC_LIMITS`, `packages/opc/src/limits.ts:112`). Tested in `packages/opc/src/limits.test.ts`.
+- `TS1-05`: Password-protected document rejection (`OpcEncryptedPackageError`, `packages/opc/src/errors.ts:212`). Tested in `packages/opc/src/limits.test.ts`.
+- `TS1-06`: Digital signature stripping policy on edit (`OpcSaveWarning`, `savePackage`, `packages/opc/src/package.ts:275`). Tested in `packages/opc/src/package.test.ts`.
+- `TS2-01`: WML Document AST parse and write (`wmlReader.readCT_Document`, `wmlWriter.writeCT_Document`, `packages/schema/src/index.ts:44,45`). Tested in `packages/schema/src/runtime/roundtrip.test.ts`.
+- `TS2-02`: Styles table and basedOn cascade (`parseStylesXml`, `StyleTable`, `packages/wml/src/styles.ts:98,313`). Tested in `packages/wml/src/styles.test.ts`.
+- `TS2-03`: Document defaults resolution (`resolveDocDefaults`, `packages/wml/src/defaults.ts:126`). Tested in `packages/wml/src/defaults.test.ts`.
+- `TS2-04`: Theme fonts and colors (`parseThemeXml`, `resolveThemeFont`, `resolveSchemeColor`, `packages/wml/src/theme.ts:178,192,260`). Tested in `packages/wml/src/theme.test.ts`.
+- `TS2-05`: Toggle property XOR (`toggleCombine`, `isToggleProperty`, `packages/wml/src/toggle.ts:51,69`). Tested in `packages/wml/src/toggle.test.ts`.
+- `TS2-06`: Numbering definitions resolution (`resolveNumbering`, `packages/wml/src/numbering.ts:75`). Tested in `packages/wml/src/numbering.test.ts`.
+- `TS2-07`: Range annotations store (`AnnotationStore`, `packages/wml/src/annotations.ts:65`). Tested in `packages/wml/src/annotations.test.ts`.
+- `TS2-08`: Settings & layout compat flags (`parseSettingsXml`, `packages/wml/src/settings.ts:219`). Tested in `packages/wml/src/settings.test.ts`.
+- `TS2-09`: Resolved property cache (`ResolvedPropertyCache`, `packages/wml/src/cache.ts:55`). Tested in `packages/wml/src/cache.test.ts`.
+- `TS2-10`: Property inspector (`inspectProperties`, `packages/wml/src/inspector.ts:40`). Tested in `packages/wml/src/inspector.test.ts`.
+- `TS2-11`: Field evaluation & parsing (`parseFieldInstruction`, `evaluateSimpleField`, `packages/wml/src/fields/parser.ts:19, evaluate.ts:77`). Tested in `packages/wml/src/fields/fields.test.ts`.
+- `TS2-12`: Hyperlink navigation & bookmark resolution (`hyperlinkNavigation`, `resolveBookmark`, `packages/wml/src/features.ts:51,74`). Tested in `packages/wml/src/features.test.ts`.
+- `TS2-13`: Tracked changes display & batch acceptance (`displayRevisions`, `applyRevisionBatch`, `packages/wml/src/features.ts:86,140`). Tested in `packages/wml/src/features.test.ts`.
+- `TS2-14`: Table of Contents switches & rendering (`parseTocSwitches`, `renderTocEntries`, `packages/wml/src/features.ts:194,208`). Tested in `packages/wml/src/features.test.ts`.
+- `TS3-01`: Script slot classification (`getFontSlotForCodepoint`, `packages/text/src/script.ts:192`). Tested in `packages/text/src/rfonts.test.ts`.
+- `TS3-02`: Font family resolution per character (`fontForChar`, `packages/text/src/rfonts.ts:57`). Tested in `packages/text/src/rfonts.test.ts`.
+- `TS3-03`: Font substitution ladder (`substituteFont`, `packages/text/src/fonts.ts:245`). Tested in `packages/text/src/fonts.test.ts`.
+- `TS3-04`: Embedded font de-obfuscation (`deobfuscateFont`, `packages/text/src/odttf.ts:109`). Tested in `packages/text/src/odttf.test.ts`.
+- `TS3-05`: UAX#9 Bidirectional engine (`resolveBidi`, `getBidiLevels`, `packages/text/src/bidi.ts:311,461`). Tested in `packages/text/src/bidi.test.ts`.
+- `TS3-06`: Grapheme and word segmentation (`segmentGraphemes`, `segmentWords`, `findWordAt`, `packages/text/src/segmenter.ts:74,95,147`). Tested in `packages/text/src/segmenter.test.ts`.
+- `TS3-07`: Sub-run itemization (`itemizeText`, `itemizeParagraphRuns`, `packages/text/src/itemizer.ts:140,261`). Tested in `packages/text/src/itemizer.test.ts`.
+- `TS3-08`: `measureText` fast path (`isFastPathEligible`, `measureFastPath`, `packages/text/src/fast-path.ts:89,178`). Tested in `packages/text/src/fast-path.test.ts`.
+- `TS3-09`: PackedShapedRun storage (`PackedShapedRun`, `createPackedShapedRun`, `packages/text/src/shaped-run.ts:88,251`). Tested in `packages/text/src/shaped-run.test.ts`.
+- `TS3-10`: Multi-script TextEngine (`TextEngine`, `packages/text/src/text-engine.ts:98`). Tested in `packages/text/src/text-engine.test.ts`.
+- `TS3-11`: FontFace loader and FOUT mitigation (`FontLoader`, `packages/text/src/font-loader.ts:121`). Tested in `packages/text/src/font-loader.test.ts`.
+- `TS4-01`: Line box geometry & hit testing (`Line`, `Segment`, `GlyphRun`, `hitTestLine`, `packages/layout/src/line/linebox.ts:40,57,75,142`). Tested in `packages/layout/src/line/linebox.test.ts`.
+- `TS4-02`: Table grid & cell spans (`buildGrid`, `cellsOf`, `packages/layout/src/table/grid.ts:57,63`). Tested in `packages/layout/src/table/table.test.ts`.
+- `TS4-03`: Table column autofit (`autofitColumns`, `fixedColumns`, `packages/layout/src/table/index.ts:153,203`). Tested in `packages/layout/src/table/table.test.ts`.
+- `TS4-04`: Table vertical merge (`resolveVMerge`, `distributeMergedHeight`, `packages/layout/src/table/index.ts:62,112`). Tested in `packages/layout/src/table/table.test.ts`.
+- `TS4-05`: Table borders & shading (`resolveBorder`, `borderAt`, `tablePaintOrder`, `packages/layout/src/table/index.ts:275,292,437`). Tested in `packages/layout/src/table/table.test.ts`.
+- `TS4-06`: Page fill algorithm (`fillPage`, `applyKeepConstraints`, `packages/layout/src/pagination/page-fill.ts:50,108`). Tested in `packages/layout/src/pagination/pagination.test.ts`.
+- `TS4-07`: Page geometry & text area (`pageGeometry`, `textArea`, `packages/layout/src/pagination/geometry.ts:47,67`). Tested in `packages/layout/src/pagination/sections.test.ts`.
+- `TS4-08`: Section enumeration (`enumerateSections`, `packages/layout/src/pagination/sections.ts:13`). Tested in `packages/layout/src/pagination/sections.test.ts`.
+- `TS4-09`: Header / footer resolution (`resolveHeaderFooter`, `packages/layout/src/pagination/headers.ts:27`). Tested in `packages/layout/src/pagination/pagination.test.ts`.
+- `TS4-10`: Footnote pagination fixpoint (`paginateWithFootnotes`, `packages/layout/src/pagination/footnotes.ts:21`). Tested in `packages/layout/src/pagination/pagination.test.ts`.
+- `TS4-11`: Columns resolution & balancing (`resolveColumns`, `balanceColumnHeights`, `packages/layout/src/pagination/columns.ts:8,30`). Tested in `packages/layout/src/pagination/pagination.test.ts`.
+- `TS4-12`: Float exclusion store (`ExclusionStore`, `packages/layout/src/floats/exclusions.ts:52`). Tested in `packages/layout/src/floats/exclusions.test.ts`.
+- `TS4-13`: Line segments around exclusions (`layoutLineAcrossSegments`, `justifySegments`, `packages/layout/src/floats/line-segments.ts:35,96`). Tested in `packages/layout/src/floats/line-segments.test.ts`.
+- `TS4-14`: OMML math layout fallback (`layoutMath`, `packages/layout/src/math/index.ts:119`). Tested in `packages/layout/src/math/index.test.ts`.
+- `TS5-01`: Serializable DisplayList (`DisplayList`, `packages/paint/src/displaylist.ts:90`). Tested in `packages/paint/src/displaylist.test.ts`.
+- `TS5-02`: Glyph-run batcher (`batchDisplayList`, `packages/paint/src/batcher.ts:25`). Tested in `packages/paint/src/batcher.test.ts`.
+- `TS5-03`: Canvas 2D Painter (`CanvasPainter`, `packages/paint/src/painter.ts:38`). Tested in `packages/paint/src/painter.test.ts`.
+- `TS5-04`: Page bitmap cache (`PageBitmapCache`, `packages/paint/src/page-cache.ts:18`). Tested in `packages/paint/src/page-cache.test.ts`.
+- `TS5-05`: Viewport manager & virtualization (`ViewportManager`, `packages/paint/src/viewport.ts:14`). Tested in `packages/paint/src/viewport.test.ts`.
+- `TS5-06`: Text decorations renderer (`paintDecorations`, `packages/paint/src/decorations.ts:44`). Tested in `packages/paint/src/decorations.test.ts`.
+- `TS6-01`: Caret coordinate & equality (`createCaret`, `caretEquals`, `isValid`, `packages/editor/src/position/types.ts:60,71,84`). Tested in `packages/editor/src/position/types.test.ts`.
+- `TS6-02`: Position mapping toLayout / toDocument (`toLayout`, `toDocument`, `packages/editor/src/position/map.ts:66,178`). Tested in `packages/editor/src/position/map.test.ts`.
+- `TS6-03`: Hit-testing (`hitTest`, `hitTestWord`, `hitTestParagraph`, `packages/editor/src/hit-test.ts:33,114,151`). Tested in `packages/editor/src/hit-test.test.ts`.
+- `TS6-04`: Caret geometry & blinker (`caretRect`, `startBlink`, `stopBlink`, `packages/editor/src/caret.ts:7,50,59`). Tested in `packages/editor/src/caret.test.ts`.
+- `TS6-05`: Selection model (`createCollapsed`, `createRange`, `createTableRect`, `normalizeSelection`, `packages/editor/src/selection/model.ts:11,15,19,23`). Tested in `packages/editor/src/selection/model.test.ts`.
+- `TS6-06`: Selection geometry rectangles (`selectionRects`, `packages/editor/src/selection/geometry.ts:5`). Tested in `packages/editor/src/selection/geometry.test.ts`.
+- `TS6-07`: Keyboard navigation (`moveHorizontal`, `moveVertical`, `moveByWord`, `moveToLineEdge`, `extendSelection`, `packages/editor/src/navigation/index.ts:13,18,41,58,95`). Tested in `packages/editor/src/navigation/index.test.ts`.
+- `TS6-08`: Input proxy element (`InputProxy`, `packages/editor/src/input/proxy.ts:17`). Tested in `packages/editor/src/input/proxy.test.ts`.
+- `TS6-09`: IME composition state (`createCompositionState`, `onCompositionStart`, `onCompositionUpdate`, `onCompositionEnd`, `packages/editor/src/input/ime.ts:12,23,34,43`). Tested in `packages/editor/src/input/ime.test.ts`.
+- `TS6-10`: Accessibility mirror (`createAccessibilityMirror`, `packages/editor/src/a11y/mirror.ts:15`). Tested in `packages/editor/src/a11y/mirror.test.ts`.
+- `TS6-11`: Command model & invert (`InsertTextCommand`, `DeleteTextCommand`, `ApplyPropertyCommand`, `SplitParagraphCommand`, `packages/editor/src/commands/command.ts:68,105,142,179`). Tested in `packages/editor/src/commands/command.test.ts`.
+- `TS6-12`: Undo / Redo history (`createHistory`, `packages/editor/src/commands/history.ts:22`). Tested in `packages/editor/src/commands/history.test.ts`.
+- `TS6-13`: Model mutation API (`insertText`, `deleteRange`, `splitParagraph`, `applyRunProperty`, `toggleRunProperty`, `packages/editor/src/mutate/index.ts:16,39,114,137,172`). Tested in `packages/editor/src/mutate/index.test.ts`.
+- `TS6-14`: Repaint scheduler (`PaintScheduler`, `coalesceRects`, `packages/editor/src/paint-scheduler.ts:47,9`). Tested in `packages/editor/src/paint-scheduler.test.ts`.
+- `TS6-15`: Clipboard integration (`serializeClipboard`, `deserializeClipboard`, `sanitizeHtml`, `packages/editor/src/clipboard/index.ts:19,74,50`). Tested in `packages/editor/src/clipboard/index.test.ts`.
+- `TS6-16`: Latency tracker (`LatencyTracker`, `packages/editor/src/perf/latency.ts:25`). Tested in `packages/editor/src/perf/latency.test.ts`.
+
+---
+
+### 4.2 DIRECT-PARTIAL Register
+
+| ID | Feature | Tool Set | Citation | Description | Strategy | Effort | Blocked Waves |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `DP-01` | `DocumentModel` interface implementation | TS2, TS6 | `packages/editor/src/commands/command.ts:35-43` | `DocumentModel` is an interface without an exported class in `@ooxml/wml` (only verified as spike prototype in `spike/candidate-c.ts`). | ADAPTER | M | W2, W7 |
+| `DP-02` | `RelayoutContext` interface implementation | TS4, TS6 | `packages/editor/src/relayout.ts:50-59` | `RelayoutContext` is an interface passed to `relayout()`. Requires caller to supply `layoutParagraph` and `reflowPage`. | ADAPTER | M | W4, W7 |
+| `DP-03` | `PaintSchedulerDelegate` implementation | TS5, TS6 | `packages/editor/src/paint-scheduler.ts:3-8` | `PaintSchedulerDelegate` is an interface passed to `PaintScheduler`. Requires caller to supply `invalidatePageBitmap`, `redrawPageRegion`, `drawOverlays`. | ADAPTER | S | W5, W7 |
+| `DP-04` | HarfBuzz WASM shaper | TS3 | `packages/text/src/shaper.ts:508-515` | `createTextShaper()` defaults to `FallbackTextShaper` if WASM binary is omitted. Must load WASM or use fallback. | FALLBACK | M | W3 |
+
+---
+
+### 4.3 PIPELINE Register
+
+| ID | Feature | Tool Set | Citation | Pipeline Call Chain | Glue Code Required | Effort | Blocked Waves |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `PL-01` | Create blank `.docx` | TS1 | `packages/opc/src/content-types.ts:108`, `package.ts:275` | `ContentTypes.empty() -> init _rels/.rels -> create word/document.xml with minimal w:body -> savePackage` | Bundle default XML strings for blank document and wrap in factory | S | W1 |
+| `PL-02` | Make a copy / Rename | TS1 | `packages/opc/src/package.ts:241,275` | `pkg.save() -> uint8Array -> openPackage(uint8Array, support) -> update metadata title` | Clones in-memory package buffer cleanly | S | W1 |
+| `PL-03` | Insert Image | TS7 | `packages/opc/src/package.ts:74`, `packages/dml/src/images.ts:50`, `packages/editor/src/commands/command.ts:70` | `read image bytes -> pkg.parts.set(imagePartName) -> pkg.relationships.add(imageRel) -> create CT_Drawing AST -> model.insertNode -> relayout` | Demo handles media part registration, relationship ID minting, and drawing AST wrapping | M | W9 |
+| `PL-04` | Insert Table | TS7 | `packages/layout/src/table/index.ts:57`, `packages/editor/src/commands/command.ts:70` | `allocate NodeIds -> construct CT_Tbl with rows, cells, p, r, t -> model.insertNode(tbl) -> relayout` | Generates default gridCol and tc AST nodes for `rows x cols` picker | M | W9 |
+| `PL-05` | Table cell split / merge | TS7 | `packages/layout/src/table/index.ts:62,153`, `packages/wml/src/cache.ts:121` | `update tc.tcPr.gridSpan / vMerge -> cache.invalidateTable(tblId) -> relayout` | Updates AST cell span properties and invalidates table cache | M | W9 |
+| `PL-06` | Insert Headers / Footers | TS7 | `packages/opc/src/package.ts:74`, `packages/layout/src/pagination/headers.ts:27` | `pkg.parts.set(hdrPart) -> add rel to document.xml.rels -> update sectPr.headerReference -> relayout` | Manages header part creation and `w:headerReference` AST injection | M | W9 |
+| `PL-07` | Insert Footnote / Endnote | TS7 | `packages/layout/src/pagination/footnotes.ts:21`, `packages/wml/src/features.ts:221` | `mint noteId -> append CT_FtnEdn to footnotes.xml -> insert w:footnoteReference run in document.xml -> relayout` | Injects note AST into `footnotes.xml` and references into document | M | W9 |
+| `PL-08` | Word & Character Count | TS9 | `packages/text/src/segmenter.ts:95`, `packages/editor/src/commands/command.ts:36` | `model.getText(node) -> segmentWords(text, lang) -> tally words, spaces, characters, pages` | Aggregates text from all nodes or selection range | S | W10 |
+| `PL-09` | Find & Replace | TS9 | `packages/text/src/segmenter.ts:95`, `packages/editor/src/mutate/index.ts:16,39` | `scan text across nodes -> regex match -> deleteRange(match) -> insertText(replacement)` | Traverses nodes in document order, calculating DocPos offsets | S | W10 |
+| `PL-10` | Clear Formatting | TS8 | `packages/wml/src/cascade.ts:189`, `packages/editor/src/commands/command.ts:142` | `read direct rPr/pPr -> emit ApplyPropertyCommand clearing direct formatting` | Resets direct formatting properties to inherited styles | S | W8 |
+
+---
+
+### 4.4 INDIRECT Register
+
+| ID | Feature | Tool Set | Location in Repo | Why Not Publicly Reachable | Strategy to Access Without Editing Package | Effort | Blocked Waves |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `IND-01` | Line breaker `breakParagraph` | TS4 | `packages/layout/src/line/breaker.ts:31` | `packages/layout/src/index.ts` does not re-export `line/breaker.ts`; `package.json` forbids subpath imports. | DEMO-LOCAL IMPLEMENTATION: Implement `LineBreaker` inside `apps/demo/src/adapters/line-breaker.ts` using public `TextEngine.shapeParagraph` and `layoutLineAcrossSegments`. | M | W4 |
+| `IND-02` | Inline item stream `buildInlineStream` | TS4 | `packages/layout/src/line/stream.ts:48` | `packages/layout/src/index.ts` does not re-export `line/stream.ts`. | DEMO-LOCAL IMPLEMENTATION: Implement stream flattener inside `apps/demo/src/adapters/line-stream.ts`. | S | W4 |
+| `IND-03` | Baseline calculation `computeLineBaseline` | TS4 | `packages/layout/src/line/baseline.ts:35` | `packages/layout/src/index.ts` does not re-export `line/baseline.ts`. | DEMO-LOCAL IMPLEMENTATION: Implement baseline metric resolution in demo using `ScaledFontMetrics` from `@ooxml/text`. | S | W4 |
+| `IND-04` | Non-WML generated schema modules (`dml-wordprocessingDrawing`, etc.) | TS2, TS7 | `packages/schema/src/generated/*` | `packages/schema/src/index.ts` exports only `wml` and `dml-main`. Subpath imports blocked by `package.json`. | ADAPTER: Access drawing elements as `RawNode` or via `wml.types.ts` `CT_Drawing` union. | M | W9 |
+
+---
+
+### 4.5 STUB Register
+
+| ID | Symbol / Feature | Tool Set | Location in Repo | Current Stub Behavior | Strategy | Effort | Blocked Waves |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `STUB-01` | `apps/demo/src/index.ts` | TS10 | `apps/demo/src/index.ts:1` | Empty file containing only `export {};`. | DEMO-LOCAL IMPLEMENTATION: Author full Vite demo application in `apps/demo/src/**`. | M | W0 |
+
+---
+
+### 4.6 PLACEHOLDER Register
+
+| ID | Symbol / Feature | Tool Set | Location in Repo | Current Placeholder Behavior | Strategy | Effort | Blocked Waves |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `PLC-01` | Chart placeholder | TS7 | `packages/dml/src/placeholders.ts:27` | `createDeferredGraphicPlaceholder('chart', extent)` returns object with `painted: 'placeholder'`. | FALLBACK: Render labelled grey placeholder rect with title per G3. | S | W9 |
+| `PLC-02` | SmartArt placeholder | TS7 | `packages/dml/src/placeholders.ts:27` | `createDeferredGraphicPlaceholder('smartArt', extent)` returns object with `painted: 'placeholder'`. | FALLBACK: Render labelled grey placeholder rect per G3. | S | W9 |
+| `PLC-03` | EMF / WMF image placeholder | TS5, TS7 | `packages/dml/src/images.ts:44` | EMF/WMF cannot be decoded by Canvas 2D; reports `kind: 'emf' \| 'wmf'`. | FALLBACK: Render `paintImagePlaceholder` with alt text/filename per G3. | S | W9 |
+
+---
+
+### 4.7 DOCUMENTED-LIMITATION Register
+
+| ID | Limit / Feature | Reference Document | Summary of Documented Limit / Fallback | Strategy | Effort |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `LIM-01` | Encrypted package refusal | ADR 0002; `packages/opc/src/errors.ts:212` | Encrypted OLE compound files are out of scope; reject cleanly with typed error rather than corrupting. | FALLBACK | S |
+| `LIM-02` | Worker boundary for v1 | ADR 0005 | Main thread execution for v1; display list must remain strictly serializable for worker migration. | FALLBACK | S |
+| `LIM-03` | Word / LibreOffice visual verification | ADR 0007, Invariant F6; `STATUS.md` | Word/LibreOffice automation unavailable in this environment; all visual outputs marked UNVERIFIABLE-HERE. | FALLBACK | S |
+| `LIM-04` | Single caret for bidi text | ADR 0014; `packages/editor/src/caret.ts` | Single caret used at bidi boundaries (jumps based on affinity) matching Word behaviour rather than split caret. | FALLBACK | S |
+| `LIM-05` | Clipboard style conflict policy | ADR 0015; `packages/editor/src/clipboard/index.ts` | `mergeFormatting` is default; on collision under `keepSource`, rename style IDs rather than overwriting. | FALLBACK | S |
+| `LIM-06` | OMML Math OpenType table fallback | ADR 0017; `packages/layout/src/math/index.ts` | OpenType MATH tables unavailable; deterministic font-ratio box model layout with diagnostic marker. | FALLBACK | S |
+| `LIM-07` | Decompression limit caps | Invariant F1; `packages/opc/src/limits.ts` | Ratio cap (200:1) and size limits enforced during streaming inflation to prevent zip bombs. | FALLBACK | S |
+
+---
+
+### 4.8 MISSING Register
+
+| ID | Feature | Tool Set | Description of Gap | Strategy | Effort | Blocked Waves |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `MIS-01` | Live DocumentModel implementation | TS2, TS6 | `@ooxml/wml` does not export an implementation of `editor.DocumentModel`. | DEMO-LOCAL IMPLEMENTATION: Implement `WmlDocumentModel` in `apps/demo/src/adapters/document-model.ts` wrapping `CT_Document` and `IdTable`. | M | W2, W7 |
+| `MIS-02` | Spellcheck dictionary | TS9 | Monorepo contains no spelling dictionary or morphology engine. | DEMO-LOCAL IMPLEMENTATION: Pluggable provider interface with mock/browser spellcheck fallback. | S | W10 |
+| `MIS-03` | Translation service | TS9 | No translation engine in monorepo. | DEMO-LOCAL IMPLEMENTATION: Pluggable provider interface with mock/dummy translation. | S | W10 |
+| `MIS-04` | Voice typing engine | TS9 | No speech recognition in monorepo. | DEMO-LOCAL IMPLEMENTATION: Web Speech API provider with mock fallback. | S | W10 |
+| `MIS-05` | Document compare engine | TS9 | No document-level AST diff engine in monorepo. | DEMO-LOCAL IMPLEMENTATION: Pluggable provider interface with mock comparison report. | S | W10 |
+| `MIS-06` | AI image generation / stock image API | TS7, TS9 | No stock photo database or image generation endpoint. | DEMO-LOCAL IMPLEMENTATION: Pluggable provider interface with Unsplash/DALL-E mock data. | S | W10 |
+
+---
+
+### 4.9 UNKNOWN Register
+
+| ID | Unknown Property / Feature | Tool Set | Target Module | Probe to Resolve (Section 9) |
+| :--- | :--- | :--- | :--- | :--- |
+| `UNK-01` | Type signature compatibility of `DocumentModel` with `CT_Document` mutation | TS2, TS6 | `packages/editor/src/commands/command.ts` | `apps/demo/probes/ts2-wml.probe.ts` |
+| `UNK-02` | Availability and resolution of HarfBuzz WASM in Vite dev server / browser build | TS3 | `packages/text/src/shaper.ts` | `apps/demo/probes/ts3-text.probe.ts` |
+| `UNK-03` | Performance of `PositionMapper` binary search on 10,000 runs in web worker vs main thread | TS2, TS6 | `packages/wml/src/pos.ts` | `apps/demo/probes/ts6-editor.probe.ts` |
+
+---
+
+### 4.10 INVARIANT-CONFLICT Register
+
+| Conflict ID | Feature / Tool | Potential Invariant Conflict | Safe Architectural Resolution |
+| :--- | :--- | :--- | :--- |
+| `INV-01` | External image insertion (URL) | Invariant F1 / SSRF restriction: `@ooxml/opc` forbids network fetching of external relationship targets. | Demo app fetches external image via browser `fetch` with user consent, imports bytes into package as an internal media part (`/word/media/imageN.png`), and registers an internal relationship. |
+| `INV-02` | XML attribute defaults | Invariant A3: Attribute defaults must NEVER be applied at read time or written back on save. | Demo relies exclusively on `@ooxml/wml` cascade resolution (`resolveDocDefaults`, `resolveParagraphProperties`) and never populates absent default attributes into the AST. |
+| `INV-03` | Save format dialect | Invariant A4: Write back in the dialect the file arrived in (Transitional stays Transitional; Strict stays Strict). | `OpcPackage` retains original dialect string; demo passes dialect to `createWriteContext(pkg.dialect, uris)`. |
+| `INV-04` | Unselected MCE branches | Invariant A5: Unselected `mc:AlternateContent` branches must be preserved. | Demo preserves raw AST nodes containing `mc:AlternateContent` through `selectMceBranch` and re-serializes via `wmlWriter`. |
+| `INV-05` | DisplayList worker boundary | ADR 0005: DisplayList must remain 100% serializable. | Verified in CI via `assertDisplayListSerializable()`; demo never attaches functions, DOM elements, or model pointers to `DisplayList`. |
+| `INV-06` | Bidi caret position | ADR 0014: Single caret at bidi boundaries. | Demo uses `caretRect` from `@ooxml/editor` which resolves single caret visual coordinate from `Affinity`. |
+
+---
+
+### 4.11 PACKAGE-BOUNDARY Register
+
+| Package | Deep Imports Blocked? | Public Entry Point Line Cited | Strategy for Internal Needs |
+| :--- | :--- | :--- | :--- |
+| `@ooxml/opc` | Yes (`exports: { ".": ... }`) | `packages/opc/src/index.ts:1` | All needed symbols (`openPackage`, `savePackage`, `ContentTypes`, `RelationshipGraph`, `validatePartName`) are exported. |
+| `@ooxml/schema` | Yes (`exports: { ".": ... }`) | `packages/schema/src/index.ts:1` | `wmlReader`, `wmlWriter`, `runtime`, `createCursor`, `createStringSink` exported at root. Unexported namespaces handled via `RawNode` or WML AST types. |
+| `@ooxml/wml` | Yes (`exports: { ".": ... }`) | `packages/wml/src/index.ts:1` | All model primitives (`IdTable`, `DocPos`, `AnnotationStore`, `StyleTable`, `resolveParagraphProperties`, `foldNumbering`, etc.) are exported. `DocumentModel` interface implemented in `apps/demo/src/adapters/`. |
+| `@ooxml/dml` | Yes (`exports: { ".": ... }`) | `packages/dml/src/index.ts:1` | Geometry, fills, presets, colors, transform, images, placeholders all exported. |
+| `@ooxml/text` | Yes (`exports: { ".": ... }`) | `packages/text/src/index.ts:1` | `TextEngine`, `FontLoader`, `resolveBidi`, `segmentGraphemes`, `segmentWords`, `substituteFont`, `createPackedShapedRun` exported. |
+| `@ooxml/layout` | Yes (`exports: { ".": ... }`) | `packages/layout/src/index.ts:1` | Tables, pagination, exclusions, anchors, math exported. Unexported `breakParagraph` implemented in `apps/demo/src/adapters/line-breaker.ts` via exported `layoutLineAcrossSegments`. |
+| `@ooxml/paint` | Yes (`exports: { ".": ... }`) | `packages/paint/src/index.ts:1` | `DisplayList`, `batchDisplayList`, `CanvasPainter`, `PageBitmapCache`, `ViewportManager`, `paintDecorations`, `paintFilledRect` exported. |
+| `@ooxml/editor` | Yes (`exports: { ".": ... }`) | `packages/editor/src/index.ts:1` | Caret, hit-test, selection, navigation, proxy, IME, commands, history, mutate, relayout, scheduler, clipboard, a11y, latency exported. |
+| `@ooxml/conformance` | Yes (`exports: { ".": ... }`) | `packages/conformance/src/index.ts:1` | Used in tests and dev probes (`CoverageTracker`, `assertPackageIdempotent`, `assertDisplayListSerializable`). |
+
+---
+
+### 4.12 Scope Decisions
+
+| Cut / Downgraded Feature | Justification | User-Facing Effect in Demo |
+| :--- | :--- | :--- |
+| Cloud Share, Email, Move to Trash, Drive Shortcut | Browser-only client app without backend user storage accounts. | Rendered in File menu as disabled/greyed menu items with tooltip "(Requires Cloud Storage)". |
+| Real-time Collaboration (OT / CRDT) | Monorepo is single-user v1 (`AGENTS.md`, ADR 0003, ADR 0013). | Single-user editing only; commands use stable structural IDs ready for future rebasing. |
+| Live Word / LibreOffice automated diff | Tools absent in host environment (`F6`, ADR 0007). | Visual regression diff runner reports reference source as `previous-commit` and flags `UNVERIFIABLE-HERE`. |
+| Full Chart / SmartArt vector rendering | `dml-chart` and `dml-diagram` deferred (`G3`, P9-20). | Rendered as styled, labelled placeholder boxes displaying title and diagram kind; round-trips losslessly. |
+| Native Checkbox Content Control | `w14:checkbox` is outside ECMA-376 schema. | Treated as unknown SDT control; content rendered and preserved losslessly. |
+| Data-bound SDTs live two-way sync | Custom XML part synchronization requires two-way XPath engine. | Data-bound SDTs display cached text and are marked read-only in UI. |
+| Word 97–2003 `.doc` binary import | Out of scope; rejected as `OpcEncryptedPackageError` / CFB. | Alert banner: "Legacy binary .doc files are not supported. Please convert to .docx". |
+
+============================================================
+SECTION 5 — ARCHITECTURE FOR apps/demo
+============================================================
+
+### 5.1 Directory Layout under `apps/demo/`
+
+```
+apps/demo/
+├── package.json                   # Workspace package depending on all @ooxml/* packages
+├── tsconfig.json                  # References to all packages, strict mode
+├── vite.config.ts                 # Bundler config, WebAssembly & worker support
+├── index.html                     # HTML5 shell entry point
+├── AGENTS.md                      # Demo development rules (read-only packages rule)
+├── probes/                        # Section 9 compiler and runtime probes
+│   ├── ts1-opc.probe.ts
+│   ├── ts2-wml.probe.ts
+│   ├── ts3-text.probe.ts
+│   ├── ts4-layout.probe.ts
+│   ├── ts5-paint.probe.ts
+│   ├── ts6-editor.probe.ts
+│   ├── ts7-insert.probe.ts
+│   ├── ts8-format.probe.ts
+│   ├── ts9-tools.probe.ts
+│   ├── ts10-app.probe.ts
+│   ├── expected-failures.probe.ts
+│   └── smoke.test.ts
+├── src/
+│   ├── index.ts                   # App bootstrapper and DOM mounter
+│   ├── state/                     # Central application state and reactive bus
+│   │   ├── app-state.ts           # Active package, document, layout, viewport state
+│   │   ├── event-bus.ts           # Typed event emitter for UI & editor events
+│   │   └── preferences.ts         # User preferences (locale, zoom, rulers, dark mode)
+│   ├── adapters/                  # Package boundary wrappers (strictly no internal imports)
+│   │   ├── document-model.ts      # Implements editor.DocumentModel over wml & schema AST
+│   │   ├── line-breaker.ts        # Composes text.TextEngine + layout.line-segments
+│   │   ├── line-stream.ts         # Flattens inline paragraph runs into items
+│   │   ├── relayout-adapter.ts    # Implements editor.RelayoutContext
+│   │   └── paint-adapter.ts       # Implements editor.PaintSchedulerDelegate
+│   ├── providers/                 # Pluggable external capability interfaces & mocks
+│   │   ├── types.ts               # Provider interfaces
+│   │   ├── spellcheck.ts          # Pluggable spellcheck (mock dictionary)
+│   │   ├── translation.ts         # Translation provider (mock service)
+│   │   ├── voice.ts               # Web Speech API voice typing provider
+│   │   ├── media.ts               # Stock photo & image generator mock provider
+│   │   └── compare.ts             # Document comparison mock provider
+│   ├── tool-layer/                # Section 1.7 AI Tool Layer
+│   │   ├── tool-registry.ts       # Registry of callable tools with JSON schemas
+│   │   ├── editing-tools.ts       # undo, redo, select, cut, copy, paste, find_replace
+│   │   ├── insertion-tools.ts     # insert_image, table, equation, breaks, toc, etc.
+│   │   ├── formatting-tools.ts    # style, alignment, spacing, numbering, text direction
+│   │   ├── media-tools.ts         # stock search, generate, custom drawing
+│   │   └── document-tools.ts      # spellcheck, translate, compare, citations
+│   ├── ui/                        # User interface components (pure vanilla DOM/TS)
+│   │   ├── shell.ts               # Main layout container (header, sidebar, canvas, status)
+│   │   ├── menu-bar.ts            # Top menus: File, Edit, View, Insert, Format, Tools, Help
+│   │   ├── toolbar.ts             # Quick formatting bar (styles, font, size, bidi, align)
+│   │   ├── ruler.ts               # Horizontal & vertical interactive canvas rulers
+│   │   ├── outline-sidebar.ts     # Document headings outline sidebar
+│   │   ├── ai-panel.ts            # Gemini / AI Assistant interactive chat panel
+│   │   ├── status-bar.ts          # Page count, word count, latency overlay, zoom
+│   │   ├── dialogs/               # Modals: Page setup, table picker, properties, about
+│   │   │   ├── page-setup.ts
+│   │   │   ├── table-picker.ts
+│   │   │   ├── doc-properties.ts
+│   │   │   └── image-guidance.ts
+│   │   └── i18n/                  # Localisation strings
+│   │       ├── en.ts              # English menu & tooltip strings
+│   │       ├── ar.ts              # Arabic translations (ملف, تعديل, عرض, etc.)
+│   │       └── translate.ts       # i18n lookup helper
+│   ├── canvas/                    # Multi-page canvas rendering pipeline
+│   │   ├── canvas-view.ts         # Manages main HTML5 canvas, resize, DPR scaling
+│   │   ├── overlay-view.ts        # Caret, selection highlights, non-printing marks
+│   │   └── interaction.ts         # Mouse down/drag, touch, wheel, scroll synchronization
+│   └── fixtures/                  # Default starter documents
+│       ├── blank-doc.ts           # Minimal empty document bytes generator
+│       └── sample-docs.ts         # Bundled sample documents (English, Arabic, Tables)
+```
+
+---
+
+### 5.2 Data-Flow Diagram (Plain Text)
+
+```
+[User Action: Load File]
+       │
+       ▼
+[OPC Layer: openPackage()] ──> (limits.ts checked, [Content_Types].xml & _rels parsed)
+       │
+       ├─► [Metadata: coreProperties(), extendedProperties(), customProperties()]
+       │
+       └─► [Main Part: word/document.xml] ──> [Schema Cursor: wmlReader.readCT_Document()]
+                                                    │
+                                                    ▼
+                                           [CT_Document AST]
+                                                    │
+                   ┌────────────────────────────────┴────────────────────────────────┐
+                   ▼                                                                 ▼
+      [WmlDocumentModel Adapter]                                           [AnnotationStore]
+       (Manages NodeId & IdTable)                                            (Bookmarks, comments,
+                   │                                                         coincident order)
+                   ▼
+      [Document Cascade Resolution]
+       (resolveParagraphProperties, resolveRunProperties via StyleTable, Theme, Numbering)
+                   │
+                   ▼
+      [Text Shaping: TextEngine]
+       (Sub-run Itemizer -> FastPath or HarfBuzz -> L1 MeasurementCache)
+                   │
+                   ▼
+      [Line Breaking: line-breaker adapter] ──> [Float ExclusionStore] (resolveAnchor)
+       (layoutLineAcrossSegments -> multi-segment Line boxes)
+                   │
+                   ▼
+      [Page Pagination: fillPage()] ──> [Footnotes: paginateWithFootnotes() fixpoint]
+       (Sections, Columns, Keeps, Headers/Footers)
+                   │
+                   ▼
+      [DisplayList Generation] (Serializable DisplayItem[])
+                   │
+                   ▼
+      [Paint Pipeline: batchDisplayList() -> CanvasPainter]
+                   │
+                   ├─► [PageBitmapCache] (cached offscreen canvases for clean pages)
+                   │
+                   └─► [HTML5 <canvas>] (Screen Device Pixels via ViewportManager)
+                               ▲
+                               │ (Drawn on top without cache invalidation)
+                   [Overlays: Caret, Selection, Non-printing Marks]
+
+-----------------------------------------------------------------------------------------
+[User Interaction: Keystroke / Mouse Click / Tool Call]
+       │
+       ▼
+[InputProxy <textarea>] / [Hit-Testing: hitTest()] ──> (Bidi Affinity, RTL Midpoint Rule)
+       │
+       ▼
+[Editor Mutation API: insertText(), deleteRange()] ──> [UndoHistory.push(Transaction)]
+       │
+       ▼
+[Model In-Place Update on CT_Document] ──> [AnnotationStore.deleteRange() / shift()]
+       │
+       ▼
+[DirtySet: paragraphs, pages, globalFields]
+       │
+       ▼
+[Incremental Relayout: relayout()]
+       ├── Stage 1: Paragraph line reflow (EARLY STOP if outflowState matches)
+       └── Stage 2: Page reflow forward (EARLY STOP if page.endState matches)
+       │
+       ▼
+[PaintScheduler.scheduleRepaint()] ──> [coalesceRects()]
+       │
+       ▼
+[Canvas Repaint & AccessibilityMirror.update()] (<16ms p95 latency via LatencyTracker)
+```
+
+---
+
+### 5.3 Threading Model and Worker Boundary
+
+Per **ADR 0005**, the v1 editor executes entirely on the **main thread**. Web workers are not used for layout in v1 because DOM APIs (`measureText`, font availability, `document.fonts`) and Canvas context metrics are main-thread bound.
+However, to preserve the zero-rewrite worker migration path, the system enforces the following communication contract:
+1. The **DisplayList** emitted by layout is 100% serializable (verified via `assertDisplayListSerializable` from `@ooxml/conformance`).
+2. The payload transferred across the seam is a structured-cloneable snapshot:
+   ```typescript
+   export interface WorkerRenderPayload {
+     readonly pageIndex: number;
+     readonly displayList: DisplayList;
+     readonly width: number;
+     readonly height: number;
+     readonly dpr: number;
+   }
+   ```
+3. No closure, DOM node, or mutable AST reference crosses the render boundary.
+
+---
+
+### 5.4 The Adapter Layer Interfaces (`apps/demo/src/adapters/`)
+
+#### 5.4.1 `DocumentModelAdapter` (`apps/demo/src/adapters/document-model.ts`)
+Implements `editor.DocumentModel` required by `@ooxml/editor` without altering `@ooxml/wml` or `@ooxml/schema`:
+```typescript
+import type { DocumentModel } from '@ooxml/editor';
+import type { IdTable, NodeId } from '@ooxml/wml';
+import type { CT_Document, CT_P, CT_R, CT_Text } from '@ooxml/schema';
+
+export class WmlDocumentModel implements DocumentModel {
+  constructor(
+    public readonly idTable: IdTable,
+    public readonly doc: CT_Document,
+    private readonly nodeRegistry: Map<NodeId, { kind: string; node: any }>,
+  ) {}
+
+  getText(node: NodeId): string;
+  setText(node: NodeId, text: string): void;
+  getProperty(node: NodeId, property: string): unknown;
+  setProperty(node: NodeId, property: string, value: unknown): void;
+  insertNode(node: NodeId, kind: string, parent: NodeId, offset: number): void;
+  removeNode(node: NodeId): void;
+}
+```
+
+#### 5.4.2 `LineBreakerAdapter` (`apps/demo/src/adapters/line-breaker.ts`)
+Bridges the unexported `breakParagraph` (`[INDIRECT]`) by composing public `@ooxml/text` and `@ooxml/layout` exports:
+```typescript
+import type { NodeId } from '@ooxml/wml';
+import type { Line } from '@ooxml/layout';
+import { layoutLineAcrossSegments, type ExclusionStore } from '@ooxml/layout';
+import { TextEngine } from '@ooxml/text';
+
+export interface LineBreakerOptions {
+  readonly textEngine: TextEngine;
+  readonly exclusions: ExclusionStore;
+  readonly containerWidth: number;
+}
+
+export function breakParagraphToLines(
+  paraId: NodeId,
+  text: string,
+  runs: readonly any[],
+  options: LineBreakerOptions,
+): Line[];
+```
+
+#### 5.4.3 `RelayoutAdapter` (`apps/demo/src/adapters/relayout-adapter.ts`)
+Implements `editor.RelayoutContext` for incremental relayout:
+```typescript
+import type { RelayoutContext, PageLayoutRecord } from '@ooxml/editor';
+import type { NodeId } from '@ooxml/wml';
+import type { Line, Rect } from '@ooxml/layout';
+
+export class DemoRelayoutContext implements RelayoutContext {
+  getParagraphLines(para: NodeId): Line[];
+  layoutParagraph(para: NodeId): Line[];
+  getParagraphBounds(para: NodeId): Rect;
+  getPageOfParagraph(para: NodeId): number;
+  getPage(pageIndex: number): PageLayoutRecord | undefined;
+  reflowPage(pageIndex: number, cursorState: string): PageLayoutRecord;
+  pageCount: number;
+  recordPaginationStep?(): void;
+}
+```
+
+#### 5.4.4 `PaintSchedulerAdapter` (`apps/demo/src/adapters/paint-adapter.ts`)
+Implements `editor.PaintSchedulerDelegate`:
+```typescript
+import type { PaintSchedulerDelegate, Rect } from '@ooxml/editor';
+import type { PageBitmapCache, CanvasPainter } from '@ooxml/paint';
+
+export class DemoPaintDelegate implements PaintSchedulerDelegate {
+  constructor(
+    private readonly cache: PageBitmapCache,
+    private readonly painter: CanvasPainter,
+    private readonly overlayCallback: () => void,
+  ) {}
+
+  invalidatePageBitmap(pageIndex: number): void;
+  redrawPageRegion(pageIndex: number, rects: Rect[]): void;
+  drawOverlays(): void;
+  pagesTouchedBy(rects: Rect[]): number[];
+}
+```
+
+---
+
+### 5.5 Provider Interfaces & Mock Implementations (`apps/demo/src/providers/`)
+
+```typescript
+// apps/demo/src/providers/types.ts
+export interface SpellcheckIssue {
+  readonly word: string;
+  readonly offset: number;
+  readonly length: number;
+  readonly suggestions: readonly string[];
+}
+
+export interface SpellcheckProvider {
+  check(text: string, lang: string): Promise<readonly SpellcheckIssue[]>;
+}
+
+export interface TranslationProvider {
+  translate(text: string, sourceLang: string, targetLang: string): Promise<string>;
+}
+
+export interface VoiceTypingProvider {
+  start(onTranscript: (text: string, isFinal: boolean) => void): void;
+  stop(): void;
+  readonly isSupported: boolean;
+}
+
+export interface StockMediaItem {
+  readonly id: string;
+  readonly title: string;
+  readonly url: string;
+  readonly width: number;
+  readonly height: number;
+  readonly format: 'png' | 'jpeg';
+  readonly license: string;
+}
+
+export interface MediaProvider {
+  searchStock(query: string): Promise<readonly StockMediaItem[]>;
+  generateImage(prompt: string): Promise<StockMediaItem>;
+}
+```
+
+Mocks are bundled in `apps/demo/src/providers/`:
+- `spellcheck.ts`: Checks words against a local Set of ~2,000 common English and Arabic words; suggests Levenshtein distance-1 matches.
+- `translation.ts`: Reverses or rot13-prefixes text with `[Translated to {lang}]: ...` mock strings.
+- `voice.ts`: Wraps `window.SpeechRecognition` or `window.webkitSpeechRecognition` when present; falls back to a simulated periodic word emitter in headless test environments.
+- `media.ts`: Returns SVG/data-URL placeholders with aspect ratios (16:9, 4:3, 1:1) and CC0 license metadata.
+
+---
+
+### 5.6 UI Framework and RTL Strategy
+
+- **UI Framework Decision**: **Vanilla TypeScript + HTML5 Canvas + Minimal DOM Component Shell**.
+  - *Justification*: The repository uses strict ES2022, bundler resolution, and pinned dependencies (Rule R1, Invariant F1). Introducing React, Vue, or Svelte would add heavy transitive dependencies, duplicate DOM reconciliation over an already canvas-driven layout, and risk bloating `node_modules` on constrained storage.
+  - Components are lightweight classes managing their own DOM tree (`HTMLElement`) with clean lifecycle methods (`render()`, `destroy()`).
+- **Bidirectional UI & Document Strategy**:
+  - The top-level application container (`#app-root`) supports switching `dir="ltr"` and `dir="rtl"`.
+  - When in Arabic locale (`ar`), the entire menu bar, toolbar, sidebars, and dialogs flip horizontally, utilizing CSS Logical Properties (`margin-inline-start`, `inset-inline-start`, `border-inline-start`).
+  - Document canvas rendering is independent of UI direction: document paragraphs render according to `w:pPr/w:bidi` and character-level UAX#9 resolving via `@ooxml/text`.
+
+---
+
+### 5.7 Error Handling, Limits, and Security
+
+1. **Untrusted `.docx` Ingestion**:
+   - All file uploads pass through `openPackage` with `DEFAULT_OPC_LIMITS` (512MB archive ceiling, 8,192 entries, 256MB per entry, 1GB uncompressed total, 200:1 ratio cap).
+   - Decompression budget errors (`OpcLimitError`), malformed packages (`OpcPackageError`), and encrypted documents (`OpcEncryptedPackageError`) display non-crashing alert banners.
+2. **SSRF Boundary**:
+   - External relationship targets (`TargetMode="External"`) are never fetched automatically by the canvas engine. User-initiated link navigation displays a confirmation modal showing the target domain.
+3. **Clipboard XSS Prevention**:
+   - Pasted HTML is scrubbed using `sanitizeHtml` from `@ooxml/editor` to strip `<script>`, `<iframe>`, `on*` event handlers, and `javascript:` URIs before conversion to document commands.
+
+============================================================
+SECTION 6 — WAVE PLAN
+============================================================
+
+### 6.1 Wave Rules and Execution Ordering
+
+- **Dependency Rule**: Execution proceeds strictly in 13 vertical slice waves: $W0 \rightarrow W1 \rightarrow W2 \rightarrow \dots \rightarrow W12$.
+- **Parallel vs Series Rule**:
+  - Subagents within a wave execute **in parallel ONLY IF** they write to completely disjoint files and share no unfinished interface.
+  - Subagents modifying shared state, integration pipelines, or canvas views run **in series**.
+- **Demonstrability**: The application must build (`pnpm -w exec tsc --noEmit -p apps/demo/tsconfig.json`) and run a demonstrable feature slice at the conclusion of every wave.
+
+```
+                    [W0: Skeleton & Adapters]
+                               │
+                               ▼
+                   [W1: Package File I/O]
+                               │
+                               ▼
+                   [W2: Model & Style Tree]
+                               │
+                               ▼
+                  [W3: Text Shaping & Fonts]
+                               │
+                               ▼
+                 [W4: Layout & Line Breaking]
+                               │
+                               ▼
+                  [W5: Multi-Page Canvas Paint]
+                               │
+                               ▼
+                  [W6: Caret & Selection UI]
+                               │
+                               ▼
+                 [W7: Editing, History, Mutate]
+                               │
+                               ▼
+                  [W8: Full Formatting Suite]
+                               │
+                               ▼
+                 [W9: Insertions: Media & Tables]
+                               │
+                               ▼
+                [W10: Tools & AI Tool Layer]
+                               │
+                               ▼
+                [W11: RTL, A11y & Performance]
+                               │
+                               ▼
+               [W12: End-to-End Integration]
+```
+
+---
+
+### 6.2 Per-Subagent Specifications
+
+#### Wave 0: Skeleton, Adapters, and Probes (Series)
+```
+ID: W0-S1
+Mission: Establish apps/demo workspace dependencies, directory structure, compiler probes, and base adapter stubs.
+Depends on: None
+Runs: series
+MUST READ:
+  - packages/editor/package.json
+  - packages/editor/src/index.ts
+  - apps/demo/package.json
+  - apps/demo/tsconfig.json
+  - plan-docs/01-invariants.md
+MUST ADHERE TO:
+  - Rule R1: Packages are read-only. Edit only under apps/demo/**.
+  - Invariant F2: pnpm workspace dependencies configured in apps/demo/package.json.
+READ-ONLY:
+  - packages/**, assets/**, docs/**, plan-docs/** (except new phase-12 files)
+MAY CREATE OR EDIT:
+  - apps/demo/package.json
+  - apps/demo/tsconfig.json
+  - apps/demo/vite.config.ts
+  - apps/demo/index.html
+  - apps/demo/probes/**
+  - apps/demo/src/index.ts
+  - apps/demo/src/adapters/document-model.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - WmlDocumentModel stub implementing editor.DocumentModel
+Symbols to consume:
+  - @ooxml/editor -> DocumentModel (packages/editor/src/commands/command.ts:35) [DIRECT-PARTIAL]
+  - @ooxml/wml -> IdTable (packages/wml/src/id.ts:49) [READY]
+Tasks:
+  1. Add workspace dependencies (@ooxml/opc, @ooxml/schema, @ooxml/wml, @ooxml/dml, @ooxml/text, @ooxml/layout, @ooxml/paint, @ooxml/conformance) to apps/demo/package.json and project references to apps/demo/tsconfig.json.
+  2. Setup Vite configuration in apps/demo/vite.config.ts with static asset serving.
+  3. Create HTML5 shell in apps/demo/index.html with #app-root mount container.
+  4. Author apps/demo/probes/ compiler probe files (ts1 through ts10).
+  5. Author WmlDocumentModel adapter stub in apps/demo/src/adapters/document-model.ts.
+Tests to write and commands to run:
+  - pnpm -w exec tsc --noEmit -p apps/demo/tsconfig.json
+  - pnpm --filter @ooxml/demo run build
+Definition of done:
+  - `pnpm -w exec tsc --noEmit -p apps/demo/tsconfig.json` exits 0 with no errors.
+Flagged items depended on:
+  - DP-01 (DocumentModel adapter)
+Known risks:
+  - TypeScript project reference path resolution errors across workspace packages.
+```
+
+---
+
+#### Wave 1: File and Package I/O (Series)
+```
+ID: W1-S1
+Mission: Implement document open, save, download, and properties inspection in apps/demo.
+Depends on: W0-S1
+Runs: series
+MUST READ:
+  - packages/opc/src/index.ts
+  - packages/opc/src/package.ts
+  - packages/opc/src/limits.ts
+  - packages/schema/src/index.ts
+  - docs/adr/0002-zip-library.md
+  - docs/adr/0011-digital-signatures-policy.md
+MUST ADHERE TO:
+  - Invariant A1: Nothing is silently dropped.
+  - Invariant A2: Idempotence guarantee (gen2 === gen3).
+  - Invariant A4: Write back in arrival dialect.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/state/app-state.ts
+  - apps/demo/src/fixtures/blank-doc.ts
+  - apps/demo/src/ui/menu-bar.ts
+  - apps/demo/src/ui/dialogs/doc-properties.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - AppState.openFile(file: File): Promise<void>
+  - AppState.saveFile(): Promise<Uint8Array>
+  - AppState.downloadFile(): void
+Symbols to consume:
+  - @ooxml/opc -> openPackage (packages/opc/src/package.ts:241) [READY]
+  - @ooxml/opc -> savePackage (packages/opc/src/package.ts:275) [READY]
+  - @ooxml/opc -> DEFAULT_OPC_LIMITS (packages/opc/src/limits.ts:112) [READY]
+  - @ooxml/opc -> OpcEncryptedPackageError (packages/opc/src/errors.ts:212) [READY]
+  - @ooxml/schema -> createStringSink, createCursor [READY]
+Tasks:
+  1. Author AppState managing currently loaded OpcPackage and document binary.
+  2. Implement Open File handler attaching to HTML5 file input, calling openPackage().
+  3. Implement Download handler converting savePackage() Uint8Array into a browser Blob download.
+  4. Implement blank document generator in fixtures/blank-doc.ts using ContentTypes.empty().
+  5. Author Document Details modal displaying coreProperties, extendedProperties, and customProperties.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/state/app-state.test.ts
+Definition of done:
+  - Opening a real or synthetic .docx loads into memory; saving outputs valid bytes that reopen cleanly; password-protected files trigger an alert dialog without crashing.
+Flagged items depended on:
+  - PL-01, PL-02, LIM-01, LIM-07
+Known risks:
+  - Browser memory limits on large file upload (>100MB).
+```
+
+---
+
+#### Wave 2: Model and Style Tree (Parallel subagents W2-S1 & W2-S2)
+```
+ID: W2-S1
+Mission: Implement the full WmlDocumentModel adapter connecting CT_Document AST with IdTable and DocumentModel.
+Depends on: W1-S1
+Runs: parallel with W2-S2
+MUST READ:
+  - packages/wml/src/index.ts
+  - packages/wml/src/id.ts
+  - packages/wml/spike/candidate-c.ts
+  - packages/editor/src/commands/command.ts
+  - docs/adr/0003-document-model-representation.md
+MUST ADHERE TO:
+  - Invariant A1: Preserve unknown elements ($raw) and unknown attributes ($unknownAttrs).
+  - Invariant B4: Readers and model mutations do not throw on content.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/adapters/document-model.ts
+  - apps/demo/src/adapters/document-model.test.ts
+MUST NOT TOUCH:
+  - packages/**, apps/demo/src/adapters/style-adapter.ts
+Public interfaces to expose:
+  - class WmlDocumentModel implements DocumentModel
+Symbols to consume:
+  - @ooxml/editor -> DocumentModel (packages/editor/src/commands/command.ts:35) [DIRECT-PARTIAL]
+  - @ooxml/wml -> IdTable (packages/wml/src/id.ts:49) [READY]
+  - @ooxml/wml -> AnnotationStore (packages/wml/src/annotations.ts:65) [READY]
+  - @ooxml/schema -> wmlReader, wmlWriter [READY]
+Tasks:
+  1. Complete WmlDocumentModel implementation: index all paragraphs, runs, and tables with IdTable.mint().
+  2. Implement getText(nodeId) and setText(nodeId, text) with intra-run text splitting/merging.
+  3. Implement getProperty(nodeId, prop) and setProperty(nodeId, prop, val).
+  4. Implement insertNode and removeNode updating parent AST containers.
+  5. Write comprehensive unit tests verifying that $unknown and $unknownAttrs are 100% preserved.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/adapters/document-model.test.ts
+Definition of done:
+  - All 10,000 text insert benchmark and unknown preservation tests pass against WmlDocumentModel.
+Flagged items depended on:
+  - DP-01
+Known risks:
+  - Run splitting on midpoint text insertion dropping sibling XML formatting nodes.
+```
+
+```
+ID: W2-S2
+Mission: Wire up document styles, numbering definitions, and theme color/font schemes into the demo cascade.
+Depends on: W1-S1
+Runs: parallel with W2-S1
+MUST READ:
+  - packages/wml/src/styles.ts
+  - packages/wml/src/theme.ts
+  - packages/wml/src/numbering.ts
+  - packages/wml/src/cascade.ts
+  - packages/wml/src/defaults.ts
+MUST ADHERE TO:
+  - Invariant B1: ST_OnOff absent means true for WML elements.
+  - Invariant A3: Never apply XSD defaults at read time.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/adapters/style-adapter.ts
+  - apps/demo/src/adapters/style-adapter.test.ts
+MUST NOT TOUCH:
+  - packages/**, apps/demo/src/adapters/document-model.ts
+Public interfaces to expose:
+  - class DocumentStyleManager { resolveParagraph(p): ResolvedProperties; resolveRun(r): ResolvedProperties; }
+Symbols to consume:
+  - @ooxml/wml -> parseStylesXml (packages/wml/src/styles.ts:313) [READY]
+  - @ooxml/wml -> parseThemeXml (packages/wml/src/theme.ts:178) [READY]
+  - @ooxml/wml -> parseNumberingXml (packages/wml/src/numbering.ts:60) [READY]
+  - @ooxml/wml -> resolveDocDefaults (packages/wml/src/defaults.ts:126) [READY]
+  - @ooxml/wml -> resolveParagraphProperties (packages/wml/src/cascade.ts:133) [READY]
+  - @ooxml/wml -> resolveRunProperties (packages/wml/src/cascade.ts:189) [READY]
+Tasks:
+  1. Author DocumentStyleManager initializing StyleTable, Theme, NumberingTable, and DocDefaults from OPC package parts.
+  2. Implement caching layer using ResolvedPropertyCache folding in generation counters.
+  3. Expose inspection helper calling inspectProperties for debugging.
+  4. Write tests for style inheritance, basedOn cycle tolerance, and toggle XOR resolution.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/adapters/style-adapter.test.ts
+Definition of done:
+  - Paragraph and run properties resolve accurately with full provenance tracking.
+Flagged items depended on:
+  - None
+Known risks:
+  - Themeless or styleless document throwing on undefined references.
+```
+
+---
+
+#### Wave 3: Text Shaping, Fonts, and Bidi (Series)
+```
+ID: W3-S1
+Mission: Integrate TextEngine, FontLoader, and HarfBuzz/fallback shaping into apps/demo.
+Depends on: W2-S1, W2-S2
+Runs: series
+MUST READ:
+  - packages/text/src/index.ts
+  - packages/text/src/text-engine.ts
+  - packages/text/src/font-loader.ts
+  - packages/text/src/fast-path.ts
+  - docs/adr/0004-text-shaper.md
+MUST ADHERE TO:
+  - ADR 0004: HarfBuzz WASM with measureText fast path fallback.
+  - Invariant G1: Match Word behavior; strict allowlist for fast path.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/adapters/text-adapter.ts
+  - apps/demo/src/adapters/text-adapter.test.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - class DemoTextService { shapeParagraph(p): ParagraphShapingResult; loadFont(family): Promise<void>; }
+Symbols to consume:
+  - @ooxml/text -> TextEngine (packages/text/src/text-engine.ts:98) [READY]
+  - @ooxml/text -> FontLoader (packages/text/src/font-loader.ts:121) [READY]
+  - @ooxml/text -> deobfuscateFont (packages/text/src/odttf.ts:109) [READY]
+Tasks:
+  1. Initialize FontLoader with embedded font de-obfuscation pipeline for .odttf parts.
+  2. Instantiate TextEngine with MeasurementCache and FastPath enabled.
+  3. Wire FontLoader incremental paragraph invalidation listener to trigger editor dirty events.
+  4. Test Arabic cursive joining, CJK full-width metrics, and Latin ligature shaping.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/adapters/text-adapter.test.ts
+Definition of done:
+  - Mixed Arabic/Latin/CJK paragraph shapes into visual clusters with correct logical source offsets.
+Flagged items depended on:
+  - DP-04 (HarfBuzz WASM fallback)
+Known risks:
+  - Network delay on Google Fonts download causing FOUT.
+```
+
+---
+
+#### Wave 4: Layout and Line Breaking (Series)
+```
+ID: W4-S1
+Mission: Implement demo-local LineBreaker and wire up page fill, sections, columns, and floats.
+Depends on: W3-S1
+Runs: series
+MUST READ:
+  - packages/layout/src/index.ts
+  - packages/layout/src/line/breaker.ts
+  - packages/layout/src/line/linebox.ts
+  - packages/layout/src/pagination/page-fill.ts
+  - docs/adr/0012-line-box-representation.md
+  - docs/adr/0016-pagination-fixpoint-cycle-tie-break.md
+MUST ADHERE TO:
+  - ADR 0012: Multi-segment lines with visual cluster arrays.
+  - Invariant G1: Greedy line breaking.
+  - Rule R1: Implement LineBreaker locally without editing packages/layout.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/adapters/line-breaker.ts
+  - apps/demo/src/adapters/relayout-adapter.ts
+  - apps/demo/src/adapters/layout-pipeline.ts
+  - apps/demo/src/adapters/layout-pipeline.test.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - class DemoLayoutPipeline { paginate(doc: CT_Document): PageLayoutRecord[]; }
+Symbols to consume:
+  - @ooxml/layout -> layoutLineAcrossSegments (packages/layout/src/floats/line-segments.ts:35) [READY]
+  - @ooxml/layout -> fillPage (packages/layout/src/pagination/page-fill.ts:50) [READY]
+  - @ooxml/layout -> enumerateSections (packages/layout/src/pagination/sections.ts:13) [READY]
+  - @ooxml/layout -> pageGeometry, textArea (packages/layout/src/pagination/geometry.ts:47,67) [READY]
+  - @ooxml/layout -> paginateWithFootnotes (packages/layout/src/pagination/footnotes.ts:21) [READY]
+  - @ooxml/layout -> ExclusionStore (packages/layout/src/floats/exclusions.ts:52) [READY]
+Tasks:
+  1. Author apps/demo/src/adapters/line-breaker.ts implementing greedy paragraph break.
+  2. Implement DemoLayoutPipeline enumerating sections, resolving geometry, and filling pages via fillPage().
+  3. Wire float exclusions from anchored drawings into line breaker.
+  4. Author DemoRelayoutContext implementing editor.RelayoutContext for incremental relayout.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/adapters/layout-pipeline.test.ts
+Definition of done:
+  - 10-page document paginates into discrete pages with correct margins, lines, and exclusion wraps.
+Flagged items depended on:
+  - IND-01, IND-02, IND-03, DP-02
+Known risks:
+  - Bounded fixpoint cycle termination on footnote/body oscillation.
+```
+
+---
+
+#### Wave 5: Multi-Page Canvas Paint and Viewport (Series)
+```
+ID: W5-S1
+Mission: Implement multi-page canvas painting, display list generation, page bitmap caching, and viewport virtualization.
+Depends on: W4-S1
+Runs: series
+MUST READ:
+  - packages/paint/src/index.ts
+  - packages/paint/src/displaylist.ts
+  - packages/paint/src/painter.ts
+  - packages/paint/src/viewport.ts
+  - packages/paint/src/page-cache.ts
+  - docs/adr/0005-worker-boundary.md
+MUST ADHERE TO:
+  - ADR 0005: Serializable display list (structuredClone compatible).
+  - Invariant F1: Memory bounded viewport virtualization.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/canvas/canvas-view.ts
+  - apps/demo/src/canvas/display-list-builder.ts
+  - apps/demo/src/adapters/paint-adapter.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - class CanvasView { render(pages: PageLayoutRecord[], scrollTop: number): void; zoom: number; }
+Symbols to consume:
+  - @ooxml/paint -> DisplayList (packages/paint/src/displaylist.ts:90) [READY]
+  - @ooxml/paint -> CanvasPainter (packages/paint/src/painter.ts:38) [READY]
+  - @ooxml/paint -> batchDisplayList (packages/paint/src/batcher.ts:25) [READY]
+  - @ooxml/paint -> PageBitmapCache (packages/paint/src/page-cache.ts:18) [READY]
+  - @ooxml/paint -> ViewportManager (packages/paint/src/viewport.ts:14) [READY]
+  - @ooxml/paint -> paintDecorations (packages/paint/src/decorations.ts:44) [READY]
+Tasks:
+  1. Author display-list-builder.ts translating Line boxes, runs, tables, and shapes into DisplayItem[].
+  2. Implement CanvasView managing HTML5 `<canvas>`, handling devicePixelRatio and zoom scaling.
+  3. Implement PageBitmapCache offscreen rendering for clean pages.
+  4. Integrate ViewportManager to only lay out and paint pages visible within the viewport scroll window.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/canvas/canvas-view.test.ts
+Definition of done:
+  - Canvas renders paged document with crisp text at 1x, 1.5x, and 2x DPR without shimmering; scrolling 100 pages remains smooth.
+Flagged items depended on:
+  - DP-03
+Known risks:
+  - Subpixel jitter during canvas pan/zoom.
+```
+
+---
+
+#### Wave 6: Caret and Selection UI (Series)
+```
+ID: W6-S1
+Mission: Implement interactive caret rendering, blinking, mouse hit-testing, and selection highlight geometry.
+Depends on: W5-S1
+Runs: series
+MUST READ:
+  - packages/editor/src/index.ts
+  - packages/editor/src/position/types.ts
+  - packages/editor/src/position/map.ts
+  - packages/editor/src/hit-test.ts
+  - packages/editor/src/caret.ts
+  - packages/editor/src/selection/model.ts
+  - packages/editor/src/selection/geometry.ts
+  - docs/adr/0013-position-representation.md
+  - docs/adr/0014-bidi-caret-policy.md
+MUST ADHERE TO:
+  - ADR 0013: DocPos as logical coordinate; LayoutPos as transient coordinate.
+  - ADR 0014: Single caret at bidi boundaries.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/canvas/overlay-view.ts
+  - apps/demo/src/canvas/interaction.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - class OverlayView { drawCaret(caret: Caret); drawSelection(sel: Selection); }
+  - class InteractionManager { onMouseDown(e); onMouseMove(e); onMouseUp(e); }
+Symbols to consume:
+  - @ooxml/editor -> hitTest, hitTestWord, hitTestParagraph (packages/editor/src/hit-test.ts:33) [READY]
+  - @ooxml/editor -> caretRect, startBlink, stopBlink (packages/editor/src/caret.ts:7,50) [READY]
+  - @ooxml/editor -> createCaret (packages/editor/src/position/types.ts:60) [READY]
+  - @ooxml/editor -> createRange, normalizeSelection (packages/editor/src/selection/model.ts:15,23) [READY]
+  - @ooxml/editor -> selectionRects (packages/editor/src/selection/geometry.ts:5) [READY]
+Tasks:
+  1. Author overlay-view.ts drawing blinking caret and translucent blue selection highlight rectangles on canvas overlay.
+  2. Implement interaction.ts mapping mouse click to hitTest(), double-click to hitTestWord(), and triple-click to hitTestParagraph().
+  3. Wire mouse drag to selection extension using normalizeSelection().
+  4. Ensure caret blink suspends during mouse movement and does not invalidate page bitmap cache.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/canvas/interaction.test.ts
+Definition of done:
+  - Clicking anywhere in text places blinking caret; dragging selects text with accurate blue rects; double-click selects words across bidi boundaries.
+Flagged items depended on:
+  - None
+Known risks:
+  - Hit test coordinate offset discrepancies between viewport client space and document twip space.
+```
+
+---
+
+#### Wave 7: Editing, History, and Mutate API (Series)
+```
+ID: W7-S1
+Mission: Wire up InputProxy, IME composition, keyboard navigation, undo/redo history, and incremental relayout into a live editor loop.
+Depends on: W6-S1
+Runs: series
+MUST READ:
+  - packages/editor/src/index.ts
+  - packages/editor/src/input/proxy.ts
+  - packages/editor/src/input/ime.ts
+  - packages/editor/src/commands/history.ts
+  - packages/editor/src/mutate/index.ts
+  - packages/editor/src/relayout.ts
+  - packages/editor/src/paint-scheduler.ts
+MUST ADHERE TO:
+  - Invariant A1: Zero content loss during editing.
+  - Invariant B4: Model mutations never leave broken AST states.
+  - Invariant F1: 16ms p95 keystroke-to-pixel latency budget.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/state/editor-controller.ts
+  - apps/demo/src/adapters/relayout-adapter.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - class EditorController { typeChar(c); deleteBack(); splitParagraph(); undo(); redo(); }
+Symbols to consume:
+  - @ooxml/editor -> InputProxy (packages/editor/src/input/proxy.ts:17) [READY]
+  - @ooxml/editor -> createCompositionState (packages/editor/src/input/ime.ts:12) [READY]
+  - @ooxml/editor -> createHistory (packages/editor/src/commands/history.ts:22) [READY]
+  - @ooxml/editor -> insertText, deleteRange, splitParagraph (packages/editor/src/mutate/index.ts:16,39,114) [READY]
+  - @ooxml/editor -> relayout (packages/editor/src/relayout.ts:59) [READY]
+  - @ooxml/editor -> PaintScheduler (packages/paint-scheduler.ts:47) [READY]
+  - @ooxml/editor -> LatencyTracker (packages/editor/src/perf/latency.ts:25) [READY]
+Tasks:
+  1. Mount InputProxy on DOM, positioning it synchronously at caretRect.
+  2. Implement typing loop: InputProxy onInput -> mutate.insertText() -> history.push() -> relayout() -> scheduler.scheduleRepaint().
+  3. Wire IME composition events: provisional text display -> onCompositionEnd single transaction commit.
+  4. Wire Backspace / Delete / Enter / Arrow navigation keys.
+  5. Connect Ctrl+Z / Ctrl+Y to UndoHistory undo/redo.
+  6. Verify keystroke latency with LatencyTracker.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/state/editor-controller.test.ts
+Definition of done:
+  - Typing Latin and CJK text updates canvas in real-time under 16ms; backspace deletes characters; Ctrl+Z undoes typing; IME composition shows underline.
+Flagged items depended on:
+  - DP-01, DP-02, DP-03
+Known risks:
+  - InputProxy blur losing focus or failing to capture mobile virtual keyboard input.
+```
+
+---
+
+#### Wave 8: Full Formatting Suite (Parallel subagents W8-S1 & W8-S2)
+```
+ID: W8-S1
+Mission: Implement character formatting toolbar and keyboard shortcuts (bold, italic, underline, fonts, sizes, colors).
+Depends on: W7-S1
+Runs: parallel with W8-S2
+MUST READ:
+  - packages/editor/src/mutate/index.ts
+  - packages/wml/src/toggle.ts
+  - packages/paint/src/decorations.ts
+MUST ADHERE TO:
+  - P3-07: Toggle properties XOR.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/ui/toolbar.ts
+  - apps/demo/src/ui/dialogs/color-picker.ts
+MUST NOT TOUCH:
+  - packages/**, apps/demo/src/ui/dialogs/paragraph-format.ts
+Public interfaces to expose:
+  - class FormattingToolbar { toggleBold(); toggleItalic(); setFont(family); setSize(sz); setColor(hex); }
+Symbols to consume:
+  - @ooxml/editor -> toggleRunProperty, applyRunProperty (packages/editor/src/mutate/index.ts:137,172) [READY]
+  - @ooxml/wml -> isToggleProperty (packages/wml/src/toggle.ts:51) [READY]
+Tasks:
+  1. Author formatting toolbar with buttons for Bold, Italic, Underline, Strikethrough, Super/Subscript.
+  2. Implement font family dropdown populated from available/theme fonts.
+  3. Implement font size picker with increments and direct entry.
+  4. Implement text color and highlight color dropdowns using HIGHLIGHT_COLORS.
+  5. Bind keyboard shortcuts (Ctrl+B, Ctrl+I, Ctrl+U).
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/ui/toolbar.test.ts
+Definition of done:
+  - Selecting text and clicking Bold toggles bold formatting; font change reflows text; colors paint accurately.
+Flagged items depended on:
+  - None
+Known risks:
+  - Toggling bold on text whose style is bold producing wrong toggle state (mitigated by P3-07).
+```
+
+```
+ID: W8-S2
+Mission: Implement paragraph formatting, alignment, indents, spacing, lists, and ruler controls.
+Depends on: W7-S1
+Runs: parallel with W8-S1
+MUST READ:
+  - packages/layout/src/table/index.ts
+  - packages/wml/src/cascade.ts
+  - packages/wml/src/numbering-layout.ts
+  - packages/editor/src/commands/command.ts
+MUST ADHERE TO:
+  - Invariant G1: Match Word paragraph indent & alignment rules.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/ui/ruler.ts
+  - apps/demo/src/ui/dialogs/paragraph-format.ts
+MUST NOT TOUCH:
+  - packages/**, apps/demo/src/ui/toolbar.ts
+Public interfaces to expose:
+  - class ParagraphFormatController { setAlignment(jc); setIndent(left, firstLine); setSpacing(before, after, line); }
+Symbols to consume:
+  - @ooxml/editor -> ApplyPropertyCommand (packages/editor/src/commands/command.ts:142) [READY]
+  - @ooxml/wml -> foldNumbering (packages/wml/src/numbering-layout.ts:251) [READY]
+Tasks:
+  1. Author interactive Canvas Ruler rendering left, right, and first-line/hanging indent markers.
+  2. Implement ruler drag gestures updating paragraph w:ind.
+  3. Author paragraph alignment buttons (Left, Center, Right, Justify) dispatching jc properties.
+  4. Implement line spacing selector (Single, 1.15, 1.5, Double, Custom) dispatching w:spacing.
+  5. Implement Bullet & Numbered list toggles setting w:numPr.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/ui/ruler.test.ts
+Definition of done:
+  - Dragging ruler indent markers reflows paragraph; alignment updates layout; list toggles advance numbering counters.
+Flagged items depended on:
+  - None
+Known risks:
+  - Dragging indent markers past right margin boundary.
+```
+
+---
+
+#### Wave 9: Insertions (Tables, Media, Drawings, Fields) (Series)
+```
+ID: W9-S1
+Mission: Implement Insertion menu features: images, tables, DrawingML shapes, equations, breaks, and TOC.
+Depends on: W8-S1, W8-S2
+Runs: series
+MUST READ:
+  - packages/layout/src/table/index.ts
+  - packages/dml/src/index.ts
+  - packages/wml/src/fields/index.ts
+  - packages/layout/src/math/index.ts
+  - docs/adr/0017-omml-math-fallback.md
+MUST ADHERE TO:
+  - Invariant G3: Unimplemented features degrade visibly (placeholders), never blank.
+  - Invariant A1: Lossless round-trip of inserted objects.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/ui/dialogs/table-picker.ts
+  - apps/demo/src/ui/dialogs/image-guidance.ts
+  - apps/demo/src/ui/dialogs/drawing-dialog.ts
+  - apps/demo/src/ui/dialogs/equation-dialog.ts
+  - apps/demo/src/adapters/insertion-service.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - class InsertionService { insertImage(f); insertTable(r, c); insertShape(preset); insertEquation(omml); insertBreak(k); }
+Symbols to consume:
+  - @ooxml/layout -> buildGrid, autofitColumns (packages/layout/src/table/index.ts:57,153) [READY]
+  - @ooxml/dml -> PRESET_GEOMETRIES, buildPresetGeometry (packages/dml/src/geometry/presets.ts:7,18) [READY]
+  - @ooxml/dml -> createDeferredGraphicPlaceholder (packages/dml/src/placeholders.ts:27) [READY]
+  - @ooxml/layout -> layoutMath (packages/layout/src/math/index.ts:119) [READY]
+  - @ooxml/wml -> renderTocEntries, parseTocSwitches (packages/wml/src/features.ts:208,194) [READY]
+Tasks:
+  1. Author table-picker.ts grid picker inserting well-formed CT_Tbl with default borders and autofit widths.
+  2. Author image-guidance.ts file uploader embedding image bytes, registering OPC part, and placing inline/anchored drawing.
+  3. Author drawing-dialog.ts listing DrawingML preset shapes (rect, roundRect, ellipse, star5, callouts) and inserting shape AST.
+  4. Author equation-dialog.ts for OMML math entry, laid out via layoutMath().
+  5. Implement Break insertions (Page break, Section break next-page/continuous).
+  6. Implement TOC field insertion rendering cached heading entries.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/adapters/insertion-service.test.ts
+Definition of done:
+  - Tables, images, shapes, and equations insert cleanly, lay out on canvas, and round-trip through save/reload.
+Flagged items depended on:
+  - PL-03, PL-04, PLC-01, PLC-02, PLC-03, LIM-06
+Known risks:
+  - Invalid XML AST nodes injected on image relationship creation.
+```
+
+---
+
+#### Wave 10: Tools Menu and AI Tool Layer (Parallel subagents W10-S1 & W10-S2)
+```
+ID: W10-S1
+Mission: Implement Tools Menu features (word count dialog, review suggested edits, line numbering, mock providers).
+Depends on: W9-S1
+Runs: parallel with W10-S2
+MUST READ:
+  - packages/wml/src/features.ts
+  - packages/layout/src/pagination/line-numbers.ts
+  - packages/text/src/segmenter.ts
+MUST ADHERE TO:
+  - Rule R1: Mock implementations for external services (translation, speech, grammar).
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/ui/dialogs/word-count-dialog.ts
+  - apps/demo/src/ui/dialogs/revisions-dialog.ts
+  - apps/demo/src/providers/spellcheck.ts
+  - apps/demo/src/providers/translation.ts
+  - apps/demo/src/providers/voice.ts
+MUST NOT TOUCH:
+  - packages/**, apps/demo/src/tool-layer/**
+Public interfaces to expose:
+  - class ToolsManager { showWordCount(); showRevisions(); toggleLineNumbers(); }
+Symbols to consume:
+  - @ooxml/text -> segmentWords (packages/text/src/segmenter.ts:95) [READY]
+  - @ooxml/wml -> displayRevisions, applyRevisionBatch (packages/wml/src/features.ts:86,140) [READY]
+  - @ooxml/layout -> lineNumberFor (packages/layout/src/pagination/line-numbers.ts:10) [READY]
+Tasks:
+  1. Author word count dialog calculating pages, words, characters (with and without spaces) for document and selection.
+  2. Author revision review panel displaying tracked changes with Accept / Reject buttons.
+  3. Implement line numbering toggle updating sectPr.lnNumType.
+  4. Implement mock providers for spellcheck, translation, and voice typing.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/ui/dialogs/word-count.test.ts
+Definition of done:
+  - Word count reports exact counts matching Intl.Segmenter; tracked revisions can be accepted/rejected; mock tools function cleanly.
+Flagged items depended on:
+  - PL-08, MIS-02, MIS-03, MIS-04
+Known risks:
+  - Document order traversal for word count across nested table cells.
+```
+
+```
+ID: W10-S2
+Mission: Implement Section 1.7 AI Tool Layer with JSON schema validation for all editing, insertion, formatting, and media tools.
+Depends on: W9-S1
+Runs: parallel with W10-S1
+MUST READ:
+  - packages/editor/src/mutate/index.ts
+  - packages/editor/src/commands/history.ts
+  - packages/wml/src/features.ts
+  - docs/adr/0013-position-representation.md
+MUST ADHERE TO:
+  - Section 1.7: Each tool maps to exactly one undoable transaction, addresses positions via DocPos, and validates arguments against JSON schema.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/tool-layer/tool-registry.ts
+  - apps/demo/src/tool-layer/editing-tools.ts
+  - apps/demo/src/tool-layer/insertion-tools.ts
+  - apps/demo/src/tool-layer/formatting-tools.ts
+  - apps/demo/src/tool-layer/tool-registry.test.ts
+MUST NOT TOUCH:
+  - packages/**, apps/demo/src/ui/dialogs/**
+Public interfaces to expose:
+  - class AiToolRegistry { executeTool(name: string, args: unknown): Promise<ToolResult>; getSchemas(): ToolDefinition[]; }
+Symbols to consume:
+  - @ooxml/editor -> insertText, deleteRange, splitParagraph, applyRunProperty (packages/editor/src/mutate/index.ts:16) [READY]
+  - @ooxml/editor -> createHistory (packages/editor/src/commands/history.ts:22) [READY]
+  - @ooxml/editor -> createRange (packages/editor/src/selection/model.ts:15) [READY]
+Tasks:
+  1. Author AiToolRegistry with schema definitions for all Section 1.7 tools.
+  2. Implement editing tools: undo, redo, select_range, cut, copy, paste, find_replace, delete_range.
+  3. Implement insertion tools: insert_image, insert_table, insert_equation, insert_page_break, insert_toc, insert_footnote.
+  4. Implement formatting tools: apply_paragraph_style, set_alignment, set_line_spacing, set_columns, apply_bullets_numbering, set_text_direction.
+  5. Write tests validating argument schema enforcement and single-transaction undoability for every tool.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/tool-layer/tool-registry.test.ts
+Definition of done:
+  - All Section 1.7 AI tools execute cleanly via AiToolRegistry, validate input arguments, and cleanly undo in one step.
+Flagged items depended on:
+  - PL-09
+Known risks:
+  - Position resolution errors when tool arguments provide out-of-range character offsets.
+```
+
+---
+
+#### Wave 11: RTL, Accessibility, Performance, and Polish (Series)
+```
+ID: W11-S1
+Mission: Finalize Arabic RTL layout mode, screen reader accessibility mirror, and 16ms p95 latency budget enforcement.
+Depends on: W10-S1, W10-S2
+Runs: series
+MUST READ:
+  - packages/editor/src/a11y/mirror.ts
+  - packages/editor/src/perf/latency.ts
+  - packages/text/src/bidi.ts
+  - docs/adr/0014-bidi-caret-policy.md
+  - AGENTS.md
+MUST ADHERE TO:
+  - ADR 0014: Single caret at bidi boundaries.
+  - Invariant F1: 16ms p95 keystroke-to-pixel latency budget.
+READ-ONLY:
+  - packages/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/ui/shell.ts
+  - apps/demo/src/ui/i18n/ar.ts
+  - apps/demo/src/ui/ai-panel.ts
+  - apps/demo/src/canvas/interaction.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - AppShell.setLanguage(lang: 'en' | 'ar'): void
+Symbols to consume:
+  - @ooxml/editor -> createAccessibilityMirror (packages/editor/src/a11y/mirror.ts:15) [READY]
+  - @ooxml/editor -> LatencyTracker (packages/editor/src/perf/latency.ts:25) [READY]
+  - @ooxml/text -> resolveBidi (packages/text/src/bidi.ts:311) [READY]
+Tasks:
+  1. Implement language switcher toggle in File menu switching UI between English (LTR) and Arabic (RTL).
+  2. Apply Arabic translations for menus, toolbars, tooltips, and dialogs.
+  3. Verify AccessibilityMirror live region announcements on caret movement and selection change.
+  4. Instrument real-time latency overlay reporting p50, p95, p99 keystroke latency.
+  5. Mount Gemini AI Assistant panel in sidebar with chat interface calling AiToolRegistry.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/ui/shell.test.ts
+Definition of done:
+  - Arabic UI renders completely mirrored in RTL; screen reader mirror updates virtual selection; LatencyTracker verifies p95 < 16ms during active typing.
+Flagged items depended on:
+  - None
+Known risks:
+  - Screen reader focus stealing from hidden InputProxy textarea during live region announcements.
+```
+
+---
+
+#### Wave 12: End-to-End Integration, Round-Trip, and Golden Regression (Series)
+```
+ID: W12-S1
+Mission: Execute end-to-end acceptance demo, verify package round-trip idempotence, and assert zero package modifications.
+Depends on: W11-S1
+Runs: series
+MUST READ:
+  - packages/conformance/src/index.ts
+  - docs/adr/0007-verification-constraints.md
+  - plan-docs/01-invariants.md
+MUST ADHERE TO:
+  - Invariant A2: gen2 === gen3 idempotence.
+  - Invariant F6: Visual comparison against Word/LibreOffice marked UNVERIFIABLE-HERE.
+  - Rule R1: Zero edits to packages/**.
+READ-ONLY:
+  - packages/**, assets/**, docs/**
+MAY CREATE OR EDIT:
+  - apps/demo/src/integration.test.ts
+MUST NOT TOUCH:
+  - packages/**
+Public interfaces to expose:
+  - None (test / validation gate)
+Symbols to consume:
+  - @ooxml/conformance -> assertPackageIdempotent (packages/conformance/src/index.ts:380) [READY]
+  - @ooxml/conformance -> assertDisplayListSerializable (packages/conformance/src/index.ts:402) [READY]
+  - @ooxml/conformance -> assertPerformance (packages/conformance/src/index.ts:341) [READY]
+Tasks:
+  1. Author integration test running Section 1 exit demo end-to-end:
+     open fixture -> insert paragraph -> format bold -> insert table -> insert image -> undo/redo -> save.
+  2. Verify assertPackageIdempotent() holds across the saved output (gen2 === gen3).
+  3. Verify assertDisplayListSerializable() holds on all rendered pages.
+  4. Assert git diff --name-only packages/ returns empty to verify Rule R1 compliance.
+Tests to write and commands to run:
+  - pnpm --filter @ooxml/demo test:run apps/demo/src/integration.test.ts
+  - pnpm verify
+  - git diff --name-only packages/
+Definition of done:
+  - Full end-to-end integration test passes; pnpm verify is green; zero modifications to packages/**.
+Flagged items depended on:
+  - LIM-03 (F6 caveat documented)
+Known risks:
+  - Spurious byte differences in ZIP central directory timestamps if save is non-deterministic.
+```
+
+---
+
+### 6.3 Feature Coverage Mapping Table
+
+| Product Feature (Section 1) | Delivered By Subagent ID | Strategy | Notes / Fallback |
+| :--- | :--- | :--- | :--- |
+| **1.1 File Menu** | | | |
+| New document | `W1-S1` | PIPELINE | Uses `ContentTypes.empty()` |
+| Open (`.docx`) | `W1-S1` | [READY] | `openPackage()` with limits |
+| Make a copy / Rename | `W1-S1` | PIPELINE | Memory clone |
+| Download as `.docx` | `W1-S1` | DEMO-LOCAL IMPLEMENTATION | Browser Blob anchor trigger |
+| Document details | `W1-S1` | [READY] | Core, app, custom properties |
+| Page setup | `W8-S2` | [READY] | `pageGeometry()`, `w:sectPr` |
+| Print | `W5-S1` | [READY] | `window.print()` canvas multi-page view |
+| Share / Email / Drive | 4.12 Scope Decisions | DEFER | Disabled UI menu items |
+| **1.2 Edit Menu** | | | |
+| Undo / Redo | `W7-S1` | [READY] | `createHistory()` |
+| Cut / Copy / Paste | `W7-S1` | [READY] | `serializeClipboard`, `deserializeClipboard` |
+| Paste without formatting | `W7-S1` | [READY] | `deserializeClipboard(dt, 'plainText')` |
+| Select all (doc / page) | `W6-S1` | [READY] | `createRange()` across nodes |
+| Selection mouse / keyboard | `W6-S1` | [READY] | `hitTest()`, `extendSelection()` |
+| Delete range / Replace | `W7-S1` | [READY] | `deleteRange()`, `insertText()` |
+| Find and replace | `W10-S2` | PIPELINE | Regex scanner + mutate API |
+| Bidi caret policy | `W6-S1` | [READY] | Single caret per ADR 0014 |
+| IME composition | `W7-S1` | [READY] | `onComposition*` state machine |
+| Accessibility mirror | `W11-S1` | [READY] | `createAccessibilityMirror()` |
+| **1.3 View Menu** | | | |
+| Print layout vs Pageless | `W5-S1`, `W8-S2` | DEMO-LOCAL IMPLEMENTATION | Viewport mode switch |
+| Rulers (Horizontal & Vertical) | `W8-S2` | DEMO-LOCAL IMPLEMENTATION | Canvas ruler with indent markers |
+| Zoom (e.g. 75%, 100%, 150%) | `W5-S1` | [READY] | `ViewportManager.zoom` (0 relayout) |
+| Non-printing characters | `W10-S1` | DEMO-LOCAL IMPLEMENTATION | Overlay view drawing `¶`, `·`, `→` |
+| Full screen | `W10-S1` | DEMO-LOCAL IMPLEMENTATION | Browser Fullscreen API |
+| Outline / Headings sidebar | `W10-S1` | PIPELINE | Paragraph style scanner |
+| Equations toolbar toggle | `W9-S1` | DEMO-LOCAL IMPLEMENTATION | UI bar toggle |
+| **1.4 Insert Menu** | | | |
+| Images (Upload, URL, Guidance) | `W9-S1` | PIPELINE | Image part registration + `imageSource` |
+| Tables (Picker, Grid, Spans) | `W9-S1` | PIPELINE | `buildGrid()`, `autofitColumns()` |
+| Drawings & Preset Shapes | `W9-S1` | [READY] | 187 presets via `PRESET_GEOMETRIES` |
+| Charts (Bar, Line, Pie) | `W9-S1` | FALLBACK | Labelled placeholder per G3, P9-20 |
+| SmartArt diagrams | `W9-S1` | FALLBACK | Labelled placeholder per G3, P9-20 |
+| Symbols & Emojis | `W9-S1` | [READY] | Insert character via `insertText()` |
+| Equations (OMML math) | `W9-S1` | [READY] | `layoutMath()` per ADR 0017 fallback |
+| Breaks (Page, Section, Column) | `W9-S1` | [READY] | `resolveSectionBreak()` |
+| Headers & Footers | `W9-S1` | PIPELINE | Header part creation + `resolveHeaderFooter` |
+| Page Numbers | `W9-S1` | [READY] | `PAGE` / `NUMPAGES` field evaluation |
+| Watermarks | `W9-S1` | PIPELINE | `behindDoc` shape in header part |
+| Table of Contents | `W9-S1` | [READY] | `parseTocSwitches`, `renderTocEntries` |
+| Footnotes & Endnotes | `W9-S1` | PIPELINE | `paginateWithFootnotes`, `placeEndnotes` |
+| Bookmarks & Hyperlinks | `W9-S1` | [READY] | `AnnotationStore`, `hyperlinkNavigation` |
+| Comments | `W9-S1` | PIPELINE | `comments.xml` part + `AnnotationStore` |
+| **1.5 Format Menu** | | | |
+| Text Direction (RTL / LTR) | `W8-S1` | [READY] | `w:bidi`, `bidiLevel` |
+| Text formatting (B, I, U, etc.) | `W8-S1` | [READY] | `toggleRunProperty()`, `applyRunProperty()` |
+| Underline styles (18 styles) | `W8-S1` | [READY] | `paintDecorations()` |
+| Highlight (17 colors) | `W8-S1` | [READY] | `HIGHLIGHT_COLORS` |
+| Paragraph styles (Headings 1-6)| `W8-S2` | [READY] | `ApplyPropertyCommand('pStyle')` |
+| Align & Indent | `W8-S2` | [READY] | `resolveIndentation()`, `resolveJustification()` |
+| Spacing & Keep options | `W8-S2` | [READY] | `applyKeepConstraints()`, `w:spacing` |
+| Columns (1, 2, 3) | `W8-S2` | [READY] | `resolveColumns()`, `balanceColumnHeights()` |
+| Bullets & Numbered lists | `W8-S2` | [READY] | `foldNumbering()`, `formatNumber()` |
+| Clear formatting / Paint format | `W8-S2` | PIPELINE | Strip direct `rPr` / copy properties |
+| Font handling & Fallbacks | `W8-S1` | [READY] | `FontLoader`, `substituteFont()` |
+| **1.6 Tools Menu** | | | |
+| Spelling & grammar | `W10-S1` | DEMO-LOCAL IMPLEMENTATION | Pluggable provider + mock |
+| Word & character count | `W10-S1` | PIPELINE | `segmentWords()` text aggregator |
+| Review suggested edits | `W10-S1` | [READY] | `displayRevisions()`, `applyRevisionBatch()` |
+| Compare documents | `W10-S1` | DEMO-LOCAL IMPLEMENTATION | Pluggable provider + mock diff |
+| Citations & bibliography | `W10-S1` | [READY] | Raw XML part / field evaluation |
+| Line numbering | `W10-S1` | [READY] | `lineNumberFor()` |
+| Dictionary / Translate / Voice | `W10-S1` | DEMO-LOCAL IMPLEMENTATION | Provider interfaces + mocks |
+| Gemini AI Assistant panel | `W11-S1` | DEMO-LOCAL IMPLEMENTATION | Chat panel component calling tool layer |
+| **1.7 AI Tool Layer** | | | |
+| Editing tools (undo, redo, etc.)| `W10-S2` | [READY] | `AiToolRegistry` mapping to commands |
+| Insertion tools (table, img, etc)| `W10-S2` | PIPELINE | `AiToolRegistry` mapping to pipelines |
+| Formatting tools | `W10-S2` | [READY] | `AiToolRegistry` mapping to mutate API |
+| Media & document tools | `W10-S2` | DEMO-LOCAL IMPLEMENTATION | `AiToolRegistry` calling providers |
+| **1.8 Non-Functional** | | | |
+| Worker boundary serializability | `W5-S1`, `W12-S1` | [READY] | `assertDisplayListSerializable()` |
+| Text shaping & fast path | `W3-S1` | [READY] | `TextEngine` + `measureFastPath` |
+| Paint scheduler & latency | `W5-S1`, `W7-S1` | [READY] | `PaintScheduler`, `LatencyTracker` (<16ms) |
+| Round-trip fidelity (gen2===gen3)| `W12-S1` | [READY] | `assertPackageIdempotent()` |
+| Viewport virtualization | `W5-S1` | [READY] | `ViewportManager` + `PageBitmapCache` |
+
+============================================================
+SECTION 7 — RISKS
+============================================================
+
+| Rank | Risk Description | Surfaces in Wave | Visible Signal | Concrete Mitigation Strategy |
+| :---: | :--- | :---: | :--- | :--- |
+| **1** | **Line Breaker Indirect Import Violation** (`packages/layout/src/line/breaker.ts` is unexported; importing it directly breaks Rule R1). | W4 | Build failure (`TS2305` or subpath import error under `moduleResolution: "bundler"`). | Implement `apps/demo/src/adapters/line-breaker.ts` locally in demo, composing exported `@ooxml/layout` (`layoutLineAcrossSegments`) and `@ooxml/text` (`TextEngine`). |
+| **2** | **DocumentModel Interface Missing Concrete Class** (`editor.DocumentModel` is an abstract interface without a default implementation in `@ooxml/wml`). | W2, W7 | Compilation error in editor commands (`Type 'CT_Document' does not satisfy DocumentModel`). | Author `WmlDocumentModel` adapter inside `apps/demo/src/adapters/document-model.ts`, adapting `CandidateCMutableTree` spike logic from ADR 0003. |
+| **3** | **Footnote / Body Area Pagination Cycle Oscillation** (Footnote pushes reference to next page, oscillating infinitely). | W4 | Pagination loop exceeding iterations or hanging during page reflow. | Utilize `paginateWithFootnotes()` from `@ooxml/layout` with `fixpoint()` driver; automatically selects the larger reserve on oscillation per ADR 0016. |
+| **4** | **Bidi Boundary Caret Ambiguity & Teleporting** (Single logical position maps to two distinct screen coordinates at LTR/RTL Seam). | W6 | Caret renders on the wrong visual side of text or jumps erratically during arrow navigation. | Adhere strictly to ADR 0014 and `@ooxml/editor`'s `caretRect` and `Affinity` model; never derive caret coordinate from pure character offset. |
+| **5** | **InputProxy Blur / Focus Trap on Virtual Keyboards** (Hidden textarea loses focus during canvas touch interaction, dropping keystrokes). | W7 | Virtual keyboard closes on mobile or typing stops responding after mouse click. | Bind canvas mousedown to `proxy.focus({ preventScroll: true })`; maintain proxy coordinates at `caretRect` without `display: none`. |
+| **6** | **Clipboard Style Conflict Restyling** (Pasted fragment styles with conflicting definitions silently altering existing paragraphs). | W7 | Entire destination document changes font or styling after a paste operation. | Enforce ADR 0015 default `mergeFormatting` in `deserializeClipboard`; rename conflicting style IDs under `keepSource`. |
+| **7** | **DisplayList Serialization Failure** (Accidental leakage of closure, DOM node, or mutable AST reference into DisplayList). | W5, W12 | `structuredClone()` throwing `DataCloneError` in tests. | Continuous CI assertion using `assertDisplayListSerializable()` from `@ooxml/conformance`; enforce numeric primitive item types only. |
+| **8** | **HarfBuzz WASM Loading Stalling Initial Layout** (Waiting for asynchronous WASM instantiation blocking first document paint). | W3 | Blank screen on initial load while HarfBuzz WASM compiles. | Default to `FallbackTextShaper` immediately for initial paint; hot-swap to HarfBuzz upon WASM resolution and relayout dirty paragraphs incrementally. |
+| **9** | **Font Loading FOUT Layout Shift** (Asynchronous web fonts loading causing full document reflow and jumping scroll position). | W3, W4 | Visual layout flash and shifting line breaks across all pages when font loads. | Utilize `FontLoader.trackParagraphFont()` from `@ooxml/text`; invalidate only the specific paragraphs referencing the settled font via `P6-13` incremental relayout. |
+| **10**| **OMML Math Layout Failure** (Math equation throwing error due to missing OpenType MATH tables). | W9 | Crash when opening document with mathematical formulas. | Catch missing constants and route through ADR 0017 bottom-up fallback engine (`layoutMath`), emitting `math-math-table-unavailable` diagnostic. |
+
+============================================================
+SECTION 8 — FILES TO SAVE
+============================================================
+
+### `plan-docs/phase-12-demo.md`
+```markdown
+# Phase 12 — Demo Application (Google Docs Clone)
+
+> **Status:** Planning complete. Ready for implementation.  
+> **Owns:** `apps/demo/`  
+> **Rules:** Packages under `packages/**` are **strictly read-only** (Rule R1).
+
+## 1. Executive Architecture
+
+The demo application is a browser-based word processor replicating the user experience of Google Docs in both English (LTR) and Arabic (RTL) modes.
+It directly integrates the underlying monorepo packages:
+- `@ooxml/opc`: Container I/O, limits, relationships, content-types.
+- `@ooxml/schema`: WML and DML reader/writer codecs and XML runtime cursors.
+- `@ooxml/wml`: Document cascade, styles, numbering, annotations, fields, settings.
+- `@ooxml/text`: TextEngine, font loader, UAX#9 bidi, segmenter, measurement cache.
+- `@ooxml/layout`: Line layout, tables, pagination, columns, float exclusions, math.
+- `@ooxml/paint`: DisplayList, CanvasPainter, PageBitmapCache, ViewportManager.
+- `@ooxml/editor`: Caret, selection, navigation, InputProxy, IME, commands, history, mutate, relayout, clipboard.
+- `@ooxml/conformance`: Idempotence verification, DisplayList serializability checks.
+
+## 2. Package Boundaries & Adapter Architecture
+
+Per Rule R1, all missing package implementations or unexported utilities are bridged via demo-local adapters:
+1. `WmlDocumentModel` (`apps/demo/src/adapters/document-model.ts`): Adapts `CT_Document` and `IdTable` to `editor.DocumentModel`.
+2. `LineBreaker` (`apps/demo/src/adapters/line-breaker.ts`): Composes `@ooxml/text` `TextEngine` and `@ooxml/layout` `layoutLineAcrossSegments` to bridge unexported `breaker.ts`.
+3. `RelayoutContext` (`apps/demo/src/adapters/relayout-adapter.ts`): Implements incremental relayout driver interface.
+4. `PaintSchedulerDelegate` (`apps/demo/src/adapters/paint-adapter.ts`): Bridges display list rendering and offscreen bitmap caching.
+
+## 3. Wave Structure
+
+- Wave 0: Workspace skeleton, dependencies, compiler probes, adapter stubs.
+- Wave 1: File package I/O (Open, Save, Download, Metadata properties).
+- Wave 2: Model & Style tree (WmlDocumentModel, cascade, theme, numbering).
+- Wave 3: Text shaping, font loader, HarfBuzz WASM fallback, bidi.
+- Wave 4: Layout pipeline, line breaker adapter, pagination, exclusions.
+- Wave 5: Multi-page canvas paint, display list, bitmap cache, viewport virtualization.
+- Wave 6: Caret rendering, blinker, hit-testing, selection geometry.
+- Wave 7: Editing loop, InputProxy, IME composition, history undo/redo, relayout.
+- Wave 8: Formatting suite (character styles, paragraph formatting, ruler, lists).
+- Wave 9: Insertions (images, tables, drawings, equations, breaks, TOC, footnotes).
+- Wave 10: Tools menu (word count, revisions, line numbers) and AI Tool Layer.
+- Wave 11: Arabic RTL UI mode, accessibility mirror, 16ms p95 latency verification.
+- Wave 12: End-to-end integration test, round-trip idempotence (`gen2 === gen3`).
+```
+
+---
+
+### `plan-docs/phase-12-demo-progress.md`
+```markdown
+# Phase 12 Demo Progress Tracker
+
+## Wave 0: Skeleton, Adapters, and Probes
+- [ ] W0-S1: Setup apps/demo workspace dependencies and tsconfig references
+- [ ] W0-S1: Author Section 9 compiler probe pack in apps/demo/probes/
+- [ ] W0-S1: Author WmlDocumentModel adapter stub
+- [ ] Gate W0: `pnpm -w exec tsc --noEmit -p apps/demo/tsconfig.json` exits 0
+
+## Wave 1: File and Package I/O
+- [ ] W1-S1: Author AppState with openFile, saveFile, and downloadFile
+- [ ] W1-S1: Implement blank document generator in fixtures/blank-doc.ts
+- [ ] W1-S1: Author Document Details modal displaying core/extended/custom properties
+- [ ] Gate W1: Real .docx opens and saves; encrypted .docx shows alert banner
+
+## Wave 2: Model and Style Tree
+- [ ] W2-S1: Implement WmlDocumentModel (getText, setText, insertNode, removeNode)
+- [ ] W2-S2: Implement DocumentStyleManager (cascade, basedOn, theme, numbering)
+- [ ] Gate W2: Document model passes 10k insertion benchmark with 100% unknown preservation
+
+## Wave 3: Text Shaping, Fonts, and Bidi
+- [ ] W3-S1: Setup FontLoader with ODTTF de-obfuscation pipeline
+- [ ] W3-S1: Instantiate TextEngine with MeasurementCache and FastPath
+- [ ] Gate W3: Mixed Arabic/Latin/CJK paragraph shapes with correct visual order
+
+## Wave 4: Layout and Line Breaking
+- [ ] W4-S1: Implement line-breaker adapter bridging unexported breaker.ts
+- [ ] W4-S1: Implement DemoLayoutPipeline with page-fill, sections, columns, and exclusions
+- [ ] Gate W4: Multi-page document paginates cleanly with table and float wrapping
+
+## Wave 5: Multi-Page Canvas Paint and Viewport
+- [ ] W5-S1: Implement display-list-builder translating layout lines to DisplayItem[]
+- [ ] W5-S1: Author CanvasView with DPR scaling and ViewportManager virtualization
+- [ ] Gate W5: Canvas renders pages at 60fps; assertDisplayListSerializable() passes
+
+## Wave 6: Caret and Selection UI
+- [ ] W6-S1: Implement overlay-view drawing blinking caret and translucent selection
+- [ ] W6-S1: Author interaction.ts handling mouse click, word double-click, drag
+- [ ] Gate W6: Clicking places caret; drag selects text; bidi caret policy verified
+
+## Wave 7: Editing, History, and Mutate API
+- [ ] W7-S1: Mount InputProxy positioning at caretRect
+- [ ] W7-S1: Wire typing loop, Backspace, Enter, and IME composition lifecycle
+- [ ] W7-S1: Connect UndoHistory with Ctrl+Z / Ctrl+Y
+- [ ] Gate W7: Typing and IME function in real-time; LatencyTracker verifies p95 < 16ms
+
+## Wave 8: Full Formatting Suite
+- [ ] W8-S1: Author FormattingToolbar (B, I, U, fonts, sizes, colors, shortcuts)
+- [ ] W8-S2: Author Ruler and ParagraphFormatController (align, indents, spacing, lists)
+- [ ] Gate W8: Selecting text and formatting applies to model; ruler drags update indents
+
+## Wave 9: Insertions (Tables, Media, Drawings, Fields)
+- [ ] W9-S1: Author TablePicker and InsertionService (tables, cells, merge/split)
+- [ ] W9-S1: Author ImageGuidance dialog and DML preset shapes insertion
+- [ ] W9-S1: Implement OMML math layout, page breaks, TOC, and footnotes insertion
+- [ ] Gate W9: Inserted objects render cleanly on canvas and round-trip through save
+
+## Wave 10: Tools Menu and AI Tool Layer
+- [ ] W10-S1: Implement Word Count dialog, revision review panel, and mock providers
+- [ ] W10-S2: Implement AiToolRegistry with JSON schemas for all Section 1.7 tools
+- [ ] Gate W10: All Section 1.7 AI tools execute cleanly with single-step undoability
+
+## Wave 11: RTL, Accessibility, Performance, and Polish
+- [ ] W11-S1: Implement Arabic RTL UI mode and menu translation
+- [ ] W11-S1: Connect AccessibilityMirror live region and virtual selection sync
+- [ ] W11-S1: Mount Gemini AI Assistant panel in sidebar
+- [ ] Gate W11: Arabic UI renders mirrored; screen reader mirror updates; p95 latency < 16ms
+
+## Wave 12: End-to-End Integration, Round-Trip, and Golden Regression
+- [ ] W12-S1: Author integration.test.ts running complete exit demo script
+- [ ] W12-S1: Verify assertPackageIdempotent() holds on saved output (gen2 === gen3)
+- [ ] W12-S1: Assert zero package modifications across git status
+- [ ] Gate W12: pnpm verify exits 0; all gates pass; demo fully operational
+```
+
+---
+
+### `plan-docs/phase-12-demo-flags.md`
+```markdown
+# Phase 12 Demo Flags and Readiness Register
+
+This document tracks all readiness flags, architectural constraints, and fallbacks for the demo app.
+
+## Summary of Flags
+- [READY]: 62 capabilities directly exported and tested in packages.
+- [DIRECT-PARTIAL]: 4 interfaces requiring demo implementation (DocumentModel, RelayoutContext, PaintSchedulerDelegate, HarfBuzz WASM).
+- [PIPELINE]: 10 features achieved by composing multiple public package exports.
+- [INDIRECT]: 4 unexported modules bridged via demo-local adapters (line breaker, stream flattener, baseline, non-WML schemas).
+- [STUB]: 1 entry (apps/demo/src/index.ts).
+- [PLACEHOLDER]: 3 entries (Charts, SmartArt, EMF/WMF placeholders per G3).
+- [DOCUMENTED-LIMITATION]: 7 entries (Encrypted packages, main thread v1, Word unverified, single caret, merge formatting, OMML math fallback, zip limits).
+- [MISSING]: 6 entries implemented via pluggable provider interfaces (spellcheck, translation, voice typing, doc compare, stock images, image generation).
+
+## Authoritative Strategy Directives
+1. Rules R1 & R2: Packages are strictly read-only. All new code lives in `apps/demo/**`.
+2. G3 Visibility: Unimplemented media (charts, SmartArt, EMF) render as labelled grey rectangles.
+3. Invariant A2: Package save idempotence (`gen2 === gen3`) is strictly preserved across all edits.
+4. ADR 0005: DisplayList remains 100% serializable without DOM or closure leaks.
+```
+
+---
+
+### `apps/demo/AGENTS.md`
+```markdown
+# AGENTS.md — Demo Application Workspace Rules
+
+You are working strictly inside `apps/demo/**` and new plan-docs files.
+
+## Hard Architectural Rules:
+1. **PACKAGES ARE STRICTLY READ-ONLY**:
+   You must NEVER modify, edit, or delete any file in `packages/**`, `assets/**`, or `docs/**`.
+2. **NO DEEP IMPORTS**:
+   Import ONLY from package root entry points (e.g. `import { openPackage } from '@ooxml/opc';`).
+   Never import from internal paths like `@ooxml/layout/src/line/breaker.js`.
+3. **NO GUESSING**:
+   Cite exact file locations and exported symbols from the monorepo.
+4. **INVARIANT PRESERVATION**:
+   - Invariant A1: Never drop unknown XML content (`$unknown`, `$unknownAttrs`, `RawNode`).
+   - Invariant A2: Ensure package round-trip idempotence (`gen2 === gen3`).
+   - Invariant A3: Never apply XSD defaults at read time.
+   - Invariant A4: Preserve document arrival dialect (Transitional vs Strict).
+   - Invariant F1: Maintain < 16ms p95 keystroke-to-pixel latency budget.
+   - ADR 0005: DisplayList must remain 100% serializable (structuredClone compatible).
+   - ADR 0013: Positions must use `DocPos { node: NodeId, offset: number }`.
+   - ADR 0014: Single caret at bidi boundaries.
+5. **VERIFY BEFORE COMMITTING**:
+   Run `pnpm -w exec tsc --noEmit -p apps/demo/tsconfig.json` and ensure tests pass.
+```
+
+---
+
+### Cold Start Prompt Template
+```markdown
+You are a senior engineer executing Subagent task **{SUBAGENT_ID}** for the ooxml-editor demo app (`apps/demo`).
+Before writing any code:
+1. Open and thoroughly read the plan specification in `plan-docs/phase-12-demo.md` and the progress tracker in `plan-docs/phase-12-demo-progress.md`.
+2. Read every file listed under **MUST READ** in the subagent specification.
+3. Obey all rules in `apps/demo/AGENTS.md`: packages under `packages/**` are **strictly read-only**; import only from public package entry points.
+4. Deliver your assigned tasks by creating or modifying files strictly within your **MAY CREATE OR EDIT** allowlist.
+5. Verify your work by running the commands specified in your **Tests to write and commands to run** section and confirming that your **Definition of done** is literally satisfied.
+```
+
+============================================================
+SECTION 9 — COMPILER PROBE PACK
+============================================================
+
+The following 10 probe files live under `apps/demo/probes/` and verify that every symbol consumed by the demo is publicly exported and type-compatible, adhering strictly to Rule R1 (no deep imports) and Rule R2 (no guessing).
+
+### Command to Run Probes:
+```bash
+pnpm -w exec tsc --noEmit -p apps/demo/tsconfig.json
+```
+
+---
+
+#### 9.1 `apps/demo/probes/ts1-opc.probe.ts`
+```typescript
+import {
+  openPackage,
+  savePackage,
+  decodeXmlText,
+  encodeXmlText,
+  ContentTypes,
+  RelationshipGraph,
+  RelationshipSet,
+  RelationshipTypes,
+  parseCoreProperties,
+  parseExtendedProperties,
+  parseCustomProperties,
+  validatePartName,
+  resolveRelative,
+  DEFAULT_OPC_LIMITS,
+  OpcEncryptedPackageError,
+  OpcLimitError,
+  type OpcPackage,
+  type XmlSupport,
+} from '@ooxml/opc';
+import { createCursor, createStringSink } from '@ooxml/schema';
+
+// Mock XmlSupport using @ooxml/schema public exports
+const mockXmlSupport: XmlSupport = {
+  createCursor: (xml: string) => createCursor(xml),
+  createStringSink: () => createStringSink(),
+};
+
+export async function probeOpc(bytes: Uint8Array): Promise<void> {
+  // Verify TS1-01: openPackage
+  const pkg: OpcPackage = await openPackage(bytes, mockXmlSupport, DEFAULT_OPC_LIMITS);
+
+  // Verify TS1-02: savePackage
+  const saved: Uint8Array = await savePackage(pkg);
+
+  // Verify TS1-03: Metadata accessors
+  const core = pkg.coreProperties();
+  const ext = pkg.extendedProperties();
+  const custom = pkg.customProperties();
+  if (core?.title) console.log(core.title);
+  if (ext?.application) console.log(ext.application);
+  if (custom && custom.length > 0) console.log(custom[0]?.name);
+
+  // Verify TS1-04: PartName validation & resolution
+  const partName = validatePartName('/word/document.xml');
+  const resolved = resolveRelative(partName, 'styles.xml');
+  console.log(resolved);
+
+  // Verify TS1-05: ContentTypes & RelationshipGraph
+  const ct: ContentTypes = pkg.contentTypes;
+  const graph: RelationshipGraph = pkg.relationships;
+  const rels: RelationshipSet = pkg.packageRelationships;
+  console.log(ct.dirty, graph.packageRelationships, rels.dirty);
+
+  // Verify TS1-06: Text encoding/decoding
+  const text = decodeXmlText(bytes, 'test');
+  const encoded = encodeXmlText(text);
+  console.log(encoded.length);
+}
+```
+
+---
+
+#### 9.2 `apps/demo/probes/ts2-wml.probe.ts`
+```typescript
+import {
+  IdTable,
+  NODE_KINDS,
+  createDocPos,
+  docPosEquals,
+  asAbsPos,
+  createPositionMapper,
+  IntervalStore,
+  AnnotationStore,
+  extractParagraphAnnotations,
+  injectParagraphAnnotations,
+  parseStylesXml,
+  resolveDocDefaults,
+  parseThemeXml,
+  resolveThemeFont,
+  resolveSchemeColor,
+  parseSettingsXml,
+  toggleCombine,
+  isToggleProperty,
+  parseNumberingXml,
+  resolveNumbering,
+  foldNumbering,
+  formatNumber,
+  resolveParagraphProperties,
+  resolveRunProperties,
+  ResolvedPropertyCache,
+  inspectProperties,
+  evaluateSimpleField,
+  hyperlinkNavigation,
+  displayRevisions,
+  applyRevisionBatch,
+  type NodeId,
+  type DocPos,
+  type StyleTable,
+  type Theme,
+  type LayoutSettings,
+} from '@ooxml/wml';
+import {
+  wmlReader,
+  wmlWriter,
+  createCursor,
+  createStringSink,
+  createReadContext,
+  createWriteContext,
+  type CT_Document,
+  type CT_P,
+} from '@ooxml/schema';
+
+export function probeWml(xml: string): void {
+  // Verify TS2-01: Schema WML reader and writer
+  const cur = createCursor(xml);
+  const rCtx = createReadContext('transitional', { wml: 'http://schemas.openxmlformats.org/wordprocessingml/2006/main' });
+  const doc: CT_Document = wmlReader.readCT_Document(cur, rCtx);
+
+  const { sink, toString } = createStringSink();
+  const wCtx = createWriteContext('transitional', { wml: 'http://schemas.openxmlformats.org/wordprocessingml/2006/main' });
+  wmlWriter.writeCT_Document(sink, doc, wCtx, 'document');
+  const serialized = toString();
+  console.log(serialized.length);
+
+  // Verify TS2-02: IdTable & DocPos
+  const table = new IdTable();
+  const nodeId: NodeId = table.mint('paragraph');
+  const docPos: DocPos = createDocPos(nodeId, 0);
+  console.log(docPosEquals(docPos, docPos));
+
+  // Verify TS2-03: IntervalStore & AnnotationStore
+  const intStore = new IntervalStore<string>();
+  const intId = intStore.insert(0, 10, 'payload');
+  intStore.shift(5, 2);
+  const annStore = new AnnotationStore();
+  const pNode = doc.body.blockLevelElts[0]?.value as CT_P;
+  if (pNode) {
+    const stripped = extractParagraphAnnotations(pNode, nodeId, annStore);
+    const injected = injectParagraphAnnotations(stripped, nodeId, annStore);
+    console.log(injected.pContent.length);
+  }
+
+  // Verify TS2-04: Styles, Theme, Settings, Cascade
+  const styles: StyleTable = parseStylesXml('<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>');
+  const theme: Theme = parseThemeXml('<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"/>');
+  const settings: LayoutSettings = parseSettingsXml('<w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>');
+  const defaults = resolveDocDefaults(undefined);
+  const pProps = resolveParagraphProperties({ docDefaults: defaults, styleTable: styles });
+  const rProps = resolveRunProperties({ docDefaults: defaults, styleTable: styles });
+  const cache = new ResolvedPropertyCache();
+  const inspect = inspectProperties(pProps);
+  console.log(inspect.toString());
+}
+```
+
+---
+
+#### 9.3 `apps/demo/probes/ts3-text.probe.ts`
+```typescript
+import {
+  TextEngine,
+  FontLoader,
+  substituteFont,
+  deobfuscateFont,
+  resolveBidi,
+  getBidiLevels,
+  segmentGraphemes,
+  segmentWords,
+  findWordAt,
+  itemizeText,
+  itemizeParagraphRuns,
+  isFastPathEligible,
+  measureFastPath,
+  createPackedShapedRun,
+  MeasurementCache,
+  createTextShaper,
+  FallbackTextShaper,
+  type ShapedRun,
+} from '@ooxml/text';
+
+export function probeText(): void {
+  // Verify TS3-01: TextEngine
+  const engine = new TextEngine();
+  const shaped = engine.shapeRun('Hello world');
+  console.log(shaped.length);
+
+  // Verify TS3-02: Bidi & Segmentation
+  const bidi = resolveBidi('Hello عرب');
+  const graphemes = segmentGraphemes('Family 👨‍👩‍👧‍👦');
+  const words = segmentWords('The quick brown fox');
+  const word = findWordAt('The quick brown fox', 5);
+  console.log(bidi.baseLevel, graphemes.length, words.length, word?.text);
+
+  // Verify TS3-03: Font substitution & loader
+  const sub = substituteFont('Calibri');
+  const loader = new FontLoader();
+  const effective = loader.getEffectiveFont('Calibri');
+  console.log(sub.resolvedFont, effective);
+
+  // Verify TS3-04: PackedShapedRun
+  const run: ShapedRun = createPackedShapedRun({
+    faceId: 1,
+    fontSize: 24,
+    direction: 'ltr',
+    script: 'latn',
+    clusters: [{ glyphId: 65, xAdvance: 120, srcOffset: 0, srcLength: 1 }],
+  });
+  console.log(run.totalAdvance, run.clusterAtSourceOffset(0));
+}
+```
+
+---
+
+#### 9.4 `apps/demo/probes/ts4-layout.probe.ts`
+```typescript
+import {
+  buildGrid,
+  cellsOf,
+  autofitColumns,
+  resolveVMerge,
+  fillPage,
+  applyKeepConstraints,
+  pageGeometry,
+  textArea,
+  enumerateSections,
+  resolveSectionBreak,
+  resolveColumns,
+  balanceColumnHeights,
+  ExclusionStore,
+  resolveAnchor,
+  layoutLineAcrossSegments,
+  layoutMath,
+  fixpoint,
+  type Line,
+  type Grid,
+  type PageGeometry,
+} from '@ooxml/layout';
+import type { CT_Tbl, CT_Body } from '@ooxml/schema';
+
+export function probeLayout(mockTbl: CT_Tbl, mockBody: CT_Body): void {
+  // Verify TS4-01: Table layout
+  const grid: Grid = buildGrid(mockTbl);
+  const cells = cellsOf(mockTbl.contentRowContent[0]?.value as any, grid);
+  console.log(grid.colCount, cells.length);
+
+  // Verify TS4-02: Sections & Geometry
+  const sections = enumerateSections(mockBody);
+  const geom: PageGeometry = pageGeometry(undefined);
+  const textBounds = textArea(geom, 1);
+  console.log(sections.length, textBounds.w, textBounds.h);
+
+  // Verify TS4-03: Page fill & fixpoint
+  const fp = fixpoint(10, (x) => x, (x) => String(x));
+  console.log(fp.converged);
+
+  // Verify TS4-04: Float exclusions & segments
+  const store = new ExclusionStore();
+  const segments = store.availableSegments(0, 20, { x: 0, width: 500 });
+  const lineSegs = layoutLineAcrossSegments(0, 20, [{ value: 'a', width: 100 }], store, { x: 0, width: 500 });
+  console.log(segments.length, lineSegs.segments.length);
+
+  // Verify TS4-05: OMML Math layout fallback
+  const mathBox = layoutMath({ kind: 'f', children: [{ kind: 'r', text: 'x' }, { kind: 'r', text: 'y' }] });
+  console.log(mathBox.width);
+}
+```
+
+---
+
+#### 9.5 `apps/demo/probes/ts5-paint.probe.ts`
+```typescript
+import {
+  DisplayList,
+  batchDisplayList,
+  CanvasPainter,
+  PageBitmapCache,
+  ViewportManager,
+  paintDecorations,
+  paintFilledRect,
+  paintLine,
+  type CanvasContext2DLike,
+} from '@ooxml/paint';
+
+export function probePaint(mockCanvasCtx: CanvasContext2DLike): void {
+  // Verify TS5-01: DisplayList
+  const dl = new DisplayList();
+  dl.pushRect(0, 0, 100, 100, 'blue');
+  dl.pushGlyphRun('Calibri', 12, 'black', 0, 0, new Uint32Array([65]), new Float64Array([0, 0, 0, 0, 0, 1]));
+  const cloned = dl.clone();
+  console.log(cloned.items.length);
+
+  // Verify TS5-02: Batcher & Painter
+  const batched = batchDisplayList(dl);
+  const painter = new CanvasPainter(mockCanvasCtx);
+  painter.paint(dl);
+  console.log(batched.stats.stateTransitions);
+
+  // Verify TS5-03: BitmapCache & ViewportManager
+  const cache = new PageBitmapCache();
+  const vp = new ViewportManager();
+  vp.setPageHeights([1000, 1000, 1000]);
+  const visible = vp.getVisiblePages(500, 800);
+  console.log(cache, visible.firstVisiblePage, visible.lastVisiblePage);
+
+  // Verify TS5-04: Decorations
+  paintDecorations(dl, { underline: 'single', highlight: 'yellow' }, 0, 20, 100, 20, 16, false);
+}
+```
+
+---
+
+#### 9.6 `apps/demo/probes/ts6-editor.probe.ts`
+```typescript
+import {
+  createCaret,
+  toLayout,
+  toDocument,
+  hitTest,
+  hitTestWord,
+  hitTestParagraph,
+  caretRect,
+  startBlink,
+  createRange,
+  createCollapsed,
+  normalizeSelection,
+  selectionRects,
+  moveHorizontal,
+  moveVertical,
+  InputProxy,
+  createCompositionState,
+  createAccessibilityMirror,
+  createHistory,
+  insertText,
+  deleteRange,
+  splitParagraph,
+  applyRunProperty,
+  relayout,
+  PaintScheduler,
+  serializeClipboard,
+  deserializeClipboard,
+  LatencyTracker,
+  type Caret,
+  type Selection,
+  type DocumentModel,
+} from '@ooxml/editor';
+import { IdTable, type NodeId } from '@ooxml/wml';
+
+export function probeEditor(dummyContainer: HTMLElement): void {
+  const table = new IdTable();
+  const id: NodeId = table.mint('paragraph');
+
+  // Verify TS6-01: Caret & Selection
+  const caret: Caret = createCaret({ node: id, offset: 0 });
+  const sel: Selection = createRange(caret.pos, caret.pos);
+  const norm = normalizeSelection(sel);
+  console.log(norm.kind);
+
+  // Verify TS6-02: InputProxy & IME
+  const proxy = new InputProxy({
+    container: dummyContainer,
+    onInput: () => {},
+    onKeyDown: () => {},
+    onCompositionStart: () => {},
+    onCompositionUpdate: () => {},
+    onCompositionEnd: () => {},
+    onPaste: () => {},
+    onCopy: () => null,
+    onCut: () => null,
+  });
+  const ime = createCompositionState();
+  console.log(proxy.hasFocus(), ime.active);
+
+  // Verify TS6-03: A11y Mirror & Latency
+  const mirror = createAccessibilityMirror();
+  mirror.attach(dummyContainer);
+  const latency = new LatencyTracker();
+  latency.record(0, 1, 2, 3);
+  console.log(latency.meetsBudget(16));
+}
+```
+
+---
+
+#### 9.7 `apps/demo/probes/ts7-insert.probe.ts`
+```typescript
+import {
+  PRESET_GEOMETRIES,
+  buildPresetGeometry,
+  createDeferredGraphicPlaceholder,
+  resolveBlipImage,
+  imageSource,
+} from '@ooxml/dml';
+import { layoutMath } from '@ooxml/layout';
+import { renderTocEntries, parseTocSwitches } from '@ooxml/wml';
+
+export function probeInsert(): void {
+  // Verify TS7-01: Preset geometries (187 presets)
+  const rectGeo = buildPresetGeometry('roundRect', { width: 100, height: 50 });
+  console.log(rectGeo?.length, Object.keys(PRESET_GEOMETRIES).length);
+
+  // Verify TS7-02: Placeholders
+  const chartPlc = createDeferredGraphicPlaceholder('chart', { x: 0, y: 0, width: 200, height: 150 });
+  console.log(chartPlc.painted, chartPlc.label);
+
+  // Verify TS7-03: Equations & TOC
+  const math = layoutMath({ kind: 'rad', children: [{ kind: 'r', text: '16' }] });
+  const tocOpts = parseTocSwitches('TOC \\o "1-3" \\h');
+  const tocStr = renderTocEntries([{ title: 'Chapter 1', page: 1, bookmark: '_ch1' }], tocOpts);
+  console.log(math.width, tocStr);
+}
+```
+
+---
+
+#### 9.8 `apps/demo/probes/ts8-format.probe.ts`
+```typescript
+import {
+  applyRunProperty,
+  toggleRunProperty,
+} from '@ooxml/editor';
+import {
+  isToggleProperty,
+  toggleCombine,
+  foldNumbering,
+  formatNumber,
+} from '@ooxml/w
